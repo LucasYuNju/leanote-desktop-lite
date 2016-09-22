@@ -1,0 +1,25 @@
+{
+  "name": "leanote-desktop-react",
+  "version": "0.1.0",
+  "description": "Leanote Desktop App, based on Electron",
+  "main": "index.js",
+  "scripts": {
+    "start": "Electron ./",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucasYuNju/leanote-desktop-react.git"
+  },
+  "keywords": [
+    "electron",
+    "leanote",
+    "react"
+  ],
+  "author": "yang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LucasYuNju/leanote-desktop-react/issues"
+  },
+  "homepage": "https://github.com/LucasYuNju/leanote-desktop-react#readme"
+}
