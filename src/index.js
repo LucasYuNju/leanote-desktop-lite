@@ -5,3 +5,5 @@ async function displayMsg() {
 }
 
 displayMsg();
+
+console.log("App running");

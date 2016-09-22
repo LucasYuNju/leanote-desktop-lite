@@ -10,7 +10,14 @@ function createWindow () {
     height: 700,
     titleBarStyle: 'hidden'
   });
-  mainWindow.loadURL(`file://${__dirname}/public/index.html`);
+  let url;
+  if(process.env.ENV === "development") {
+    url = "http://localhost:9000/index.html";
+  }
+  else {
+    url = `file://${__dirname}/public/index.html`;
+  }
+  mainWindow.loadURL(url);
   mainWindow.on('closed', function () {
     mainWindow = null;
   });
