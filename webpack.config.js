@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
   context: path.resolve("./src"),
   entry: {
-    vendor: [ "react", "react-dom" ],
+    vendor: [ "babel-polyfill", "react", "react-dom" ],
     note: [ "./index.js" ]
   },
   output: {
