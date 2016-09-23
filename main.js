@@ -3,6 +3,13 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
 let mainWindow;
+let baseUrl;
+if(process.env.ENV === "development") {
+  baseUrl = "http://localhost:9000";
+}
+else {
+  baseUrl = `file://${__dirname}/public`;
+}
 
 function createWindow () {
   mainWindow = new BrowserWindow({
@@ -11,13 +18,7 @@ function createWindow () {
     titleBarStyle: 'hidden'
   });
   let url;
-  if(process.env.ENV === "development") {
-    url = "http://localhost:9000/index.html";
-  }
-  else {
-    url = `file://${__dirname}/public/index.html`;
-  }
-  mainWindow.loadURL(url);
+  mainWindow.loadURL(`${baseUrl}/login.html`);
   mainWindow.on('closed', function () {
     mainWindow = null;
   });

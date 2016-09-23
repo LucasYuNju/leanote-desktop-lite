@@ -1,9 +1,7 @@
+import React from 'react';
+import { render } from 'react-dom';
 
-async function displayMsg() {
-  const msg = 'Hello, World!';
-  document.write(`<h1>${msg}</h1>`);  
-}
-
-displayMsg();
-
-console.log("App running");
+render(
+  <input>Hello, world!</input>,
+  document.getElementById('content')
+);
