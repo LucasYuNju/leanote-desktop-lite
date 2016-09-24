@@ -4,9 +4,9 @@ const webpackDevMiddleware = require("webpack-dev-middleware");
 
 const app = express();
 
-app.use(express.static("./public"));
+app.use(express.static("../static"));
 
-const builderConfig = require("./webpack.config");
+const builderConfig = require("../webpack.config");
 const builder = webpack(Object.assign({
     devtool: "cheap-module-source-map"
 }, builderConfig));

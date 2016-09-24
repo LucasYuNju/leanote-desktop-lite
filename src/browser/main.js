@@ -12,7 +12,7 @@ function createWindow () {
     titleBarStyle: 'hidden',
   });
   // 使用loadURL(`http:xxx`)的话，影响renderer process的node模块加载
-  mainWindow.loadURL(`file://${__dirname}/public/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/../../static/index.html`);
 
   loginWindow = new BrowserWindow({
     width: 280,
@@ -20,7 +20,7 @@ function createWindow () {
     titleBarStyle: 'hidden',
     show: false,
   });
-  loginWindow.loadURL(`file://${__dirname}/public/login.html`);
+  loginWindow.loadURL(`file://${__dirname}/../../static/login.html`);
   
   mainWindow.on('closed', function () {
     mainWindow = null;

@@ -7,7 +7,7 @@ module.exports = {
     note: [ "./index.js" ]
   },
   output: {
-      path: path.resolve("./public/assets"),
+      path: path.resolve("./static/assets"),
       publicPath: "/assets/",
       filename: "[name]/bundle.js"
   },
@@ -23,7 +23,6 @@ module.exports = {
 		extensions: ['', '.js', '.jsx', '.json', '.scss', '.css' ],
 		moduleDirectories: [ 'lib', 'node_modules' ]
 	},
-	plugins: [
-	],
+	plugins: [],
   target: "electron"
 };
