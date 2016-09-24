@@ -2,12 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <script src="./assets/vendor/index.js" charset="utf-8"></script>
 </head>
 <body>
   <div id="content">
     
   </div>
-  <script src="./assets/note/index.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    function loadScript(name) {
+      const script = document.createElement('script');
+      const url = process.env.ENV === 'development' ? 'http://localhost:8080/assets' : './assets'
+      script.src = url + name;
+      document.write(script.outerHTML);
+    }
+    // init
+    loadScript('/vendor/bundle.js');
+    loadScript('/note/bundle.js')
+    window.Service = require('a-service');
+
+  </script>
 </body>
 </html>
