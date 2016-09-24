@@ -3,13 +3,6 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
 let mainWindow;
-let baseUrl;
-if(process.env.ENV === "development") {
-  baseUrl = "http://localhost:9000";
-}
-else {
-  baseUrl = `file://${__dirname}/public`;
-}
 
 function createWindow () {
   mainWindow = new BrowserWindow({
@@ -17,8 +10,8 @@ function createWindow () {
     height: 700,
     titleBarStyle: 'hidden'
   });
-  let url;
-  mainWindow.loadURL(`${baseUrl}/login.html`);
+  // loadURL(`http:xxx`) 影响renderer process使用node
+  mainWindow.loadURL(`file://${__dirname}/public/login.html`);
   mainWindow.on('closed', function () {
     mainWindow = null;
   });

@@ -2,6 +2,6 @@ import React from 'react';
 import { render } from 'react-dom';
 
 render(
-  <input>Hello, world!</input>,
+  <h1>Hello, world!</h1>,
   document.getElementById('content')
 );
