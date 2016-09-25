@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>
+    const link = document.createElement('link');
+    const url = process.env.ENV === 'development' ? 'http://localhost:3000/assets' : './assets';
+    link.rel = 'stylesheet';
+    link.href = url + '/note/bundle.css';
+    document.write(link.outerHTML);
+  </script>
+</head>
+<body>
+  <div id="content" />
+  <script type="text/javascript">
+    function loadScript(name) {
+      const script = document.createElement('script');
+      const url = process.env.ENV === 'development' ? 'http://localhost:3000/assets' : './assets';
+      script.src = url + name;
+      document.write(script.outerHTML);
+    }
+    // init
+    window.Service = require('a-service');
+    window.location.hash = 'login';
+    loadScript('/vendor/bundle.js');
+    loadScript('/note/bundle.js');
+  </script>
+</body>
+</html>
