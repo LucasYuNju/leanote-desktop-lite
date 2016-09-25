@@ -8,7 +8,7 @@ module.exports = {
     note: [ "./app.js", "./app.less"]
   },
   output: {
-      path: path.resolve("./static/assets"),
+      path: path.resolve("./dist/assets"),
       publicPath: "/assets/",
       filename: "[name]/bundle.js"
   },

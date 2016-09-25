@@ -44,11 +44,11 @@ class LoginForm extends Component {
         />
         <input
           type="password"
-          placeholder="Username or Email"
+          placeholder="Password"
           value={this.state.password}
           onChange={this.handlePasswordChagne}
         />
-        <input type="submit" value="Post" />
+        <button type="submit" />
       </form>
     );
   }

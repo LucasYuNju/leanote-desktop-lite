@@ -20,6 +20,7 @@ function fitLogin() {
   if (window.getBounds().width !== 280) {
     window.hide();
     window.setSize(280, 370);
+    window.setContentSize(280, 370);
     window.center();
     window.show();
   }
@@ -29,6 +30,7 @@ function fitNote() {
   if (window.getBounds().width !== 1000) {
     window.hide();
     window.setSize(1000, 700);
+    window.setContentSize(1000, 700);
     window.center();
     window.show();
   }
@@ -43,4 +45,4 @@ ReactDOM.render(
       </Route>
     </Route>
   </Router>,
-  document.getElementById('app'));
+  document.getElementById('content'));

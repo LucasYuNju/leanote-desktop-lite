@@ -9,10 +9,10 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width: 1000,
     height: 700,
-    frame: false,
+    titleBarStyle: 'hidden',
   });
   // 使用loadURL(`http:xxx`)的话，影响renderer process的node模块加载
-  mainWindow.loadURL(`file://${__dirname}/static/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
 
   mainWindow.on('closed', function () {
     mainWindow = null;
