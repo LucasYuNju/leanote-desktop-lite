@@ -4,7 +4,7 @@ module.exports = {
 	context: path.resolve("./src"),
   entry: {
     vendor: [ "babel-polyfill", "react", "react-dom" ],
-    note: [ "./index.js" ]
+    note: [ "./app.js" ]
   },
   output: {
       path: path.resolve("./static/assets"),
@@ -13,16 +13,26 @@ module.exports = {
   },
 	module: {
 		preLoaders: [
-			{ test: /\.jsx?$/, exclude: /node_modules/, loaders: [ 'eslint-loader' ] }
+			{
+        test: /\.js?$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader'
+      }
 		],
 		loaders: [
-			{ test: /\.jsx?$/, exclude: /node_modules/, loaders: [ 'babel' ] }
+			{
+        test: /\.js?$/,
+        exclude: /node_modules/,
+        loader: 'babel',
+        query: {
+          presets: ["es2015", "stage-2", "react"]
+        }
+      }
 		]
 	},
 	resolve: {
 		extensions: ['', '.js', '.jsx', '.json', '.scss', '.css' ],
 		moduleDirectories: [ 'lib', 'node_modules' ]
 	},
-	plugins: [],
   target: "electron"
 };
