@@ -11,23 +11,27 @@ const window = require('electron').remote.getCurrentWindow();
 function checkAuth(nextState, replace) {
   Service.user.init((userInfo) => {
     if (!userInfo) {
-      replace(`/login`);
+      replace('/login');
     }
   });
 }
 
 function fitLogin() {
-  window.hide()
-  window.setSize(280, 370);
-  window.center();
-  window.show();
+  if (window.getBounds().width !== 280) {
+    window.hide();
+    window.setSize(280, 370);
+    window.center();
+    window.show();
+  }
 }
 
 function fitNote() {
-  window.hide()
-  window.setSize(1000, 700);
-  window.center();
-  window.show();
+  if (window.getBounds().width !== 1000) {
+    window.hide();
+    window.setSize(1000, 700);
+    window.center();
+    window.show();
+  }
 }
 
 ReactDOM.render(

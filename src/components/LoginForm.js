@@ -26,13 +26,9 @@ class LoginForm extends Component {
     const host = 'https://leanote.com';
     const account = this.state.account;
     const password = this.state.password;
-    Service.user.login(account, password, host, function(ret) {
-      if(ret) {
-        console.log('user logged in successfully');
+    Service.user.login(account, password, host, ret => {
+      if (ret) {
         hashHistory.push('/note');
-      }
-      else {
-        console.log('account or password error');
       }
     });
   }

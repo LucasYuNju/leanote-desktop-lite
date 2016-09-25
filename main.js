@@ -12,7 +12,7 @@ function createWindow () {
     frame: false,
   });
   // 使用loadURL(`http:xxx`)的话，影响renderer process的node模块加载
-  mainWindow.loadURL(`file://${__dirname}/../../static/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/static/index.html`);
 
   mainWindow.on('closed', function () {
     mainWindow = null;

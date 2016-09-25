@@ -5,6 +5,9 @@ module.exports = {
     "node": true
   },
   "extends": "airbnb",        // eslint-config-airbnb
+  "globals": {
+    "Service": true
+  },
   "parser": "babel-eslint",   // babel-eslint
   "parserOptions": {          // babel-eslint
     "sourceType": "module",
