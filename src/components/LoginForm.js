@@ -8,8 +8,8 @@ class LoginForm extends Component {
     this.handlePasswordChagne = this.handlePasswordChagne.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
-      account: '',
-      password: '',
+      account: 'LucasYuNju@gmail.com',
+      password: '123456',
     };
   }
 

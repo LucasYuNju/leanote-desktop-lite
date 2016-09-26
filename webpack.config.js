@@ -5,7 +5,7 @@ module.exports = {
 	context: path.resolve("./src"),
   entry: {
     vendor: [ "babel-polyfill", "react", "react-dom" ],
-    note: [ "./app.js", "./app.less"]
+    note: [ "./app.js", "./index.less"]
   },
   output: {
       path: path.resolve("./dist/assets"),
