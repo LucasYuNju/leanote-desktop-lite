@@ -16,19 +16,19 @@ class App extends Component {
   }
 
   toLoginWindow() {
-    window.hide();
+    // window.hide();
     window.setSize(320, 420);
-    // window.setResizable(false);
+    window.setResizable(false);
     window.center();
-    window.show();
+    // window.show();
   }
 
   toNoteWindow() {
-    window.hide();
+    // window.hide();
     window.setSize(1000, 700);
     window.setResizable(true);
     window.center();
-    window.show();
+    // window.show();
   }
 
   render() {
