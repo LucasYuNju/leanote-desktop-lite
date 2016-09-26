@@ -1,34 +1,63 @@
 .login-form
 {
+  @row-height: 50px;
+  @blue: #2b88d9;
+
   display: flex;
   flex-direction: column;
+  height: 200px;
+  border: 1px solid @ld-separate-color;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: white;
 
-  input
+  .row
   {
-    align-self: center;
-    display: block;
-    width: 220px;
-    height: 35px;
-    line-height: 35px;
-    margin: 5px auto;
+    display: flex;
     font-size: 16px;
-  }
-
-  input
-  {
-    border: none;
+    height: @row-height;
     border-bottom: 1px solid @ld-separate-color;
-    padding-left: 5px;
-    padding-right: 5px;
+    background-color: white;
+    padding: 0 15px;
 
-    &:focus
+    *
     {
+      font-size: 16px;
+    }
+
+    input
+    {
+      flex-grow: 1;
+      border: none;
       outline:none;
     }
   }
 
-  button[type="submit"]
+  .row.submit
   {
-    display: none;
+    display: block;
+    border-bottom: none;
+    height: @row-height + 15;
+
+    input.button
+    {
+      display: block;
+      margin-top: 18px;
+      width: 100%;
+      padding: 11px 10px;
+      color: white;
+      background: @blue;
+      text-align: center;
+      border-radius: 3px;
+    }
+  }
+
+  span.switch-host
+  {
+    color: @blue;
+    font-size: @font-size-base;
+    display: block;
+    text-align: center;
+    cursor: pointer;
   }
 }

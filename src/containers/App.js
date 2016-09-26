@@ -15,16 +15,18 @@ class App extends Component {
     });
   }
 
-  fitLogin() {
+  toLoginWindow() {
     window.hide();
-    window.setSize(280, 370);
+    window.setSize(320, 420);
+    // window.setResizable(false);
     window.center();
     window.show();
   }
 
-  fitNote() {
+  toNoteWindow() {
     window.hide();
     window.setSize(1000, 700);
+    window.setResizable(true);
     window.center();
     window.show();
   }
@@ -34,8 +36,8 @@ class App extends Component {
       <div className="app">
         <Router history={hashHistory}>
           <Route onEnter={this.checkAuth}>
-            <Route path="/login" onEnter={this.fitLogin} component={LoginPage} />
-            <Route path="/note" onEnter={this.fitNote} component={NotePage} />
+            <Route path="/login" onEnter={this.toLoginWindow} component={LoginPage} />
+            <Route path="/note" onEnter={this.toNoteWindow} component={NotePage} />
           </Route>
         </Router>
       </div>

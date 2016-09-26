@@ -36,19 +36,28 @@ class LoginForm extends Component {
   render() {
     return (
       <form className="login-form" onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          placeholder="Username or Email"
-          value={this.state.account}
-          onChange={this.handleAccountChange}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={this.state.password}
-          onChange={this.handlePasswordChagne}
-        />
-        <button type="submit" />
+        <div className="row">
+          <input
+            type="text"
+            placeholder="Username or Email"
+            value={this.state.account}
+            onChange={this.handleAccountChange}
+          />
+        </div>
+        <div className="row">
+          <input
+            type="password"
+            placeholder="Password"
+            value={this.state.password}
+            onChange={this.handlePasswordChagne}
+          />
+        </div>
+        <div className="submit row">
+          <input type="submit" className="button" value="Login" />
+        </div>
+        <span className="link switch-host">
+          Self-hosted service
+        </span>
       </form>
     );
   }
