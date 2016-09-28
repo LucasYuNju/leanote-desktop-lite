@@ -8,7 +8,7 @@ const window = require('electron').remote.getCurrentWindow();
 
 class App extends Component {
   checkAuth(nextState, replace) {
-    Service.user.init((userInfo) => {
+    service.user.init((userInfo) => {
       if (!userInfo) {
         replace('/login');
       }
@@ -16,19 +16,19 @@ class App extends Component {
   }
 
   toLoginWindow() {
-    // window.hide();
+    window.hide();
     window.setSize(320, 420);
     window.setResizable(false);
     window.center();
-    // window.show();
+    window.show();
   }
 
   toNoteWindow() {
-    // window.hide();
+    window.hide();
     window.setSize(1000, 700);
     window.setResizable(true);
     window.center();
-    // window.show();
+    window.show();
   }
 
   render() {

@@ -1,12 +1,27 @@
 import React, { Component } from 'react';
 
 class NavContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      notebooks: []
+    }
+  }
+
+  componentWillMount() {
+    service.notebook.getNotebooks(res => {
+      this.setState({ notebooks: res });
+    });
+  }
+
   render() {
     return (
       <nav>
-        <span className="nav-item">Starred</span>
-        <span className="nav-item">Tag</span>
-        <span className="nav-item">Notebook</span>
+        <ul className="nav-items">
+          <li className="nav-item">Starred</li>
+          <li className="nav-item">Tag</li>
+          <li className="nav-item">Notebook</li>
+        </ul>
       </nav>
     );
   }

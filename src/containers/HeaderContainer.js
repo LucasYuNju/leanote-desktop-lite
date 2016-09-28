@@ -15,7 +15,7 @@ class HeaderContainer extends Component {
 
   render() {
     return (
-      <header className="title-bar" onDoubleClick={this.onTitleBarDblClicked}></header>
+      <header className="title-bar" onDoubleClick={this.onTitleBarDblClicked} />
     );
   }
 }

@@ -26,7 +26,7 @@ class LoginForm extends Component {
     const host = 'https://leanote.com';
     const account = this.state.account;
     const password = this.state.password;
-    Service.user.login(account, password, host, ret => {
+    service.user.login(account, password, host, ret => {
       if (ret) {
         hashHistory.push('/note');
       }
