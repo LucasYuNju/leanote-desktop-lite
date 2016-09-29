@@ -11,6 +11,9 @@
   </script>
 </head>
 <body>
+  <div id="app-container">
+    
+  </div>
   <script type="text/javascript">
     function loadScript(name) {
       const script = document.createElement('script');
@@ -20,7 +23,7 @@
     }
     // init
     window.service = require('a-service');
-    window.location.hash = 'login';
+    window.location.hash = '/note';
     loadScript('/vendor/bundle.js');
     loadScript('/note/bundle.js');
   </script>

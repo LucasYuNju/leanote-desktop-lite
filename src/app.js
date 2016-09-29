@@ -5,5 +5,5 @@ import App from './containers/App';
 
 ReactDOM.render(
   <App />,
-  document.body
+  document.getElementById('app-container')
 );

@@ -7,12 +7,22 @@ import NotePage from './NotePage';
 const window = require('electron').remote.getCurrentWindow();
 
 class App extends Component {
-  checkAuth(nextState, replace) {
-    service.user.init((userInfo) => {
-      if (!userInfo) {
-        replace('/login');
-      }
-    });
+  checkAuth(nextState, replace, callback) {
+    if (process.env.ENV === "development") {
+      service.user.login('LucasYuNju@gmail.com', '123456', 'https://leanote.com', ret => {
+        service.user.init((userInfo) => {
+          callback();
+        });
+      });
+    }
+    else {
+      service.user.init((userInfo) => {
+        if (!userInfo) {
+          replace('/login');
+          callback();
+        }
+      });      
+    }
   }
 
   toLoginWindow() {

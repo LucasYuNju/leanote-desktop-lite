@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 
+import NotebookTree from '../components/NotebookTree';
+
 class NavContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notebooks: []
-    }
+      notebooks: [],
+    };
   }
 
   componentWillMount() {
@@ -22,6 +24,8 @@ class NavContainer extends Component {
           <li className="nav-item">Tag</li>
           <li className="nav-item">Notebook</li>
         </ul>
+        <hr />
+        <NotebookTree />
       </nav>
     );
   }

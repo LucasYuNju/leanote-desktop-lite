@@ -22,7 +22,7 @@ module.exports = {
 		],
 		loaders: [
 			{
-        test: /\.js?$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel',
         query: {
@@ -30,7 +30,7 @@ module.exports = {
         }
       },
       {
-        test: /\.less$/,
+        test: /\.(less|css)$/,
         loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
       }
 		]
