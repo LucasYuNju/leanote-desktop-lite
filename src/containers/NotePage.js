@@ -7,9 +7,9 @@ class NotePage extends Component {
   render() {
     return (
       <div className="note-page">
-        <NavContainer />
+        <HeaderContainer />
         <div className="content">
-          <HeaderContainer />
+          <NavContainer />
         </div>
       </div>
     );

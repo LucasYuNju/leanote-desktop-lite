@@ -2,30 +2,47 @@ import React, { Component } from 'react';
 
 import NotebookTree from '../components/NotebookTree';
 
+const NavItem = (props) => {
+  let classes = 'nav-item';
+  if (props.selected) {
+    classes += ' .selected';
+  }
+  return (
+    <li className={classes}>
+      <div className="title" onClick={props.onClick}>
+        <span class="icon"></span>
+        <span class="name">{props.name}</span>
+      </div>
+      {props.selected ? props.children : null}
+    </li>
+  );
+};
+
 class NavContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notebooks: [],
+      selected: '',
     };
   }
 
-  componentWillMount() {
-    service.notebook.getNotebooks(res => {
-      this.setState({ notebooks: res });
-    });
+  handleClick(label) {
+    const selected = this.state.selected === label ? '' : label;
+    this.setState({ selected });
   }
 
   render() {
     return (
       <nav>
         <ul className="nav-items">
-          <li className="nav-item">Starred</li>
-          <li className="nav-item">Tag</li>
-          <li className="nav-item">Notebook</li>
+          <NavItem
+            name="Notebook"
+            onClick={this.handleClick.bind(this, 'notebook')}
+            selected={this.state.selected === 'notebook'}
+          >
+            <NotebookTree />
+          </NavItem>
         </ul>
-        <hr />
-        <NotebookTree />
       </nav>
     );
   }

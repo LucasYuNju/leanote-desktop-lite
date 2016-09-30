@@ -8,9 +8,9 @@ const window = require('electron').remote.getCurrentWindow();
 
 class App extends Component {
   checkAuth(nextState, replace, callback) {
-    if (process.env.ENV === "development") {
-      service.user.login('LucasYuNju@gmail.com', '123456', 'https://leanote.com', ret => {
-        service.user.init((userInfo) => {
+    if (process.env.ENV === 'development') {
+      service.user.login('LucasYuNju@gmail.com', '123456', 'https://leanote.com', () => {
+        service.user.init(() => {
           callback();
         });
       });
@@ -21,7 +21,7 @@ class App extends Component {
           replace('/login');
           callback();
         }
-      });      
+      });
     }
   }
 
@@ -35,7 +35,7 @@ class App extends Component {
 
   toNoteWindow() {
     window.hide();
-    window.setSize(1000, 700);
+    window.setSize(1000, 660);
     window.setResizable(true);
     window.center();
     window.show();
