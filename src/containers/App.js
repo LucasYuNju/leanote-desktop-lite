@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Router, Route, hashHistory } from 'react-router';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import LoginPage from './LoginPage';
 import NotePage from './NotePage';
 
 const window = require('electron').remote.getCurrentWindow();
+
+injectTapEventPlugin();
 
 class App extends Component {
   checkAuth(nextState, replace, callback) {
@@ -43,14 +47,16 @@ class App extends Component {
 
   render() {
     return (
-      <div className="app">
-        <Router history={hashHistory}>
-          <Route onEnter={this.checkAuth}>
-            <Route path="/login" onEnter={this.toLoginWindow} component={LoginPage} />
-            <Route path="/note" onEnter={this.toNoteWindow} component={NotePage} />
-          </Route>
-        </Router>
-      </div>
+      <MuiThemeProvider>
+        <div className="app">
+          <Router history={hashHistory}>
+            <Route onEnter={this.checkAuth}>
+              <Route path="/login" onEnter={this.toLoginWindow} component={LoginPage} />
+              <Route path="/note" onEnter={this.toNoteWindow} component={NotePage} />
+            </Route>
+          </Router>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

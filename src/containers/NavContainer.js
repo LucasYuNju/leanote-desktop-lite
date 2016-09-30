@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import NotebookTree from '../components/NotebookTree';
+import NotebookList from '../components/NotebookList';
 
 const NavItem = (props) => {
   let classes = 'nav-item';
@@ -10,8 +10,8 @@ const NavItem = (props) => {
   return (
     <li className={classes}>
       <div className="title" onClick={props.onClick}>
-        <span class="icon"></span>
-        <span class="name">{props.name}</span>
+        <span className="icon"></span>
+        <span className="name">{props.name}</span>
       </div>
       {props.selected ? props.children : null}
     </li>
@@ -40,7 +40,7 @@ class NavContainer extends Component {
             onClick={this.handleClick.bind(this, 'notebook')}
             selected={this.state.selected === 'notebook'}
           >
-            <NotebookTree />
+            <NotebookList />
           </NavItem>
         </ul>
       </nav>
