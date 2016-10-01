@@ -1,0 +1,33 @@
+.lea-list
+{
+  *
+  {
+    cursor: default;
+  }
+  
+  div
+  {
+    > .lea-list-item
+    {
+      background: cyan;
+      
+      &.selected
+      {
+        background: @nav-selection-bg;
+      }
+      
+      &.expanded
+      {
+        .expand-icon
+        {
+          transform: rotate(90deg);
+        }        
+      }
+    }
+    
+    > .lea-list
+    {
+      padding-left: 14px;
+    }
+  }
+}
