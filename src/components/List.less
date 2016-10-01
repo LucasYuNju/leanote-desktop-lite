@@ -1,7 +1,10 @@
 .lea-list
 {
-  @item-height: 18px;
+  @item-height: 24px;
   user-select: none;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
   
   *
   {
@@ -13,7 +16,8 @@
   {
     > .lea-list-item
     {
-      background: cyan;
+      height: @item-height;
+      line-height: @item-height;
       
       &.selected
       {
@@ -25,18 +29,12 @@
         > .fa
         {
           display: inline-block;
-          width: @item-height;
+          width: 18px;
           height: @item-height;
           line-height: @item-height;
-          text-align: center;
-                  
+          text-align: center;                  
         }
       }
-    }
-    
-    > .lea-list
-    {
-      padding-left: 14px;
     }
   }
 }

@@ -1,23 +1,20 @@
 nav
 {
+  @padding: 16px;
+
   background-color: @nav-bg;
-  border-right: 1px solid @border-color;
+  border-right: 1px solid @border-color;  
+  padding-top: 16px;
   
-  > .nav-items
+  .header
   {
-    display: block;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    
-    > .nav-item
-    {
-      
-      margin-left: 10px;
-      &.selected
-      {
-        
-      }
-    }
+    padding-left: @padding;
+    padding-right: @padding;
+    padding-bottom: 16px;
+  }
+  
+  .content
+  {
+    // padding-left: @padding + 10px;
   }
 }

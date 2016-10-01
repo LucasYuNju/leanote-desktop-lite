@@ -9,7 +9,7 @@ import SelectableList from './SelectableList';
 class NotebookTree extends Component {
   state = {
     notebooks: [],
-    selected: 'SentMail',
+    selected: null,
   }
 
   componentWillMount() {
@@ -19,7 +19,6 @@ class NotebookTree extends Component {
   }
 
   handleSelectionChange = (event, value) => {
-    console.log("select", value);
     this.setState({
       selected: value,
     });

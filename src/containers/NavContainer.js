@@ -34,7 +34,12 @@ class NavContainer extends Component {
   render() {
     return (
       <nav>
-        <NotebookList />
+        <div className="header">
+          <span>Notebook</span>
+        </div>
+        <div className="content">
+          <NotebookList />
+        </div>
       </nav>
     );
   }

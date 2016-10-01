@@ -1,10 +1,20 @@
 import React, { Component, PropTypes } from 'react';
 import List from './List';
 
+function getStyles(props, state) {
+  return {
+    // needed so that ripples will span the entire container
+    innerDiv: {
+      paddingLeft: props.nestedLevel * 18,
+    }
+  }
+}
+
 class ListItem extends Component {
   static propTypes = {
     initiallyOpen: PropTypes.bool,
     nestedItems: PropTypes.arrayOf(PropTypes.element),
+    nesetdLevel: PropTypes.number,
     onClick: PropTypes.func,
     primaryText: PropTypes.string,
     primaryTogglesNestedList: PropTypes.bool,
@@ -15,6 +25,7 @@ class ListItem extends Component {
   static defaultProps = {
     initiallyOpen: false,
     nestedItems: [],
+    nestedLevel: 1,
     onClick: () => {},
     open: false,
     primaryTogglesNestedList: false,
@@ -52,14 +63,15 @@ class ListItem extends Component {
   
   render() {
     const {
-      nestedItems,
-      primaryText,
       children,
+      nestedItems,
+      nestedLevel,
+      primaryText,
       selected,
     } = this.props;
     
     const nestedList = nestedItems.length ? (
-      <List open={this.state.open}>
+      <List open={this.state.open} nestedLevel={nestedLevel}>
         {nestedItems}
       </List>
     ) : undefined;
@@ -78,11 +90,16 @@ class ListItem extends Component {
     const primaryTextElement = <span className="primary-text">{primaryText}</span>;
     this.pushElement(contentChildren, primaryTextElement);
     
+    const styles = {
+      paddingLeft: 25,
+    }
+    
     return (
       <div>
         <div className={'lea-list-item ' + (selected ? 'selected' : '')}
           onClick={this.handleTextClick}
           onDoubleClick={this.handleLeftIconClick}
+          style={getStyles(this.props, this.state).innerDiv}
         >
           {contentChildren}
         </div>
