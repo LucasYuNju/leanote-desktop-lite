@@ -10,9 +10,7 @@ class SelectableList extends List {
   handleItemClick = (event, item) => {
     const value = item.props.value;
     if (value !== this.props.value) {
-      if(this.props.onChange) {
-        this.props.onChange(event, value);        
-      }
+      this.props.onChange(event, value);
     }
   };
 
@@ -25,10 +23,15 @@ class SelectableList extends List {
         }
       },
       key: this.keyIndex++,
+      selected: this.isChildSelected(child, this.props),
       nestedItems: child.props.nestedItems.map((child) => this.extendChild(child)),
     });
   }
 
+  isChildSelected(child, props) {
+    return props.value === child.props.value;
+  }
+  
   render() {
     this.keyIndex = 0;
     return (

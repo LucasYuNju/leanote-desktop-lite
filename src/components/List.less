@@ -1,8 +1,12 @@
 .lea-list
 {
+  @item-height: 18px;
+  user-select: none;
+  
   *
   {
     cursor: default;
+    user-select: none;
   }
   
   div
@@ -16,12 +20,17 @@
         background: @nav-selection-bg;
       }
       
-      &.expanded
+      .expand-icon
       {
-        .expand-icon
+        > .fa
         {
-          transform: rotate(90deg);
-        }        
+          display: inline-block;
+          width: @item-height;
+          height: @item-height;
+          line-height: @item-height;
+          text-align: center;
+                  
+        }
       }
     }
     

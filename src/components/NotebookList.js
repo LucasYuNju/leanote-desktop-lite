@@ -3,15 +3,13 @@ import React, { Component } from 'react';
 import TreeView from 'react-treeview';
 // import { List, ListItem } from 'material-ui/List';
 
-import List from './List';
 import ListItem from './ListItem';
 import SelectableList from './SelectableList';
 
 class NotebookTree extends Component {
   state = {
     notebooks: [],
-    collapsed: [],
-    selection: [],
+    selected: 'SentMail',
   }
 
   componentWillMount() {
@@ -21,12 +19,18 @@ class NotebookTree extends Component {
   }
 
   handleSelectionChange = (event, value) => {
-    console.log("notebook select", value);
+    console.log("select", value);
+    this.setState({
+      selected: value,
+    });
   }
 
   render() {
     return (
-      <SelectableList onChange={this.handleSelectionChange}>
+      <SelectableList 
+        onChange={this.handleSelectionChange}
+        value={this.state.selected}
+      >
         <ListItem
           primaryText="Sent mail"
           value="SentMail"
