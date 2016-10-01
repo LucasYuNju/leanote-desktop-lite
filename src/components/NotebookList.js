@@ -1,16 +1,24 @@
-import 'react-treeview/react-treeview.css';
-import React, { Component } from 'react';
+import React, {
+  Component,
+  PropTypes,
+} from 'react';
 import TreeView from 'react-treeview';
-// import { List, ListItem } from 'material-ui/List';
-
 import ListItem from './ListItem';
 import SelectableList from './SelectableList';
 
 class NotebookTree extends Component {
+  static propTypes = {
+    onChange: PropTypes.func,
+  };
+  
+  static defaultProps = {
+    onChange: () => {},
+  };
+  
   state = {
     notebooks: [],
     selected: null,
-  }
+  };
 
   componentWillMount() {
     service.notebook.getNotebooks(res => {
@@ -22,7 +30,8 @@ class NotebookTree extends Component {
     this.setState({
       selected: value,
     });
-  }
+    this.props.onChange(event, value);
+  };
 
   render() {
     return (

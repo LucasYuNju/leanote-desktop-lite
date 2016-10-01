@@ -1,20 +1,51 @@
 nav
 {
-  @padding: 16px;
-
-  background-color: @nav-bg;
-  border-right: 1px solid @border-color;  
-  padding-top: 16px;
+  @padding: 14px;
+  @header-height: 28px;
   
-  .header
+  *
   {
-    padding-left: @padding;
-    padding-right: @padding;
-    padding-bottom: 16px;
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
   
-  .content
+  background-color: @nav-bg;
+  border-right: 1px solid @border-color;  
+  padding-top: 8px;
+  
+  .nav-item
   {
-    // padding-left: @padding + 10px;
+    .header
+    {
+      padding-left: @padding;
+      padding-right: @padding;
+      padding-bottom: 8px;
+      font-size: 16px;
+      font-weight: normal;
+      height: @header-height;
+      line-height: @header-height;
+      
+      .icon
+      {
+        display: inline-block;
+        width: 18px;
+        font-size: 18px;
+        text-align: center;
+        height: @header-height;
+        line-height: @header-height;
+        margin-right: 2px;
+      }
+    }
+    
+    &.selected
+    {
+      .header
+      {
+        background: @nav-selection-bg;        
+      }
+    }
   }
 }

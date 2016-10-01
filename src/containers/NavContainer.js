@@ -2,47 +2,72 @@ import React, { Component } from 'react';
 
 import NotebookList from '../components/NotebookList';
 
-const NavItem = (props) => {
-  let classes = 'nav-item';
-  if (props.selected) {
-    classes += ' .selected';
-  }
-  return (
-    <li className={classes}>
-      <div className="title" onClick={props.onClick}>
-        <span className="icon"></span>
-        <span className="name">{props.name}</span>
-      </div>
-      {props.selected ? props.children : null}
-    </li>
-  );
-};
-
 class NavContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: '',
-    };
-  }
+  state = {
+    selected: '',
+    expanded: '',
+  };
 
-  handleClick(label) {
-    const selected = this.state.selected === label ? '' : label;
-    this.setState({ selected });
-  }
+  handleItemSelect = (event, value) => {
+    this.setState({
+      selected: value,
+      expanded: value,
+    });
+  };
+  
+  handleContentSelect = (event, value) => {
+    this.setState({
+      selected: '',
+    });
+  };
 
   render() {
     return (
       <nav>
-        <div className="header">
-          <span>Notebook</span>
-        </div>
-        <div className="content">
-          <NotebookList />
-        </div>
+        <NavItem
+          value="notebook"
+          icon="fa-file-text-o"
+          onChange={this.handleItemSelect}
+          expanded={this.state.expanded === 'notebook'}
+          selected={this.state.selected === 'notebook'}
+          text="Notebook"
+        >
+          <NotebookList onChange={this.handleContentSelect}/>
+        </NavItem>
+        <NavItem
+          value="tag"
+          icon="fa-tag"
+          onChange={this.handleItemSelect}
+          expanded={this.state.expanded === 'tag'}
+          selected={this.state.selected === 'tag'}
+          text="Tag"
+        >
+          <span>Tag</span>
+        </NavItem>        
       </nav>
     );
   }
 }
+
+const NavItem = (props) => {
+  const handleClick = (event) => {
+    props.onChange(event, props.value);
+  };
+  return (
+    <div className={props.selected ? "nav-item selected" : "nav-item"}>
+      <div className="header" onClick={handleClick}>
+        <span className="icon">
+          <i className={"fa " + props.icon} aria-hidden="true"></i>
+        </span>
+        <span>{props.text}</span>
+      </div>
+      {!props.expanded ? null : (
+        <div className="content">
+          {props.children}
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default NavContainer;

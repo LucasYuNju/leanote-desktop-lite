@@ -2,12 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import List from './List';
 
 function getStyles(props, state) {
-  return {
+  const expandIconWidth = props.nestedItems.length ? 18 : 0;
+  const styles = {
     // needed so that ripples will span the entire container
     innerDiv: {
-      paddingLeft: props.nestedLevel * 18,
+      paddingLeft: 16 + props.nestedLevel * 18 - expandIconWidth,
     }
-  }
+  };
+  return styles;
 }
 
 class ListItem extends Component {
