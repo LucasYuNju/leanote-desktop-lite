@@ -1,12 +1,17 @@
 import 'react-treeview/react-treeview.css';
 import React, { Component } from 'react';
 import TreeView from 'react-treeview';
-import { List, ListItem } from 'material-ui/List';
+// import { List, ListItem } from 'material-ui/List';
+
+import List from './List';
+import ListItem from './ListItem';
+import SelectableList from './SelectableList';
 
 class NotebookTree extends Component {
   state = {
     notebooks: [],
     collapsed: [],
+    selection: [],
   }
 
   componentWillMount() {
@@ -15,27 +20,40 @@ class NotebookTree extends Component {
     });
   }
 
+  handleSelectionChange = (event, value) => {
+    console.log("notebook select", value);
+  }
+
   render() {
     return (
-      <List>
-        <ListItem primaryText="Sent mail" />
-        <ListItem primaryText="Drafts" />
+      <SelectableList onChange={this.handleSelectionChange}>
+        <ListItem
+          primaryText="Sent mail"
+          value="SentMail"
+        />
+        <ListItem
+          primaryText="Drafts"
+          value="Drafts"
+        />
         <ListItem
           primaryText="Inbox"
+          value="Inbox"
           initiallyOpen={true}
           primaryTogglesNestedList={true}
           nestedItems={[
             <ListItem
               key={1}
               primaryText="Starred"
+              value="Starred"
             />,
             <ListItem
               key={2}
-              primaryText="Sent Mail"
+              primaryText="Notebook"
+              value="Notebook"
             />,
           ]}
         />
-      </List>
+      </SelectableList>
     );
   }
 }

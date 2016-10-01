@@ -34,15 +34,7 @@ class NavContainer extends Component {
   render() {
     return (
       <nav>
-        <ul className="nav-items">
-          <NavItem
-            name="Notebook"
-            onClick={this.handleClick.bind(this, 'notebook')}
-            selected={this.state.selected === 'notebook'}
-          >
-            <NotebookList />
-          </NavItem>
-        </ul>
+        <NotebookList />
       </nav>
     );
   }

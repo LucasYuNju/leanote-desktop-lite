@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { hashHistory } from 'react-router';
 
-class LoginForm extends Component {
+class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.handleAccountChange = this.handleAccountChange.bind(this);
