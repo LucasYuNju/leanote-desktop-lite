@@ -9,10 +9,12 @@ import SelectableList from './SelectableList';
 class NotebookTree extends Component {
   static propTypes = {
     onChange: PropTypes.func,
+    clearSelection: PropTypes.bool,
   };
   
   static defaultProps = {
     onChange: () => {},
+    clearSelection: false,
   };
   
   state = {
@@ -25,12 +27,20 @@ class NotebookTree extends Component {
       this.setState({ notebooks: res });
     });
   }
+  
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.clearSelection) {
+      this.setState({
+        selected: null,
+      });
+    }
+  }
 
   handleSelectionChange = (event, value) => {
     this.setState({
       selected: value,
     });
-    this.props.onChange(event, value);
+    this.props.onChange(event, null);
   };
 
   render() {

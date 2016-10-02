@@ -4,20 +4,20 @@ import NotebookList from '../components/NotebookList';
 
 class NavContainer extends Component {
   state = {
-    selected: '',
-    expanded: '',
+    selected: null,
+    expanded: null,
   };
 
-  handleItemSelect = (event, value) => {
+  handleHeaderClick = (event, value) => {
     this.setState({
       selected: value,
       expanded: value,
     });
   };
   
-  handleContentSelect = (event, value) => {
+  handleContentClick = (event, value) => {
     this.setState({
-      selected: '',
+      selected: null,
     });
   };
 
@@ -27,17 +27,20 @@ class NavContainer extends Component {
         <NavItem
           value="notebook"
           icon="fa-file-text-o"
-          onChange={this.handleItemSelect}
+          onChange={this.handleHeaderClick}
           expanded={this.state.expanded === 'notebook'}
           selected={this.state.selected === 'notebook'}
           text="Notebook"
         >
-          <NotebookList onChange={this.handleContentSelect}/>
+          <NotebookList
+            onChange={this.handleContentClick}
+            clearSelection={this.state.selected !== null}
+          />
         </NavItem>
         <NavItem
           value="tag"
           icon="fa-tag"
-          onChange={this.handleItemSelect}
+          onChange={this.handleHeaderClick}
           expanded={this.state.expanded === 'tag'}
           selected={this.state.selected === 'tag'}
           text="Tag"
