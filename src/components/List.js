@@ -1,4 +1,4 @@
-import React, {  
+import React, {
   Children,
   cloneElement,
   Component,

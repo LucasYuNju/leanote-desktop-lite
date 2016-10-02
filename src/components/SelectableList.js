@@ -22,7 +22,6 @@ class SelectableList extends List {
           child.props.onClick(event);
         }
       },
-      key: this.keyIndex++,
       selected: this.isChildSelected(child, this.props),
       nestedItems: child.props.nestedItems.map((child) => this.extendChild(child)),
     });
@@ -33,7 +32,6 @@ class SelectableList extends List {
   }
   
   render() {
-    this.keyIndex = 0;
     return (
       <List>
         {React.Children.map(this.props.children, child => this.extendChild(child))}

@@ -6,7 +6,7 @@ function getStyles(props, state) {
   const styles = {
     // needed so that ripples will span the entire container
     innerDiv: {
-      paddingLeft: 16 + props.nestedLevel * 18 - expandIconWidth,
+      paddingLeft: 22 + props.nestedLevel * 12 - expandIconWidth,
     }
   };
   return styles;
@@ -19,7 +19,6 @@ class ListItem extends Component {
     nesetdLevel: PropTypes.number,
     onClick: PropTypes.func,
     primaryText: PropTypes.string,
-    primaryTogglesNestedList: PropTypes.bool,
     secondaryText: PropTypes.string,
     selected: PropTypes.bool,
   };
@@ -30,7 +29,6 @@ class ListItem extends Component {
     nestedLevel: 1,
     onClick: () => {},
     open: false,
-    primaryTogglesNestedList: false,
     secondaryText: '',
     selected: false,
   };

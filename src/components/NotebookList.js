@@ -2,7 +2,6 @@ import React, {
   Component,
   PropTypes,
 } from 'react';
-import TreeView from 'react-treeview';
 import ListItem from './ListItem';
 import SelectableList from './SelectableList';
 
@@ -11,12 +10,12 @@ class NotebookTree extends Component {
     onChange: PropTypes.func,
     clearSelection: PropTypes.bool,
   };
-  
+
   static defaultProps = {
     onChange: () => {},
     clearSelection: false,
   };
-  
+
   state = {
     notebooks: [],
     selected: null,
@@ -24,7 +23,9 @@ class NotebookTree extends Component {
 
   componentWillMount() {
     service.notebook.getNotebooks(res => {
-      this.setState({ notebooks: res });
+      this.setState({
+        notebooks: res
+      });
     });
   }
   
@@ -43,38 +44,24 @@ class NotebookTree extends Component {
     this.props.onChange(event, null);
   };
 
+  createListItem = (notebook, index) => {
+    return (
+      <ListItem
+        primaryText={notebook.Title}
+        value={notebook}
+        key={index}
+        nestedItems={notebook.Subs.map(this.createListItem)}
+      />
+    );
+  }
+
   render() {
     return (
       <SelectableList 
         onChange={this.handleSelectionChange}
         value={this.state.selected}
       >
-        <ListItem
-          primaryText="Sent mail"
-          value="SentMail"
-        />
-        <ListItem
-          primaryText="Drafts"
-          value="Drafts"
-        />
-        <ListItem
-          primaryText="Inbox"
-          value="Inbox"
-          initiallyOpen={true}
-          primaryTogglesNestedList={true}
-          nestedItems={[
-            <ListItem
-              key={1}
-              primaryText="Starred"
-              value="Starred"
-            />,
-            <ListItem
-              key={2}
-              primaryText="Notebook"
-              value="Notebook"
-            />,
-          ]}
-        />
+        {this.state.notebooks.map(this.createListItem)}
       </SelectableList>
     );
   }

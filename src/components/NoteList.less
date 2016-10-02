@@ -1,0 +1,26 @@
+main
+{
+  display: flex;
+  
+  .note-list
+  {
+    width: 220px;
+    border-right: 1px solid @border-color;
+    
+    .note-list-item
+    {
+      background: @note-list-bg;
+      border-bottom: 1px solid @border-color;
+      
+      &.selected
+      {
+        background: @note-list-selecton-bg;
+      }
+    }
+  }
+  
+  .note-editor
+  {
+    flex-grow: 1;
+  }
+}

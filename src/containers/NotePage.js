@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-
 import HeaderContainer from './HeaderContainer';
 import NavContainer from './NavContainer';
+import NoteList from '../components/NoteList';
 
 class NotePage extends Component {
   render() {
@@ -10,6 +10,7 @@ class NotePage extends Component {
         <HeaderContainer />
         <div className="content">
           <NavContainer />
+          <NoteList />
         </div>
       </div>
     );
