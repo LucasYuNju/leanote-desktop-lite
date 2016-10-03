@@ -1,64 +1,49 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { Router, Route, hashHistory } from 'react-router';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-
+import { bindActionCreators } from 'redux';
 import LoginPage from './LoginPage';
 import NotePage from './NotePage';
+import WindowUtil from '../util/WindowUtil';
+import * as ActionCreators from '../actions';
 
-const window = require('electron').remote.getCurrentWindow();
-
-injectTapEventPlugin();
+const routes = (
+  <Router history={hashHistory}>
+    <Route path="/login" component={LoginPage} />
+    <Route path="/note" component={NotePage} />
+  </Router>
+);
 
 class App extends Component {
-  checkAuth(nextState, replace, callback) {
-    if (process.env.ENV === 'development') {
-      service.user.login('LucasYuNju@gmail.com', '123456', 'https://leanote.com', () => {
-        service.user.init(() => {
-          callback();
-        });
-      });
-    }
-    else {
-      service.user.init((userInfo) => {
-        if (!userInfo) {
-          replace('/login');
-          callback();
-        }
-      });
-    }
-  }
-
-  toLoginWindow() {
-    window.hide();
-    window.setSize(320, 420);
-    window.setResizable(false);
-    window.center();
-    window.show();
-  }
-
-  toNoteWindow() {
-    window.hide();
-    window.setSize(1000, 660);
-    window.setResizable(true);
-    window.center();
-    window.show();
-  }
+  static propTypes = {
+    selectedNotebook: PropTypes.string,
+  };
 
   render() {
     return (
-      <MuiThemeProvider>
-        <div className="app">
-          <Router history={hashHistory}>
-            <Route onEnter={this.checkAuth}>
-              <Route path="/login" onEnter={this.toLoginWindow} component={LoginPage} />
-              <Route path="/note" onEnter={this.toNoteWindow} component={NotePage} />
-            </Route>
-          </Router>
-        </div>
-      </MuiThemeProvider>
+      <div className="app">
+        {routes}
+      </div>
     );
   }
 }
 
-export default App;
+function requireAuth(nextState, replace) {
+  if (this.props.user.needLogin) {
+    replace('/login');
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(ActionCreators, dispatch),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

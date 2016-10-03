@@ -1,8 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import NotebookList from '../components/NotebookList';
 
 class NavContainer extends Component {
+  static propTypes = {
+    notebooks: PropTypes.array,
+  };
+
   state = {
     selected: null,
     expanded: null,
@@ -14,7 +18,7 @@ class NavContainer extends Component {
       expanded: value,
     });
   };
-  
+
   handleContentClick = (event, value) => {
     this.setState({
       selected: null,
@@ -35,6 +39,7 @@ class NavContainer extends Component {
           <NotebookList
             onChange={this.handleContentClick}
             clearSelection={this.state.selected !== null}
+            notebooks={this.props.notebooks}
           />
         </NavItem>
         <NavItem

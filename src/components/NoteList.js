@@ -12,6 +12,7 @@ class NoteList extends Component {
   
   static defaultProps = {
     initialSelection: 0,
+    notes: [],
     view: 'snippet',
   };
   
@@ -19,7 +20,11 @@ class NoteList extends Component {
     return (
       <main>
         <div className="note-list">
-          {this.state.notes.map()}
+          {this.props.notes.map((note) => {
+            return (
+              <NoteListItem />
+            )
+          })}
         </div>
         <div className="note-editor" />
       </main>

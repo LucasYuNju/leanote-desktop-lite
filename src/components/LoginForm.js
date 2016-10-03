@@ -1,36 +1,61 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { hashHistory } from 'react-router';
 
 class LoginForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleAccountChange = this.handleAccountChange.bind(this);
-    this.handlePasswordChagne = this.handlePasswordChagne.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = {
-      account: 'LucasYuNju@gmail.com',
-      password: '123456',
-    };
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    account: PropTypes.string,
+    password: PropTypes.string,
   }
+  
+  state = {
+    account: 'LucasYuNju@gmail.com',
+    password: '123456',
+  };
 
-  handleAccountChange(e) {
-    this.setState({ account: e.target.value });
-  }
+  handleAccountChange = (e) => {
+    this.setState({
+      account: e.target.value
+    });
+  };
 
-  handlePasswordChagne(e) {
-    this.setState({ password: e.target.value });
-  }
+  handlePasswordChagne = (e) => {
+    this.setState({
+      password: e.target.value
+    });
+  };
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
-    const host = 'https://leanote.com';
     const account = this.state.account;
     const password = this.state.password;
-    service.user.login(account, password, host, ret => {
-      if (ret) {
-        hashHistory.push('/note');
-      }
-    });
+    const host = 'https://leanote.com';
+    this.props
+      .onSubmit(account, password, host)
+      .then(() => {
+        this.setState({
+          submitted: true,
+        });
+      });
+  };
+
+  componentWillUpdate (nextProps, nextState) {
+    if(nextState.submitted) {
+      hashHistory.push('/note');
+    }
+  }
+
+  componentDidMount() {
+    // Autologin in development env.
+    if (process.env.ENV === 'development') {
+      this.props
+        .onSubmit('LucasYuNju@gmail.com', '123456', 'https://leanote.com')
+        .then(() => {
+          this.setState({
+            submitted: true,
+          });
+        });
+    }
   }
 
   render() {

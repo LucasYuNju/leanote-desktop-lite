@@ -7,28 +7,21 @@ import SelectableList from './SelectableList';
 
 class NotebookTree extends Component {
   static propTypes = {
-    onChange: PropTypes.func,
     clearSelection: PropTypes.bool,
+    notebooks: PropTypes.array,
+    onChange: PropTypes.func,
   };
 
   static defaultProps = {
-    onChange: () => {},
     clearSelection: false,
+    notebooks: [],
+    onChange: () => {},
   };
 
   state = {
-    notebooks: [],
     selected: null,
   };
 
-  componentWillMount() {
-    service.notebook.getNotebooks(res => {
-      this.setState({
-        notebooks: res
-      });
-    });
-  }
-  
   componentWillReceiveProps(nextProps) {
     if (nextProps.clearSelection) {
       this.setState({
@@ -56,12 +49,13 @@ class NotebookTree extends Component {
   }
 
   render() {
+    // console.log(this.props);
     return (
       <SelectableList 
         onChange={this.handleSelectionChange}
         value={this.state.selected}
       >
-        {this.state.notebooks.map(this.createListItem)}
+        {this.props.notebooks.map(this.createListItem)}
       </SelectableList>
     );
   }
