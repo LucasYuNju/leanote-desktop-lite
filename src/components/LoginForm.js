@@ -7,7 +7,7 @@ class LoginForm extends React.Component {
     account: PropTypes.string,
     password: PropTypes.string,
   }
-  
+
   state = {
     account: 'LucasYuNju@gmail.com',
     password: '123456',
@@ -46,6 +46,7 @@ class LoginForm extends React.Component {
   }
 
   componentDidMount() {
+    // TODO too late
     // Autologin in development env.
     if (process.env.ENV === 'development') {
       this.props

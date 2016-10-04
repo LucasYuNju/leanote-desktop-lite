@@ -9,15 +9,21 @@ import * as ActionCreators from '../actions';
 
 class NotePage extends Component {
   componentWillMount() {
+    // WindowUtil.setProperties({
+    //   resizable: true,
+    //   width: 1000,
+    //   height: 660,
+    // });
+  }
+
+  componentDidMount() {
+    this.props.actions.initNotebooks();
     WindowUtil.setProperties({
       resizable: true,
       width: 1000,
       height: 660,
     });
-  }
 
-  componentDidMount() {
-    this.props.actions.initNotebooks();
   }
 
   render() {
