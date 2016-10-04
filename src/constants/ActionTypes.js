@@ -1,9 +1,15 @@
 /*
- * action 类型
+ * note
  */
-export const REQUEST_LOGIN = 'REQUEST_LOGIN';
-export const RECEIVE_AUTHED_USER = 'RECEIVE_AUTHED_USER';
+export const RECEIVE_NOTES = 'RECEIVE_NOTES';
 
-export const SELECT_NOTE = 'SELECT_NOTE';
+/*
+ * notebooks
+ */
+export const RECEIVE_NOTEBOOKS = 'RECEIVE_NOTEBOOKS';
 export const SELECT_NOTEBOOK = 'SELECT_NOTEBOOK';
-export const REQUEST_NOTEBOOKS = 'REQUEST_NOTEBOOKS';
+
+/*
+ * user
+ */
+export const RECEIVE_AUTHED_USER = 'RECEIVE_AUTHED_USER';

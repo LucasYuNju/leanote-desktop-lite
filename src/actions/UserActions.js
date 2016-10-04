@@ -1,7 +1,7 @@
 import * as types from '../constants/ActionTypes';
 
-export function receiveLogin(status, userInfo) {
-  return { type: types.REQUEST_LOGIN, status, userInfo };
+export function receiveAuthedUser(status, userInfo) {
+  return { type: types.RECEIVE_AUTHED_USER, status, userInfo };
 }
 
 export function login(account, password, host) {
@@ -10,11 +10,11 @@ export function login(account, password, host) {
       service.user.login(account, password, host, (ret) => {
         service.user.init((userInfo) => {
           if (userInfo) {
-            dispatch(receiveLogin('success', userInfo));
+            dispatch(receiveAuthedUser('success', userInfo));
             resolve();
           }
           else {
-            dispatch(receiveLogin('error'));
+            dispatch(receiveAuthedUser('error'));
             reject();
           }
         });

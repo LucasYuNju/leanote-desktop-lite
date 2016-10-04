@@ -46,7 +46,6 @@ class NotebookTree extends Component {
   }
 
   render() {
-    // console.log(this.props);
     return (
       <SelectableList 
         onChange={this.handleSelectionChange}

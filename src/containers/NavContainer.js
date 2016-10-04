@@ -35,6 +35,7 @@ class NavContainer extends Component {
   };
 
   render() {
+    console.log('nav', this.props);
     return (
       <nav>
         <NavItem
