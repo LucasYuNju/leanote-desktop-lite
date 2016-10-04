@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Router, Route, hashHistory } from 'react-router';
 import LoginPage from './LoginPage';
-import NotePage from './NotePage';
+import MainPage from './MainPage';
 
 class App extends Component {
   render() {
@@ -9,7 +9,7 @@ class App extends Component {
       <div className="app">
         <Router history={hashHistory}>
           <Route path="/login" component={LoginPage} />
-          <Route path="/note" component={NotePage} />
+          <Route path="/note" component={MainPage} />
         </Router>
       </div>
     );
