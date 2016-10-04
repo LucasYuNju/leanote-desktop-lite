@@ -1,12 +1,17 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import React, { Component, PropTypes } from 'react';
+
+import { login } from '../actions/UserActions';
 import LoginForm from '../components/LoginForm';
 import WindowUtil from '../util/WindowUtil';
-import * as ActionCreators from '../actions';
 
 class LoginPage extends Component {
-  componentWillMount() {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+  };
+  
+  componentDidMount() {
     WindowUtil.setProperties({
       resizable: process.env.ENV === 'development',
       resizable: true,
@@ -15,28 +20,26 @@ class LoginPage extends Component {
     });
   }
 
+  handleFormSubmit = (account, password, host) => {
+    const { dispatch } = this.props;
+    return dispatch(login(account, password, host));
+  }
+
   render() {
     return (
       <div className="login-page title-bar">
         <div className="logo" >
           <img src="images/leanote-icon-en.png" alt="leanote" />
         </div>
-        <LoginForm onSubmit={this.props.actions.login}/>
+        <LoginForm onSubmit={this.handleFormSubmit}/>
       </div>
     );
   }
 }
 
+// Add dispatch to LoginPage.props
 function mapStateToProps(state) {
-  return {
-    user: state.user,
-  }
+  return {};
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(ActionCreators, dispatch),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps)(LoginPage);

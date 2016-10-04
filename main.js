@@ -11,6 +11,7 @@ function createWindow () {
     height: 700,
     titleBarStyle: 'hidden',
     fullscreenable: false,
+    show: false,
   });
   // 使用loadURL(`http:xxx`)的话，影响renderer process的node模块加载
   mainWindow.loadURL(`file://${__dirname}/dist/index.html`);

@@ -1,42 +1,31 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import HeaderContainer from './HeaderContainer';
-import NavContainer from './NavContainer';
+
+import { fetchNotebooks } from '../actions/NotebookActions';
+import HeaderContainer from '../containers/HeaderContainer';
+import NavContainer from '../containers/NavContainer';
 import NoteList from '../components/NoteList';
 import WindowUtil from '../util/WindowUtil';
-import * as ActionCreators from '../actions';
 
 class NotePage extends Component {
-  componentWillMount() {
-    // WindowUtil.setProperties({
-    //   resizable: true,
-    //   width: 1000,
-    //   height: 660,
-    // });
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
-    this.props.actions.initNotebooks();
     WindowUtil.setProperties({
       resizable: true,
       width: 1000,
       height: 660,
     });
-
   }
 
   render() {
-    const {
-      notebooks,
-      selectedNotebook,
-    } = this.props;
-    
     return (
       <div className="note-page">
         <HeaderContainer />
         <div className="content">
-          <NavContainer notebooks={notebooks}/>
+          <NavContainer/>
           <NoteList/>
         </div>
       </div>
@@ -45,18 +34,7 @@ class NotePage extends Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    notebooks: state.notebooks,
-    selectedNote: state.selectedNote,
-    selectedNotebook: state.selectedNotebook,
-    user: state.user,
-  };
+  return {};
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(ActionCreators, dispatch),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(NotePage);
+export default connect(mapStateToProps)(NotePage);

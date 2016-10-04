@@ -6,12 +6,31 @@ class LoginForm extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     account: PropTypes.string,
     password: PropTypes.string,
-  }
+  };
 
   state = {
     account: 'LucasYuNju@gmail.com',
     password: '123456',
   };
+
+  componentWillUpdate (nextProps, nextState) {
+    if(nextState.submitted) {
+      hashHistory.push('/note');
+    }
+  }
+
+  componentDidMount() {
+    // Autologin in development env.
+    if (process.env.ENV === 'development') {
+      this.props
+        .onSubmit('LucasYuNju@gmail.com', '123456', 'https://leanote.com')
+        .then(() => {
+          this.setState({
+            submitted: true,
+          });
+        });
+    }
+  }
 
   handleAccountChange = (e) => {
     this.setState({
@@ -38,27 +57,7 @@ class LoginForm extends React.Component {
         });
       });
   };
-
-  componentWillUpdate (nextProps, nextState) {
-    if(nextState.submitted) {
-      hashHistory.push('/note');
-    }
-  }
-
-  componentDidMount() {
-    // TODO too late
-    // Autologin in development env.
-    if (process.env.ENV === 'development') {
-      this.props
-        .onSubmit('LucasYuNju@gmail.com', '123456', 'https://leanote.com')
-        .then(() => {
-          this.setState({
-            submitted: true,
-          });
-        });
-    }
-  }
-
+  
   render() {
     return (
       <form className="login-form" onSubmit={this.handleSubmit}>

@@ -1,9 +1,13 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 
+import NavItem from '../components/NavItem';
 import NotebookList from '../components/NotebookList';
+import { fetchNotebooks } from '../actions/NotebookActions';
 
 class NavContainer extends Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
     notebooks: PropTypes.array,
   };
 
@@ -11,6 +15,11 @@ class NavContainer extends Component {
     selected: null,
     expanded: null,
   };
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchNotebooks());
+  }
 
   handleHeaderClick = (event, value) => {
     this.setState({
@@ -30,11 +39,11 @@ class NavContainer extends Component {
       <nav>
         <NavItem
           value="notebook"
+          text="Notebook"
           icon="fa-file-text-o"
-          onChange={this.handleHeaderClick}
+          onClick={this.handleHeaderClick}
           expanded={this.state.expanded === 'notebook'}
           selected={this.state.selected === 'notebook'}
-          text="Notebook"
         >
           <NotebookList
             onChange={this.handleContentClick}
@@ -44,11 +53,11 @@ class NavContainer extends Component {
         </NavItem>
         <NavItem
           value="tag"
+          text="Tag"
           icon="fa-tag"
-          onChange={this.handleHeaderClick}
+          onClick={this.handleHeaderClick}
           expanded={this.state.expanded === 'tag'}
           selected={this.state.selected === 'tag'}
-          text="Tag"
         >
           <span>Tag</span>
         </NavItem>        
@@ -57,25 +66,10 @@ class NavContainer extends Component {
   }
 }
 
-const NavItem = (props) => {
-  const handleClick = (event) => {
-    props.onChange(event, props.value);
-  };
-  return (
-    <div className={props.selected ? "nav-item selected" : "nav-item"}>
-      <div className="header" onClick={handleClick}>
-        <span className="icon">
-          <i className={"fa " + props.icon} aria-hidden="true"></i>
-        </span>
-        <span>{props.text}</span>
-      </div>
-      {!props.expanded ? null : (
-        <div className="content">
-          {props.children}
-        </div>
-      )}
-    </div>
-  );
-};
+function mapStateToProps(state) {
+  return {
+    notebooks: state.notebooks,
+  }
+}
 
-export default NavContainer;
+export default connect(mapStateToProps)(NavContainer);
