@@ -8,9 +8,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, '../dist'))); //  "public" off of current is root
 
 const builderConfig = require("../webpack.config");
-const builder = webpack(Object.assign({
-    devtool: "cheap-module-source-map"
-}, builderConfig));
+const builder = webpack(builderConfig);
 app.use(webpackDevMiddleware(
     builder,
     {

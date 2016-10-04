@@ -34,7 +34,20 @@ class NotePage extends Component {
 }
 
 function mapStateToProps(state) {
-  return {};
+  const {
+    notes,
+    notebooks,
+    selectedNotebookId,
+  } = state;
+  let currentNotes = [];
+  console.log('state', state);
+  if (selectedNotebookId && notebooks[selectedNotebookId].Notes) {
+    currentNotes = notebooks[selectedNotebookId].Notes.map(noteId => notes[noteId]);
+    console.log('notes', currentNotes);
+  }
+  return {
+    notes: currentNotes,
+  };
 }
 
 export default connect(mapStateToProps)(NotePage);

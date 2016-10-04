@@ -1,11 +1,9 @@
 import { combineReducers } from 'redux';
-import note from './note';
-import notebooks from './notebook';
+import notes from './note';
+import { notebooks, selectedNotebookId } from './notebook';
 import user from './user';
 
 /*
-notebooks are flat,
-
 state = {
   notes: {
     ['20dr92']: {
@@ -30,12 +28,12 @@ state = {
   selectedNotebookId: string,
   selectedNoteId: string,
 }
-
  */
 
 const rootReducer = combineReducers({
-  note,
+  notes,
   notebooks,
+  selectedNotebookId,
   user,
 });
 

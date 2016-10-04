@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 
 import NavItem from '../components/NavItem';
 import NotebookList from '../components/NotebookList';
-import { fetchNotebooks } from '../actions/NotebookActions';
+import { fetchNotebooks, selectNotebook } from '../actions/NotebookActions';
 
 class NavContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    notebooks: PropTypes.array,
+    notebooks: PropTypes.object,
   };
 
   state = {
@@ -17,8 +17,7 @@ class NavContainer extends Component {
   };
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchNotebooks());
+    this.props.dispatch(fetchNotebooks());
   }
 
   handleHeaderClick = (event, value) => {
@@ -28,14 +27,14 @@ class NavContainer extends Component {
     });
   };
 
-  handleContentClick = (event, value) => {
+  handleListSelect = (event, notebookId) => {
+    this.props.dispatch(selectNotebook(notebookId));
     this.setState({
       selected: null,
     });
   };
 
   render() {
-    console.log('nav', this.props);
     return (
       <nav>
         <NavItem
@@ -47,9 +46,10 @@ class NavContainer extends Component {
           selected={this.state.selected === 'notebook'}
         >
           <NotebookList
-            onChange={this.handleContentClick}
             clearSelection={this.state.selected !== null}
             notebooks={this.props.notebooks}
+            onChange={this.handleListSelect}
+            rootId="root"
           />
         </NavItem>
         <NavItem
@@ -70,6 +70,7 @@ class NavContainer extends Component {
 function mapStateToProps(state) {
   return {
     notebooks: state.notebooks,
+    selectedNotebookId: state.selectedNotebookId,
   }
 }
 

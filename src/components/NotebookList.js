@@ -2,11 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import ListItem from './ListItem';
 import SelectableList from './SelectableList';
 
-class NotebookTree extends Component {
+class NotebookList extends Component {
   static propTypes = {
     clearSelection: PropTypes.bool,
-    notebooks: PropTypes.array,
+    notebooks: PropTypes.object,
     onChange: PropTypes.func,
+    rootId: PropTypes.string,
   };
 
   static defaultProps = {
@@ -27,34 +28,38 @@ class NotebookTree extends Component {
     }
   }
 
-  handleSelectionChange = (event, value) => {
+  handleListSelect = (event, value) => {
     this.setState({
       selected: value,
     });
-    this.props.onChange(event, null);
+    this.props.onChange(event, value.NotebookId);
   };
 
-  createListItem = (notebook, index) => {
+  createListItem = (notebook) => {
     return (
       <ListItem
         primaryText={notebook.Title}
         value={notebook}
-        key={index}
-        nestedItems={notebook.Subs.map(this.createListItem)}
+        key={notebook.NotebookId}
+        nestedItems={notebook.childIds.map(childId => this.createListItem(this.props.notebooks[childId]))}
       />
     );
   }
 
   render() {
+    const {
+      notebooks,
+      rootId,
+    } = this.props;
     return (
       <SelectableList 
-        onChange={this.handleSelectionChange}
+        onChange={this.handleListSelect}
         value={this.state.selected}
       >
-        {this.props.notebooks.map(this.createListItem)}
+        {notebooks[rootId].childIds.map(childId => this.createListItem(notebooks[childId]))}
       </SelectableList>
     );
   }
 }
 
-export default NotebookTree;
+export default NotebookList;
