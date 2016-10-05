@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 
-import { fetchNotebooks } from '../actions/NotebookActions';
-import HeaderContainer from '../containers/HeaderContainer';
+import Header from '../components/Header';
 import Nav from '../components/Nav';
 import NotesContainer from '../containers/NotesContainer';
 import WindowUtil from '../util/WindowUtil';
@@ -19,7 +17,7 @@ class Main extends Component {
   render() {
     return (
       <div className="note-page">
-        <HeaderContainer />
+        <Header />
         <div className="content">
           <Nav />
           <NotesContainer />
