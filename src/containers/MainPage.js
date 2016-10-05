@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchNotebooks } from '../actions/NotebookActions';
 import HeaderContainer from '../containers/HeaderContainer';
 import NavContainer from '../containers/NavContainer';
-import NoteList from '../components/NoteList';
+import NotesContainer from '../containers/NotesContainer';
 import WindowUtil from '../util/WindowUtil';
 
 class NotePage extends Component {
@@ -26,7 +26,7 @@ class NotePage extends Component {
         <HeaderContainer />
         <div className="content">
           <NavContainer/>
-          <NoteList/>
+          <NotesContainer/>
         </div>
       </div>
     );
@@ -34,20 +34,8 @@ class NotePage extends Component {
 }
 
 function mapStateToProps(state) {
-  const {
-    notes,
-    notebooks,
-    selectedNotebookId,
-  } = state;
-  let currentNotes = [];
-  console.log('state', state);
-  if (selectedNotebookId && notebooks[selectedNotebookId].Notes) {
-    currentNotes = notebooks[selectedNotebookId].Notes.map(noteId => notes[noteId]);
-    console.log('notes', currentNotes);
-  }
-  return {
-    notes: currentNotes,
-  };
+  // console.log('state', state);
+  return {};
 }
 
 export default connect(mapStateToProps)(NotePage);
