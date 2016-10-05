@@ -3,15 +3,11 @@ import { connect } from 'react-redux';
 
 import { fetchNotebooks } from '../actions/NotebookActions';
 import HeaderContainer from '../containers/HeaderContainer';
-import NavContainer from '../containers/NavContainer';
+import Nav from '../components/Nav';
 import NotesContainer from '../containers/NotesContainer';
 import WindowUtil from '../util/WindowUtil';
 
-class NotePage extends Component {
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-  }
-
+class Main extends Component {
   componentDidMount() {
     WindowUtil.setProperties({
       resizable: true,
@@ -25,17 +21,12 @@ class NotePage extends Component {
       <div className="note-page">
         <HeaderContainer />
         <div className="content">
-          <NavContainer/>
-          <NotesContainer/>
+          <Nav />
+          <NotesContainer />
         </div>
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  // console.log('state', state);
-  return {};
-}
-
-export default connect(mapStateToProps)(NotePage);
+export default Main;

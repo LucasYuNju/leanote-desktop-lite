@@ -1,18 +1,22 @@
 import * as types from '../constants/ActionTypes';
 
 const initialState = {
-  item: [],
-  selected: null,
-}
+  root: {
+    Title: 'dumb notebook',
+    NotebookId: 'dumb notebook',
+    NoteIds: [],
+    ChildIds: [],
+  },
+};
 
 function flattern(res, notebook) {
   res[notebook.NotebookId] = notebook;
-  notebook.childIds = notebook.Subs.map(node => node.NotebookId);
+  notebook.ChildIds = notebook.Subs.map(node => node.NotebookId);
   notebook.Subs.forEach(node => flattern(res, node));
   notebook.Subs = null;
 }
 
-export function notebooks(state = {}, action) {
+export function notebooks(state = initialState, action) {
   switch (action.type) {
     case types.RECEIVE_NOTES:
       if (action.value.length > 0) {

@@ -4,33 +4,47 @@ main
   
   .note-list
   {
-    width: 220px;
+    width: 230px;
     border-right: 1px solid @border-color;
+    overflow-y: scroll;
     
     .note-list-item
     {
       background: @note-list-bg;
       border-bottom: 1px solid @border-color;
       height: 84px;
+      padding: 10px;
       
       &.selected
       {
         background: @note-list-selecton-bg;
       }
       
-      .title
+      .header
       {
+        display: flex;
+        padding-bottom: 6px;
         
-      }
-      
-      .updated-time
-      {
+        .title
+        {
+          flex-grow: 1;
+          font-weight: normal;
+          color: @note-list-color-title;
+        }
         
+        .updated-time
+        {
+          width: 48px;
+          font-size: 12px;
+          color: @note-list-color-time;
+          text-align: right;
+        }
       }
-      
+
       .snippet
       {
-        
+        font-size: 12px;
+        color: @note-list-color-snippet;
       }
     }
   }

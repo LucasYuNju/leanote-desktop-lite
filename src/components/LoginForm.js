@@ -19,8 +19,8 @@ class LoginForm extends React.Component {
     }
   }
 
+  // Autologin on dev mode.
   componentDidMount() {
-    // Autologin in development env.
     if (process.env.ENV === 'development') {
       this.props
         .onSubmit('LucasYuNju@gmail.com', '123456', 'https://leanote.com')
@@ -57,7 +57,7 @@ class LoginForm extends React.Component {
         });
       });
   };
-  
+
   render() {
     return (
       <form className="login-form" onSubmit={this.handleSubmit}>

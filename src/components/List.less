@@ -4,17 +4,19 @@
   display: flex;
   width: 100%;
   flex-direction: column;
-    
+
   div
   {
     > .lea-list-item
     {
       height: @item-height;
       line-height: @item-height;
+      font-weight: normal;
       
       &.selected
       {
         background: @nav-selection-bg;
+        color: white;
       }
       
       .expand-icon

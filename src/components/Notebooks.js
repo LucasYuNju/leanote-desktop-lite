@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ListItem from './ListItem';
 import SelectableList from './SelectableList';
 
-class NotebookList extends Component {
+class Notebooks extends Component {
   static propTypes = {
     clearSelection: PropTypes.bool,
     notebooks: PropTypes.object,
@@ -35,13 +35,13 @@ class NotebookList extends Component {
     this.props.onChange(event, value.NotebookId);
   };
 
-  createListItem = (notebook) => {
+  renderListItem = (notebook) => {
     return (
       <ListItem
         primaryText={notebook.Title}
         value={notebook}
         key={notebook.NotebookId}
-        nestedItems={notebook.childIds.map(childId => this.createListItem(this.props.notebooks[childId]))}
+        nestedItems={notebook.ChildIds.map(childId => this.renderListItem(this.props.notebooks[childId]))}
       />
     );
   }
@@ -56,10 +56,10 @@ class NotebookList extends Component {
         onChange={this.handleListSelect}
         value={this.state.selected}
       >
-        {notebooks[rootId].childIds.map(childId => this.createListItem(notebooks[childId]))}
+        {notebooks[rootId].ChildIds.map(childId => this.renderListItem(notebooks[childId]))}
       </SelectableList>
     );
   }
 }
 
-export default NotebookList;
+export default Notebooks;

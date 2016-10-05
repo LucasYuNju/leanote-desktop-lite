@@ -20,8 +20,10 @@ class Note extends Component {
     const formattedTime = TimeFormatUtil.fromNow(this.props.updatedTime);
     return (
       <div className={this.props.selected ? 'note-list-item selected' : 'note-list-item'}>
-        <span className="title">{this.props.title}</span>
-        <span className="updated-time">{formattedTime}</span>
+        <div className="header">
+          <span className="title">{this.props.title}</span>
+          <span className="updated-time">{formattedTime}</span>
+        </div>
         <span className="snippet">{snippet}</span>
       </div>
     );

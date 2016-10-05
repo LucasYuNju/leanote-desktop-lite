@@ -1,44 +1,58 @@
 import React, { Component, PropTypes } from 'react';
 
+// Nav item has a header and it's content can hide.
 class NavItem extends Component {
   static propTypes = {
-    expanded: PropTypes.bool,
     icon: PropTypes.string,
-    onClick: PropTypes.func,
+    onChange: PropTypes.func,
     selected: PropTypes.bool,
     text: PropTypes.string,
     value: PropTypes.string,
   };
-  
-  handleClick = (event) => {
-    this.props.onClick(event, this.props.value);
+
+  state = {
+    showContent: false,
+    contentClicked: false,
+  };
+
+  handleHeaderClick = (event) => {
+    this.props.onChange(event, this.props.value);
+    this.setState({
+      showContent: !this.state.showContent,
+      contentClicked: false,
+    });
   };
   
-  render() {
-    const {
-      children,
-      expanded,
-      icon,
-      selected,
-      text,
-    } = this.props;
-    let content = null;
-    if (expanded) {
-      content = (
+  handleContentClick = (event) => {
+    this.setState({
+      contentClicked: true,
+    });
+  }
+
+  renderExpandedContent() {
+    if (this.state.showContent) {
+      return (
         <div className="content">
-          {children}
+          {this.props.children}
         </div>
-      )
+      );
     }
+    return null;
+  }
+  
+  render() {
+    const highlight = this.props.selected && !this.state.contentClicked;
     return (
-      <div className={selected ? "nav-item selected" : "nav-item"}>
-        <div className="header" onClick={this.handleClick}>
+      <div className={highlight ? "nav-item selected" : "nav-item"}>
+        <div className="header" onClick={this.handleHeaderClick}>
           <span className="icon">
-            <i className={"fa " + icon} aria-hidden="true"></i>
+            <i className={"fa " + this.props.icon} aria-hidden="true"></i>
           </span>
-          <span>{text}</span>
+          <span>{this.props.text}</span>
         </div>
-        {content}
+        <div className="content" onClick={this.handleContentClick}>
+          {this.renderExpandedContent()}
+        </div>
       </div>
     );
   }
