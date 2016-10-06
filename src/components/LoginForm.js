@@ -13,7 +13,7 @@ class LoginForm extends React.Component {
 
   componentWillUpdate (nextProps, nextState) {
     if (nextState.submitted) {
-      hashHistory.push('/note');
+      hashHistory.push('/main');
     }
   }
 

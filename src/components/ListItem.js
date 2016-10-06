@@ -4,7 +4,7 @@ import List from './List';
 function getStyles(props, state) {
   const expandIconWidth = props.nestedItems.length ? 18 : 0;
   const styles = {
-    // needed so that ripples will span the entire container
+    // Extra styles so that ripples will span the entire container
     innerDiv: {
       paddingLeft: 22 + props.nestedLevel * 12 - expandIconWidth,
     }
@@ -20,18 +20,19 @@ class ListItem extends Component {
     onClick: PropTypes.func,
     primaryText: PropTypes.string,
     secondaryText: PropTypes.string,
-    selected: PropTypes.bool,
   };
   
   static defaultProps = {
+    className: '',
     initiallyOpen: false,
     nestedItems: [],
     nestedLevel: 1,
     onClick: () => {},
     open: false,
     secondaryText: '',
-    selected: false,
   };
+  
+  static displayName = 'ListItem';
   
   state = {
     open: this.props.open ? this.props.initiallyOpen : this.props.open,
@@ -67,7 +68,6 @@ class ListItem extends Component {
       nestedItems,
       nestedLevel,
       primaryText,
-      selected,
     } = this.props;
     
     const nestedList = nestedItems.length ? (
@@ -96,7 +96,7 @@ class ListItem extends Component {
     
     return (
       <div>
-        <div className={'lea-list-item ' + (selected ? 'selected' : '')}
+        <div className={'lea-list-item ' + this.props.className}
           onClick={this.handleTextClick}
           onDoubleClick={this.handleLeftIconClick}
           style={getStyles(this.props, this.state).innerDiv}

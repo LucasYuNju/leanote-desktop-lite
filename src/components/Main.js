@@ -16,7 +16,7 @@ class Main extends Component {
 
   render() {
     return (
-      <div className="note-page">
+      <div className="main-page">
         <Header />
         <div className="content">
           <Nav />

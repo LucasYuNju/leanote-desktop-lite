@@ -9,7 +9,7 @@ class App extends Component {
       <div className="app">
         <Router history={hashHistory}>
           <Route path="/login" component={Login} />
-          <Route path="/note" component={Main} />
+          <Route path="/main" component={Main} />
         </Router>
       </div>
     );

@@ -1,8 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import ListItem from './ListItem';
-import SelectableList from './SelectableList';
 
-class Notebooks extends Component {
+import List from '../components/List';
+import ListItem from '../components/ListItem';
+import makeSelectable from '../components/makeSelectable';
+
+const SelectableList = makeSelectable(List);
+
+class NesetdList extends Component {
   static propTypes = {
     clearSelection: PropTypes.bool,
     notebooks: PropTypes.object,
@@ -62,4 +66,4 @@ class Notebooks extends Component {
   }
 }
 
-export default Notebooks;
+export default NesetdList;
