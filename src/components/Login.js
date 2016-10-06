@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react';
 
 import { login } from '../actions/UserActions';
 import LoginFormContainer from '../containers/LoginFormContainer';
+import TitleBar from '../components/TitleBar';
 import WindowUtil from '../util/WindowUtil';
 
 class Login extends Component {
@@ -18,12 +19,12 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="login-page title-bar">
+      <TitleBar className="login-page">
         <div className="logo" >
           <img src="images/leanote-icon-en.png" alt="leanote" />
         </div>
         <LoginFormContainer />
-      </div>
+      </TitleBar>
     );
   }
 }

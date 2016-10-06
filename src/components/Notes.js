@@ -16,12 +16,9 @@ class Notes extends Component {
 
   render() {
     return (
-      <main>
-        <div className="note-list">
-          {this.props.notes.map(this.renderNote)}
-        </div>
-        <div className="note-editor" />
-      </main>
+      <div className="note-list">
+        {this.props.notes.map(this.renderNote)}
+      </div>
     );
   }
   

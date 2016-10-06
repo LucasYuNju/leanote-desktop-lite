@@ -4,8 +4,6 @@ import { hashHistory } from 'react-router';
 class LoginForm extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    account: PropTypes.string,
-    password: PropTypes.string,
   };
 
   state = {
@@ -14,7 +12,7 @@ class LoginForm extends React.Component {
   };
 
   componentWillUpdate (nextProps, nextState) {
-    if(nextState.submitted) {
+    if (nextState.submitted) {
       hashHistory.push('/note');
     }
   }
@@ -22,13 +20,13 @@ class LoginForm extends React.Component {
   // Autologin on dev mode.
   componentDidMount() {
     if (process.env.ENV === 'development') {
-      this.props
-        .onSubmit('LucasYuNju@gmail.com', '123456', 'https://leanote.com')
-        .then(() => {
-          this.setState({
-            submitted: true,
-          });
-        });
+      // this.props
+      //   .onSubmit('LucasYuNju@gmail.com', '123456', 'https://leanote.com')
+      //   .then(() => {
+      //     this.setState({
+      //       submitted: true,
+      //     });
+      //   });
     }
   }
 
@@ -38,7 +36,7 @@ class LoginForm extends React.Component {
     });
   };
 
-  handlePasswordChagne = (e) => {
+  handlePasswordChange = (e) => {
     this.setState({
       password: e.target.value
     });
@@ -74,7 +72,7 @@ class LoginForm extends React.Component {
             type="password"
             placeholder="Password"
             value={this.state.password}
-            onChange={this.handlePasswordChagne}
+            onChange={this.handlePasswordChange}
           />
         </div>
         <div className="submit row">
