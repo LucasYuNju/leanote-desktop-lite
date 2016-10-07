@@ -27,6 +27,9 @@
         flex-grow: 1;
         font-weight: normal;
         color: @note-list-color-title;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
       
       .updated-time
@@ -43,7 +46,6 @@
       font-size: 12px;
       color: @note-list-color-snippet;
       
-      // white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
     }
