@@ -6,7 +6,7 @@ import makeSelectable from '../components/makeSelectable';
 
 const SelectableList = makeSelectable(List);
 
-class NesetdList extends Component {
+class Notebooks extends Component {
   static propTypes = {
     clearSelection: PropTypes.bool,
     notebooks: PropTypes.object,
@@ -66,4 +66,4 @@ class NesetdList extends Component {
   }
 }
 
-export default NesetdList;
+export default Notebooks;

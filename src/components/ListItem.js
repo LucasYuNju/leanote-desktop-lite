@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import List from './List';
+import NestedList from './NestedList';
 
 function getStyles(props, state) {
   const expandIconWidth = props.nestedItems.length ? 18 : 0;
   const styles = {
     // Extra styles so that ripples will span the entire container
     innerDiv: {
-      paddingLeft: 22 + props.nestedLevel * 12 - expandIconWidth,
+      paddingLeft: 34 + props.nestedLevel * 12 - expandIconWidth,
     }
   };
   return styles;
@@ -14,43 +14,41 @@ function getStyles(props, state) {
 
 class ListItem extends Component {
   static propTypes = {
-    initiallyOpen: PropTypes.bool,
     nestedItems: PropTypes.arrayOf(PropTypes.element),
     nesetdLevel: PropTypes.number,
     onClick: PropTypes.func,
     primaryText: PropTypes.string,
     secondaryText: PropTypes.string,
   };
-  
+
   static defaultProps = {
     className: '',
-    initiallyOpen: false,
     nestedItems: [],
-    nestedLevel: 1,
+    nestedLevel: 0,
     onClick: () => {},
     open: false,
     secondaryText: '',
   };
-  
+
   static displayName = 'ListItem';
-  
+
   state = {
-    open: this.props.open ? this.props.initiallyOpen : this.props.open,
+    open: this.props.open,
   };
-  
+
   handleLeftIconClick = (event) => {
     this.setState({
       open: !this.state.open,
     });
     event.stopPropagation();
   };
-  
+
   handleTextClick = (event) => {
     if (this.props.onClick) {
       this.props.onClick(event);
     }    
   }
-  
+
   pushElement(children, element, additionalProps) {
     if (element) {
       children.push(
@@ -61,7 +59,7 @@ class ListItem extends Component {
       )
     }
   }
-  
+
   render() {
     const {
       children,
@@ -69,13 +67,13 @@ class ListItem extends Component {
       nestedLevel,
       primaryText,
     } = this.props;
-    
+
     const nestedList = nestedItems.length ? (
-      <List open={this.state.open} nestedLevel={nestedLevel}>
+      <NestedList open={this.state.open} nestedLevel={nestedLevel}>
         {nestedItems}
-      </List>
+      </NestedList>
     ) : undefined;
-    
+
     const contentChildren = [children];
 
     if (nestedItems.length > 0) {
@@ -89,11 +87,11 @@ class ListItem extends Component {
 
     const primaryTextElement = <span className="primary-text">{primaryText}</span>;
     this.pushElement(contentChildren, primaryTextElement);
-    
+
     const styles = {
       paddingLeft: 25,
     }
-    
+
     return (
       <div>
         <div className={'lea-list-item ' + this.props.className}

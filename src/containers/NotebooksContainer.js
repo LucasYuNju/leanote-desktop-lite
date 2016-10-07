@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { fetchNotebooks, selectNotebook } from '../actions/NotebookActions';
-import NesetdList from '../components/NesetdList';
+import Notebooks from '../components/Notebooks';
 
 class NotebooksContainer extends Component {
   static propTypes = {
@@ -23,7 +23,7 @@ class NotebooksContainer extends Component {
 
   render() {
     return (
-      <NesetdList
+      <Notebooks
         notebooks={this.props.notebooks}
         onChange={this.handleListSelect}
         rootId="root"
