@@ -36,14 +36,14 @@ class Notebooks extends Component {
     this.setState({
       selected: value,
     });
-    this.props.onChange(event, value.NotebookId);
+    this.props.onChange(event, value);
   };
 
   renderListItem = (notebook) => {
     return (
       <ListItem
         primaryText={notebook.Title}
-        value={notebook}
+        value={notebook.NotebookId}
         key={notebook.NotebookId}
         nestedItems={notebook.ChildIds.map(childId => this.renderListItem(this.props.notebooks[childId]))}
       />

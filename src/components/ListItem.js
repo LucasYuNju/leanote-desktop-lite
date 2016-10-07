@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 import NestedList from './NestedList';
 
 function getStyles(props, state) {
@@ -22,7 +23,6 @@ class ListItem extends Component {
   };
 
   static defaultProps = {
-    className: '',
     nestedItems: [],
     nestedLevel: 0,
     onClick: () => {},
@@ -30,7 +30,7 @@ class ListItem extends Component {
     secondaryText: '',
   };
 
-  static displayName = 'ListItem';
+  static selectable = true;
 
   state = {
     open: this.props.open,
@@ -63,6 +63,7 @@ class ListItem extends Component {
   render() {
     const {
       children,
+      className,
       nestedItems,
       nestedLevel,
       primaryText,
@@ -94,7 +95,7 @@ class ListItem extends Component {
 
     return (
       <div>
-        <div className={'lea-list-item ' + this.props.className}
+        <div className={classNames('lea-list-item', className)}
           onClick={this.handleTextClick}
           onDoubleClick={this.handleLeftIconClick}
           style={getStyles(this.props, this.state).innerDiv}

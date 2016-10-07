@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/LucasYuNju/leanote-desktop-react#readme",
   "dependencies": {
+    "classnames": "^2.2.5",
     "electron": "^1.4.0",
     "moment": "^2.15.1",
     "nedb": "^1.8.0",

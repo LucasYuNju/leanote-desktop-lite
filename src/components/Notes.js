@@ -1,6 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 
+import List from '../components/List';
+import makeSelectable from '../components/makeSelectable';
 import Note from '../components/Note';
+
+const SelectableList = makeSelectable(List);
 
 class Notes extends Component {
   static propTypes = {
@@ -14,11 +18,25 @@ class Notes extends Component {
     view: 'snippet',
   };
 
+  state = {
+    selected: null,
+  };
+
+  handleNoteSelect = (event, value) => {
+    this.setState({
+      selected: value,
+    });
+  };
+
   render() {
     return (
-      <div className="note-list">
+      <SelectableList
+        className="note-list"
+        onChange={this.handleNoteSelect}
+        value={this.state.selected}
+      >
         {this.props.notes.map(this.renderNote)}
-      </div>
+      </SelectableList>   
     );
   }
   
@@ -27,7 +45,7 @@ class Notes extends Component {
       <Note
         content={note.Content}
         key={note.NoteId}
-        selected={false}
+        value={note.NoteId}
         starred={note.Star}
         title={note.Title}
         updatedTime={note.UpdatedTime}

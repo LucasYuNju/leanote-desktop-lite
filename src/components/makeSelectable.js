@@ -1,4 +1,5 @@
 import React, {Component, Children, PropTypes} from 'react';
+import classNames from 'classnames';
 
 export const makeSelectable = (MyComponent) => {
   return class extends Component {
@@ -9,10 +10,10 @@ export const makeSelectable = (MyComponent) => {
     };
 
     extendChild = (child) => {
-      if (child && child.type && child.type.displayName === 'ListItem') {
+      if (child && child.type && child.type.selectable) {
         const selected = this.isChildSelected(child, this.props);
         const classes = selected ? 'selected' : '';
-
+        
         return React.cloneElement(child, {
           onClick: (event) => {
             this.handleItemClick(event, child);
@@ -20,9 +21,9 @@ export const makeSelectable = (MyComponent) => {
               child.props.onClick(event);
             }
           },
-          className: classes,
+          className: classNames({ selected: selected }),
           key: this.keyIndex++,
-          nestedItems: child.props.nestedItems.map(this.extendChild),
+          nestedItems: Children.map(child.props.nestedItems, this.extendChild),
         });
       } else {
         return child;
