@@ -5,7 +5,7 @@ module.exports = {
   devtool: 'source-map',
 	context: path.resolve("./src"),
   entry: {
-    vendor: [ "babel-polyfill", "react", "react-dom" ],
+    vendor: [ "babel-polyfill" ],
     note: [ "./index.js", "../styles/index.less"]
   },
   output: {
