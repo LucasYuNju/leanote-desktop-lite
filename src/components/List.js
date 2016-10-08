@@ -19,7 +19,7 @@ class List extends Component {
     } = this.props;
 
     return (
-      <div {...others} className={classNames('lea-list', className)}>
+      <div {...others} className={classNames('list', className)}>
         {this.props.children}
       </div>
     );

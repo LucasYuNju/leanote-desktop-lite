@@ -36,9 +36,8 @@ export const makeSelectable = (MyComponent) => {
 
     handleItemClick = (event, item) => {
       const itemValue = item.props.value;
-
-      if (itemValue !== this.props.value) {
-        this.props.onChange(event, itemValue);
+      if (itemValue !== this.props.value && !item.props.nestedItems.length) {
+        this.props.onChange(event, itemValue);          
       }
     };
 

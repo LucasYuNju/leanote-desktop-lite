@@ -5,8 +5,9 @@ import NestedList from './NestedList';
 function getStyles(props, state) {
   const styles = {
     // Extra styles so that ripples will span the entire container
+    // TODO delete
     innerDiv: {
-      paddingLeft: 16 + props.nestedLevel * 12,
+      paddingLeft: props.nestedLevel * 12 + 6,
     }
   };
   return styles;
@@ -34,17 +35,18 @@ class ListItem extends Component {
     open: this.props.open,
   };
 
-  handleLeftIconClick = (event) => {
+  toggleNestedList = (event) => {
     this.setState({
       open: !this.state.open,
     });
     event.stopPropagation();
   };
 
-  handleTextClick = (event) => {
+  handleClick = (event) => {
     if (this.props.onClick) {
       this.props.onClick(event);
-    }    
+    }
+    this.toggleNestedList(event);
   }
 
   pushElement(children, element, additionalProps) {
@@ -67,7 +69,7 @@ class ListItem extends Component {
       nestedLevel,
       text,
     } = this.props;
-    const nested = nestedItems.length > 0;
+    const hasSubList = nestedItems.length > 0;
     
     const contentChildren = [children];
     
@@ -83,26 +85,30 @@ class ListItem extends Component {
     const textElement = <span className="text">{text}</span>;
     this.pushElement(contentChildren, textElement);
     
-    if (nested) {
+    if (hasSubList) {
       const expandIconElement = (
-        <span className="expand-icon" onClick={this.handleLeftIconClick}>
-          <i className={classNames('fa', this.state.open ? 'fa-angle-down' : 'fa-angle-right')} aria-hidden="true"></i>
+        <span className="expand-icon">
+          <i className={classNames('fa', this.state.open ? 'fa-angle-down' : 'fa-angle-left')} aria-hidden="true"></i>
         </span>
       );
       this.pushElement(contentChildren, expandIconElement);
     }
 
-    const nestedElements = nested ? (
-      <NestedList open={this.state.open} nestedLevel={nestedLevel}>
+    const nestedElements = hasSubList ? (
+      <NestedList
+        open={this.state.open}
+        nestedLevel={nestedLevel}
+        className="nested-list"
+      >
         {nestedItems}
       </NestedList>
     ) : undefined;
 
     return (
-      <div>
-        <div className={classNames('lea-list-item', className)}
-          onClick={this.handleTextClick}
-          onDoubleClick={this.handleLeftIconClick}
+      <div className={classNames('list-item', { nested: hasSubList }, className)}>
+        <div
+          className="content"
+          onClick={this.handleClick}
           style={getStyles(this.props, this.state).innerDiv}
         >
           {contentChildren}

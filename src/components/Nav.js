@@ -31,10 +31,13 @@ class Nav extends Component {
   };
   
   renderNotebook = (notebook) => {
+    const hasSublist = notebook.ChildIds.length > 0;
+    const iconClass = hasSublist ? 'fa-folder-o' : 'fa-file-text-o';
+    
     return (
       <ListItem
         key={notebook.NotebookId}
-        iconClass="fa-file-text-o"
+        iconClass={iconClass}
         nestedItems={notebook.ChildIds.map(childId => this.renderNotebook(this.props.notebooks[childId]))}
         text={notebook.Title}
         value={notebook.NotebookId}

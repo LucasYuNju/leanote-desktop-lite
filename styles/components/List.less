@@ -1,4 +1,4 @@
-.lea-list
+.list
 {
   @item-height: 32px;
   
@@ -6,21 +6,29 @@
   width: 100%;
   flex-direction: column;
 
-  div
+  > .list-item 
   {
-    > .lea-list-item
+    &.nested
+    {
+      background: #e9eaea;
+    }
+
+    &.selected
+    {
+      .content
+      {
+        background: @nav-selection-bg;
+        color: white;        
+      }
+    }
+        
+    .content
     {
       height: @item-height;
       line-height: @item-height;
       font-weight: normal;
       display: flex;
-      
-      &.selected
-      {
-        background: @nav-selection-bg;
-        color: white;
-      }
-      
+            
       .icon
       {
         width: 28px;
@@ -44,7 +52,8 @@
       .text
       {
         flex-grow: 1;
-      }      
+      }
     }
   }
+
 }
