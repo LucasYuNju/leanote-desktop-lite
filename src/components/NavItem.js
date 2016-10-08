@@ -22,7 +22,7 @@ class NavItem extends Component {
       contentClicked: false,
     });
   };
-  
+
   handleContentClick = (event) => {
     this.setState({
       contentClicked: true,
@@ -39,7 +39,7 @@ class NavItem extends Component {
     }
     return null;
   }
-  
+
   render() {
     const highlight = this.props.selected && !this.state.contentClicked;
     return (

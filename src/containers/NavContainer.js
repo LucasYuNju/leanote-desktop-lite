@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { fetchNotebooks, selectNotebook } from '../actions/NotebookActions';
-import Notebooks from '../components/Notebooks';
+import Nav from '../components/Nav';
 
-class NotebooksContainer extends Component {
+class NavContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     notebooks: PropTypes.object,
@@ -14,18 +14,25 @@ class NotebooksContainer extends Component {
     this.props.dispatch(fetchNotebooks());
   }
 
-  handleListSelect = (event, notebookId) => {
+  handleNotebookSelect = (event, notebookId) => {
     this.props.dispatch(selectNotebook(notebookId));
-    // this.setState({
-    //   selected: null,
-    // });
+  };
+  
+  handleTagsSelect = (event) => {
+    
+  };
+
+  handleStarredSelect = (event) => {
+    
   };
 
   render() {
     return (
-      <Notebooks
+      <Nav
         notebooks={this.props.notebooks}
-        onChange={this.handleListSelect}
+        onNotebookSelect={this.handleNotebookSelect}
+        onStarredSelect={this.handleStarredSelect}
+        onTagsSelect={this.handleTagsSelect}
         rootId="root"
       />
     );
@@ -38,4 +45,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(NotebooksContainer);
+export default connect(mapStateToProps)(NavContainer);

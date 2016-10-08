@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 
 class List extends Component {
   static propTypes = {
@@ -18,7 +19,7 @@ class List extends Component {
     } = this.props;
 
     return (
-      <div {...others} className={'lea-list ' + className}>
+      <div {...others} className={classNames('lea-list', className)}>
         {this.props.children}
       </div>
     );

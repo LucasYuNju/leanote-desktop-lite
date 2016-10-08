@@ -3,11 +3,10 @@ import classNames from 'classnames';
 import NestedList from './NestedList';
 
 function getStyles(props, state) {
-  const expandIconWidth = props.nestedItems.length ? 18 : 0;
   const styles = {
     // Extra styles so that ripples will span the entire container
     innerDiv: {
-      paddingLeft: 34 + props.nestedLevel * 12 - expandIconWidth,
+      paddingLeft: 16 + props.nestedLevel * 12,
     }
   };
   return styles;
@@ -15,11 +14,11 @@ function getStyles(props, state) {
 
 class ListItem extends Component {
   static propTypes = {
+    iconClass: PropTypes.string,
     nestedItems: PropTypes.arrayOf(PropTypes.element),
     nesetdLevel: PropTypes.number,
     onClick: PropTypes.func,
-    primaryText: PropTypes.string,
-    secondaryText: PropTypes.string,
+    text: PropTypes.string,
   };
 
   static defaultProps = {
@@ -27,7 +26,6 @@ class ListItem extends Component {
     nestedLevel: 0,
     onClick: () => {},
     open: false,
-    secondaryText: '',
   };
 
   static selectable = true;
@@ -56,7 +54,7 @@ class ListItem extends Component {
           key: children.length,
           ...additionalProps,
         })
-      )
+      );
     }
   }
 
@@ -64,34 +62,41 @@ class ListItem extends Component {
     const {
       children,
       className,
+      iconClass,
       nestedItems,
       nestedLevel,
-      primaryText,
+      text,
     } = this.props;
+    const nested = nestedItems.length > 0;
+    
+    const contentChildren = [children];
+    
+    if (iconClass) {
+      const iconElement = (
+        <span className="icon">
+          <i className={classNames('fa', iconClass)} aria-hidden="true"></i>
+        </span>
+      );
+      this.pushElement(contentChildren, iconElement);
+    }
+    
+    const textElement = <span className="text">{text}</span>;
+    this.pushElement(contentChildren, textElement);
+    
+    if (nested) {
+      const expandIconElement = (
+        <span className="expand-icon" onClick={this.handleLeftIconClick}>
+          <i className={classNames('fa', this.state.open ? 'fa-angle-down' : 'fa-angle-right')} aria-hidden="true"></i>
+        </span>
+      );
+      this.pushElement(contentChildren, expandIconElement);
+    }
 
-    const nestedList = nestedItems.length ? (
+    const nestedElements = nested ? (
       <NestedList open={this.state.open} nestedLevel={nestedLevel}>
         {nestedItems}
       </NestedList>
     ) : undefined;
-
-    const contentChildren = [children];
-
-    if (nestedItems.length > 0) {
-      const expandIcon = (
-        <span className="expand-icon" onClick={this.handleLeftIconClick}>
-          <i className={this.state.open ? 'fa fa-angle-down' : 'fa fa-angle-right'} aria-hidden="true"></i>
-        </span>
-      );
-      this.pushElement(contentChildren, expandIcon);
-    }
-
-    const primaryTextElement = <span className="primary-text">{primaryText}</span>;
-    this.pushElement(contentChildren, primaryTextElement);
-
-    const styles = {
-      paddingLeft: 25,
-    }
 
     return (
       <div>
@@ -102,7 +107,7 @@ class ListItem extends Component {
         >
           {contentChildren}
         </div>
-        {nestedList}
+        {nestedElements}
       </div>
     )
   }

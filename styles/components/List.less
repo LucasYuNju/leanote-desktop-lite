@@ -1,6 +1,7 @@
 .lea-list
 {
-  @item-height: 24px;
+  @item-height: 32px;
+  
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -12,6 +13,7 @@
       height: @item-height;
       line-height: @item-height;
       font-weight: normal;
+      display: flex;
       
       &.selected
       {
@@ -19,17 +21,30 @@
         color: white;
       }
       
+      .icon
+      {
+        width: 28px;
+      }
+      
       .expand-icon
       {
-        > .fa
-        {
-          display: inline-block;
-          width: 18px;
-          height: @item-height;
-          line-height: @item-height;
-          text-align: center;                  
-        }
+        width: 28px;
       }
+      
+      .icon, .expand-icon
+      {
+        flex-shrink: 0;
+        font-size: 18px;
+        text-align: center;
+        height: @item-height;
+        line-height: @item-height;
+        margin-right: 2px;
+      }
+      
+      .text
+      {
+        flex-grow: 1;
+      }      
     }
   }
 }
