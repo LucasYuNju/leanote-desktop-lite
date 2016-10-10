@@ -69,7 +69,7 @@ class ListItem extends Component {
       nestedLevel,
       text,
     } = this.props;
-    const hasSubList = nestedItems.length > 0;
+    const hasNestedListItems = nestedItems.length > 0;
     
     const contentChildren = [children];
     
@@ -85,7 +85,7 @@ class ListItem extends Component {
     const textElement = <span className="text">{text}</span>;
     this.pushElement(contentChildren, textElement);
     
-    if (hasSubList) {
+    if (hasNestedListItems) {
       const expandIconElement = (
         <span className="expand-icon">
           <i className={classNames('fa', this.state.open ? 'fa-angle-down' : 'fa-angle-left')} aria-hidden="true"></i>
@@ -94,7 +94,7 @@ class ListItem extends Component {
       this.pushElement(contentChildren, expandIconElement);
     }
 
-    const nestedElements = hasSubList ? (
+    const nestedElements = hasNestedListItems ? (
       <NestedList
         open={this.state.open}
         nestedLevel={nestedLevel}
@@ -104,8 +104,10 @@ class ListItem extends Component {
       </NestedList>
     ) : undefined;
 
+    const classes = classNames('list-item', { folder: hasNestedListItems }, { open:this.state.open }, className);
+
     return (
-      <div className={classNames('list-item', { nested: hasSubList }, className)}>
+      <div className={classes}>
         <div
           className="content"
           onClick={this.handleClick}
