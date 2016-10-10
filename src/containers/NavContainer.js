@@ -45,4 +45,8 @@ function mapStateToProps(state) {
   }
 }
 
+function mapDispatchToProps() {
+  
+}
+
 export default connect(mapStateToProps)(NavContainer);

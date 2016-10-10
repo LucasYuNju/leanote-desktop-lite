@@ -28,6 +28,7 @@ class Nav extends Component {
     this.setState({
       selected: value,
     });
+    this.props.onNotebookSelect(event, value);
   };
   
   renderNotebook = (notebook) => {
