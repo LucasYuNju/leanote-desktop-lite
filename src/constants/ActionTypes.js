@@ -2,6 +2,8 @@
  * note
  */
 export const RECEIVE_NOTES = 'RECEIVE_NOTES';
+export const SELECT_NOTE = 'SELECT_NOTE';
+
 
 /*
  * notebooks

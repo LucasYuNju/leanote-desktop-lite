@@ -1,38 +1,26 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import { fetchNotebooks, selectNotebook } from '../actions/NotebookActions';
+import * as NotebookActionCreators from '../actions/NotebookActions';
 import Nav from '../components/Nav';
 
 class NavContainer extends Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     notebooks: PropTypes.object,
   };
 
   componentDidMount() {
-    this.props.dispatch(fetchNotebooks());
+    this.props.fetchNotebooks();
   }
-
-  handleNotebookSelect = (event, notebookId) => {
-    this.props.dispatch(selectNotebook(notebookId));
-  };
-  
-  handleTagsSelect = (event) => {
-    
-  };
-
-  handleStarredSelect = (event) => {
-    
-  };
 
   render() {
     return (
       <Nav
         notebooks={this.props.notebooks}
-        onNotebookSelect={this.handleNotebookSelect}
-        onStarredSelect={this.handleStarredSelect}
-        onTagsSelect={this.handleTagsSelect}
+        onNotebookSelect={this.props.selectNotebook}
+        onStarredSelect={this.props.selectNotebook}
+        onTagsSelect={this.props.selectNotebook}
         rootId="root"
       />
     );
@@ -45,8 +33,8 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps() {
-  
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(NotebookActionCreators, dispatch);
 }
 
-export default connect(mapStateToProps)(NavContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(NavContainer);

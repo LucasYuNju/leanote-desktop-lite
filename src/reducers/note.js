@@ -1,6 +1,6 @@
 import * as types from '../constants/ActionTypes';
 
-export default function notes(state = [], action) {
+export function notes(state = [], action) {
   switch (action.type) {
     case types.RECEIVE_NOTES:
       if (action.value.length > 0) {
@@ -12,6 +12,17 @@ export default function notes(state = [], action) {
         return Object.assign(newNotes, state);
       }
       return state;
+    default:
+      return state;
+  }
+}
+
+export function selectedNoteId(state = null, action) {
+  switch (action.type) {
+    case types.SELECT_NOTE:
+      if (action.value) {
+        return action.value;
+      }
     default:
       return state;
   }

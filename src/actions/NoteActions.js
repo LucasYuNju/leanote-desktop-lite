@@ -1,5 +1,9 @@
 import * as types from '../constants/ActionTypes';
 
+export function selectNote(noteId) {
+  return { type: types.SELECT_NOTE, noteId };
+}
+
 export function receiveNotes(status, notes) {
   return { type: types.RECEIVE_NOTES, status, value: notes };
 }

@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import Notes from '../components/Notes';
+import * as NoteActionCreators from '../actions/NoteActions';
 
 class NotesContainer extends Component {
   static propTypes = {
@@ -10,7 +12,10 @@ class NotesContainer extends Component {
 
   render() {
     return (
-      <Notes notes={this.props.notes}/>
+      <Notes
+        notes={this.props.notes}
+        onChange={this.props.selectNote}
+      />
     );
   }
 }
@@ -21,13 +26,18 @@ function mapStateToProps(state) {
     notebooks,
     selectedNotebookId,
   } = state;
-  let currentNotes = [];
+  
+  let displayedNotes = [];
   if (selectedNotebookId && notebooks[selectedNotebookId].Notes) {
-    currentNotes = notebooks[selectedNotebookId].Notes.map(noteId => notes[noteId]);
+    displayedNotes = notebooks[selectedNotebookId].Notes.map(noteId => notes[noteId]);
   }
   return {
-    notes: currentNotes,
+    notes: displayedNotes,
   };
 }
 
-export default connect(mapStateToProps)(NotesContainer);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(NoteActionCreators, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotesContainer);

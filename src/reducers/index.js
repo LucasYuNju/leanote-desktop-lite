@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import notes from './note';
+import { notes, selectedNoteId } from './note';
 import { notebooks, selectedNotebookId } from './notebook';
 import user from './user';
 
@@ -33,6 +33,7 @@ state = {
 const rootReducer = combineReducers({
   notes,
   notebooks,
+  selectedNoteId,
   selectedNotebookId,
   user,
 });

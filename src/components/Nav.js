@@ -28,7 +28,10 @@ class Nav extends Component {
     this.setState({
       selected: value,
     });
-    this.props.onNotebookSelect(event, value);
+    if (value !== 'tags' && value !== 'starred') {
+      // notebook selected
+      this.props.onNotebookSelect(value);
+    }
   };
   
   renderNotebook = (notebook) => {
