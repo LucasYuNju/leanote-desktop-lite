@@ -10,7 +10,7 @@ class Notes extends Component {
   static propTypes = {
     initialSelection: PropTypes.number,
     notes: PropTypes.array.isRequired,
-    onChange: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
     view: PropTypes.string,
   };
 
@@ -27,9 +27,7 @@ class Notes extends Component {
     this.setState({
       selected: value,
     });
-    if (this.props.onChange) {
-      this.props.onChange(event, value);
-    }
+    this.props.onChange(value);
   };
 
   render() {
