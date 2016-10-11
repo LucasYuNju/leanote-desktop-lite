@@ -26,6 +26,7 @@ class Note extends Component {
   }
 
   getText(html) {
+    // const div = document.querySelector('#editor');
     const div = document.createElement('div');
     div.innerHTML = html;
     const text = div.textContext || div.innerText || '';

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
+import Editor from '../components/RTEditor';
 import Header from '../components/Header';
 import NavContainer from '../containers/NavContainer';
 import NotesContainer from '../containers/NotesContainer';
@@ -21,6 +22,7 @@ class Main extends Component {
         <div className="content">
           <NavContainer />
           <NotesContainer />
+          <Editor />
         </div>
       </div>
     );

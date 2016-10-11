@@ -29,9 +29,6 @@ class Notes extends Component {
   };
 
   render() {
-    if (this.props.notes.length) {
-      console.log(this.props.notes[0].Content);      
-    }
     return (
       <SelectableList
         className="note-list"
