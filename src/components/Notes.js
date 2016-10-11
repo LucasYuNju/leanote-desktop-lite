@@ -29,6 +29,9 @@ class Notes extends Component {
   };
 
   render() {
+    if (this.props.notes.length) {
+      console.log(this.props.notes[0].Content);      
+    }
     return (
       <SelectableList
         className="note-list"
@@ -39,19 +42,20 @@ class Notes extends Component {
       </SelectableList>   
     );
   }
-  
+
   renderNote(note) {
     return (
       <Note
         content={note.Content}
         key={note.NoteId}
         value={note.NoteId}
+        snippet={note.Abstract}
         starred={note.Star}
         title={note.Title}
         updatedTime={note.UpdatedTime}
       />
     );
-  }  
+  }
 }
 
 export default Notes;

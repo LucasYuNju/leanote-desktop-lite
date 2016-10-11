@@ -25,6 +25,13 @@ class Note extends Component {
     }
   }
 
+  getText(html) {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    const text = div.textContext || div.innerText || '';
+    return text.substring(0, 100);
+  }
+
   render() {
     const {
       content,
@@ -32,7 +39,6 @@ class Note extends Component {
       title,
       updatedTime,
     } = this.props;
-    const snippet = content.substring(0, 60);
     const formattedTime = TimeFormatUtil.fromNow(updatedTime);
     return (
       <div
@@ -43,7 +49,7 @@ class Note extends Component {
           <span className="title">{title}</span>
           <span className="updated-time">{formattedTime}</span>
         </div>
-        <span className="snippet">{snippet}</span>
+        <span className="snippet">{this.getText(content)}</span>
       </div>
     );
   }

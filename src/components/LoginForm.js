@@ -20,13 +20,13 @@ class LoginForm extends React.Component {
   // Autologin on dev mode.
   componentDidMount() {
     if (process.env.ENV === 'development') {
-      // this.props
-      //   .onSubmit('LucasYuNju@gmail.com', '123456', 'https://leanote.com')
-      //   .then(() => {
-      //     this.setState({
-      //       submitted: true,
-      //     });
-      //   });
+      this.props
+        .onSubmit('LucasYuNju@gmail.com', '123456', 'https://leanote.com')
+        .then(() => {
+          this.setState({
+            submitted: true,
+          });
+        });
     }
   }
 
