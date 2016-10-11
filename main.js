@@ -1,9 +1,8 @@
 const electron = require('electron');
-const ipc = electron.ipcMain;
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
-let mainWindow, loginWindow;
+let mainWindow;
 
 function createWindow () {
   mainWindow = new BrowserWindow({

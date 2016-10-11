@@ -13,7 +13,7 @@ class LoginFormContainer extends Component {
   handleFormSubmit = (account, password, host) => {
     return this.props.dispatch(login(account, password, host));
   }
-  
+
   render() {
     return (
       <LoginForm

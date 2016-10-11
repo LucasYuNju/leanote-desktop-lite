@@ -27,8 +27,11 @@ coverage
 build/Release
 
 # Dependency directories
-node_modules
+node_modules/*
 jspm_packages
+
+# temporarily track leanote-service
+!node_modules/a-service
 
 # Optional npm cache directory
 .npm
