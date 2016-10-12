@@ -4,13 +4,14 @@ let mainWindow;
 
 function createWindow () {
   mainWindow = new BrowserWindow({
-    width: 1000,
-    height: 700,
-    titleBarStyle: 'hidden-inset',
+    center: true,
     fullscreenable: false,
-    show: false,
+    width: 1000,
+    height: 660,
+    show: true,
+    titleBarStyle: 'hidden-inset',
   });
-  // 使用loadURL(`http:xxx`)的话，影响renderer process的node模块加载
+  // 使用loadURL(`http:xxx`)的话，影响renderer process加载node模块
   mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
 
   mainWindow.on('closed', function () {

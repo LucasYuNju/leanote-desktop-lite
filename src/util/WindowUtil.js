@@ -7,7 +7,6 @@ class WindowUtil {
       width,
       height,
     } = options;
-    window.hide();
     if (resizable !== undefined && resizable !== null) {
       window.setResizable(resizable);
     }
@@ -15,7 +14,6 @@ class WindowUtil {
       window.setSize(width, height);
     }
     window.center();
-    window.show();
   }
 }
 
