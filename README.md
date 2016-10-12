@@ -3,8 +3,11 @@ In an effort to learn react, this is leanote-desktop-react, a simple Leanote des
 
 # How to run
 
-1. `npm install` 
-> In china, you may need to [switch npm mirror](http://blog.tomyail.com/install-electron-slow-in-china/) before installation.
+1. `npm install`
+
+> If you are in china, you'd better switch mirror before installation:<br>
+> `DEBUG=* ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/" npm install` 
+
 2. `npm run build`
 3. `npm start`
 
