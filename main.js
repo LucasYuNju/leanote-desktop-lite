@@ -6,7 +6,7 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width: 1000,
     height: 700,
-    titleBarStyle: 'hidden',
+    titleBarStyle: 'hidden-inset',
     fullscreenable: false,
     show: false,
   });
