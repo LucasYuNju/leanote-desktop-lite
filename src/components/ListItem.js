@@ -7,7 +7,7 @@ function getStyles(props, state) {
     // Extra styles so that ripples will span the entire container
     // TODO delete
     innerDiv: {
-      paddingLeft: props.nestedLevel * 12 + 6,
+      paddingLeft: props.nestedLevel * 12 + 8,
     }
   };
   return styles;

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as NotebookActionCreators from '../actions/NotebookActions';
-import Nav from '../components/Nav';
+import Notebooks from '../components/Notebooks';
 
 class NavContainer extends Component {
   static propTypes = {
@@ -16,7 +16,7 @@ class NavContainer extends Component {
 
   render() {
     return (
-      <Nav
+      <Notebooks
         notebooks={this.props.notebooks}
         onNotebookSelect={this.props.selectNotebook}
         onStarredSelect={this.props.selectNotebook}

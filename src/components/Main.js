@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import Editor from '../components/RTEditor';
 import Header from '../components/Header';
-import NavContainer from '../containers/NavContainer';
+import Nav from '../components/Nav';
 import NotesContainer from '../containers/NotesContainer';
 import WindowUtil from '../util/WindowUtil';
 
@@ -20,7 +20,7 @@ class Main extends Component {
       <div className="main-page">
         <Header />
         <div className="content">
-          <NavContainer />
+          <Nav />
           <NotesContainer />
           <Editor />
         </div>
