@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import User from '../components/User';
+import Profile from '../components/Profile';
 
 class UserContainer extends Component {
   render() {
@@ -12,7 +12,7 @@ class UserContainer extends Component {
     } = this.props.user.info;
     console.log(this.props.user);
     return (
-      <User username={username} logo={logo} />
+      <Profile username={username} logo={logo} />
     );
   }
 }

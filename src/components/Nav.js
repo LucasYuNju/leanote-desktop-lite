@@ -1,22 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 
 import NotebooksContainer from '../containers/NotebooksContainer';
-import UserContainer from '../containers/UserContainer';
+import ProfileContainer from '../containers/ProfileContainer';
 
 class Nav extends Component {
   static propTypes = {
-    
   };
-  
-  static defaultProps = {
-    
-  };
-  
+
   render() {
     return (
       <div className="nav">
         <NotebooksContainer />
-        <UserContainer />
+        <ProfileContainer />
       </div>
     );
   }
