@@ -1,0 +1,24 @@
+.user-info
+{
+  @item-height: 32px;
+  
+  height: @item-height;
+  display: flex;
+  align-items: center;
+  
+  > img
+  {
+    height: auto;
+    width: auto;
+    max-width: @item-height;
+    max-height: @item-height;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  .name
+  {
+    padding-left: 5px;
+    width: 70px;
+  }
+}

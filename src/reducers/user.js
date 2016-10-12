@@ -6,7 +6,7 @@ export default function user(state = {}, action) {
       if (action.status) {
         if (action.status === 'success') {
           return Object.assign({}, state, {
-            userInfo: action.userInfo,
+            info: action.userInfo,
           });
         }
         else {

@@ -22,12 +22,12 @@ class App extends Component {
         callback();
       });
   };
-  
+
   render() {
     return (
       <div className="app">
         <Router history={hashHistory}>
-          <Redirect from="/" to="/main" />
+          <Redirect from="/" to="/login" />
           <Route path="/login" component={Login} />
           <Route path="/main" onEnter={this.requireAuth} component={Main} />
         </Router>
@@ -37,6 +37,7 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log(state);
   return {};
 }
 

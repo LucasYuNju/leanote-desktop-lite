@@ -27,6 +27,7 @@ state = {
   },
   selectedNotebookId: string,
   selectedNoteId: string,
+  user: {},
 }
  */
 
