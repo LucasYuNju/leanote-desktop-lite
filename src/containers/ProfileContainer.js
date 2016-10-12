@@ -10,7 +10,6 @@ class UserContainer extends Component {
       Username: username,
       Logo: logo,
     } = this.props.user.info;
-    console.log(this.props.user);
     return (
       <Profile username={username} logo={logo} />
     );
