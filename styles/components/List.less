@@ -1,6 +1,8 @@
 .list
 {
   @item-height: 32px;
+  // @folder-border-color: #e4e4e4;
+  @folder-border-color: transparent;
 
   display: flex;
   width: 100%;
@@ -10,7 +12,6 @@
   {
     &.selected
     {
-      border-top: 1px solid @nav-selection-bg;
       
       .content
       {
@@ -43,6 +44,7 @@
 
     > .content
     {
+      color: @nav-color;
       height: @item-height;
       line-height: @item-height;
       font-weight: normal;
@@ -57,7 +59,7 @@
       {
         width: 28px;
         flex-shrink: 0;
-        font-size: 18px;
+        font-size: 16px;
         text-align: center;
         height: @item-height;
         line-height: @item-height;
@@ -73,16 +75,14 @@
 
   > .list-item.folder
   {
-      border-top: 1px solid #e4e4e4;
        
       & + .list-item
       {
-        border-top: 1px solid #e4e4e4;
       }
       
       &.open
       {
-          background: #eceef2;
+          background: @nav-expanded-bg;
       }
   }
 }
