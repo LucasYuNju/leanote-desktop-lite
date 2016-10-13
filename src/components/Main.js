@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import Editor from '../components/RTEditor';
+import Note from '../components/Note';
 import Header from '../components/Header';
 import Nav from '../components/Nav';
 import NoteListContainer from '../containers/NoteListContainer';
@@ -22,7 +22,7 @@ class Main extends Component {
         <div className="content">
           <Nav />
           <NoteListContainer />
-          <Editor />
+          <Note />
         </div>
       </div>
     );

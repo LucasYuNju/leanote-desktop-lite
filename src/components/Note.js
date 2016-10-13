@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import RichTextEditor from 'react-rte';
 
-class RTEditor extends Component {
+class Note extends Component {
   static propTypes = {
     onChange: PropTypes.func
   };
@@ -19,12 +19,15 @@ class RTEditor extends Component {
 
   render () {
     return (
-      <RichTextEditor
-        value={this.state.value}
-        onChange={this.onChange}
-      />
+      <div className="note">
+        <RichTextEditor
+          className="rich-editor"
+          value={this.state.value}
+          onChange={this.onChange}
+        />
+      </div>
     );
   }
 }
 
-export default RTEditor;
+export default Note;
