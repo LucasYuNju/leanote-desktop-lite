@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import Editor from '../components/RTEditor';
 import Header from '../components/Header';
 import Nav from '../components/Nav';
-import NotesContainer from '../containers/NotesContainer';
+import NoteListContainer from '../containers/NoteListContainer';
 import WindowUtil from '../util/WindowUtil';
 
 class Main extends Component {
@@ -21,7 +21,7 @@ class Main extends Component {
         <Header />
         <div className="content">
           <Nav />
-          <NotesContainer />
+          <NoteListContainer />
           <Editor />
         </div>
       </div>

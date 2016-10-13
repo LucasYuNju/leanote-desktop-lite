@@ -2,17 +2,17 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Notes from '../components/Notes';
+import NoteList from '../components/NoteList';
 import * as NoteActionCreators from '../actions/NoteActions';
 
-class NotesContainer extends Component {
+class NoteListContainer extends Component {
   static propTypes = {
     notes: PropTypes.array.isRequired,
   }
 
   render() {
     return (
-      <Notes
+      <NoteList
         notes={this.props.notes}
         onChange={this.props.selectNote}
       />
@@ -40,4 +40,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(NoteActionCreators, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotesContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(NoteListContainer);

@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as NotebookActionCreators from '../actions/NotebookActions';
-import Notebooks from '../components/Notebooks';
+import NotebookList from '../components/NotebookList';
 
-class NavContainer extends Component {
+class NotebookListContainer extends Component {
   static propTypes = {
     notebooks: PropTypes.object,
   };
@@ -16,7 +16,7 @@ class NavContainer extends Component {
 
   render() {
     return (
-      <Notebooks
+      <NotebookList
         notebooks={this.props.notebooks}
         onNotebookSelect={this.props.selectNotebook}
         onStarredSelect={this.props.selectNotebook}
@@ -37,4 +37,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(NotebookActionCreators, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(NotebookListContainer);

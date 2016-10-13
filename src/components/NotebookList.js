@@ -7,7 +7,7 @@ import makeSelectable from '../components/makeSelectable';
 
 const SelectableList = makeSelectable(List);
 
-class Nav extends Component {
+class NotebookList extends Component {
   static propTypes = {
     notebooks: PropTypes.object,
     onNotebookSelect: PropTypes.func.isRequired,
@@ -78,4 +78,4 @@ class Nav extends Component {
   }
 }
 
-export default Nav;
+export default NotebookList;

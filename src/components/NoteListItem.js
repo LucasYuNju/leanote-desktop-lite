@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import TimeFormatUtil from '../util/TimeFormatUtil';
 
-class Note extends Component {
+class NoteListItem extends Component {
   static propTypes = {
     content: PropTypes.string,
     starred: PropTypes.bool,
@@ -56,4 +56,4 @@ class Note extends Component {
   }
 }
 
-export default Note;
+export default NoteListItem;

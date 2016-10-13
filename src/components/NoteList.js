@@ -2,11 +2,11 @@ import React, { Component, PropTypes } from 'react';
 
 import List from '../components/List';
 import makeSelectable from '../components/makeSelectable';
-import Note from '../components/Note';
+import NoteListItem from '../components/NoteListItem';
 
 const SelectableList = makeSelectable(List);
 
-class Notes extends Component {
+class NoteList extends Component {
   static propTypes = {
     initialSelection: PropTypes.number,
     notes: PropTypes.array.isRequired,
@@ -44,7 +44,7 @@ class Notes extends Component {
 
   renderNote(note) {
     return (
-      <Note
+      <NoteListItem
         content={note.Content}
         key={note.NoteId}
         value={note.NoteId}
@@ -57,4 +57,4 @@ class Notes extends Component {
   }
 }
 
-export default Notes;
+export default NoteList;

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import NotebooksContainer from '../containers/NotebooksContainer';
+import NotebookListContainer from '../containers/NotebookListContainer';
 import ProfileContainer from '../containers/ProfileContainer';
 
 class Nav extends Component {
@@ -10,7 +10,7 @@ class Nav extends Component {
   render() {
     return (
       <div className="nav">
-        <NotebooksContainer />
+        <NotebookListContainer />
         <ProfileContainer />
       </div>
     );
