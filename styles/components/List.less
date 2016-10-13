@@ -12,20 +12,21 @@
     
     &.selected
     {
+      border-top: 1px solid @nav-selection-bg; 
       .content
       {
         background: @nav-selection-bg;
-        color: white;        
+        color: white;
       }
     }
-        
+
     .content
     {
       height: @item-height;
       line-height: @item-height;
       font-weight: normal;
       display: flex;
-            
+
       .icon
       {
         width: 28px;
@@ -55,11 +56,11 @@
 
   > .list-item.folder
   {
-      border-top: 1px solid #dedede;
+      border-top: 1px solid #e4e4e4;
       
       & + .list-item
       {
-          border-top: 1px solid #dedede;
+          border-top: 1px solid #e4e4e4;
       }
       
       &.open
