@@ -21,10 +21,6 @@ class NestedList extends Component {
       ...others
     } = this.props;
 
-    if (!open) {
-      return null;
-    }
-
     return (
       <List {...others}>
         {Children.map(children, (child) => {

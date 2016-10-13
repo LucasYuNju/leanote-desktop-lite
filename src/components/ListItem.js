@@ -88,7 +88,7 @@ class ListItem extends Component {
     if (hasNestedListItems) {
       const expandIconElement = (
         <span className="expand-icon">
-          <i className={classNames('fa', this.state.open ? 'fa-angle-down' : 'fa-angle-left')} aria-hidden="true"></i>
+          <i className={'fa fa-angle-left'} aria-hidden="true"></i>
         </span>
       );
       this.pushElement(contentChildren, expandIconElement);
