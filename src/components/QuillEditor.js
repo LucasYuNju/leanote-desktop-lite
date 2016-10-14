@@ -15,13 +15,17 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const quill = new Quill('.editor', {
+    const quill = new Quill('.editor-container', {
       theme: 'snow',
+      placeholder: 'Create a note...',
       modules: {
         toolbar: [
-          [{ header: [1, 2, false] }],
-          ['bold', 'italic', 'underline'],
-          ['image', 'code-block']
+          [{ 'font': [] }],
+          // [{ header: [1, 2, false] }],
+          [{ 'color': [] }, { 'background': [] }],
+          ['bold', 'italic', 'underline', 'align'],
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],          
+          ['code-block', 'link', 'image'],
         ]
       },
     });
@@ -39,8 +43,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="editor" />
-      
+      <div className="editor-container" />
     );
   }
 }
