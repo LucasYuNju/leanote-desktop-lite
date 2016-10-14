@@ -4,19 +4,43 @@
   display: flex;
   flex-direction: column;
   
+  #summernote
+  {
+  }
+  
   // reset summernote styles  
   .note-editor
   {
+    font-family: 'Helvetica Neue', 'Arial', 'Courier New', 'Lucida Sans', 'Tahoma';
     border: none !important;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0 !important;
     
     .note-toolbar
     {
       background: white !important;
+      flex-shrink: 0;
+
+      button
+      {
+        border: none !important;
+      }
     }
     
-    button
+    .note-editing-area
     {
-      border: none !important;
-    }
+      flex-grow: 1;
+      display: flex;
+      // TODO overflow bug
+      overflow-x: scroll;
+      overflow-y: scroll;
+
+      .note-editable
+      {
+        flex-grow: 1;
+      }
+    }    
   }
 }
