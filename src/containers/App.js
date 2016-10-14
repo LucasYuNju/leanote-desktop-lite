@@ -15,7 +15,6 @@ class App extends Component {
   requireAuth = (nextState, replace, callback) => {
     this.props.autologin()
       .then(() => {
-        console.log('autologin succeed');
         callback();
       }, () => {
         replace('/login');

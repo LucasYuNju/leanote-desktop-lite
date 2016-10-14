@@ -1,10 +1,21 @@
 .note
 {
   flex-grow: 1;
-  padding: 6px;
+  display: flex;
+  flex-direction: column;
   
-  .rich-editor
+  .ql-toolbar
   {
     border: none;
+    border-bottom: 1px solid @border-color;
+    padding-bottom: 6px;
+    color: #555;
+  }
+
+  .ql-container
+  {
+    border: none;
+    flex-grow: 1;
+    overflow-y: scroll;
   }
 }

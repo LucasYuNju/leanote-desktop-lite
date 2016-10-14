@@ -1,13 +1,14 @@
 import React, {Component, PropTypes} from 'react';
-import RichTextEditor from 'react-rte';
+
+import QuillEditor from '../components/QuillEditor';
 
 class Note extends Component {
   static propTypes = {
-    onChange: PropTypes.func
+    note: PropTypes.object,
+    onChange: PropTypes.func,
   };
 
   state = {
-    value: RichTextEditor.createEmptyValue()
   }
 
   onChange = (value) => {
@@ -18,13 +19,11 @@ class Note extends Component {
   };
 
   render () {
+    const note = this.props.note;
+    let content = note ? note.Content : '';
     return (
       <div className="note">
-        <RichTextEditor
-          className="rich-editor"
-          value={this.state.value}
-          onChange={this.onChange}
-        />
+        <QuillEditor content={content}/>
       </div>
     );
   }
