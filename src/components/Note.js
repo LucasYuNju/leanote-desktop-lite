@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-import QuillEditor from '../components/QuillEditor';
+import SNEditor from '../components/SNEditor';
 
 class Note extends Component {
   static propTypes = {
@@ -23,7 +23,7 @@ class Note extends Component {
     let content = note ? note.Content : '';
     return (
       <div className="note">
-        <QuillEditor content={content}/>
+        <SNEditor />
       </div>
     );
   }
