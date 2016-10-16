@@ -10,6 +10,7 @@ class Header extends Component {
     return (
       <TitleBar className="header">
         <SearchBox />
+        <SVGIcon svgName="loop-circular" />
       </TitleBar>
     );
   }
