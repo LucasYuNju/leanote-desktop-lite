@@ -84,7 +84,6 @@ class SummernoteEditor extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if (nextProps.value) {
       if (this.props.value !== nextProps.value) {
         this.editor.summernote('code', nextProps.value);        
