@@ -5,16 +5,27 @@ import SummernoteEditor from '../components/SummernoteEditor';
 class Note extends Component {
   static propTypes = {
     note: PropTypes.object,
-    onChange: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
   };
 
   state = {
+    content: '',
   }
 
-  onChange = (value) => {
-    this.setState({value});
-    if (this.props.onChange) {
-      this.props.onChange();
+  handleContentChange = (content) => {
+    this.setState({
+      content,
+    });
+  };
+
+  handleBlur = () => {
+    if (this.props.note) {
+      if (this.props.note.Content != this.state.content) {
+        this.props.onChange({ 
+          NoteId: this.props.note.NoteId,
+          Content: this.state.content,
+        });
+      }      
     }
   };
 
@@ -42,7 +53,7 @@ class Note extends Component {
             link: [],
             air: [],
           },
-          // defaultFontName: 'Helvetica Neue',
+          defaultFontName: 'Helvetica Neue',
           fontNames: [
             'Arial', 'Courier New', 'Helvetica Neue', 'Lucida Sans', 'Tahoma', 'Times New Roman'
           ],
@@ -51,7 +62,8 @@ class Note extends Component {
           ],
           fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36'],
         }}
-        onChange={this.onChange}
+        onBlur={this.handleBlur}
+        onChange={this.handleContentChange}
       />
       </div>
     );

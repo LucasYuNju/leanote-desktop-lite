@@ -2,25 +2,20 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Note from '../components/Note';
+import Header from '../components/Header';
 import * as NoteActionCreators from '../actions/NoteActions';
 
-class NoteContainer extends Component {
+class HeaderContainer extends Component {
   render() {
     return (
-      <Note
-        note={this.props.note}
-        onChange={this.props.updateNote}
+      <Header
+        onSendChange={this.props.sendNotes}
       />
     );
   }
 }
 
 function mapStateToProps(state) {
-  if (state.selectedNoteId) {
-    const note = state.notes[state.selectedNoteId];
-    return { note };
-  }
   return {};
 }
 
@@ -28,4 +23,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(NoteActionCreators, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NoteContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);

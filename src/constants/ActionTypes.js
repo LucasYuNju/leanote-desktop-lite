@@ -4,6 +4,13 @@
 export const RECEIVE_NOTES = 'RECEIVE_NOTES';
 export const SELECT_NOTE = 'SELECT_NOTE';
 
+// update local store
+export const UPDATE_NOTE_REQUESTED = 'UPDATE_NOTE_REQUESTED';
+export const UPDATE_NOTE_SUCCEEDED = 'UPDATE_NOTE_SUCCEEDED';
+export const UPDATE_NOTE_FAILED = 'UPDATE_NOTE_FAILED';
+
+// send local changes to server
+export const SEND_NOTE_CHANGE_REQUESTED = 'SEND_NOTE_CHANGE_REQUESTED';
 
 /*
  * notebooks

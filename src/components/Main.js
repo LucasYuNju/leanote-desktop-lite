@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import Header from '../components/Header';
+import HeaderContainer from '../containers/HeaderContainer';
 import Nav from '../components/Nav';
 import NoteContainer from '../containers/NoteContainer';
 import NoteListContainer from '../containers/NoteListContainer';
@@ -18,7 +18,7 @@ class Main extends Component {
   render() {
     return (
       <div className="main-page">
-        <Header />
+        <HeaderContainer />
         <div className="content">
           <Nav />
           <NoteListContainer />

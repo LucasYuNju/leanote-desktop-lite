@@ -24,3 +24,27 @@ export function fetchNotes(notebookId) {
     });
   }
 }
+
+/**
+ * param change: changed part of note object, only NoteId is required
+ */
+export function updateNote(changedNote) {
+  return (dispatch) => {
+    dispatch({ type: types.UPDATE_NOTE_REQUESTED, note: changedNote });
+    service.note.updateNoteOrContent(changedNote, (result) => {
+      if (result) {
+        dispatch({ type: types.UPDATE_NOTE_SUCCEEDED, note: result });
+      }
+      else {
+        dispatch({ type: types.UPDATE_NOTE_FAILED });        
+      }
+    });
+  }
+}
+
+/**
+ * push changed notes to server
+ */
+export function sendNotes() {
+  
+}
