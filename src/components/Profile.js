@@ -12,7 +12,7 @@ class User extends Component {
 
   // TODO, alt img for user has no avatar.
   static defaultProps = {
-    
+    logo: "http://leanote.com/images/blog/default_avatar.png"
   };
 
   handleClick = (event) => {
