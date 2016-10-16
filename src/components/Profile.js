@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import Menu from '../util/SystemMenu';
 import { hashHistory } from 'react-router';
 
+import Icon from '../components/Icon';
+
 class User extends Component {
   static propTypes = {
     username: PropTypes.string.isRequired,
@@ -31,12 +33,13 @@ class User extends Component {
 
   render() {
     return (
-      <div className="user-info" onClick={this.handleClick}>
+      <div 
+        className="user-info" 
+        onClick={this.handleClick}
+      >
         <img src={this.props.logo} />
         <span className="name">{this.props.username}</span>
-        <span className="icon">
-          <i className="fa fa-angle-down" aria-hidden="true"></i>
-        </span>
+        <Icon iconName="chevron-bottom"/>
       </div>
     );
   }

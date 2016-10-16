@@ -43,11 +43,12 @@ module.exports = {
           ]
       },
       {
-          test: /\.(eot|svg|ttf|woff2?)(\?\w+)?$/i,
+          test: /\.(eot|svg|ttf|otf|woff2?)(\?\w+)?$/i,
           loaders: [
               'file?name=[name]-[sha1:hash:hex:10].[ext]',
           ]
-      },      // {
+      },
+      // {
       //   test: /\.(eot|woff|woff2|ttf|svg)$/,
       //   loader: "file-loader",
       // },

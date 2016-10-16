@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import SVGIcon from '../components/SVGIcon';
+import Icon from '../components/Icon';
 import SearchBox from '../components/SearchBox';
 import TitleBar from '../components/TitleBar';
 
@@ -10,7 +10,7 @@ class Header extends Component {
     return (
       <TitleBar className="header">
         <SearchBox />
-        <SVGIcon svgName="loop-circular" />
+        <Icon iconName="loop-circular" />
       </TitleBar>
     );
   }

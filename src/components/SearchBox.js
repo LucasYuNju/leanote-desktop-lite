@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
+import Icon from '../components/Icon';
+
 class SearchBox extends Component {
   static propTypes = {
     placeholder: PropTypes.string,
@@ -23,9 +25,9 @@ class SearchBox extends Component {
   render() {
     return (
       <div className="search-wrapper">
-        <span className="icon search-icon">
-          <i className="fa fa-search" aria-hidden="true"></i>
-        </span>
+        <Icon
+          iconName="magnifying-glass"
+        />
         <input
           type="search"
           placeholder={this.props.placeholder}

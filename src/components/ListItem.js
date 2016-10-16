@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import NestedList from './NestedList';
 
-import SVGIcon from '../components/SVGIcon';
+import Icon from '../components/Icon';
 
 function getStyles(props, state) {
   const styles = {
@@ -31,6 +31,7 @@ class ListItem extends Component {
     open: false,
   };
 
+  // TODO replace with Proptypes.selected
   static selectable = true;
 
   state = {
@@ -77,7 +78,9 @@ class ListItem extends Component {
     
     if (icon) {
       const iconElement = (
-        <SVGIcon svgName={icon} />
+        <Icon
+          iconName={icon}
+        />
       );
       this.pushElement(contentChildren, iconElement);
     }
@@ -87,9 +90,7 @@ class ListItem extends Component {
     
     if (hasNestedListItems) {
       const expandIconElement = (
-        <span className="expand-icon">
-          <i className={'fa fa-angle-left'} aria-hidden="true"></i>
-        </span>
+        <Icon iconName="chevron-left" className="expand-icon" />
       );
       this.pushElement(contentChildren, expandIconElement);
     }

@@ -1,7 +1,5 @@
+<?xml-stylesheet href="svg-style.css" type="text/css"?>
 <svg xmlns="http://www.w3.org/2000/svg" class="iconic iconic-loop-circular" width="128" height="128" viewBox="0 0 128 128">
-  <style>
-    path { stroke: #333; }
-  </style>
   <g class="iconic-metadata">
     <title>Loop Circular</title>
   </g>

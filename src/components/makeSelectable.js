@@ -12,7 +12,6 @@ export const makeSelectable = (MyComponent) => {
     extendChild = (child) => {
       if (child && child.type && child.type.selectable) {
         const selected = this.isChildSelected(child, this.props);
-        const classes = selected ? 'selected' : '';
         
         return React.cloneElement(child, {
           onClick: (event) => {

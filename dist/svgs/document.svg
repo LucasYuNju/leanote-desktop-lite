@@ -1,7 +1,5 @@
+<?xml-stylesheet href="svg-style.css" type="text/css"?>
 <svg xmlns="http://www.w3.org/2000/svg" class="iconic iconic-document" width="128" height="128" viewBox="0 0 128 128">
-  <style>
-    path { fill: white; }
-  </style>
   <g class="iconic-metadata">
     <title>Document</title>
   </g>
