@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-import ReactSummernote from '../components/ReactSummernote';
+import SummernoteEditor from '../components/SummernoteEditor';
 
 class Note extends Component {
   static propTypes = {
@@ -23,7 +23,7 @@ class Note extends Component {
     let content = note ? note.Content : '';
     return (
       <div className="note">
-      <ReactSummernote
+      <SummernoteEditor
         value={content}
         options={{
           dialogsInBody: true,

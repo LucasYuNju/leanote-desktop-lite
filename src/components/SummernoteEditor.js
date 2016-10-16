@@ -12,7 +12,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'summernote/dist/summernote.css';
 import 'summernote';
 
-class ReactSummernote extends Component {
+class SummernoteEditor extends Component {
   static propTypes = {
     value: PropTypes.string,
     options: PropTypes.object,
@@ -138,4 +138,4 @@ class ReactSummernote extends Component {
   }
 }
 
-export default ReactSummernote;
+export default SummernoteEditor;

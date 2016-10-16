@@ -36,12 +36,12 @@ class NotebookList extends Component {
   
   renderNotebook = (notebook) => {
     const hasSublist = notebook.ChildIds.length > 0;
-    const iconClass = hasSublist ? 'fa-folder-o' : 'fa-file-text-o';
-    
+    const icon = hasSublist ? 'folder' : 'book';
+
     return (
       <ListItem
         key={notebook.NotebookId}
-        iconClass={iconClass}
+        icon={icon}
         nestedItems={notebook.ChildIds.map(childId => this.renderNotebook(this.props.notebooks[childId]))}
         text={notebook.Title}
         value={notebook.NotebookId}
@@ -63,13 +63,13 @@ class NotebookList extends Component {
         <ListItem
           value="tags"
           text="Tags"
-          iconClass="fa-tag"
+          icon="tag"
         >
         </ListItem>
         <ListItem
           value="starred"
           text="Starred"
-          iconClass="fa-star-o"
+          icon="star"
         >
         </ListItem>
         {notebooks[rootNotebookId].ChildIds.map(childId => this.renderNotebook(notebooks[childId]))}

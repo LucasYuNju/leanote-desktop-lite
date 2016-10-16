@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import NestedList from './NestedList';
 
+import SVGIcon from '../components/SVGIcon';
+
 function getStyles(props, state) {
   const styles = {
     // Extra styles so that ripples will span the entire container
@@ -15,7 +17,7 @@ function getStyles(props, state) {
 
 class ListItem extends Component {
   static propTypes = {
-    iconClass: PropTypes.string,
+    icon: PropTypes.string,
     nestedItems: PropTypes.arrayOf(PropTypes.element),
     nesetdLevel: PropTypes.number,
     onClick: PropTypes.func,
@@ -64,7 +66,7 @@ class ListItem extends Component {
     const {
       children,
       className,
-      iconClass,
+      icon,
       nestedItems,
       nestedLevel,
       text,
@@ -73,11 +75,9 @@ class ListItem extends Component {
     
     const contentChildren = [children];
     
-    if (iconClass) {
+    if (icon) {
       const iconElement = (
-        <span className="icon">
-          <i className={classNames('fa', iconClass)} aria-hidden="true"></i>
-        </span>
+        <SVGIcon svgName={icon} />
       );
       this.pushElement(contentChildren, iconElement);
     }
