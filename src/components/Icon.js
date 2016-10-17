@@ -3,20 +3,23 @@ import classNames from 'classnames';
 
 class Icon extends Component {
   static propTypes = {
-    iconName: PropTypes.string.isRequired,
     className: PropTypes.string,
+    iconName: PropTypes.string.isRequired,
+    onClick: PropTypes.func,
     size: PropTypes.number,
   };
 
   static defaultProps = {
+    onClick: () => {},
     size: 16,
   }
 
   render() {
     const {
       className,
-      size,
       iconName,
+      onClick,
+      size,
     } = this.props;
     const useTag = `<use xlink:href="svgs/sprite.svg#${iconName}"></use>`;
     // <img className="iconic iconic-md" src={`svgs/${iconName}.svg`} />
@@ -41,6 +44,7 @@ class Icon extends Component {
       <span
         className={classNames('oi', 'icon', className, iconName + '-icon')}
         data-glyph={iconName}
+        onClick={onClick}
         title="icon name"
         aria-hidden="true"
       />

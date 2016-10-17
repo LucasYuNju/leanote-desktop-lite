@@ -9,7 +9,7 @@ class HeaderContainer extends Component {
   render() {
     return (
       <Header
-        onSendChange={this.props.sendNotes}
+        sendChange={this.props.sendNotes}
       />
     );
   }

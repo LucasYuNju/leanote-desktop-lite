@@ -46,5 +46,5 @@ export function updateNote(changedNote) {
  * push changed notes to server
  */
 export function sendNotes() {
-  
+  return { type: types.SEND_NOTES_REQUESTED };
 }
