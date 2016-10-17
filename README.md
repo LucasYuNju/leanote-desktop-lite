@@ -13,7 +13,8 @@ In an effort to learn react, this is leanote-desktop-react, a simple Leanote des
 
 # How to Develop
 
-1. `npm run dev`
+1. `npm install`
+2. `npm run dev`
 
 # Contribution
 Feedback, issue and pull request are welcomed.
