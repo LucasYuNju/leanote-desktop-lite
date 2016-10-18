@@ -40,7 +40,7 @@ export const makeSelectable = (MyComponent) => {
       } = item.props;
       const hasNestedListItems = nestedItems && nestedItems.length > 0;
       if (value !== this.props.value && !hasNestedListItems) {
-        this.props.onChange(event, value);
+        this.props.onChange(value);
       }      
     };
 

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import List from '../components/List';
 import makeSelectable from '../components/makeSelectable';
@@ -8,38 +9,41 @@ const SelectableList = makeSelectable(List);
 
 class NoteList extends Component {
   static propTypes = {
-    initialSelection: PropTypes.number,
     notes: PropTypes.array.isRequired,
-    onChange: PropTypes.func.isRequired,
+    selectNote: PropTypes.func.isRequired,
+    selectedNoteId: PropTypes.string,
     view: PropTypes.string,
   };
 
   static defaultProps = {
-    initialSelection: 0,
     view: 'snippet',
   };
 
-  state = {
-    selected: null,
-  };
-
-  handleNoteSelect = (event, value) => {
-    this.setState({
-      selected: value,
-    });
-    this.props.onChange(value);
-  };
-
-  render() {
-    return (
-      <SelectableList
-        className="note-list"
-        onChange={this.handleNoteSelect}
-        value={this.state.selected}
-      >
-        {this.props.notes.map(this.renderNote)}
-      </SelectableList>   
-    );
+  
+  componentWillReceiveProps(nextProps) {
+    const notes = this.props.notes;
+    const newNotes = nextProps.notes;
+    let sameList = true;
+    if (notes.length !== newNotes.length) {
+      sameList = false;
+    }
+    for(let i = 0; i < notes.length; i++) {
+      if (notes[i].NoteId !== newNotes[i].NoteId) {
+        sameList = false;
+        break;
+      }
+    }
+    // TODO need sort here? use shllowCompare instead.
+    // console.log(sameList, shallowCompare(this, nextProps, this.state));
+    if (!sameList) {
+      let selected = null;
+      if (newNotes.length) {
+        this.props.selectNote(newNotes[0].NoteId);
+      }
+      else {
+        this.props.selectNote(null);
+      }
+    }
   }
 
   renderNote(note) {
@@ -53,6 +57,23 @@ class NoteList extends Component {
         title={note.Title}
         updatedTime={note.UpdatedTime}
       />
+    );
+  }
+
+  render() {
+    const {
+      notes,
+      selectNote,
+      selectedNoteId,
+    } = this.props;
+    return (
+      <SelectableList
+        className="note-list"
+        onChange={selectNote}
+        value={selectedNoteId}
+      >
+        {notes.map(this.renderNote)}
+      </SelectableList>   
     );
   }
 }

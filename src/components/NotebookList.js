@@ -24,7 +24,7 @@ class NotebookList extends Component {
     selected: null,
   };
 
-  handleItemSelect = (event, value) => {
+  handleItemSelect = (value) => {
     this.setState({
       selected: value,
     });

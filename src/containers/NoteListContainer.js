@@ -6,16 +6,9 @@ import NoteList from '../components/NoteList';
 import * as NoteActionCreators from '../actions/NoteActions';
 
 class NoteListContainer extends Component {
-  static propTypes = {
-    notes: PropTypes.array.isRequired,
-  }
-
   render() {
     return (
-      <NoteList
-        notes={this.props.notes}
-        onChange={this.props.selectNote}
-      />
+      <NoteList {...this.props} />
     );
   }
 }
@@ -24,6 +17,7 @@ function mapStateToProps(state) {
   const {
     notes,
     notebooks,
+    selectedNoteId,
     selectedNotebookId,
   } = state;
   
@@ -33,6 +27,7 @@ function mapStateToProps(state) {
   }
   return {
     notes: displayedNotes,
+    selectedNoteId,
   };
 }
 
