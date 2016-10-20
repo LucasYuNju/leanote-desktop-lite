@@ -33,7 +33,7 @@ class NotebookList extends Component {
       this.props.onNotebookSelect(value);
     }
   };
-  
+
   renderNotebook = (notebook) => {
     const hasSublist = notebook.ChildIds.length > 0;
     const icon = hasSublist ? 'folder' : 'document';

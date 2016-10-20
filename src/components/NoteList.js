@@ -19,31 +19,31 @@ class NoteList extends Component {
     view: 'snippet',
   };
 
-  
+
   componentWillReceiveProps(nextProps) {
-    const notes = this.props.notes;
-    const newNotes = nextProps.notes;
-    let sameList = true;
-    if (notes.length !== newNotes.length) {
-      sameList = false;
-    }
-    for(let i = 0; i < notes.length; i++) {
-      if (notes[i].NoteId !== newNotes[i].NoteId) {
-        sameList = false;
-        break;
-      }
-    }
-    // TODO need sort here? use shllowCompare instead.
-    // console.log(sameList, shallowCompare(this, nextProps, this.state));
-    if (!sameList) {
-      let selected = null;
-      if (newNotes.length) {
-        this.props.selectNote(newNotes[0].NoteId);
-      }
-      else {
-        this.props.selectNote(null);
-      }
-    }
+    // const notes = this.props.notes;
+    // const newNotes = nextProps.notes;
+    // let sameList = true;
+    // if (notes.length !== newNotes.length) {
+    //   sameList = false;
+    // }
+    // for(let i = 0; i < notes.length; i++) {
+    //   if (notes[i].NoteId !== newNotes[i].NoteId) {
+    //     sameList = false;
+    //     break;
+    //   }
+    // }
+    // // TODO need sort here? use shllowCompare instead.
+    // // console.log(sameList, shallowCompare(this, nextProps, this.state));
+    // if (!sameList) {
+    //   let selected = null;
+    //   if (newNotes.length) {
+    //     this.props.selectNote(newNotes[0].NoteId);
+    //   }
+    //   else {
+    //     this.props.selectNote(null);
+    //   }
+    // }
   }
 
   renderNote(note) {
@@ -73,7 +73,7 @@ class NoteList extends Component {
         value={selectedNote}
       >
         {notes.map(this.renderNote)}
-      </SelectableList>   
+      </SelectableList>
     );
   }
 }
