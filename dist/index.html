@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <script>
+    // tmp solution to enable dev mode on windows
+    // process.env.ENV = 'development'
     const link = document.createElement('link');
     const url = process.env.ENV === 'development' ? 'http://localhost:3000/assets' : './assets';
     link.rel = 'stylesheet';
