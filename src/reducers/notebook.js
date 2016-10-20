@@ -41,7 +41,7 @@ export function notebooks(state = initialState, action) {
   }
 }
 
-export function selectedNotebookId(state = null, action) {
+export function selectedNotebook(state = null, action) {
   switch (action.type) {
     case types.SELECT_NOTEBOOK:
       if (action.value) {

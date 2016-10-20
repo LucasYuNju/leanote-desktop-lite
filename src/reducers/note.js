@@ -30,11 +30,22 @@ export function notes(state = {}, action) {
   }
 }
 
-export function selectedNoteId(state = null, action) {
+export function selectedNote(state = null, action) {
   switch (action.type) {
     case types.SELECT_NOTE:
       if (action.value) {
         return action.value;
+      }
+    default:
+      return state;
+  }
+}
+
+export function displayedNotes(state = [], action) {
+  switch (action.type) {
+    case types.DISPLAY_NOTES:
+      if (action.value) {
+          return [...value];
       }
     default:
       return state;

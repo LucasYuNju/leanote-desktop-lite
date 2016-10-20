@@ -17,17 +17,17 @@ function mapStateToProps(state) {
   const {
     notes,
     notebooks,
-    selectedNoteId,
-    selectedNotebookId,
+    selectedNote,
+    selectedNotebook,
   } = state;
   
-  let displayedNotes = [];
-  if (selectedNotebookId && notebooks[selectedNotebookId].Notes) {
-    displayedNotes = notebooks[selectedNotebookId].Notes.map(noteId => notes[noteId]);
+  let activeNotes = [];
+  if (selectedNotebook && notebooks[selectedNotebook].Notes) {
+    activeNotes = notebooks[selectedNotebook].Notes.map(noteId => notes[noteId]);
   }
   return {
-    notes: displayedNotes,
-    selectedNoteId,
+    notes: activeNotes,
+    selectedNote,
   };
 }
 

@@ -11,7 +11,7 @@ class NoteList extends Component {
   static propTypes = {
     notes: PropTypes.array.isRequired,
     selectNote: PropTypes.func.isRequired,
-    selectedNoteId: PropTypes.string,
+    selectedNote: PropTypes.string,
     view: PropTypes.string,
   };
 
@@ -64,13 +64,13 @@ class NoteList extends Component {
     const {
       notes,
       selectNote,
-      selectedNoteId,
+      selectedNote,
     } = this.props;
     return (
       <SelectableList
         className="note-list"
         onChange={selectNote}
-        value={selectedNoteId}
+        value={selectedNote}
       >
         {notes.map(this.renderNote)}
       </SelectableList>   

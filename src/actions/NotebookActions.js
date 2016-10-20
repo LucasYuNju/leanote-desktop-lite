@@ -15,9 +15,8 @@ export function fetchNotebooks() {
 
 export function selectNotebook(notebookId) {
   return (dispatch) => {
-    // TODO 时序先后问题
     dispatch(fetchNotes(notebookId)).then(() => {
-      dispatch({ type: types.SELECT_NOTEBOOK, value: notebookId });      
+      dispatch({ type: types.SELECT_NOTEBOOK, value: notebookId });
     });
   }
 }
