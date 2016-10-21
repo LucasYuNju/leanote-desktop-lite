@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import immutable from 'immutable';
 
 import List from '../components/List';
 import makeSelectable from '../components/makeSelectable';
@@ -12,6 +11,7 @@ class NoteList extends Component {
     notes: PropTypes.array.isRequired,
     selectNote: PropTypes.func.isRequired,
     selectedNote: PropTypes.object,
+    selectedNoteList: PropTypes.object.isRequired,
     view: PropTypes.string,
   };
 
@@ -19,16 +19,23 @@ class NoteList extends Component {
     view: 'snippet',
   };
 
-  componentWillReceiveProps(nextProps) {
-    const prevNotes = immutable.fromJS(this.props.notes);
-    const nextNotes = immutable.fromJS(nextProps.notes);
-    if (!immutable.is(prevNotes, nextNotes)) {
-      if (nextProps.notes.length ) {
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.selectedNoteList.type === nextProps.selectedNoteList.type 
+    && this.props.selectedNoteList.id === nextProps.selectedNoteList.id) {
+      return true;
+    }
+    else {
+      // Switched to a new note list, select first note by default.
+      if (nextProps.notes.length) {
         this.props.selectNote(nextProps.notes[0].NoteId);
       }
+      else {
+        this.props.selectNote(null);
+      }
+      return false;
     }
   }
-  
+
   renderNote(note) {
     return (
       <NoteListItem
@@ -43,7 +50,7 @@ class NoteList extends Component {
     );
   }
 
-  render() {    
+  render() {
     const {
       notes,
       selectNote,

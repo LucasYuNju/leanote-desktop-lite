@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import { bindActionCreators, reselect } from 'redux';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 import NoteList from '../components/NoteList';
 import * as NoteActionCreators from '../actions/NoteActions';
@@ -27,7 +27,8 @@ function mapStateToProps(state) {
   const selectedNote = note.selected ? index.note[note.selected] : null;
   return {
     notes: displayedNotes,
-    selectedNote
+    selectedNote,
+    selectedNoteList: noteList.selected,
   };
 }
 

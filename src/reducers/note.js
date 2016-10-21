@@ -17,12 +17,10 @@ export default function note(state = initialState, action) {
         [mergedNote.NoteId]: mergedNote,
       };
     case types.SELECT_NOTE:
-      if (action.noteId) {
-        return {
-          ...state,
-          selected: action.noteId,
-        };
-      }
+      return {
+        ...state,
+        selected: action.noteId,
+      };
       return state;
     default:
       return state;

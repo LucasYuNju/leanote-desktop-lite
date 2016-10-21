@@ -21,7 +21,9 @@ function mapStateToProps(state) {
     const note = state.index.note[state.note.selected];
     return { note };
   }
-  return {};
+  return {
+    note: null,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
