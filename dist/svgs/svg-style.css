@@ -1,9 +1,0 @@
-svg { 
-  fill: #777;
-}
-
-svg.selected {
-  fill: white;
-}
-
-path { fill: #777; }
