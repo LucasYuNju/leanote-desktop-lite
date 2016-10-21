@@ -1,20 +1,11 @@
 import * as types from '../constants/ActionTypes';
 
-export function notes(state = {}, action) {
+const initialState = {
+  selected: null,
+}
+
+export default function note(state = initialState, action) {
   switch (action.type) {
-    case types.RECEIVE_NOTES:
-      if (action.value.length > 0) {
-        const notebookId = action.value[0].notebookId;
-        const newNotes = {};
-        action.value.forEach(note => {
-          newNotes[note.NoteId] = note;
-        });
-        return {
-          ...newNotes,
-          ...state,
-        }
-      }
-      return state;
     case types.UPDATE_NOTE_SUCCEEDED:
       const note = state[action.note.NoteId]
       const mergedNote = {
@@ -24,29 +15,15 @@ export function notes(state = {}, action) {
       return {
         ...state,
         [mergedNote.NoteId]: mergedNote,
-      }
-    default:
-      return state;
-  }
-}
-
-export function selectedNote(state = null, action) {
-  switch (action.type) {
+      };
     case types.SELECT_NOTE:
       if (action.value) {
-        return action.value;
+        return {
+          ...state,
+          selected: action.value,
+        };
       }
-    default:
       return state;
-  }
-}
-
-export function displayedNotes(state = [], action) {
-  switch (action.type) {
-    case types.DISPLAY_NOTES:
-      if (action.value) {
-          return [...value];
-      }
     default:
       return state;
   }

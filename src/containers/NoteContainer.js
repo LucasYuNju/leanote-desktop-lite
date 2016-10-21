@@ -17,8 +17,8 @@ class NoteContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  if (state.selectedNote) {
-    const note = state.notes[state.selectedNote];
+  if (state.note.selected) {
+    const note = state.index.note[state.note.selected];
     return { note };
   }
   return {};

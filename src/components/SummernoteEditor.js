@@ -26,7 +26,7 @@ class SummernoteEditor extends Component {
     onChange: PropTypes.func,
     onImageUpload: PropTypes.func
   };
-  
+
   reset = () => {
     this.editor.summernote('reset');
   };
@@ -76,9 +76,9 @@ class SummernoteEditor extends Component {
 
     this.editor = $(`#summernote`);
     this.editor.summernote(options);
-    this.manageModalScroll(true);    
+    this.manageModalScroll(true);
     $('.note-statusbar').hide();
-    
+
     this.fixFontName();
     this.fixFontSize();
   }
@@ -86,7 +86,7 @@ class SummernoteEditor extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.value) {
       if (this.props.value !== nextProps.value) {
-        this.editor.summernote('code', nextProps.value);        
+        this.editor.summernote('code', nextProps.value);
       }
     }
   }

@@ -28,8 +28,9 @@ class NotebookListContainer extends Component {
 }
 
 function mapStateToProps(state) {
+  // TODO return array here
   return {
-    notebooks: state.notebooks,
+    notebooks: state.index.notebook,
   }
 }
 

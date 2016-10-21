@@ -15,19 +15,18 @@ class NoteListContainer extends Component {
 
 function mapStateToProps(state) {
   const {
-    notes,
-    notebooks,
-    selectedNote,
-    selectedNotebook,
+    index,
+    note,
+    noteList,
   } = state;
-  
-  let activeNotes = [];
-  if (selectedNotebook && notebooks[selectedNotebook].Notes) {
-    activeNotes = notebooks[selectedNotebook].Notes.map(noteId => notes[noteId]);
+
+  let displayedNotes = [];
+  if (noteList.selected && noteList.selected.type === 'notebook') {
+    displayedNotes = index.notebook[noteList.selected.id].NoteIds.map(noteId => index.note[noteId]);
   }
   return {
-    notes: activeNotes,
-    selectedNote,
+    notes: displayedNotes,
+    selectedNote: note.selected,
   };
 }
 
