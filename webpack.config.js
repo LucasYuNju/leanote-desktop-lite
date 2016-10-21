@@ -36,30 +36,22 @@ module.exports = {
         loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader"),
       },
       {
-          test: /\.(jpe?g|png|gif|svg)$/i,
-          loaders: [
-              'url?limit=2048&name=[name]-[sha1:hash:hex:10].[ext]', // Inline images if they're less than 2 KiB
-              //'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
-          ]
+        test: /\.(eot|svg|ttf|otf|woff2?)(\?\w+)?$/i,
+        loaders: [
+          'file?name=[name]-[sha1:hash:hex:10].[ext]',
+        ]
       },
-      {
-          test: /\.(eot|svg|ttf|otf|woff2?)(\?\w+)?$/i,
-          loaders: [
-              'file?name=[name]-[sha1:hash:hex:10].[ext]',
-          ]
-      },
-      // {
-      //   test: /\.(eot|woff|woff2|ttf|svg)$/,
-      //   loader: "file-loader",
-      // },
 		]
 	},
+  resolve: {
+    extensions: ['', '.js', '.jsx', '.css'] 
+  },
   plugins: [
-      new webpack.ProvidePlugin({
-        $: "jquery",
-        jQuery: "jquery"
-      }),
-      new ExtractTextPlugin("[name]/bundle.css")
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
+    }),
+    new ExtractTextPlugin("[name]/bundle.css")
   ],
   target: "electron"
 };
