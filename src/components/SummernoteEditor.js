@@ -14,6 +14,7 @@ import 'summernote';
 
 class SummernoteEditor extends Component {
   static propTypes = {
+    className: PropTypes.string,
     value: PropTypes.string,
     options: PropTypes.object,
     onInit: PropTypes.func,
@@ -91,12 +92,14 @@ class SummernoteEditor extends Component {
     }
   }
 
-  shouldComponentUpdate() {
+  shouldComponentUpdate(nextProps, nextState) {
     return false;
   }
 
   componentWillUnmount() {
-    if (this.editor) this.editor.summernote('destroy');
+    if (this.editor) {
+      this.editor.summernote('destroy');
+    }
     this.manageModalScroll(false);
   }
 
@@ -133,7 +136,14 @@ class SummernoteEditor extends Component {
   }
 
   render() {
-    return <div id="summernote" dangerouslySetInnerHTML={{ __html: this.props.value }}></div>;
+    return (
+      <div className="editor">
+        <div
+          id="summernote"
+          dangerouslySetInnerHTML={{ __html: this.props.value }}
+        />
+      </div>
+    );
   }
 }
 

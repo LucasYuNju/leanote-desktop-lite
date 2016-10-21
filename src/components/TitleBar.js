@@ -14,7 +14,7 @@ class TitleBar extends Component {
   handleDoubleClick = (event) => {
     if (event.target === event.currentTarget) {
       const window = remote.getCurrentWindow();
-      window.minimize();      
+      window.minimize();
     }
   };
 
