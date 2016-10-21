@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import immutable from 'immutable';
 
 import List from '../components/List';
 import makeSelectable from '../components/makeSelectable';
@@ -20,31 +20,15 @@ class NoteList extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    // const notes = this.props.notes;
-    // const newNotes = nextProps.notes;
-    // let sameList = true;
-    // if (notes.length !== newNotes.length) {
-    //   sameList = false;
-    // }
-    // for(let i = 0; i < notes.length; i++) {
-    //   if (notes[i].NoteId !== newNotes[i].NoteId) {
-    //     sameList = false;
-    //     break;
-    //   }
-    // }
-    // // TODO need sort here? use shllowCompare instead.
-    // // console.log(sameList, shallowCompare(this, nextProps, this.state));
-    // if (!sameList) {
-    //   let selected = null;
-    //   if (newNotes.length) {
-    //     this.props.selectNote(newNotes[0].NoteId);
-    //   }
-    //   else {
-    //     this.props.selectNote(null);
-    //   }
-    // }
+    const prevNotes = immutable.fromJS(this.props.notes);
+    const nextNotes = immutable.fromJS(nextProps.notes);
+    if (!immutable.is(prevNotes, nextNotes)) {
+      if (nextProps.notes.length ) {
+        this.props.selectNote(nextProps.notes[0].NoteId);
+      }
+    }
   }
-
+  
   renderNote(note) {
     return (
       <NoteListItem
@@ -59,7 +43,7 @@ class NoteList extends Component {
     );
   }
 
-  render() {
+  render() {    
     const {
       notes,
       selectNote,

@@ -11,9 +11,9 @@ function flattern(res, notebook) {
 function note(state = {}, action) {
   switch (action.type) {
     case types.RECEIVE_NOTES:
-      if (action.value.length > 0) {
+      if (action.notes.length > 0) {
         const notes = {};
-        action.value.forEach(note => {
+        action.notes.forEach(note => {
           notes[note.NoteId] = note;
         })
         return {
@@ -46,13 +46,24 @@ const initialNotebook = {
 function notebook(state = initialNotebook, action) {
   switch (action.type) {
     case types.RECEIVE_NOTES:
-      if (action.value.length > 0) {
-        // FIXME modify state directly
-        const notebookId = action.value[0].NotebookId;
-        const notebook = state[notebookId];
-        notebook.NoteIds = action.value.map(note => note.NoteId);
+      const notebook = state[action.notebookId];
+      if (action.notes.length > 0) {
+        const newNotebook = {
+          ...notebook,
+          NoteIds: action.notes.map(note => note.NoteId),
+        }
+        return {
+          ...state,
+          [action.notebookId]: newNotebook,
+        }
       }
-      return state;
+      return {
+        ...state,
+        [action.notebookId]: {
+          ...notebook,
+          NoteIds: [],
+        },
+      };
     case types.RECEIVE_NOTEBOOKS:
       if (action.value) {
         const result = {};
