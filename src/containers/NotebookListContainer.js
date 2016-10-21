@@ -6,31 +6,24 @@ import * as NotebookActionCreators from '../actions/NotebookActions';
 import NotebookList from '../components/NotebookList';
 
 class NotebookListContainer extends Component {
-  static propTypes = {
-    notebooks: PropTypes.object,
-  };
-
   componentDidMount() {
     this.props.fetchNotebooks();
   }
 
   render() {
     return (
-      <NotebookList
-        notebooks={this.props.notebooks}
-        onNotebookSelect={this.props.selectNotebook}
-        onStarredSelect={this.props.selectNotebook}
-        onTagsSelect={this.props.selectNotebook}
-        rootId="root"
-      />
+      <NotebookList {...this.props} />
     );
   }
 }
 
 function mapStateToProps(state) {
-  // TODO return array here
+  const {
+    index
+  } = state;
   return {
-    notebooks: state.index.notebook,
+    rootNotebook: index.notebook.root,
+    index,
   }
 }
 

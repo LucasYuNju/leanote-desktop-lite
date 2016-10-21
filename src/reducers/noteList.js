@@ -1,7 +1,7 @@
 import * as types from '../constants/ActionTypes';
 
 const initialState = {
-  selected: null,
+  selected: {},
 }
 
 export default function noteList(state = initialState, action) {

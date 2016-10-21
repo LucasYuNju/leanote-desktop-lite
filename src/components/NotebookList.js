@@ -9,15 +9,12 @@ const SelectableList = makeSelectable(List);
 
 class NotebookList extends Component {
   static propTypes = {
-    notebooks: PropTypes.object,
-    onNotebookSelect: PropTypes.func.isRequired,
-    onStarredSelect: PropTypes.func.isRequired,
-    onTagsSelect: PropTypes.func.isRequired,
+    index: PropTypes.object.isRequired,
+    rootNotebook: PropTypes.object.isRequired,
+    selectNotebook: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    notebooks: [],
-    rootNotebookId: 'root',
   };
 
   state = {
@@ -29,8 +26,7 @@ class NotebookList extends Component {
       selected: value,
     });
     if (value !== 'tags' && value !== 'starred') {
-      // notebook selected
-      this.props.onNotebookSelect(value);
+      this.props.selectNotebook(value);
     }
   };
 
@@ -42,7 +38,7 @@ class NotebookList extends Component {
       <ListItem
         key={notebook.NotebookId}
         icon={icon}
-        nestedItems={notebook.ChildIds.map(childId => this.renderNotebook(this.props.notebooks[childId]))}
+        nestedItems={notebook.ChildIds.map(notebookId => this.renderNotebook(this.props.index.notebook[notebookId]))}
         text={notebook.Title}
         value={notebook.NotebookId}
       />
@@ -51,8 +47,8 @@ class NotebookList extends Component {
 
   render() {
     const {
-      notebooks,
-      rootNotebookId,
+      index,
+      rootNotebook,
     } = this.props;
     return (
       <SelectableList
@@ -72,7 +68,7 @@ class NotebookList extends Component {
           icon="star"
         >
         </ListItem>
-        {notebooks[rootNotebookId].ChildIds.map(childId => this.renderNotebook(notebooks[childId]))}
+        {rootNotebook.ChildIds.map(notebookId => this.renderNotebook(index.notebook[notebookId]))}
       </SelectableList>
     );
   }

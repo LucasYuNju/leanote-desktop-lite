@@ -21,12 +21,13 @@ function mapStateToProps(state) {
   } = state;
 
   let displayedNotes = [];
-  if (noteList.selected && noteList.selected.type === 'notebook') {
+  if (noteList.selected.type === 'notebook') {
     displayedNotes = index.notebook[noteList.selected.id].NoteIds.map(noteId => index.note[noteId]);
   }
+  const selectedNote = note.selected ? index.note[note.selected] : null;
   return {
     notes: displayedNotes,
-    selectedNote: note.selected,
+    selectedNote
   };
 }
 
