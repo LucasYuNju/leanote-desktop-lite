@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 
 const remote = require('electron').remote;
 
@@ -23,9 +24,11 @@ class TitleBar extends Component {
       children,
       className,
     } = this.props;
-    const classes = className + ' title-bar';
     return (
-      <div className={classes} onDoubleClick={this.handleDoubleClick}>
+      <div 
+        className={classNames('title-bar', className)} 
+        onDoubleClick={this.handleDoubleClick}
+      >
         {children}
       </div>
     );

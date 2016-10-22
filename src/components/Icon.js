@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
+import 'open-iconic/font/css/open-iconic.css';
+
 class Icon extends Component {
   static propTypes = {
     className: PropTypes.string,
