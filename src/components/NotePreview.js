@@ -2,7 +2,7 @@ import marked from 'marked';
 
 import React, { Component, PropTypes } from 'react';
 
-class MarkdownPreview extends Component {
+class NotePreview extends Component {
   static propTypes = {
     value: PropTypes.string,
   };
@@ -15,11 +15,11 @@ class MarkdownPreview extends Component {
     const htmlContent = marked(this.props.value);
     return (
       <div
-        className="markdown-preview"
+        className="note-preview"
         dangerouslySetInnerHTML={{ __html: htmlContent }}
       />
     );
   }
 }
 
-export default MarkdownPreview;
+export default NotePreview;

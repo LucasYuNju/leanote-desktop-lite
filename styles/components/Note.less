@@ -1,37 +1,29 @@
 .note
 {
   flex-grow: 1;
+  display: flex;
+  min-width: 0;
+  // important. By default, flex items won't shrink below their minimum content size.
   
   &.editing
   {
-    .editor
-    {
-      display: flex;
-    }
-  
-    .markdown-preview
+    .note-preview
     {
       display: none;
     }
   }
-  
+
   &.previewing
   {
-    .editor
+    .note-editor
     {
       display: none;
     }
-
-    .markdown-preview
-    {
-      display: flex;
-    }
   }
-  
-  .markdown-preview
+
+  .note-preview
   {
-    width: 100%;
-    height: 100%;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     padding: 10px;
@@ -40,50 +32,38 @@
     overflow-y: scroll;
   }
 
-  .editor
+  // reset summernote styles  
+  .note-editor
   {
-    width: 100%;
-    height: 100%;
+    font-family: 'Helvetica Neue', 'Arial', 'Courier New', 'Lucida Sans', 'Tahoma';
+    border: none;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    padding: 6px 12px 6px 12px;
+    margin-bottom: 0;
+    min-width: 0;
+    padding: 6px 0 6px 0;
     
-    // reset summernote styles  
-    .note-editor
+    .note-toolbar
     {
-      font-family: 'Helvetica Neue', 'Arial', 'Courier New', 'Lucida Sans', 'Tahoma';
-      border: none !important;
+      background: white !important;
+      padding: 0 12px 0 12px;
+      border-bottom: 1px solid @border-color;
+      width: 600px;
+
+      button
+      {
+        border: none !important;
+      }
+    }
+
+    .note-editing-area
+    {
       flex-grow: 1;
       display: flex;
-      flex-direction: column;
-      margin-bottom: 0 !important;
-      
-      .note-toolbar
-      {
-        background: white !important;
-        flex-shrink: 0;
-        padding: 0;
-        border-bottom: 1px solid @border-color;
-
-        button
-        {
-          border: none !important;
-        }
-      }
-
-      .note-editing-area
-      {
-        flex-grow: 1;
-        display: flex;
-        // TODO overflow bug
-        overflow-x: scroll;
-        overflow-y: scroll;
-
-        .note-editable
-        {
-          flex-grow: 1;
-        }
-      }
+      padding: 0 12px 0 12px;
+      overflow-x: scroll;
+      overflow-y: scroll;
     }
   }
 }

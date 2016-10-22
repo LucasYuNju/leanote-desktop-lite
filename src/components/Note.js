@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
 import SummernoteEditor from '../components/SummernoteEditor';
-import MarkdownPreview from '../components/MarkdownPreview';
+import NotePreview from '../components/NotePreview';
 
 class Note extends Component {
   static propTypes = {
@@ -72,7 +72,7 @@ class Note extends Component {
           onBlur={this.handleBlur}
           onChange={this.handleContentChange}
         />
-        <MarkdownPreview value={content} />
+        <NotePreview value={content} />
       </div>
     );
   }

@@ -137,12 +137,10 @@ class SummernoteEditor extends Component {
 
   render() {
     return (
-      <div className="editor">
-        <div
-          id="summernote"
-          dangerouslySetInnerHTML={{ __html: this.props.value }}
-        />
-      </div>
+      <div
+        id="summernote"
+        dangerouslySetInnerHTML={{ __html: this.props.value }}
+      />
     );
   }
 }
