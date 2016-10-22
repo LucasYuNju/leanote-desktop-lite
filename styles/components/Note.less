@@ -4,7 +4,7 @@
   display: flex;
   min-width: 0;
   // important. By default, flex items won't shrink below their minimum content size.
-  
+
   &.editing
   {
     .note-preview
@@ -18,52 +18,6 @@
     .note-editor
     {
       display: none;
-    }
-  }
-
-  .note-preview
-  {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    
-    overflow-x: scroll;
-    overflow-y: scroll;
-  }
-
-  // reset summernote styles  
-  .note-editor
-  {
-    font-family: 'Helvetica Neue', 'Arial', 'Courier New', 'Lucida Sans', 'Tahoma';
-    border: none;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 0;
-    min-width: 0;
-    padding: 6px 0 6px 0;
-    
-    .note-toolbar
-    {
-      background: white !important;
-      padding: 0 12px 0 12px;
-      border-bottom: 1px solid @border-color;
-      width: 600px;
-
-      button
-      {
-        border: none !important;
-      }
-    }
-
-    .note-editing-area
-    {
-      flex-grow: 1;
-      display: flex;
-      padding: 0 12px 0 12px;
-      overflow-x: scroll;
-      overflow-y: scroll;
     }
   }
 }

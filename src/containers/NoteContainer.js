@@ -7,12 +7,12 @@ import * as NoteActionCreators from '../actions/NoteActions';
 
 class NoteContainer extends Component {
   render() {
-    return (
+    return this.props.note ? (
       <Note
         note={this.props.note}
         onChange={this.props.updateNote}
       />
-    );
+    ) : null;
   }
 }
 

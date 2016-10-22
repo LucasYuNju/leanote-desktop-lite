@@ -1,0 +1,54 @@
+// reset summernote styles  
+.note > .note-editor
+{
+  @padding-left: 14px;
+
+  font-family: 'Helvetica Neue', 'Arial', 'Courier New', 'Lucida Sans', 'Tahoma';
+  border: none;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+  min-width: 0;
+  font-weight: normal;
+
+  .note-toolbar
+  {
+    background: white !important;
+    border-bottom: 1px solid @border-color;
+    padding: 0 @padding-left;
+
+    button
+    {
+      border: none !important;
+    }
+  }
+
+  .note-title
+  {
+    border: none;
+    font-size: 18px;
+    font-weight: normal;
+    padding: 8px @padding-left 8px @padding-left;
+    outline: none;
+  }
+
+  .note-editing-area
+  {
+    flex-grow: 1;
+    display: flex;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    padding: 6px @padding-left;
+    
+    .note-editable
+    {
+      padding: 0;
+    }
+    
+    .note-placeholder
+    {
+      padding: 0;
+    }
+  }
+}
