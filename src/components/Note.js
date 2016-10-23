@@ -14,7 +14,6 @@ class Note extends Component {
     modified: false,
   };
 
-  // constructor needed?
   handleChange = (title) => {
     this.setState({
       modified: true,
@@ -22,7 +21,6 @@ class Note extends Component {
   };
 
   handleBlur = (note) => {
-    console.error('note blur');
     if (this.state.modified) {
       this.setState({
         modified: false,

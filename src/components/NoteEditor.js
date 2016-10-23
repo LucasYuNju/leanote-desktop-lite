@@ -88,12 +88,11 @@ class SummernoteEditor extends Component {
   componentWillReceiveProps(nextProps) {
     const note = this.props.note;
     const nextNote = nextProps.note;
-    console.log(nextNote.Content);
     if (note.NoteId !== nextNote.NoteId) {
       this.reset();
       this.insertHtml(nextNote.Content);
       this.$title.val(nextNote.Title);
-      // this.$title.focus();
+      this.$title.focus();
     }
   }
 
@@ -102,8 +101,7 @@ class SummernoteEditor extends Component {
   }
 
   render() {
-    console.log(this.props.note.Content);
-    const content = this.props.note.Content || '<div>empty</div>'
+    const content = this.props.note.Content;
     return (
       <div id="summernote" dangerouslySetInnerHTML={{ __html: content }} />
     );
@@ -119,33 +117,30 @@ class SummernoteEditor extends Component {
     this.$editor = $(`#summernote`);
     this.$editor.summernote(options);
     // this.insertHtml(note.Content);
-    // this.$editor.summernote('code', note.Content);
 
     this.$toolbar = $('.note-toolbar');
     this.$editingArea = $('.note-editing-area');
-    this.$title = $('<input class="note-title" />');
+    this.$title = $('<input class="note-title" placeholder="Title your note" />');
     this.$title.val(note.Title);
     this.$title.insertAfter(this.$toolbar);
     this.$title.on('input', onChange);
     this.$title.on('blur', this.handleBlur);
+    this.$title.focus();
 
     $('.note-statusbar').hide();
-
     this.fixFontName();
     this.fixFontSize();
-    this.manageModalScroll();
   }
 
   componentWillUnmount() {
     if (this.$editor) {
       this.$editor.summernote('destroy');
     }
-    this.manageModalScroll();
   }
 
   /**
    * After font selection, fontName displayed in toolbar will not change until user input something.
-   * This is a hack way to make toolbar update immediately.
+   * This is a hack to make toolbar update immediately.
    */
   fixFontName = () => {
     $('.dropdown-fontname').on('click', 'li > a', (event) => {
@@ -156,28 +151,12 @@ class SummernoteEditor extends Component {
     });
   }
 
-  // A hack way to make toolbar update immediately.
+  // A hack to make toolbar update immediately.
   fixFontSize = () => {
     $('.dropdown-fontsize').on('click', 'li > a', (event) => {
       const fontSize = $(event.currentTarget).data('value');
       $('.note-current-fontsize').text(fontSize);
     });
-  }
-  
-  manageModalScroll = (mount) => {
-    const $body = $('body');
-    let hasClassName = false;
-    if (mount) {
-      $('.note-editor .modal').on('show.bs.modal', () => {
-        hasClassName = $body.hasClass('modal-open');
-      });
-      $('.note-editor .modal').on('hidden.bs.modal', () => {
-        $body.toggleClass('modal-open', hasClassName);
-      });
-    } else {
-      $('.note-editor .modal').off('show.bs.modal');
-      $('.note-editor .modal').off('hidden.bs.modal');
-    }
   }
 }
 
