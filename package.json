@@ -25,15 +25,13 @@
   },
   "homepage": "https://github.com/LucasYuNju/leanote-desktop-react#readme",
   "dependencies": {
-    "bootstrap": "^3.3.7",
     "classnames": "^2.2.5",
-    "codemirror": "^5.19.0",
     "electron": "^1.4.0",
     "immutable": "^3.8.1",
-    "jquery": "^3.1.1",
     "marked": "^0.3.6",
     "moment": "^2.15.1",
     "nedb": "^1.8.0",
+    "needle": "^1.1.2",
     "open-iconic": "^1.1.1",
     "quill": "^1.1.1",
     "react": "^15.3.2",
@@ -42,8 +40,7 @@
     "react-router": "^2.8.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
-    "reselect": "^2.5.4",
-    "summernote": "^0.8.2"
+    "reselect": "^2.5.4"
   },
   "devDependencies": {
     "babel": "^6.5.2",

@@ -1,4 +1,4 @@
-.note > .editor-container
+.note > .editor
 {
   @padding-left: 14px;
 
@@ -11,38 +11,51 @@
   min-width: 0;
   font-weight: normal;
 
-  .ql-toolbar
+  #toolbar-container
   {
-    border: none !important;
-    border-bottom: 1px solid @border-color;
-    padding-bottom: 6px;
-  }
-
-  .note-title
-  {
-    border: none;
-    font-size: 18px;
-    font-weight: normal;
-    padding: 8px @padding-left 8px @padding-left;
-    outline: none;
+    padding-left: @padding-left;
+    padding-right: @padding-left;
     
-    &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-      color: @icon-color;
+    .ql-toolbar
+    {
+      border: none !important;
+      border-bottom: 1px solid @border-color !important;
+      
+      &:first-child
+      {
+        padding-left: 0;
+      }
     }
   }
-
-  .ql-container
+  
+  #editor-container
   {
     border: none !important;    
     overflow-y: scroll;
 
     .ql-editor
     {
+      padding-left: @padding-left * 2;
+      
       &::before
       {
         font-style: normal !important;
         color: @icon-color;
       }
+    }
+  }
+
+  #note-title
+  {
+    border: none;
+    font-size: 18px;
+    font-weight: normal;
+    
+    padding: 14px @padding-left * 2 0 @padding-left * 2;
+    outline: none;
+    
+    &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+      color: @icon-color;
     }
   }
 }

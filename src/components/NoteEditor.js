@@ -29,6 +29,7 @@ class NoteEditor extends Component {
     this.quill.clipboard.dangerouslyPasteHTML(note.Content);
     this.title.value = note.Title;
     this.title.focus();
+    this.changed = false;
   }
   
   componentWillReceiveProps(nextProps) {
@@ -46,38 +47,40 @@ class NoteEditor extends Component {
 
   render() {
     return (
-      <div className="editor-container">
-        <div className="ql-container" />
+      <div className="editor">
+        <div id="toolbar-container">
+          <div id="toolbar">
+            <select className="ql-size" defaultValue="default">
+              <option value="small"></option>
+              <option></option>
+              <option value="large"></option>
+              <option value="huge"></option>
+            </select>
+            <button className="ql-bold"></button>
+            <button className="ql-script" value="sub"></button>
+            <button className="ql-script" value="super"></button>
+          </div>
+        </div>
+        <input 
+          ref={(title) => {this.title = title;}}
+          id="note-title"
+          placeholder="Title your note"
+          onInput={this.handleChange}
+          onBlur={this.handleBlur}
+        />
+        <div id="editor-container" />
       </div>
     );
   }
 
   componentDidMount() {
-    this.quill = new Quill('.ql-container', {
+    this.quill = new Quill('#editor-container', {
       theme: 'snow',
       placeholder: 'Enter text here...',
       modules: {
-        toolbar: [
-        [{ 'font': [] }],
-        [{ 'size': ['small', false, 'large', 'huge'] }],
-        [{ 'color': [] }, { 'background': [] }],
-        ['bold', 'italic', 'underline', 'align'],
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }],          
-        ['code-block', 'link', 'image'],
-       ]
+        toolbar: '#toolbar',
      },
     });
-
-    this.title = document.createElement('input');
-    this.title.className = 'note-title';
-    this.title.placeholder = "Title your note";
-    this.title.oninput = this.handleChange;
-    this.title.onblur = this.handleBlur;
-    const parent = document.getElementsByClassName('editor-container')[0];
-    parent.insertBefore(this.title, document.getElementsByClassName('ql-container')[0]);
-
-    this.reset(this.props.note);
-
     this.quill.on('text-change', (range, oldRange, source) => {
       this.handleChange();
     });
@@ -85,6 +88,8 @@ class NoteEditor extends Component {
     document.getElementsByClassName('ql-editor')[0].onblur = () => {
       this.handleBlur();
     }
+
+    this.reset(this.props.note);
   }
 }
 
