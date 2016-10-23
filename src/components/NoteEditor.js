@@ -61,7 +61,7 @@ class NoteEditor extends Component {
             <button className="ql-script" value="super"></button>
           </div>
         </div>
-        <input 
+        <input
           ref={(title) => {this.title = title;}}
           id="note-title"
           placeholder="Title your note"
@@ -74,6 +74,9 @@ class NoteEditor extends Component {
   }
 
   componentDidMount() {
+    const Image = Quill.import('formats/image');
+    Image.sanitize = (url) => url;
+    
     this.quill = new Quill('#editor-container', {
       theme: 'snow',
       placeholder: 'Enter text here...',
