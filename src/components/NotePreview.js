@@ -14,10 +14,12 @@ class NotePreview extends Component {
   render() {
     const htmlContent = marked(this.props.value);
     return (
-      <div
-        className="note-preview"
-        dangerouslySetInnerHTML={{ __html: htmlContent }}
-      />
+      <div className="preview-container">
+        <div
+          className="markdown-preview"
+          dangerouslySetInnerHTML={{ __html: htmlContent }}
+        />
+      </div>
     );
   }
 }

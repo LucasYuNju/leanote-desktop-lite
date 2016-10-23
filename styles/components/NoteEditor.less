@@ -1,5 +1,4 @@
-// reset summernote styles  
-.note > .note-editor
+.note > .editor-container
 {
   @padding-left: 14px;
 
@@ -12,21 +11,11 @@
   min-width: 0;
   font-weight: normal;
 
-  .note-toolbar
+  .ql-toolbar
   {
-    background: white !important;
+    border: none !important;
     border-bottom: 1px solid @border-color;
-    padding: 0 @padding-left;
-    position: relative;
-
-    button
-    {
-      border: none !important;
-    }
-    
-    &::before
-    {
-    }
+    padding-bottom: 6px;
   }
 
   .note-title
@@ -36,25 +25,24 @@
     font-weight: normal;
     padding: 8px @padding-left 8px @padding-left;
     outline: none;
+    
+    &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+      color: @icon-color;
+    }
   }
 
-  .note-editing-area
+  .ql-container
   {
-    flex-grow: 1;
-    display: flex;
-    overflow-x: scroll;
+    border: none !important;    
     overflow-y: scroll;
-    padding: 6px @padding-left;
 
-    .note-editable
+    .ql-editor
     {
-      min-width: 1px;
-      padding: 0;
-    }
-
-    .note-placeholder
-    {
-      padding: 0;
+      &::before
+      {
+        font-style: normal !important;
+        color: @icon-color;
+      }
     }
   }
 }

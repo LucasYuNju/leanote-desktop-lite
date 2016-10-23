@@ -36,13 +36,9 @@ class Note extends Component {
     } = this.props.note;
     return (
       <div
-      className={classNames('note', { editing: !IsMarkdown }, { previewing: IsMarkdown })}
+      className={classNames('note', { edit: !IsMarkdown }, { preview: IsMarkdown })}
       >
-        <NoteEditor
-          note={this.props.note}
-          onBlur={this.handleBlur}
-          onChange={this.handleChange}
-        />
+        <NoteEditor content={Content} />
         <NotePreview value={Content} />
       </div>
     );
