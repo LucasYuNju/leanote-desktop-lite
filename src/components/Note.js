@@ -10,23 +10,8 @@ class Note extends Component {
     onChange: PropTypes.func.isRequired,
   };
 
-  state = {
-    modified: false,
-  };
-
-  handleChange = (title) => {
-    this.setState({
-      modified: true,
-    });
-  };
-
-  handleBlur = (note) => {
-    if (this.state.modified) {
-      this.setState({
-        modified: false,
-      });
-      this.props.onChange(note);
-    }
+  handleChange = (note) => {
+    this.props.onChange(note);
   };
 
   render () {
@@ -38,7 +23,10 @@ class Note extends Component {
       <div
       className={classNames('note', { edit: !IsMarkdown }, { preview: IsMarkdown })}
       >
-        <NoteEditor content={Content} />
+        <NoteEditor
+          note={this.props.note} 
+          onChange={this.handleChange} 
+        />
         <NotePreview value={Content} />
       </div>
     );
