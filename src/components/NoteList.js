@@ -46,6 +46,7 @@ class NoteList extends Component {
         starred={note.Star}
         title={note.Title}
         updatedTime={note.UpdatedTime}
+        imgSrc={note.ImgSrc}
       />
     );
   }

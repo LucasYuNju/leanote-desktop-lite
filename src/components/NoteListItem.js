@@ -11,12 +11,14 @@ class NoteListItem extends Component {
     value: PropTypes.string,
     view: PropTypes.string,
     updatedTime: PropTypes.object,
+    imgSrc: PropTypes.string,
   };
 
   static defaultProps = {
     view: 'snippet',
   };
 
+  // TODO remove this.
   static selectable = true;
 
   handleClick = (event) => {
@@ -26,17 +28,25 @@ class NoteListItem extends Component {
   }
 
   getText(html) {
-    // const div = document.querySelector('#editor');
     const div = document.createElement('div');
     div.innerHTML = html;
     const text = div.textContext || div.innerText || '';
     return text.substring(0, 100);
   }
 
+  renderThumbnail(imgSrc) {
+    return !imgSrc ? null : (
+      <div className="thumbnail">
+        <img src={imgSrc} />
+      </div>
+    );
+  }
+
   render() {
     const {
       content,
       className,
+      imgSrc,
       title,
       updatedTime,
     } = this.props;
@@ -46,11 +56,14 @@ class NoteListItem extends Component {
         className={classNames('note-list-item', className)}
         onClick={this.handleClick}
       >
-        <div className="header">
-          <span className="title">{title}</span>
-          <span className="updated-time">{formattedTime}</span>
+        <div className="info">
+          <div className="title">{title}</div>
+          <div className="detail">
+            <span className="updated-time">{formattedTime}</span>
+            <span className="snippet">{this.getText(content)}</span>
+          </div>
         </div>
-        <span className="snippet">{this.getText(content)}</span>
+        {this.renderThumbnail(imgSrc)}
       </div>
     );
   }
