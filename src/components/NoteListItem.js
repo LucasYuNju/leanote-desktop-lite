@@ -36,8 +36,10 @@ class NoteListItem extends Component {
 
   renderThumbnail(imgSrc) {
     return !imgSrc ? null : (
-      <div className="thumbnail">
-        <img src={imgSrc} />
+      <div
+        className="thumbnail" 
+        style={{backgroundImage: `url(${imgSrc})`}}
+      >
       </div>
     );
   }
