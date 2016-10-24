@@ -72,8 +72,11 @@
       
       > .expand-icon
       {
-        font-size: 10px;
-        color: #888;
+        &::before
+        {
+          font-size: 10px !important;
+          color: @icon-color;          
+        }
       }
       
       > .svg-icon

@@ -59,7 +59,7 @@ class NotebookList extends Component {
         <ListItem
           value="tags"
           text="Tags"
-          icon="tag"
+          icon="tags"
         >
         </ListItem>
         <ListItem

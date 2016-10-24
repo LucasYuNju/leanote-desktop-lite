@@ -32,10 +32,16 @@
     overflow: hidden;    
   }
   
+  
+  
   .icon
   {
-    color: #888;
     flex-shrink: 0;
-    font-size: 10px;
+    
+    &::before
+    {
+      font-size: 10px !important;
+      color: @icon-color;          
+    }
   }
 }
