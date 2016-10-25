@@ -26,7 +26,7 @@ class Main extends Component {
           authed: true,
         });
       }, () => {
-        ipcRenderer.sendSync('auth-requested');
+        ipcRenderer.send('auth-requested');
       });
   }
 
@@ -41,6 +41,13 @@ class Main extends Component {
         </div>
       </div>
     ) : null;
+  }
+
+  componentDidUpdate() {
+    console.log(new Date().getTime());
+    setTimeout(() => {
+      ipcRenderer.send('main-window-ready');
+    });
   }
 }
 

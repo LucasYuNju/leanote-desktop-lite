@@ -27,6 +27,10 @@
     window.service = require('a-service');
     loadScript('/vendor/bundle.js');
     loadScript('/main/bundle.js');
+
+    window.addEventListener("load", function load(event){
+      console.log(new Date().getTime());
+    },false);
   </script>
 </body>
 </html>

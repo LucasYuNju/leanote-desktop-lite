@@ -33,7 +33,7 @@ class LoginForm extends React.Component {
     this.props
       .login(account, password, host)
       .then(() => {
-        ipcRenderer.sendSync('auth-succeeded');
+        ipcRenderer.send('auth-succeeded');
       }, () => {
         // set error msg
       });

@@ -25,8 +25,7 @@ class User extends Component {
       {
         label: 'Sign out',
         click: () => {
-          ipcRenderer.sendSync('auth-requested', 'ping');
-          // hashHistory.push('/login');
+          ipcRenderer.send('auth-requested');
         },
       },
     ];

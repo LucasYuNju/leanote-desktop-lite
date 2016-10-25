@@ -37,14 +37,16 @@ function createMainWindow() {
   // 使用loadURL(`http:xxx`)的话，影响renderer process加载node模块
   mainWindow.loadURL(`file://${__dirname}/dist/main.html`);
 
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show();
-  })
+  // mainWindow.once('did-finish-load', () => {
+  //   mainWindow.show();
+  // });
   
   mainWindow.on('closed', function () {
     mainWindow = null;
   });
 }
+
+// app.commandLine.appendSwitch('disable-renderer-backgrounding');
 
 app.on('ready', createMainWindow);
 
@@ -68,4 +70,10 @@ ipcMain.on('auth-requested', (event, arg) => {
 ipcMain.on('auth-succeeded', (event, arg) => {
   authWindow.close();
   createMainWindow();
+});
+
+ipcMain.on('main-window-ready', (event, arg) => {
+  setTimeout(() => {
+    mainWindow.show();    
+  }, 100);
 });
