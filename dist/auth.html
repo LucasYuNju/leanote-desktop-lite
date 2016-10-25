@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="iconic/font/iconic-glyphs.css" media="screen" title="no title">
+  <script>
+    // tmp solution to enable dev mode on windows
+    // process.env.ENV = 'development';
+    var baseUrl = process.env.ENV === 'development' ? 'http://localhost:3000/assets' : './assets';
+    function loadStlyes(name) {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = baseUrl + name;
+      document.write(link.outerHTML);
+    }
+    function loadScript(name) {
+      var script = document.createElement('script');
+      script.src = baseUrl + name;
+      document.write(script.outerHTML);
+    }
+    loadStlyes('/auth/bundle.css');
+  </script>
+</head>
+<body>
+  <div id="root" />
+  <script type="text/javascript">
+    window.service = require('a-service');
+    loadScript('/vendor/bundle.js');
+    loadScript('/auth/bundle.js');
+  </script>
+</body>
+</html>

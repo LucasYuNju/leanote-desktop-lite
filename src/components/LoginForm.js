@@ -1,21 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { hashHistory } from 'react-router';
 
+const { ipcRenderer } = require('electron');
+
 class LoginForm extends React.Component {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
+    login: PropTypes.func.isRequired,
   };
 
   state = {
     account: 'LucasYuNju@gmail.com',
     password: '123456',
   };
-
-  componentWillUpdate (nextProps, nextState) {
-    if (nextState.submitted) {
-      hashHistory.push('/main');
-    }
-  }
 
   handleAccountChange = (e) => {
     this.setState({
@@ -35,11 +31,11 @@ class LoginForm extends React.Component {
     const password = this.state.password;
     const host = 'https://leanote.com';
     this.props
-      .onSubmit(account, password, host)
+      .login(account, password, host)
       .then(() => {
-        this.setState({
-          submitted: true,
-        });
+        ipcRenderer.send('auth-succeeded');
+      }, () => {
+        // set error msg
       });
   };
 

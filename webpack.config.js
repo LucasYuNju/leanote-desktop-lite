@@ -1,4 +1,4 @@
-const path = require("path");
+const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -6,8 +6,9 @@ module.exports = {
   devtool: 'source-map',
 	context: path.resolve("./src"),
   entry: {
-    vendor: [ "babel-polyfill", "jquery" ],
-    note: [ "./index.js", "../styles/index.less"]
+    vendor: ["babel-polyfill", "jquery"],
+    main: ['./main.js', '../styles/index.less'],
+    auth: ['./auth.js', '../styles/index.less']
   },
   output: {
       path: path.resolve("./dist/assets"),
