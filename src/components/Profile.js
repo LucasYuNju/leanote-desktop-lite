@@ -4,15 +4,16 @@ import { hashHistory } from 'react-router';
 
 import Icon from '../components/Icon';
 
+const { ipcRenderer } = require('electron');
+
 class User extends Component {
   static propTypes = {
     username: PropTypes.string.isRequired,
     logo: PropTypes.string,
   };
 
-  // TODO, alt img for user has no avatar.
   static defaultProps = {
-    logo: "http://leanote.com/images/blog/default_avatar.png"
+    logo: 'http://leanote.com/images/blog/default_avatar.png'
   };
 
   handleClick = (event) => {
@@ -24,7 +25,8 @@ class User extends Component {
       {
         label: 'Sign out',
         click: () => {
-          hashHistory.push('/login');
+          ipcRenderer.sendSync('auth-requested', 'ping');
+          // hashHistory.push('/login');
         },
       },
     ];
