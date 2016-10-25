@@ -13,7 +13,7 @@ function createAuthWindow() {
     show: false,
     titleBarStyle: 'hidden',
   });
-  // remote pages have no node integration
+  // remote pages do not have node integration
   authWindow.loadURL(`file://${__dirname}/dist/auth.html`);
 
   authWindow.on('ready-to-show', () => {
@@ -34,12 +34,11 @@ function createMainWindow() {
     show: false,
     titleBarStyle: 'hidden-inset',
   });
-  // 使用loadURL(`http:xxx`)的话，影响renderer process加载node模块
   mainWindow.loadURL(`file://${__dirname}/dist/main.html`);
 
-  // mainWindow.once('did-finish-load', () => {
-  //   mainWindow.show();
-  // });
+  mainWindow.once('ready-to-show', () => {
+    
+  });
   
   mainWindow.on('closed', function () {
     mainWindow = null;
@@ -72,6 +71,7 @@ ipcMain.on('auth-succeeded', (event, arg) => {
   createMainWindow();
 });
 
+// ready-to-show is too early, did-finish-load may be blocked by image downloading
 ipcMain.on('main-window-ready', (event, arg) => {
   setTimeout(() => {
     mainWindow.show();    

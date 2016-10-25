@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="iconic/font/iconic-glyphs.css" media="screen" title="no title">
+  <link rel="stylesheet" href="icons/iconic-glyphs.css" media="screen" title="no title">
   <script>
     // tmp solution to enable dev mode on windows
     // process.env.ENV = 'development';
@@ -27,10 +27,6 @@
     window.service = require('a-service');
     loadScript('/vendor/bundle.js');
     loadScript('/main/bundle.js');
-
-    window.addEventListener("load", function load(event){
-      console.log(new Date().getTime());
-    },false);
   </script>
 </body>
 </html>

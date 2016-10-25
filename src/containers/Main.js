@@ -25,11 +25,14 @@ class Main extends Component {
         this.setState({
           authed: true,
         });
+        setTimeout(() => {
+          ipcRenderer.send('main-window-ready');
+        });
       }, () => {
         ipcRenderer.send('auth-requested');
       });
   }
-
+  
   render() {
     return this.state.authed ? (
       <div className="main-page">
@@ -41,13 +44,6 @@ class Main extends Component {
         </div>
       </div>
     ) : null;
-  }
-
-  componentDidUpdate() {
-    console.log(new Date().getTime());
-    setTimeout(() => {
-      ipcRenderer.send('main-window-ready');
-    });
   }
 }
 
