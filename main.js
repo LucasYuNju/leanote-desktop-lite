@@ -75,5 +75,5 @@ ipcMain.on('auth-succeeded', (event, arg) => {
 ipcMain.on('main-window-ready', (event, arg) => {
   setTimeout(() => {
     mainWindow.show();    
-  }, 100);
+  }, 200);
 });

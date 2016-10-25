@@ -6,10 +6,6 @@ import * as NotebookActionCreators from '../actions/NotebookActions';
 import NotebookList from '../components/NotebookList';
 
 class NotebookListContainer extends Component {
-  componentDidMount() {
-    this.props.fetchNotebooks();
-  }
-
   render() {
     return (
       <NotebookList {...this.props} />
@@ -19,11 +15,13 @@ class NotebookListContainer extends Component {
 
 function mapStateToProps(state) {
   const {
-    index
+    index,
+    noteList,
   } = state;
   return {
     rootNotebook: index.notebook.root,
     index,
+    selectedNoteList: noteList.selected,
   }
 }
 

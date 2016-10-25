@@ -12,19 +12,10 @@ class NotebookList extends Component {
     index: PropTypes.object.isRequired,
     rootNotebook: PropTypes.object.isRequired,
     selectNotebook: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-  };
-
-  state = {
-    selected: null,
+    selectedNoteList: PropTypes.object.isRequired,
   };
 
   handleItemSelect = (value) => {
-    this.setState({
-      selected: value,
-    });
     if (value !== 'tags' && value !== 'starred') {
       this.props.selectNotebook(value);
     }
@@ -45,16 +36,33 @@ class NotebookList extends Component {
     );
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const {
+      rootNotebook,
+      selectedNoteList,
+    } = nextProps;
+    if (!selectedNoteList.id) {
+      // FIXME selected note list maybe just get deleted
+      const defaultNotebookId = rootNotebook.ChildIds[0];
+      if (defaultNotebookId) {
+        this.props.selectNotebook(defaultNotebookId);
+      }
+      return false;
+    }
+    return true;
+  }
+
   render() {
     const {
       index,
       rootNotebook,
+      selectedNoteList,
     } = this.props;
     return (
       <SelectableList
         className="notebooks"
         onChange={this.handleItemSelect}
-        value={this.state.selected}
+        value={selectedNoteList.id}
       >
         <ListItem
           value="tags"
@@ -71,6 +79,10 @@ class NotebookList extends Component {
         {rootNotebook.ChildIds.map(notebookId => this.renderNotebook(index.notebook[notebookId]))}
       </SelectableList>
     );
+  }
+  
+  componentDidMount() {
+    this.props.fetchNotebooks();
   }
 }
 
