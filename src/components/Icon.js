@@ -26,7 +26,7 @@ class Icon extends Component {
   
     return (
       <span
-        className={classNames('oi', 'icon', 'iconic', className, iconName + '-icon')}
+        className={classNames('icon', 'iconic', className, iconName + '-icon')}
         data-glyph={iconName}
         onClick={onClick}
         title={iconName}

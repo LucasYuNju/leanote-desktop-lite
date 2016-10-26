@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
+import NoteActionBar from '../components/NoteActionBar';
 import NoteEditor from '../components/NoteEditor';
 import NotePreview from '../components/NotePreview';
 
@@ -23,6 +24,7 @@ class Note extends Component {
       <div
       className={classNames('note', { edit: !IsMarkdown }, { preview: IsMarkdown })}
       >
+        <NoteActionBar />
         <NoteEditor
           note={this.props.note} 
           onChange={this.handleChange} 

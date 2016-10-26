@@ -1,0 +1,31 @@
+.action-bar
+{
+  @item-height: 20px;
+  @padding-left: 14px;
+
+  display: flex;
+  align-self: stretch;
+  height: @item-height;
+  padding: 6px @padding-left 0 @padding-left;
+  
+  .tags
+  {
+    flex-grow: 1;
+  }
+  
+  .actions
+  {
+    flex-grow: 0;
+
+    .icon
+    {
+      display: inline-block;
+      color: @icon-color;
+
+      &::before
+      {
+        
+      }
+    }
+  }
+}
