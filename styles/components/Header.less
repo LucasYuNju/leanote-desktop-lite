@@ -1,7 +1,7 @@
 .main-page > .header
 {
   width: 100%;
-  height: 40px;
+  height: 50px;
   flex-shrink: 0;
   padding-left: 84px;
   display: flex;
@@ -14,13 +14,19 @@
   > .icon
   {
     height: 28px;
+    line-height: 28px;
     width: 28px;
-    padding-top: 4px;
     text-align: center;
     margin-right: 5px;
     display: block;
     color: @icon-color;
     font-size: 18px;
+    
+    &::bofore
+    {
+      left: 2px;
+      // top: 1px;
+    }
   }
   
   // endless rotate
