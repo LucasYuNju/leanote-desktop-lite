@@ -33,6 +33,7 @@ function createMainWindow() {
     height: 660,
     show: false,
     titleBarStyle: 'hidden-inset',
+    useContentSize: true,
   });
   mainWindow.loadURL(`file://${__dirname}/dist/main.html`);
 

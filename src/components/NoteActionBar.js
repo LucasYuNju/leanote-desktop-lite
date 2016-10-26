@@ -18,9 +18,8 @@ class NoteActionBar extends Component {
         <div className="tags" />
         <div className="actions">
           <Icon iconName="history" />
-          <Icon iconName="trash" />
+          <Icon iconName="trashcan" />
           <Icon iconName="pencil" />
-          <Icon iconName="star" />
         </div>
       </div>
     );

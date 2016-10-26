@@ -5,17 +5,8 @@ import React, { Component, PropTypes } from 'react';
 import { login } from '../actions/UserActions';
 import LoginFormContainer from '../containers/LoginFormContainer';
 import TitleBar from '../components/TitleBar';
-import WindowUtil from '../util/WindowUtil';
 
 class Login extends Component {
-  componentDidMount() {
-    // WindowUtil.setProperties({
-    //   resizable: process.env.ENV === 'development',
-    //   width: 320,
-    //   height: 420,
-    // });
-  }
-
   render() {
     return (
       <TitleBar className="login-page">

@@ -40,7 +40,7 @@ class User extends Component {
       >
         <img src={this.props.logo} />
         <span className="name">{this.props.username}</span>
-        <Icon iconName="chevron-bottom"/>
+        <Icon iconName="chevron-down"/>
       </div>
     );
   }

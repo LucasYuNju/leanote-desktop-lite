@@ -23,7 +23,7 @@ class NotebookList extends Component {
 
   renderNotebook = (notebook) => {
     const hasSublist = notebook.ChildIds.length > 0;
-    const icon = hasSublist ? 'folder' : 'document';
+    const icon = hasSublist ? 'file-directory' : 'repo';
 
     return (
       <ListItem
@@ -67,7 +67,7 @@ class NotebookList extends Component {
         <ListItem
           value="tags"
           text="Tags"
-          icon="bookmark"
+          icon="tag"
         >
         </ListItem>
         <ListItem

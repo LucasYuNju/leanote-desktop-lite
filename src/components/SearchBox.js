@@ -26,7 +26,7 @@ class SearchBox extends Component {
     return (
       <div className="search-wrapper">
         <Icon
-          iconName="magnifying-glass"
+          iconName="search"
         />
         <input
           type="search"

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-// import 'open-iconic/font/css/open-iconic.css';
+import 'octicons/build/font/octicons.css';
 
 class Icon extends Component {
   static propTypes = {
@@ -23,16 +23,13 @@ class Icon extends Component {
       onClick,
       size,
     } = this.props;
-  
+    
     return (
-      <span
-        className={classNames('icon', 'iconic', className, iconName + '-icon')}
-        data-glyph={iconName}
+      <span className={classNames('icon', 'octicon', 'octicon-' + iconName, className)} 
         onClick={onClick}
         title={iconName}
-        aria-hidden="true"
       />
-  );
+    );
   }
 }
 

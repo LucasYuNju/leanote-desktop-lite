@@ -33,7 +33,7 @@ class Header extends Component {
         <SearchBox />
         <Icon
           className={classNames({ 'rotate': this.state.synchonizing })}
-          iconName="loop-circular"
+          iconName="sync"
           onClick={this.handleSyncClicked}
         />
       </TitleBar>
