@@ -11,6 +11,7 @@ class LoginForm extends React.Component {
   state = {
     account: 'LucasYuNju@gmail.com',
     password: '123456',
+    submitted: false,
   };
 
   handleAccountChange = (e) => {
@@ -25,11 +26,25 @@ class LoginForm extends React.Component {
     });
   };
 
+  componentWillMount() {
+    // this.setState({
+    //   a: '1',
+    //   b: '2',
+    // });
+    // this.setState({
+    //   b: '3',
+    // });
+    // console.log(this.state.a);
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     const account = this.state.account;
     const password = this.state.password;
     const host = 'https://leanote.com';
+    this.setState({
+      submitted: true,
+    });
     this.props
       .login(account, password, host)
       .then(() => {
@@ -40,6 +55,7 @@ class LoginForm extends React.Component {
   };
 
   render() {
+    console.log(this.state);
     return (
       <form className="login-form" onSubmit={this.handleSubmit}>
         <div className="row">
@@ -59,12 +75,29 @@ class LoginForm extends React.Component {
           />
         </div>
         <div className="submit row">
-          <input type="submit" className="button" value="Login" />
+          {
+            this.state.submitted ? (
+              <div className="submit-spinner">
+                {this.renderSpinner()}
+              </div>
+            ) :
+            <input type="submit" className="button" value="Login" />              
+          }
         </div>
         <span className="link switch-host">
           Self-hosted service
         </span>
       </form>
+    );
+  }
+  
+  renderSpinner() {
+    return (
+      <div className="sk-fading-circle">
+      {
+        [...Array(12).keys()].map(i => (<div  key={i} className={`sk-circle${i+1} sk-circle`}></div>))
+      }
+      </div>
     );
   }
 }
