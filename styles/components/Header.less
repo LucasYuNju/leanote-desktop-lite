@@ -15,56 +15,47 @@
     display: flex;
     align-items: center;
     
-    > .create-note-button
+    .osx-buttons
     {
-      width: auto;
-      background: white;
-      
-      .text
-      {
-        padding-left: 8px;
-        padding-right: 8px;
-      }
-      
-      .icon
-      {
-        line-height: inherit;
-        height: inherit;
-      }
-    }
-
-    > .sync-icon
-    {
-      height: 28px;
-      line-height: 28px;
-      width: 28px;
-      text-align: center;
-      margin-right: 5px;
-      display: block;
-      color: @icon-color;
-      
-      &::bofore
-      {
-        left: 2px;
-        // top: 1px;
-      }
-      
-      // endless rotate
-      &.rotate
-      {
-        animation: rotating 2s linear infinite;
-      }
-      
-      @-webkit-keyframes rotating
-      {
-        from {
-          transform: rotate(0deg);
-        }
-        to {
-          transform: rotate(-360deg);
-        }
-      }
+      .create-note-button
+     {
+       width: auto !important;
+       flex-grow: 1;       
+     }
+     
+     > .dropdown-button
+     {
+       .icon
+       {
+         font-size: 14px;
+         &::before
+         {
+           top: 1px;
+         }
+       }      
+     }
     }
     
+    .osx-buttons > .osx-button > .sync-icon
+    {
+      > .sync-icon
+      {
+        // endless rotate
+        &.rotate
+        {
+          animation: rotating 2s linear infinite;
+        }
+        
+        @-webkit-keyframes rotating
+        {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(-360deg);
+          }
+        }
+      }
+    }
   }  
 }

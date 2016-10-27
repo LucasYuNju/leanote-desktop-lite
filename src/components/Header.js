@@ -32,22 +32,28 @@ class Header extends Component {
       <TitleBar className="header">
         <div className="group" />
         <div className="group">
-          <div className="osx-button sync-button">
-            <Icon
-              className={classNames({ 'rotate': this.state.synchonizing }, 'sync-icon')}
-              iconName="sync"
-              onClick={this.handleSyncClick}
-            />
+          <div className="osx-buttons">
+            <div className="osx-button sync-button">
+              <Icon
+                className={classNames({ 'rotate': this.state.synchonizing }, 'sync-icon')}
+                iconName="sync"
+                onClick={this.handleSyncClick}
+              />
+            </div>
           </div>
-          <div className="osx-button create-note-button">
-            <span className="text">
-              Create Note
-            </span>
-            <Icon iconName="chevron-down" />
+          <div className="osx-buttons">
+            <div className="osx-button create-note-button">
+              <span className="text">
+                Create Note
+              </span>
+            </div>
+            <div className="osx-button dropdown-button">
+              <Icon iconName="chevron-down" />
+            </div>
           </div>
         </div>
         <div className="group">
-          <SearchBox/>
+          <SearchBox />
         </div>
       </TitleBar>
     );

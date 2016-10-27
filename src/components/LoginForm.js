@@ -26,17 +26,6 @@ class LoginForm extends React.Component {
     });
   };
 
-  componentWillMount() {
-    // this.setState({
-    //   a: '1',
-    //   b: '2',
-    // });
-    // this.setState({
-    //   b: '3',
-    // });
-    // console.log(this.state.a);
-  }
-
   handleSubmit = (e) => {
     e.preventDefault();
     const account = this.state.account;
