@@ -2,7 +2,7 @@
 {
   position: relative;
   width: 245px;
-  height: 24px;
+  height: 28px;
   margin-right: 20px;
 
   .search-icon
@@ -12,15 +12,17 @@
     font-size: 14px;
     cursor: pointer;
     left: 6px;
-    top: 5px;
+    top: 7px;
     z-index: 5;
     color: #888;
   }
 
   input[type=search]
   {
+    border: 1px solid @border-color-darker;
+    background: @header-button-bg;
+
     border-radius: 5px;
-    border: 1px solid @border-color;
     font-size: 14px;
     display: inline-block;
     width: 100%;

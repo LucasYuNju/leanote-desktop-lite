@@ -16,10 +16,16 @@ class NoteActionBar extends Component {
     return (
       <div className="action-bar">
         <div className="tags" />
-        <div className="actions">
-          <Icon iconName="history" />
-          <Icon iconName="trashcan" />
-          <Icon iconName="pencil" />
+        <div className="osx-buttons actions">
+          <div className="osx-button">
+            <Icon iconName="pencil" />
+          </div>
+          <div className="osx-button">
+            <Icon iconName="history" />
+          </div>
+          <div className="osx-button">
+            <Icon iconName="trashcan" />
+          </div>
         </div>
       </div>
     );

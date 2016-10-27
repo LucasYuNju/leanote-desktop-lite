@@ -19,16 +19,28 @@
     background: @note-list-bg;
     border-bottom: 1px solid @border-color;
     height: 88px;
-    padding: 8px 12px;
     display: flex;
-    
+
     &.selected
     {
       background: @note-list-selecton-bg;
+      
+      .shim
+      {
+        background: @theme-color;
+      }
+    }
+    
+    .shim
+    {
+      width: 4px;
+      flex-shrink: 0;
+      background: white;
     }
     
     .info
     {
+      padding: 8px 12px;
       // padding-bottom: 6px;
       display: inline-block;
       flex-grow: 1;
@@ -56,7 +68,7 @@
         .updated-time
         {
           padding-right: 1em;
-          color: @note-list-color-time;
+          color: @theme-color;
         }
         
         .snippet

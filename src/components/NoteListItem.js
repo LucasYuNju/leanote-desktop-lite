@@ -58,6 +58,7 @@ class NoteListItem extends Component {
         className={classNames('note-list-item', className)}
         onClick={this.handleClick}
       >
+        <div className="shim" />
         <div className="info">
           <div className="title">{title}</div>
           <div className="detail">
