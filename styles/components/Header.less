@@ -20,16 +20,21 @@
       .osx-button
       {
         color: @icon-color;
-        border: 1px solid @border-color-darker;
+        border: 1px solid @header-bg;
         background: @header-button-bg;
         
-        &.icon
+        &:active
         {
+          background: @header-bg;
+          border: 1px solid @border-color-darker;
+          
+          .icon
+          {
+          }
         }
       }
     }
 
-    
     .osx-buttons
     {
       .create-note-button

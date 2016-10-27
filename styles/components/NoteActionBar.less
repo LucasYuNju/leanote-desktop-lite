@@ -23,6 +23,17 @@
     .osx-button
     {
       width: 38px;
+      
+      &:active, &.active
+      {
+        color: white;
+        background: @theme-color;
+        
+        .icon
+        {
+          color: white;
+        }
+      }
     }
   }
 }

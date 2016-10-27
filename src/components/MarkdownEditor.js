@@ -2,7 +2,7 @@ import marked from 'marked';
 
 import React, { Component, PropTypes } from 'react';
 
-class NotePreview extends Component {
+class MarkdownEditor extends Component {
   static propTypes = {
     value: PropTypes.string,
   };
@@ -24,4 +24,4 @@ class NotePreview extends Component {
   }
 }
 
-export default NotePreview;
+export default MarkdownEditor;

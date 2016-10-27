@@ -13,22 +13,7 @@ class NoteActionBar extends Component {
   };
   
   render() {
-    return (
-      <div className="action-bar">
-        <div className="tags" />
-        <div className="osx-buttons actions">
-          <div className="osx-button">
-            <Icon iconName="pencil" />
-          </div>
-          <div className="osx-button">
-            <Icon iconName="history" />
-          </div>
-          <div className="osx-button">
-            <Icon iconName="trashcan" />
-          </div>
-        </div>
-      </div>
-    );
+    return null;
   }
 }
 
