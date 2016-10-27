@@ -29,8 +29,8 @@ function createMainWindow() {
   mainWindow = new BrowserWindow({
     center: true,
     fullscreenable: false,
-    width: 1000,
-    height: 660,
+    width: 1080,
+    height: 680,
     show: false,
     titleBarStyle: 'hidden-inset',
     useContentSize: true,

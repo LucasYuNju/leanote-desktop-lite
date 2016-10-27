@@ -15,7 +15,7 @@ class Header extends Component {
     synchonizing: false,
   }
 
-  handleSyncClicked = () => {
+  handleSyncClick = () => {
     this.props.sendChange();
     this.setState({
       synchonizing: true,
@@ -30,12 +30,25 @@ class Header extends Component {
   render() {
     return (
       <TitleBar className="header">
-        <SearchBox />
-        <Icon
-          className={classNames({ 'rotate': this.state.synchonizing })}
-          iconName="sync"
-          onClick={this.handleSyncClicked}
-        />
+        <div className="group" />
+        <div className="group">
+          <div className="osx-button sync-button">
+            <Icon
+              className={classNames({ 'rotate': this.state.synchonizing }, 'sync-icon')}
+              iconName="sync"
+              onClick={this.handleSyncClick}
+            />
+          </div>
+          <div className="osx-button create-note-button">
+            <span className="text">
+              Create Note
+            </span>
+            <Icon iconName="chevron-down" />
+          </div>
+        </div>
+        <div className="group">
+          <SearchBox/>
+        </div>
       </TitleBar>
     );
   }

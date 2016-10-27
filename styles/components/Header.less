@@ -5,43 +5,66 @@
   flex-shrink: 0;
   padding-left: 84px;
   display: flex;
-  flex-direction: row-reverse;
   align-items: center;
-
   background-color: @header-bg;
   border-bottom: 1px solid @border-color;
+  justify-content: space-between;
 
-  > .icon
+  > .group
   {
-    height: 28px;
-    line-height: 28px;
-    width: 28px;
-    text-align: center;
-    margin-right: 5px;
-    display: block;
-    color: @icon-color;
-    font-size: 18px;
+    display: flex;
+    align-items: center;
     
-    &::bofore
+    > .create-note-button
     {
-      left: 2px;
-      // top: 1px;
+      width: auto;
+      background: white;
+      
+      .text
+      {
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+      
+      .icon
+      {
+        line-height: inherit;
+        height: inherit;
+      }
     }
-  }
-  
-  // endless rotate
-  .rotate
-  {
-    animation: rotating 2s linear infinite;
-  }
-  
-  @-webkit-keyframes rotating
-  {
-    from {
-      transform: rotate(0deg);
+
+    > .sync-icon
+    {
+      height: 28px;
+      line-height: 28px;
+      width: 28px;
+      text-align: center;
+      margin-right: 5px;
+      display: block;
+      color: @icon-color;
+      
+      &::bofore
+      {
+        left: 2px;
+        // top: 1px;
+      }
+      
+      // endless rotate
+      &.rotate
+      {
+        animation: rotating 2s linear infinite;
+      }
+      
+      @-webkit-keyframes rotating
+      {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(-360deg);
+        }
+      }
     }
-    to {
-      transform: rotate(-360deg);
-    }
-  }
+    
+  }  
 }

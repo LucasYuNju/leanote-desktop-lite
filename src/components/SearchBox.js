@@ -9,7 +9,7 @@ class SearchBox extends Component {
   };
 
   static defaultProps = {
-    placeholder: 'Search...',
+    placeholder: 'Search',
   };
   
   state = {
@@ -26,10 +26,12 @@ class SearchBox extends Component {
     return (
       <div className="search-wrapper">
         <Icon
+          className="search-icon"
           iconName="search"
         />
         <input
           type="search"
+          className="osx-button"
           placeholder={this.props.placeholder}
           value={this.state.input}
           onChange={this.handleInputChange}

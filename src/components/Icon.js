@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-import 'octicons/build/font/octicons.css';
+import 'octicons/octicons/octicons.css';
 
 class Icon extends Component {
   static propTypes = {

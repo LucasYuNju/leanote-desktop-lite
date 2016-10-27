@@ -1,21 +1,17 @@
 .octicon
 {
   display: inline-block;
-  vertical-align: text-top;
+  vertical-align: text-bottom;
   fill: currentColor;
   font-size: 16px;
+  color: @icon-color;
+  width: 16px;
   
-  &.octicon-star
-  {
-    font-size: 17px !important;
-  }
-
   &::before
   {
     color: inherit !important;
     line-height: inherit;
     height: inherit;
-    vertical-align: top;
-    position: relative;
+    text-align: center;
   }
 }
