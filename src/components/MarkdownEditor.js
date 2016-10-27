@@ -1,20 +1,28 @@
+import classNames from 'classnames';
 import marked from 'marked';
-
 import React, { Component, PropTypes } from 'react';
 
 class MarkdownEditor extends Component {
   static propTypes = {
-    value: PropTypes.string,
+    note: PropTypes.object.isRequired,
+    editMode: PropTypes.bool.isRequired,
   };
+  
+  componentWillReceiveProps(nextProps) {
+    this.container.className = classNames('markdown-editor', nextProps.className);
+  }
 
-  static defaultProps = {
-    value: 'I am using __markdown__.',
-  };
+  shouldComponentUpdate() {
+    return false;
+  }
 
   render() {
-    const htmlContent = marked(this.props.value);
+    const {
+      note,
+    } = this.props;
+    const htmlContent = marked(note.Content);
     return (
-      <div className="preview">
+      <div className="markdown-editor" ref={(ref) => this.container = ref}>
         <div
           className="markdown-preview"
           dangerouslySetInnerHTML={{ __html: htmlContent }}

@@ -13,7 +13,7 @@ class Note extends Component {
   };
 
   state = {
-    editMode: !this.props.note.IsMarkdown,
+    editMode: false,
   };
 
   handleChange = (note) => {
@@ -53,20 +53,24 @@ class Note extends Component {
   
   render () {
     const {
-      Content,
-      IsMarkdown,
-    } = this.props.note;
+      note,
+    } = this.props;
     const {
       editMode,
     } = this.state;
     return (
-      <div className={classNames('note', { edit: editMode }, { preview: !editMode })}>
+      <div className='note'>
         {this.renderActionBar()}
         <NoteEditor
-          note={this.props.note}
+          note={note}
           onChange={this.handleChange}
+          className={classNames({hidden: note.IsMarkdown})}
         />
-        <MarkdownEditor value={Content} />
+        <MarkdownEditor
+          editMode={editMode}
+          note={note}
+          className={classNames({hidden: !note.IsMarkdown})}
+        />
       </div>
     );
   }

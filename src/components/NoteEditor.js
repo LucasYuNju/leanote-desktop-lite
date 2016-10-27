@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 import Quill from 'quill';
 
@@ -37,8 +38,9 @@ class NoteEditor extends Component {
     const nextNote = nextProps.note;
     if (note.NoteId !== nextNote.NoteId) {
       this.reset(nextNote);
+      this.changed = false;
     }
-    this.changed = false;
+    this.container.className = classNames('note-editor', nextProps.className);
   }
 
   shouldComponentUpdate() {
@@ -47,7 +49,7 @@ class NoteEditor extends Component {
 
   render() {
     return (
-      <div className="editor">
+      <div className="note-editor" ref={(ref) => this.container = ref}>
         <div id="toolbar-container">
           <div id="toolbar">
             <select className="ql-size" defaultValue="default">
