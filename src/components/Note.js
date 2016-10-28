@@ -62,14 +62,14 @@ class Note extends Component {
       <div className='note'>
         {this.renderActionBar()}
         <NoteEditor
+          active={!note.IsMarkdown}
           note={note}
           onChange={this.handleChange}
-          className={classNames({hidden: note.IsMarkdown})}
         />
         <MarkdownEditor
+          active={note.IsMarkdown}
           editMode={editMode}
           note={note}
-          className={classNames({hidden: !note.IsMarkdown})}
         />
       </div>
     );

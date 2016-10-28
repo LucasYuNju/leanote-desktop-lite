@@ -6,6 +6,7 @@ import 'quill/dist/quill.snow';
 
 class NoteEditor extends Component {
   static propTypes = {
+    active: PropTypes.bool.isRequired,
     note: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
   };
@@ -34,13 +35,16 @@ class NoteEditor extends Component {
   }
   
   componentWillReceiveProps(nextProps) {
+    this.container.className = classNames('note-editor', { hidden: !nextProps.active });
+    if (!nextProps.active) {
+      return;
+    }
     const note = this.props.note;
     const nextNote = nextProps.note;
     if (note.NoteId !== nextNote.NoteId) {
       this.reset(nextNote);
       this.changed = false;
     }
-    this.container.className = classNames('note-editor', nextProps.className);
   }
 
   shouldComponentUpdate() {
@@ -49,7 +53,10 @@ class NoteEditor extends Component {
 
   render() {
     return (
-      <div className="note-editor" ref={(ref) => this.container = ref}>
+      <div
+        ref={(ref) => this.container = ref}
+        className={classNames('note-editor', { hidden: !this.props.active })}
+      >
         <div id="toolbar-container">
           <div id="toolbar">
             <select className="ql-size" defaultValue="default">
@@ -93,8 +100,10 @@ class NoteEditor extends Component {
     document.getElementsByClassName('ql-editor')[0].onblur = () => {
       this.handleBlur();
     }
-
-    this.reset(this.props.note);
+    
+    if (this.props.active) {
+      this.reset(this.props.note);      
+    }
   }
 }
 
