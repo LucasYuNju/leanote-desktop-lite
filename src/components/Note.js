@@ -11,60 +11,46 @@ class Note extends Component {
     note: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
   };
-
+  
   state = {
     editMode: false,
+    note: {
+      ...this.props.note,
+    },
   };
-
-  handleChange = (note) => {
-    this.props.onChange(note);
-  };
-  
-  toggleEditMode = () => {
-    this.setState({
-      editMode: !this.state.editMode,
-    });
-  };
-  
-  renderActionBar() {
-    return (
-      <div className="action-bar">
-        <div className="tags" />
-        <div className="osx-buttons actions">
-          {this.props.note.IsMarkdown ? 
-            <div
-              onClick={this.toggleEditMode}
-              className={classNames('osx-button', {active: this.state.editMode})}
-            >
-              <Icon iconName="pencil" />
-            </div>
-            : null
-          }
-          <div className="osx-button">
-            <Icon iconName="history" />
-          </div>
-          <div className="osx-button">
-            <Icon iconName="trashcan" />
-          </div>
-        </div>
-      </div>
-    );
+    
+  componentWillReceiveProps(nextProps) {
+    const note = this.state.note;
+    const nextNote = nextProps.note;
+    if (note.NoteId !== nextProps.note.NoteId) {
+      if (this.changed) {
+        console.error("error in Note, update note before switching");
+      }
+      this.setState({
+        note: {
+          ...nextNote,
+        },
+      });
+    }
   }
   
-  render () {
+  render() {
     const {
       note,
-    } = this.props;
+    } = this.state;
     return (
       <div className='note'>
         <NoteTitle
-          toggleEditMode={note.IsMarkdown ? this.toggleEditMode : null}
           editMode={this.state.editMode}
+          onChanging={this.handleTitleChanging}
+          onChange={this.handleTitlChange}
+          title={note.Title}
+          toggleEditMode={note.IsMarkdown ? this.toggleEditMode : null}
         />
         <NoteEditor
           active={!note.IsMarkdown}
           note={note}
-          onChange={this.handleChange}
+          onChange={this.handleContentChange}
         />
         <MarkdownEditor
           active={note.IsMarkdown}
@@ -74,6 +60,34 @@ class Note extends Component {
       </div>
     );
   }
+
+  handleTitleChanging = (title) => {
+    this.setState({
+      note: {
+        ...this.state.note,
+        Title: title,
+      }
+    });
+  };
+
+  handleTitlChange = () => {
+    const note = this.state.note;
+    this.props.onChange(note);
+  };
+
+  handleContentChange = (content) => {
+    const note = {
+      ...this.state.note,
+      Content: content,
+    };
+    this.props.onChange(note);
+  };
+
+  toggleEditMode = () => {
+    this.setState({
+      editMode: !this.state.editMode,
+    });
+  };
 }
 
 export default Note;

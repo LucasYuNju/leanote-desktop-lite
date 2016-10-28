@@ -6,8 +6,10 @@ import Icon from '../components/Icon';
 class NoteTitle extends Component {
   static propTypes = {
     editMode: PropTypes.bool,
+    onChanging: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     toggleEditMode: PropTypes.func,
-    // title: PropTypes.string,
+    title: PropTypes.string,
   };
 
   renderEditModeButton = () => {
@@ -19,18 +21,26 @@ class NoteTitle extends Component {
         >
           <Icon iconName="pencil" />
         </div>
-      );      
+      );
     }
     return null;
   }
-  
+
   render() {
     const {
+      onChange,
+      title,
       toggleEditMode,
     } = this.props;
     return (
-      <div className="action-bar">
-        <div className="tags" />
+      <div className="title-bar">
+        <input
+          className="note-title"
+          placeholder="Title your note"
+          onChange={this.handleInputChange}
+          onBlur={onChange}
+          value={title}
+        />
         <div className="osx-buttons actions">
           {this.renderEditModeButton()}
           <div className="osx-button">
@@ -42,6 +52,11 @@ class NoteTitle extends Component {
         </div>
       </div>
     );
+  }
+
+  handleInputChange = (event) => {
+    const input = event.currentTarget;
+    this.props.onChanging(input.value);
   }
 }
 

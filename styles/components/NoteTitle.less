@@ -1,4 +1,4 @@
-.action-bar
+.title-bar
 {
   @item-height: 36px;
   @padding-left: 20px;
@@ -8,14 +8,27 @@
   align-self: stretch;
   height: @item-height;
   padding: 0 @padding-left;
-  
-  .tags
+  justify-content: space-between;
+
+  .note-title
   {
+    border: none;
+    font-size: 18px;
+    font-weight: normal;
     flex-grow: 1;
+    
+    // padding: 0 @padding-left 0 @padding-left;
+    padding: 0;
+    outline: none;
+    
+    &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+      color: @icon-color;
+    }
   }
   
   .actions.osx-buttons
   {
+    flex: 1 1 auto;
     align-self: center;
     flex-grow: 0;
     height: 30px;

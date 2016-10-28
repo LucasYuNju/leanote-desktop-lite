@@ -8,16 +8,13 @@ class NoteEditor extends Component {
   static propTypes = {
     active: PropTypes.bool.isRequired,
     note: PropTypes.object.isRequired,
+    // called if editor blur and note content has been edited
     onChange: PropTypes.func.isRequired,
   };
 
   handleBlur = () => {
     if (this.changed) {
-      this.props.onChange({
-        ...this.props.note,
-        Title: this.title.value,
-        Content: this.quill.root.innerHTML,
-      });
+      this.props.onChange(this.quill.root.innerHTML);
     }
     this.changed = false;
   };
@@ -29,8 +26,6 @@ class NoteEditor extends Component {
   reset = (note) => {
     this.quill.history.clear();
     this.quill.clipboard.dangerouslyPasteHTML(note.Content);
-    this.title.value = note.Title;
-    this.title.focus();
     this.changed = false;
   }
   
@@ -52,6 +47,7 @@ class NoteEditor extends Component {
   }
 
   render() {
+    // TODO no need to define toolbar manually
     return (
       <div
         ref={(ref) => this.container = ref}
@@ -59,24 +55,17 @@ class NoteEditor extends Component {
       >
         <div id="toolbar-container">
           <div id="toolbar">
+            <button className="ql-bold"></button>
+            <button className="ql-script" value="sub"></button>
+            <button className="ql-script" value="super"></button>
             <select className="ql-size" defaultValue="default">
               <option value="small"></option>
               <option></option>
               <option value="large"></option>
               <option value="huge"></option>
             </select>
-            <button className="ql-bold"></button>
-            <button className="ql-script" value="sub"></button>
-            <button className="ql-script" value="super"></button>
           </div>
         </div>
-        <input
-          ref={(title) => {this.title = title;}}
-          id="note-title"
-          placeholder="Title your note"
-          onInput={this.handleChange}
-          onBlur={this.handleBlur}
-        />
         <div id="editor-container" />
       </div>
     );

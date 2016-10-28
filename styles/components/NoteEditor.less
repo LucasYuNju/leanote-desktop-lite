@@ -73,27 +73,14 @@
 
     .ql-editor
     {
-      padding-left: @padding-left * 2;
+      padding-left: @padding-left;
+      padding-right: @padding-left;
       
       &::before
       {
         font-style: normal !important;
         color: @icon-color;
       }
-    }
-  }
-
-  #note-title
-  {
-    border: none;
-    font-size: 18px;
-    font-weight: normal;
-    
-    padding: 14px @padding-left * 2 0 @padding-left * 2;
-    outline: none;
-    
-    &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-      color: @icon-color;
     }
   }
 }
