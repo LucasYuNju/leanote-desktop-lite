@@ -19,18 +19,24 @@
     {
       .osx-button
       {
-        color: @icon-color;
+        color: @header-color;
         border: 1px solid @header-bg;
         background: @header-button-bg;
+
+        &:hover
+        {
+          border: 1px solid @border-color-darker;          
+          z-index: 5;          
+        }
         
         &:active
         {
           background: @header-bg;
-          border: 1px solid @border-color-darker;
-          
-          .icon
-          {
-          }
+        }
+        
+        .icon
+        {
+          color: @header-color;
         }
       }
     }
