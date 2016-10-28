@@ -17,7 +17,7 @@ class NoteEditor extends Component {
         ...this.props.note,
         Title: this.title.value,
         Content: this.quill.root.innerHTML,
-      });      
+      });
     }
     this.changed = false;
   };

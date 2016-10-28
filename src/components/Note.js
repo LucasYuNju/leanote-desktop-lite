@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, {Component, PropTypes} from 'react';
 
 import Icon from '../components/Icon';
-import NoteActionBar from '../components/NoteActionBar';
+import NoteTitle from '../components/NoteTitle';
 import NoteEditor from '../components/NoteEditor';
 import MarkdownEditor from '../components/MarkdownEditor';
 
@@ -55,12 +55,12 @@ class Note extends Component {
     const {
       note,
     } = this.props;
-    const {
-      editMode,
-    } = this.state;
     return (
       <div className='note'>
-        {this.renderActionBar()}
+        <NoteTitle
+          toggleEditMode={note.IsMarkdown ? this.toggleEditMode : null}
+          editMode={this.state.editMode}
+        />
         <NoteEditor
           active={!note.IsMarkdown}
           note={note}
@@ -68,7 +68,7 @@ class Note extends Component {
         />
         <MarkdownEditor
           active={note.IsMarkdown}
-          editMode={editMode}
+          editMode={this.state.editMode}
           note={note}
         />
       </div>
