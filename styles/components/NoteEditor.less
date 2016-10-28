@@ -21,6 +21,44 @@
       border: none !important;
       border-bottom: 1px solid @border-color !important;
       
+      svg
+      {
+        .ql-stroke
+        {
+          stroke: @icon-color;          
+        }
+        
+        .ql-fill
+        {
+          fill: @icon-color;
+        }
+      }
+      
+      .ql-active
+      {
+        svg
+        {
+          .ql-stroke
+          {
+            stroke: @theme-color;          
+          }
+          
+          .ql-fill
+          {
+            fill: @theme-color;
+          }
+        }        
+      }
+
+      .ql-size
+      {
+        color: @icon-color;
+      }
+
+      button
+      {
+      }
+      
       &:first-child
       {
         padding-left: 0;
