@@ -1,11 +1,15 @@
 # leanote-desktop-react
 In an effort to learn react, this is leanote-desktop-react, a simple Leanote desktop app. 
 
+# How it looks
+
+![screenshot](./docs/screenshot.png)
+
 # How to run
 
 1. `npm install`
 
-> If you are in china, you'd better switch mirror before installation:<br>
+> If you are in china, you'd better switch npm mirror before installation:<br>
 > `DEBUG=* ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/" npm install` 
 
 2. `npm run build`

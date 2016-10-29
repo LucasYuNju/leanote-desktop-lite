@@ -9,7 +9,7 @@ import rootReducer from './reducers/rootReducer';
 const store = createStore(
   rootReducer,
   applyMiddleware(
-    thunkMiddleware, // 异步action
+    thunkMiddleware, // async action
   )
 )
 

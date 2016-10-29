@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import marked from 'marked';
 import React, { Component, PropTypes } from 'react';
 import SimpleMDE from 'simplemde';
 
@@ -38,7 +37,6 @@ class MarkdownEditor extends Component {
       active,
       note,
     } = this.props;
-    const htmlContent = marked(note.Content);
 
     return (
       <div className="markdown-editor" 

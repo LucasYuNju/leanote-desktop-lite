@@ -8,12 +8,10 @@ class Icon extends Component {
     className: PropTypes.string,
     iconName: PropTypes.string.isRequired,
     onClick: PropTypes.func,
-    size: PropTypes.number,
   };
 
   static defaultProps = {
     onClick: () => {},
-    size: 16,
   }
 
   render() {
@@ -21,7 +19,6 @@ class Icon extends Component {
       className,
       iconName,
       onClick,
-      size,
     } = this.props;
     
     return (

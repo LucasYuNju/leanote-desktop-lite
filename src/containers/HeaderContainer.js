@@ -15,12 +15,8 @@ class HeaderContainer extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {};
-}
-
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(NoteActionCreators, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);
+export default connect(() => ({}), mapDispatchToProps)(HeaderContainer);

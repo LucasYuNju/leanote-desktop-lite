@@ -1,6 +1,6 @@
-import React, { Component, PropTypes } from 'react';
-import { bindActionCreators, reselect } from 'redux';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import React, { Component, PropTypes } from 'react';
 
 import NoteList from '../components/NoteList';
 import * as NoteActionCreators from '../actions/NoteActions';
