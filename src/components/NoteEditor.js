@@ -71,6 +71,7 @@ class NoteEditor extends Component {
           [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
           ['bold', 'italic', 'underline', { 'color': [] }, 'blockquote', 'code-block'],        // toggled buttons
           [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          [{ 'align': [] }],
           ['clean']
         ],
       },

@@ -14,10 +14,12 @@
   .ql-toolbar
   {
     border: none !important;
-    padding: 4px @padding-left 4px @padding-left !important;
+    padding: 2px @padding-left 2px @padding-left !important;
     
     svg
-    {
+    {  
+      width: 14px !important;
+
       .ql-stroke
       {
         stroke: @icon-color;          
@@ -28,33 +30,57 @@
         fill: @icon-color;
       }
     }
-    
-    .ql-active
-    {
-      svg
-      {
-        .ql-stroke
-        {
-          stroke: @theme-color;          
-        }
-        
-        .ql-fill
-        {
-          fill: @theme-color;
-        }
-      }        
-    }
 
+    .ql-active svg
+    {
+      .ql-stroke
+      {
+        stroke: @theme-color;          
+      }
+      
+      .ql-fill
+      {
+        fill: @theme-color;
+      }
+    }        
+    
     .ql-formats
     {
       .ql-picker
       {
-        color: @icon-color;
+        height: 20px;
+
+        svg
+        {
+          padding-top: 2px;          
+        }
       }
       
-      .ql-picker-label
+      .ql-font.ql-picker, .ql-size.ql-picker
       {
-        padding-left: 0 !important;
+        width: 78px;
+        color: @icon-color;
+        
+        .ql-picker-label
+        {
+          padding-left: 0 !important;
+          font-size: 12px;
+          line-height: 20px;
+          height: 20px;
+          border: none;
+          
+          &::before
+          {
+            line-height: 20px !important;
+            height: 20px !important;
+          }
+        }        
+      }
+      
+      button
+      {
+        width: 24px;
+        height: 20px;
       }
     }
   }
