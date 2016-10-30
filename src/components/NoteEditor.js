@@ -53,19 +53,6 @@ class NoteEditor extends Component {
         ref={(ref) => this.container = ref}
         className={classNames('note-editor', { hidden: !this.props.active })}
       >
-        <div id="toolbar-container">
-          <div id="toolbar">
-            <button className="ql-bold"></button>
-            <button className="ql-script" value="sub"></button>
-            <button className="ql-script" value="super"></button>
-            <select className="ql-size" defaultValue="default">
-              <option value="small"></option>
-              <option></option>
-              <option value="large"></option>
-              <option value="huge"></option>
-            </select>
-          </div>
-        </div>
         <div id="editor-container" />
       </div>
     );
@@ -79,9 +66,18 @@ class NoteEditor extends Component {
       theme: 'snow',
       placeholder: 'Enter text here...',
       modules: {
-        toolbar: '#toolbar',
-     },
+        toolbar: [
+          [{ 'font': [] }],
+          [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+          ['bold', 'italic', 'underline', { 'color': [] }, 'blockquote', 'code-block'],        // toggled buttons
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          ['clean']
+        ],
+      },
     });
+    const editorContainer = document.getElementById('editor-container');
+    this.container.insertBefore(document.createElement('hr'), editorContainer);
+    
     this.quill.on('text-change', (range, oldRange, source) => {
       this.handleChange();
     });

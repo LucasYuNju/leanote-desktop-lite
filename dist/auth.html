@@ -6,7 +6,7 @@
     // tmp solution to enable dev mode on windows
     // process.env.ENV = 'development';
     var baseUrl = process.env.ENV === 'development' ? 'http://localhost:3000/assets' : './assets';
-    function loadStlyes(name) {
+    function loadStlyeSheet(name) {
       var link = document.createElement('link');
       link.rel = 'stylesheet';
       link.href = baseUrl + name;
@@ -17,7 +17,7 @@
       script.src = baseUrl + name;
       document.write(script.outerHTML);
     }
-    loadStlyes('/auth/bundle.css');
+    loadStlyeSheet('/auth/bundle.css');
   </script>
 </head>
 <body>
