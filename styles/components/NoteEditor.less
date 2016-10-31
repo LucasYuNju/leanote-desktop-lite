@@ -94,6 +94,20 @@
     align-self: stretch;
   }
   
+  .note-title
+  {
+    padding: 10px @padding-left + 10 0 @padding-left + 10;
+    border: none;
+    font-size: 18px;
+    font-weight: normal;
+    flex-shrink: 0;
+    outline: none;
+    
+    &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+      color: @icon-color;
+    }
+  }
+  
   #editor-container
   {
     border: none !important;    
@@ -101,8 +115,7 @@
 
     .ql-editor
     {
-      padding-left: @padding-left;
-      padding-right: @padding-left;
+      padding: 12px @padding-left + 10;
       
       &::before
       {

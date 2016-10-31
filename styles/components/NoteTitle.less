@@ -1,4 +1,4 @@
-.title-bar
+.note-toolbar
 {
   @item-height: 36px;
   @padding-left: 20px;
@@ -9,22 +9,6 @@
   height: @item-height;
   padding: 0 @padding-left;
   justify-content: space-between;
-
-  .note-title
-  {
-    border: none;
-    font-size: 18px;
-    font-weight: normal;
-    flex-grow: 1;
-    
-    // padding: 0 @padding-left 0 @padding-left;
-    padding: 0;
-    outline: none;
-    
-    &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-      color: @icon-color;
-    }
-  }
   
   .actions.osx-buttons
   {

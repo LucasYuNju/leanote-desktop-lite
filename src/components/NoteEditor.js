@@ -9,21 +9,24 @@ class NoteEditor extends Component {
     active: PropTypes.bool.isRequired,
     note: PropTypes.object.isRequired,
     // called if editor blur and note content has been edited
-    onChange: PropTypes.func.isRequired,
+    onContentChange: PropTypes.func.isRequired,
+    onTitleChange: PropTypes.func.isRequired,
+    title: PropTypes.string,
   };
 
-  handleBlur = () => {
+  handleEditorBlur = () => {
     if (this.changed) {
-      this.props.onChange(this.quill.root.innerHTML);
+      this.props.onContentChange(this.quill.root.innerHTML);
     }
     this.changed = false;
   };
   
-  handleChange = () => {
+  handleContentChange = () => {
     this.changed = true;
   };
   
   reset = (note) => {
+    this.title.value = note.Title;
     this.quill.history.clear();
     this.quill.clipboard.dangerouslyPasteHTML(note.Content);
     this.changed = false;
@@ -38,7 +41,6 @@ class NoteEditor extends Component {
     const nextNote = nextProps.note;
     if (note.NoteId !== nextNote.NoteId) {
       this.reset(nextNote);
-      this.changed = false;
     }
   }
 
@@ -61,7 +63,6 @@ class NoteEditor extends Component {
   componentDidMount() {
     const Image = Quill.import('formats/image');
     Image.sanitize = (url) => url;
-    
     this.quill = new Quill('#editor-container', {
       theme: 'snow',
       placeholder: 'Enter text here...',
@@ -76,15 +77,24 @@ class NoteEditor extends Component {
         ],
       },
     });
+    
     const editorContainer = document.getElementById('editor-container');
     this.container.insertBefore(document.createElement('hr'), editorContainer);
     
+    this.title = document.createElement('input');
+    this.title.className = 'note-title';
+    this.title.placeholder = "Title your note";
+    this.title.onblur = () => {
+      this.props.onTitleChange(this.title.value);
+    };
+    this.container.insertBefore(this.title, editorContainer);
+    
     this.quill.on('text-change', (range, oldRange, source) => {
-      this.handleChange();
+      this.handleContentChange();
     });
-    // quill's selection-change event can do the same thing. But it has a bug.
+    // quill selection-change event can do the same thing. But it has a bug.
     document.getElementsByClassName('ql-editor')[0].onblur = () => {
-      this.handleBlur();
+      this.handleEditorBlur();
     }
     
     if (this.props.active) {

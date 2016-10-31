@@ -3,13 +3,10 @@ import classNames from 'classnames';
 
 import Icon from '../components/Icon';
 
-class NoteTitle extends Component {
+class NoteToolbar extends Component {
   static propTypes = {
     editMode: PropTypes.bool,
-    onChanging: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
     toggleEditMode: PropTypes.func,
-    title: PropTypes.string,
   };
 
   renderEditModeButton = () => {
@@ -28,19 +25,12 @@ class NoteTitle extends Component {
 
   render() {
     const {
-      onChange,
       title,
       toggleEditMode,
     } = this.props;
     return (
-      <div className="title-bar">
-        <input
-          className="note-title"
-          placeholder="Title your note"
-          onChange={this.handleInputChange}
-          onBlur={onChange}
-          value={title}
-        />
+      <div className="note-toolbar">
+        <div className="tags" />
         <div className="osx-buttons actions">
           {this.renderEditModeButton()}
           <div className="osx-button">
@@ -60,4 +50,4 @@ class NoteTitle extends Component {
   }
 }
 
-export default NoteTitle;
+export default NoteToolbar;

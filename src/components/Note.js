@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, {Component, PropTypes} from 'react';
 
 import Icon from '../components/Icon';
-import NoteTitle from '../components/NoteTitle';
+import NoteToolbar from '../components/NoteToolbar';
 import NoteEditor from '../components/NoteEditor';
 import MarkdownEditor from '../components/MarkdownEditor';
 
@@ -11,46 +11,27 @@ class Note extends Component {
     note: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
   };
-  
+
   state = {
     editMode: false,
-    note: {
-      ...this.props.note,
-    },
   };
-    
-  componentWillReceiveProps(nextProps) {
-    const note = this.state.note;
-    const nextNote = nextProps.note;
-    if (note.NoteId !== nextProps.note.NoteId) {
-      if (this.changed) {
-        console.error("error in Note, update note before switching");
-      }
-      this.setState({
-        note: {
-          ...nextNote,
-        },
-      });
-    }
-  }
   
   render() {
     const {
       note,
-    } = this.state;
+    } = this.props;
     return (
       <div className='note'>
-        <NoteTitle
+        <NoteToolbar
           editMode={this.state.editMode}
-          onChanging={this.handleTitleChanging}
-          onChange={this.handleTitlChange}
-          title={note.Title}
           toggleEditMode={note.IsMarkdown ? this.toggleEditMode : null}
         />
         <NoteEditor
           active={!note.IsMarkdown}
           note={note}
-          onChange={this.handleContentChange}
+          onContentChange={this.handleContentChange}
+          onTitleChanging={this.handleTitleChanging}
+          onTitleChange={this.handleTitlChange}
         />
         <MarkdownEditor
           active={note.IsMarkdown}
@@ -61,23 +42,16 @@ class Note extends Component {
     );
   }
 
-  handleTitleChanging = (title) => {
-    this.setState({
-      note: {
-        ...this.state.note,
-        Title: title,
-      }
+  handleTitlChange = (title) => {
+    this.props.onChange({
+      ...this.props.note,
+      Title: title,
     });
-  };
-
-  handleTitlChange = () => {
-    const note = this.state.note;
-    this.props.onChange(note);
   };
 
   handleContentChange = (content) => {
     const note = {
-      ...this.state.note,
+      ...this.props.note,
       Content: content,
     };
     this.props.onChange(note);

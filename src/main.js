@@ -6,10 +6,17 @@ import thunkMiddleware from 'redux-thunk'
 import Main from './containers/Main';
 import rootReducer from './reducers/rootReducer';
 
+const loggerMiddleware = store => next => action => {
+  let result = next(action);
+  console.log('action', action.type, action, store.getState());
+  return result;
+}
+
 const store = createStore(
   rootReducer,
   applyMiddleware(
     thunkMiddleware, // async action
+    loggerMiddleware,
   )
 )
 
