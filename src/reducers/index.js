@@ -52,7 +52,7 @@ function notebook(state = initialNotebook, action) {
   switch (action.type) {
     case types.ADD_NOTE:
       // TODO rewrite with immutable
-      state[action.notebookId].NoteIds.push(action.note.NoteId);
+      state[action.notebookId].NoteIds.unshift(action.note.NoteId);
       return state;
     case types.RECEIVE_NOTES:
       let notebook = state[action.notebookId];
