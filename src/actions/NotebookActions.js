@@ -20,3 +20,7 @@ export function selectNotebook(notebookId) {
     });
   }
 }
+
+export function addNote(notebookId, noteId) {
+  return { type: types.ADD_NOTE, notebookId, noteId };
+}

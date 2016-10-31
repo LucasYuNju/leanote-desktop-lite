@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'eval-source-map',
 	context: path.resolve("./src"),
   entry: {
     vendor: ["babel-polyfill", "jquery"],

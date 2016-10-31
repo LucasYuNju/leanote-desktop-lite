@@ -1,4 +1,4 @@
-const remote = require('electron').remote;
+const { remote } = require('electron');
 const { Menu, MenuItem } = require('electron').remote;
 
 class SystemMenu {
@@ -30,10 +30,10 @@ class SystemMenu {
     const targetDOM = event.currentTarget;
     const rect = targetDOM.getBoundingClientRect();
     if (dropdown) {
-      this._menu.popup(remote.getCurrentWindow(), event.clientX, rect.bottom);
+      this._menu.popup(remote.getCurrentWindow(), parseInt(event.clientX) - 10, parseInt(rect.bottom));
     }
     else {
-      this._menu.popup(remote.getCurrentWindow(), event.clientX, rect.top - this._menuHeight);
+      this._menu.popup(remote.getCurrentWindow(), event.clientX - 10, parseInt(rect.top - this._menuHeight));
     }
   }
 }

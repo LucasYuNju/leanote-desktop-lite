@@ -1,14 +1,21 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import objectId from 'objectid-browser';
 
 import Icon from '../components/Icon';
 import SearchBox from '../components/SearchBox';
 import TitleBar from '../components/TitleBar';
+import Menu from '../util/SystemMenu';
 
 class Header extends Component {
   static propTypes = {
-    sendChange: PropTypes.func.isRequired,
+    createNote: PropTypes.func.isRequired,
+    sendNotes: PropTypes.func.isRequired,
+    updateNote: PropTypes.func.isRequired,
+    notebookTitle: PropTypes.string,
+    notebookId: PropTypes.string,
+    userId: PropTypes.string,
   };
 
   state = {
@@ -16,7 +23,7 @@ class Header extends Component {
   }
 
   handleSyncClick = () => {
-    this.props.sendChange();
+    this.props.sendNotes();
     this.setState({
       synchonizing: true,
     });
@@ -27,6 +34,41 @@ class Header extends Component {
     }, 2000);
   };
 
+  handleCreateButtonClicked = (event) => {
+    if (!this.menu) {
+      const template = [
+        {
+          label: 'Create Note',
+          click: this.createNote.bind(this, null, false),
+        },
+        {
+          label: 'Create Markdown Note',
+          click: this.createNote.bind(this, null, true),
+        },
+      ];
+      this.menu = new Menu(template);
+    }
+    this.menu.popup(event);
+  };
+
+  createNote = (event, isMarkdown = false) => {
+    const note = {
+      NoteId: objectId(),
+      Title: '',
+      Tags:[],
+      Desc: '',
+      Content: '',
+      NotebookId: this.props.notebookId,
+      IsNew: true,
+      FromUserId: this.props.userId,
+      IsMarkdown: isMarkdown,
+      CreatedTime: new Date(),
+      UpdatedTime: new Date(),
+    };
+    this.props.createNote(note, this.props.notebookId);
+    this.props.updateNote(note);
+  };
+  
   render() {
     return (
       <TitleBar className="header">
@@ -42,12 +84,12 @@ class Header extends Component {
             </div>
           </div>
           <div className="osx-buttons">
-            <div className="osx-button create-note-button">
+            <div className="osx-button create-note-button" onClick={this.createNote}>
               <span className="text">
                 Create Note
               </span>
             </div>
-            <div className="osx-button dropdown-button">
+            <div className="osx-button dropdown-button" onClick={this.handleCreateButtonClicked}>
               <Icon iconName="chevron-down" />
             </div>
           </div>

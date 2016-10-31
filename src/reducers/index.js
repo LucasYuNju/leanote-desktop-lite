@@ -10,6 +10,11 @@ function flattern(res, notebook) {
 
 function note(state = {}, action) {
   switch (action.type) {
+    case types.ADD_NOTE:
+      return {
+        ...state,
+        [action.note.NoteId]: action.note,
+      };
     case types.RECEIVE_NOTES:
       if (action.notes.length > 0) {
         const notes = {};
@@ -45,8 +50,12 @@ const initialNotebook = {
 
 function notebook(state = initialNotebook, action) {
   switch (action.type) {
+    case types.ADD_NOTE:
+      // TODO rewrite with immutable
+      state[action.notebookId].NoteIds.push(action.note.NoteId);
+      return state;
     case types.RECEIVE_NOTES:
-      const notebook = state[action.notebookId];
+      let notebook = state[action.notebookId];
       if (action.notes.length > 0) {
         const newNotebook = {
           ...notebook,

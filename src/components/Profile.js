@@ -17,19 +17,18 @@ class User extends Component {
   };
 
   handleClick = (event) => {
-    this.menu.popup(event, false);
-  }
-  
-  componentDidMount() {
-    const template = [
-      {
-        label: 'Sign out',
-        click: () => {
-          ipcRenderer.send('auth-requested');
+    if (!this.menu) {
+      const template = [
+        {
+          label: 'Sign out',
+          click: () => {
+            ipcRenderer.send('auth-requested');
+          },
         },
-      },
-    ];
-    this.menu = new Menu(template);
+      ];
+      this.menu = new Menu(template);
+    }
+    this.menu.popup(event, false);
   }
 
   render() {

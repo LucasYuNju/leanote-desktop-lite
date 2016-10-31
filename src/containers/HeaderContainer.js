@@ -8,10 +8,25 @@ import * as NoteActionCreators from '../actions/NoteActions';
 class HeaderContainer extends Component {
   render() {
     return (
-      <Header
-        sendChange={this.props.sendNotes}
-      />
+      <Header {...this.props} />
     );
+  }
+}
+
+function mapStateToProps(state) {
+  const {
+    user,
+    noteList,
+    index,
+  } = state;
+  // TODO too many render at start
+  if (noteList.selected.type !== 'notebook') {
+    return {};
+  }
+  return {
+    userId: user.info.UserId,
+    notebookId: noteList.selected.id,
+    notebookTitle: index.notebook[noteList.selected.id].Title,
   }
 }
 
@@ -19,4 +34,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(NoteActionCreators, dispatch);
 }
 
-export default connect(() => ({}), mapDispatchToProps)(HeaderContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);

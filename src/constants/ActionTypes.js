@@ -3,8 +3,7 @@
  */
 export const RECEIVE_NOTES = 'RECEIVE_NOTES';
 export const SELECT_NOTE = 'SELECT_NOTE';
-
-export const DISPLAY_NOTES = 'DISPLAY_NOTES';
+export const ADD_NOTE = 'ADD_NOTE';
 
 // update local store
 export const UPDATE_NOTE_REQUESTED = 'UPDATE_NOTE_REQUESTED';
@@ -19,6 +18,7 @@ export const SEND_NOTES_REQUESTED = 'SEND_NOTES_REQUESTED';
  */
 export const RECEIVE_NOTEBOOKS = 'RECEIVE_NOTEBOOKS';
 export const SELECT_NOTEBOOK = 'SELECT_NOTEBOOK';
+
 
 /*
  * user
