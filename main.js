@@ -31,7 +31,7 @@ function createMainWindow() {
     fullscreenable: false,
     width: 1080,
     height: 680,
-    show: false,
+    // show: false,
     titleBarStyle: 'hidden-inset',
     useContentSize: true,
   });

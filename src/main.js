@@ -1,28 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk'
+
+import DevTools from './containers/DevTools';
 import Main from './containers/Main';
 import rootReducer from './reducers/rootReducer';
 
-const loggerMiddleware = store => next => action => {
-  let result = next(action);
-  console.log('action', action.type, action, store.getState());
-  return result;
-}
-
-const store = createStore(
-  rootReducer,
-  applyMiddleware(
-    thunkMiddleware, // async action
-    loggerMiddleware,
-  )
-)
+const enhancer = compose(applyMiddleware(thunkMiddleware), DevTools.instrument());
+const store = createStore(rootReducer, {}, enhancer);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Main />
+    <div>
+      <Main />
+      <DevTools />
+    </div>
   </Provider>,
   document.getElementById('root')
 );
