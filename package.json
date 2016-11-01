@@ -39,6 +39,7 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
     "redux": "^3.6.0",
+    "redux-batched-updates": "^0.1.0",
     "redux-thunk": "^2.1.0",
     "simplemde": "^1.11.2"
   },
