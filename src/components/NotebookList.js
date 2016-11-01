@@ -42,7 +42,6 @@ class NotebookList extends Component {
       selectedNoteList,
     } = nextProps;
     if (!selectedNoteList.id) {
-      console.error('select default notebook');
       // FIXME selected note list maybe just get deleted
       const defaultNotebookId = rootNotebook.ChildIds[0];
       if (defaultNotebookId) {

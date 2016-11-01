@@ -81,6 +81,9 @@ function notebook(state = initialNotebook, action) {
           Subs: action.value,
         };
         flattern(result, root);
+        Object.keys(result).forEach(key => {
+          result[key].NoteIds = [];
+        })
         return result;
       }
     default:
