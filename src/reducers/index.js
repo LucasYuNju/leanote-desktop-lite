@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { Map } from 'immutable';
 import * as types from '../constants/ActionTypes';
 
 function flattern(res, notebook) {

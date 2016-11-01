@@ -6,16 +6,19 @@ import Profile from '../components/Profile';
 
 class UserContainer extends Component {
   render() {
-    const user = this.props.user.info;
+    const info = this.props.user.info;
     return (
-      <Profile username={user.Username} logo={user.Logo} />
+      <Profile username={info.Username} logo={info.Logo} />
     );
   }
 }
 
 function mapStateToProps(state) {
+  const {
+    user,
+  } = state;
   return {
-    user: state.user,
+    user: user.toJS(),
   };
 }
 
