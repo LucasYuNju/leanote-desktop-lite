@@ -9,7 +9,7 @@ const SelectableList = makeSelectable(List);
 
 class NotebookList extends Component {
   static propTypes = {
-    index: PropTypes.object.isRequired,
+    notebookIndex: PropTypes.object.isRequired,
     rootNotebook: PropTypes.object.isRequired,
     selectNotebook: PropTypes.func.isRequired,
     selectedNoteList: PropTypes.object.isRequired,
@@ -29,7 +29,7 @@ class NotebookList extends Component {
       <ListItem
         key={notebook.NotebookId}
         icon={icon}
-        nestedItems={notebook.ChildIds.map(notebookId => this.renderNotebook(this.props.index.notebook[notebookId]))}
+        nestedItems={notebook.ChildIds.map(notebookId => this.renderNotebook(this.props.notebookIndex[notebookId]))}
         text={notebook.Title}
         value={notebook.NotebookId}
       />
@@ -54,7 +54,7 @@ class NotebookList extends Component {
 
   render() {
     const {
-      index,
+      notebookIndex,
       rootNotebook,
       selectedNoteList,
     } = this.props;
@@ -76,7 +76,7 @@ class NotebookList extends Component {
           icon="star"
         >
         </ListItem>
-        {rootNotebook.ChildIds.map(notebookId => this.renderNotebook(index.notebook[notebookId]))}
+        {rootNotebook.ChildIds.map(notebookId => this.renderNotebook(notebookIndex[notebookId]))}
       </SelectableList>
     );
   }

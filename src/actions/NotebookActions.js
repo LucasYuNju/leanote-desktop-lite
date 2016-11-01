@@ -15,7 +15,7 @@ export function fetchNotebooks() {
 
 export function selectNotebook(notebookId) {
   return (dispatch) => {
-    dispatch({ type: types.SELECT_NOTEBOOK, value: notebookId });
+    dispatch({ type: types.SELECT_NOTEBOOK, value: notebookId });      
     dispatch(fetchNotes(notebookId));
   }
 }

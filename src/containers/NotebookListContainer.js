@@ -18,9 +18,10 @@ function mapStateToProps(state) {
     index,
     noteList,
   } = state;
+  const notebookIndex = index.get('notebook').toJS();
   return {
-    rootNotebook: index.notebook.root,
-    index,
+    rootNotebook: notebookIndex.root,
+    notebookIndex: notebookIndex,
     selectedNoteList: noteList.selected,
   }
 }

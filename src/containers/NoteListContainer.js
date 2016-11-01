@@ -14,11 +14,12 @@ class NoteListContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  const {
+  let {
     index,
     note,
     noteList,
   } = state;
+  index = index.toJS();
 
   let displayedNotes = [];
   if (noteList.selected.type === 'notebook') {

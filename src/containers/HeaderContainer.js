@@ -26,7 +26,7 @@ function mapStateToProps(state) {
   return {
     userId: user.toJS().info.UserId,
     notebookId: noteList.selected.id,
-    notebookTitle: index.notebook[noteList.selected.id].Title,
+    notebookTitle: index.getIn(['notebook', noteList.selected.id, 'Title']),
   }
 }
 
