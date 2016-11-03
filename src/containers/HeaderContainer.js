@@ -19,14 +19,15 @@ function mapStateToProps(state) {
     noteList,
     index,
   } = state;
-  // TODO too many render at start
-  if (noteList.selected.type !== 'notebook') {
+  // TODO
+  if (noteList.getIn(['selected', 'type']) !== 'notebook') {
     return {};
   }
+  const selectedNotebookId = noteList.getIn(['selected', 'id']);
   return {
     userId: user.toJS().info.UserId,
-    notebookId: noteList.selected.id,
-    notebookTitle: index.getIn(['notebook', noteList.selected.id, 'Title']),
+    notebookId: selectedNotebookId,
+    notebookTitle: index.getIn(['notebook', selectedNotebookId, 'Title']),
   }
 }
 

@@ -21,6 +21,7 @@ class NoteList extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     if (this.props.selectedNoteList.id === nextProps.selectedNoteList.id) {
+      // TODO selectedNoteList prop is not needed here
       return true;
     }
     else {
