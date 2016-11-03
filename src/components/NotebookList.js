@@ -14,40 +14,23 @@ class NotebookList extends Component {
     selectNotebook: PropTypes.func.isRequired,
     selectedNoteList: PropTypes.object.isRequired,
   };
-
-  handleItemSelect = (value) => {
-    if (value !== 'tags' && value !== 'starred') {
-      this.props.selectNotebook(value);
-    }
-  };
-
-  renderNotebook = (notebook) => {
-    const hasSublist = notebook.ChildIds.length > 0;
-    const icon = hasSublist ? 'file-directory' : 'repo';
-
-    return (
-      <ListItem
-        key={notebook.NotebookId}
-        icon={icon}
-        nestedItems={notebook.ChildIds.map(notebookId => this.renderNotebook(this.props.notebookIndex[notebookId]))}
-        text={notebook.Title}
-        value={notebook.NotebookId}
-      />
-    );
-  };
+  
+  componentDidMount() {
+    this.props.fetchNotebooks();
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     const {
       rootNotebook,
       selectedNoteList,
     } = nextProps;
-    if (!selectedNoteList.id) {
-      // FIXME selected note list maybe just get deleted
+    if (!nextProps.selectedNoteList.id && !this.defaultSelected) {
+      this.defaultSelected = true;
       const defaultNotebookId = rootNotebook.ChildIds[0];
       if (defaultNotebookId) {
         this.props.selectNotebook(defaultNotebookId);
+        return false;
       }
-      return false;
     }
     return true;
   }
@@ -81,9 +64,26 @@ class NotebookList extends Component {
     );
   }
   
-  componentDidMount() {
-    this.props.fetchNotebooks();
-  }
+  handleItemSelect = (value) => {
+    if (value !== 'tags' && value !== 'starred') {
+      this.props.selectNotebook(value);
+    }
+  };
+
+  renderNotebook = (notebook) => {
+    const hasSublist = notebook.ChildIds.length > 0;
+    const icon = hasSublist ? 'file-directory' : 'repo';
+
+    return (
+      <ListItem
+        key={notebook.NotebookId}
+        icon={icon}
+        nestedItems={notebook.ChildIds.map(notebookId => this.renderNotebook(this.props.notebookIndex[notebookId]))}
+        text={notebook.Title}
+        value={notebook.NotebookId}
+      />
+    );
+  };
 }
 
 export default NotebookList;

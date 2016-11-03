@@ -1,5 +1,5 @@
 import * as types from '../constants/ActionTypes';
-import { fetchNotes } from '../actions/NoteActions';
+import { fetchNotes, selectNote } from '../actions/NoteActions';
 
 export function receiveNotebooks(status, value) {
   return { type: types.RECEIVE_NOTEBOOKS, status, value };
@@ -15,8 +15,10 @@ export function fetchNotebooks() {
 
 export function selectNotebook(notebookId) {
   return (dispatch) => {
-    dispatch({ type: types.SELECT_NOTEBOOK, value: notebookId });      
-    dispatch(fetchNotes(notebookId));
+    // Notes are expected to be cached.
+    dispatch(fetchNotes(notebookId)).then(() => {
+      dispatch({ type: types.SELECT_NOTEBOOK, value: notebookId });
+    });
   }
 }
 

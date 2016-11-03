@@ -24,6 +24,7 @@ function mapStateToProps(state) {
   let displayedNotes = [];
   if (noteList.selected.type === 'notebook') {
     displayedNotes = index.notebook[noteList.selected.id].NoteIds.map(noteId => index.note[noteId]);
+    // console.log(displayedNotes);
   }
   const selectedNote = note.selected ? index.note[note.selected] : null;
   return {

@@ -24,10 +24,9 @@ function mapStateToProps(state) {
     index,
     note,
   } = state;
-  console.log(state, note.selected);
-  if (note.selected) {
-    const note = index.getIn(['note', note.selected]);
-    console.log(note);
+  const selectedNoteId = note.get('selected');
+  if (selectedNoteId) {
+    const note = index.getIn(['note', selectedNoteId]).toJS();
     return { note };
   }
   return {

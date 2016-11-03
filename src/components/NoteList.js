@@ -20,6 +20,12 @@ class NoteList extends Component {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
+    // if (nextProps.notes.length && !nextProps.selectedNote) {
+    //   this.props.selectNote(nextProps.notes[0].NoteId);
+    //   return false;
+    // }
+    // return true;
+
     if (this.props.selectedNoteList.type === nextProps.selectedNoteList.type 
     && this.props.selectedNoteList.id === nextProps.selectedNoteList.id) {
       return true;
