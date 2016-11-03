@@ -19,14 +19,14 @@ function mapStateToProps(state) {
     note,
     noteList,
   } = state;
-  index = index.toJS();
 
   let displayedNotes = [];
   if (noteList.selected.type === 'notebook') {
-    displayedNotes = index.notebook[noteList.selected.id].NoteIds.map(noteId => index.note[noteId]);
-    // console.log(displayedNotes);
+    const selectedNotebook = index.getIn(['notebook', noteList.selected.id]).toJS();
+    displayedNotes = selectedNotebook.NoteIds.map(noteId => index.getIn(['note', noteId]).toJS());
   }
-  const selectedNote = note.selected ? index.note[note.selected] : null;
+  const selectedNoteId = note.get('selected');
+  const selectedNote = selectedNoteId ? index.getIn(['note', selectedNoteId]).toJS() : null;
   return {
     notes: displayedNotes,
     selectedNote,
