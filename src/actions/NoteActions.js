@@ -1,11 +1,14 @@
+import { arrayOf, normalize } from 'normalizr';
+
 import * as types from '../constants/ActionTypes';
+import { noteSchema } from '../constants/Schemas';
 
 export function selectNote(noteId) {
   return { type: types.SELECT_NOTE, noteId };
 }
 
-export function receiveNotes(status, notes, notebookId) {
-  return { type: types.RECEIVE_NOTES, status, notes, notebookId };
+export function receiveNotes(status, entities, ids, notebookId) {
+  return { type: types.RECEIVE_NOTES, status, entities, ids, notebookId };
 }
 
 export function fetchNotes(notebookId) {
@@ -13,7 +16,9 @@ export function fetchNotes(notebookId) {
     return new Promise((resolve, reject) => {
       service.note.getNotes(notebookId, (res) => {
         if (res) {
-          dispatch(receiveNotes('success', res, notebookId));
+          const ids = res.map(note => note.NoteId);
+          const normalized = normalize(res, arrayOf(noteSchema));
+          dispatch(receiveNotes('success', normalized.entities.notes, normalized.result, notebookId));
           resolve();
         }
         else {

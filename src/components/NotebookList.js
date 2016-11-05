@@ -26,7 +26,7 @@ class NotebookList extends Component {
     } = nextProps;
     if (!nextProps.selectedNoteList.id && !this.defaultSelected) {
       this.defaultSelected = true;
-      const defaultNotebookId = rootNotebook.ChildIds[0];
+      const defaultNotebookId = rootNotebook.Subs[0];
       if (defaultNotebookId) {
         this.props.selectNotebook(defaultNotebookId);
         return false;
@@ -59,7 +59,7 @@ class NotebookList extends Component {
           icon="star"
         >
         </ListItem>
-        {rootNotebook.ChildIds.map(notebookId => this.renderNotebook(notebookIndex[notebookId]))}
+        {rootNotebook.Subs.map(notebookId => this.renderNotebook(notebookIndex[notebookId]))}
       </SelectableList>
     );
   }
@@ -71,14 +71,14 @@ class NotebookList extends Component {
   };
 
   renderNotebook = (notebook) => {
-    const hasSublist = notebook.ChildIds.length > 0;
+    const hasSublist = notebook.Subs.length > 0;
     const icon = hasSublist ? 'file-directory' : 'repo';
 
     return (
       <ListItem
         key={notebook.NotebookId}
         icon={icon}
-        nestedItems={notebook.ChildIds.map(notebookId => this.renderNotebook(this.props.notebookIndex[notebookId]))}
+        nestedItems={notebook.Subs.map(notebookId => this.renderNotebook(this.props.notebookIndex[notebookId]))}
         text={notebook.Title}
         value={notebook.NotebookId}
       />

@@ -1,26 +1,19 @@
 
 ```
 state = {
-  index: {
-    note: {
+  entities: {
+    notes: {
       20dr92: {
         NoteId: '20dr92',
         Title: 'wildlife',
       },
     }
-    notebook: {
+    notebooks: {
       root: {
         Title: 'dumb notebook',
         NotebookId: 'root',
         NoteIds: [],  //empty
         ChildIds: ['57b574'],
-      },
-      latest: {
-        Title: 'dumb notebook',
-        limit: 100,
-        NotebookId: 'root',
-        NoteIds: ['20dr92', 'sajweow'],
-        ChildIds: [],  //empty
       },
       57b574: {
         Title: 'Pictured Notebook'

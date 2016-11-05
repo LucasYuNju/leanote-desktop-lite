@@ -1,14 +1,18 @@
+import { arrayOf, normalize } from 'normalizr';
+
 import * as types from '../constants/ActionTypes';
 import { fetchNotes, selectNote } from '../actions/NoteActions';
+import { notebookSchema } from '../constants/Schemas';
 
-export function receiveNotebooks(status, value) {
-  return { type: types.RECEIVE_NOTEBOOKS, status, value };
+export function receiveNotebooks(status, entities, rootIds) {
+  return { type: types.RECEIVE_NOTEBOOKS, status, entities, rootIds };
 }
 
 export function fetchNotebooks() {
   return (dispatch) => {
     service.notebook.getNotebooks((res) => {
-      dispatch(receiveNotebooks('success', res));
+      const normalized = normalize(res, arrayOf(notebookSchema));
+      dispatch(receiveNotebooks('success', normalized.entities.notebooks, normalized.result));
     });
   };
 }
