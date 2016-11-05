@@ -15,7 +15,7 @@ class NoteListContainer extends Component {
 
 function mapStateToProps(state) {
   let {
-    index,
+    entities,
     note,
     noteList,
   } = state;
@@ -23,11 +23,11 @@ function mapStateToProps(state) {
   let notes = [];
   if (noteList.getIn(['selected', 'type']) === 'notebook') {
     const selectedNotebookId = noteList.getIn(['selected', 'id']);
-    const selectedNotebook = index.getIn(['notebook', selectedNotebookId]).toJS();
-    notes = selectedNotebook.NoteIds.map(noteId => index.getIn(['note', noteId]).toJS());
+    const selectedNotebook = entities.getIn(['notebook', selectedNotebookId]).toJS();
+    notes = selectedNotebook.NoteIds.map(noteId => entities.getIn(['note', noteId]).toJS());
   }
   const selectedNoteId = note.get('selected');
-  const selectedNote = selectedNoteId ? index.getIn(['note', selectedNoteId]).toJS() : null;
+  const selectedNote = selectedNoteId ? entities.getIn(['note', selectedNoteId]).toJS() : null;
   return {
     notes,
     selectedNote,

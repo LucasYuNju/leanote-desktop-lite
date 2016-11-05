@@ -17,7 +17,7 @@ function mapStateToProps(state) {
   const {
     user,
     noteList,
-    index,
+    entities,
   } = state;
   // TODO
   if (noteList.getIn(['selected', 'type']) !== 'notebook') {
@@ -27,7 +27,7 @@ function mapStateToProps(state) {
   return {
     userId: user.toJS().info.UserId,
     notebookId: selectedNotebookId,
-    notebookTitle: index.getIn(['notebook', selectedNotebookId, 'Title']),
+    notebookTitle: entities.getIn(['notebook', selectedNotebookId, 'Title']),
   }
 }
 

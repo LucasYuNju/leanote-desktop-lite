@@ -15,10 +15,10 @@ class NotebookListContainer extends Component {
 
 function mapStateToProps(state) {
   const {
-    index,
+    entities,
     noteList,
   } = state;
-  const notebookIndex = index.get('notebook').toJS();
+  const notebookIndex = entities.get('notebook').toJS();
   return {
     rootNotebook: notebookIndex.root,
     notebookIndex: notebookIndex,

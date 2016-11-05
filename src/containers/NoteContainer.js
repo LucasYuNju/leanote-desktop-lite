@@ -21,12 +21,12 @@ class NoteContainer extends Component {
 
 function mapStateToProps(state) {
   const {
-    index,
+    entities,
     note,
   } = state;
   const selectedNoteId = note.get('selected');
   if (selectedNoteId) {
-    const note = index.getIn(['note', selectedNoteId]).toJS();
+    const note = entities.getIn(['note', selectedNoteId]).toJS();
     return { note };
   }
   return {

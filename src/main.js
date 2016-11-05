@@ -6,7 +6,7 @@ import thunkMiddleware from 'redux-thunk'
 
 import DevTools from './containers/DevTools';
 import Main from './containers/Main';
-import rootReducer from './reducers/rootReducer';
+import rootReducer from './reducers';
 
 const enhancer = compose(applyMiddleware(thunkMiddleware), DevTools.instrument());
 const store = createStore(rootReducer, {}, enhancer);
