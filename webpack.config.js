@@ -6,7 +6,7 @@ module.exports = {
   devtool: 'eval-source-map',
 	context: path.resolve("./src"),
   entry: {
-    vendor: ["babel-polyfill", "jquery"],
+    vendor: [],
     main: ['./main.js', '../styles/index.less'],
     auth: ['./auth.js', '../styles/index.less']
   },
@@ -43,11 +43,14 @@ module.exports = {
     extensions: ['', '.js', '.jsx', '.css'] 
   },
   plugins: [
-    new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery"
+    new ExtractTextPlugin("[name]/bundle.css"),
+    // new webpack.optimize.UglifyJsPlugin(),
+    // new webpack.optimize.DedupePlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
     }),
-    new ExtractTextPlugin("[name]/bundle.css")
   ],
   target: "electron"
 };

@@ -40,4 +40,7 @@ jspm_packages
 .node_repl_history
 
 # built files
-public/assets
+dist/assets
+
+# design images
+docs/design
