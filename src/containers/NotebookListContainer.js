@@ -18,11 +18,11 @@ function mapStateToProps(state) {
     entities,
     noteList,
   } = state;
-  const notebookIndex = entities.get('notebook').toJS();
+  const notebooks = entities.notebook;
   return {
-    rootNotebook: notebookIndex.root,
-    notebookIndex: notebookIndex,
-    selectedNoteList: noteList.get('selected').toJS(),
+    rootNotebook: notebooks.root,
+    notebookIndex: notebooks,
+    selectedNoteList: noteList.selected,
   }
 }
 

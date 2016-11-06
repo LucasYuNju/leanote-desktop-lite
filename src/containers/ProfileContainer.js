@@ -18,7 +18,7 @@ function mapStateToProps(state) {
     user,
   } = state;
   return {
-    user: user.toJS(),
+    user: user,
   };
 }
 

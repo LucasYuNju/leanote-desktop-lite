@@ -27,7 +27,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "electron": "^1.4.0",
-    "immutable": "^3.8.1",
+    "lodash": "^4.16.6",
     "moment": "^2.15.1",
     "nedb": "^1.8.0",
     "needle": "^1.1.2",

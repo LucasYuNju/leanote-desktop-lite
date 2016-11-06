@@ -24,13 +24,12 @@ function mapStateToProps(state) {
     entities,
     note,
   } = state;
-  const selectedNoteId = note.get('selected');
-  if (selectedNoteId) {
-    const note = entities.getIn(['note', selectedNoteId]).toJS();
-    return { note };
+  let selectedNote = null;
+  if (note.selected) {
+    selectedNote = entities.note[note.selected];
   }
   return {
-    note: null,
+    note: selectedNote,
   };
 }
 

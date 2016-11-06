@@ -13,20 +13,29 @@ state = {
         Title: 'dumb notebook',
         NotebookId: 'root',
         NoteIds: [],  //empty
-        ChildIds: ['57b574'],
+        Subs: ['57b574'],
       },
       57b574: {
         Title: 'Pictured Notebook'
         NotebookId: '57b574',
         NoteIds: [],
-        ChildIds: [],
+        Subs: [],
       },
     },
     tag: {
-      // Leanote does not provide api to get note withs a certain tag.
+      // Leanote does not provide api to get note with a certain tag.
       1ys0a1: {
         tagId: 1ys001,
-        Title: 'TODO'
+        Tag: 'TODO',
+        NoteIds,
+      }
+    },
+    noteList: {
+      starred: {
+        NoteIds,
+      },
+      searchResult: {
+        NoteIds,
       }
     }
   },
@@ -34,9 +43,10 @@ state = {
     selected: '20dr92',
   },
   noteList: {
-    selected: { type: notebook, id: '57b574' },
-    // or { type: tag, id: 'TODO' },
-    searchResult: [],
+    selected: {
+      type: 'notebooks',  // or 'tags', 'noteList'
+      id: '57b574',
+    },
   }
   user: {},
 }

@@ -20,14 +20,14 @@ function mapStateToProps(state) {
     entities,
   } = state;
   // TODO
-  if (noteList.getIn(['selected', 'type']) !== 'notebook') {
+  if (noteList.selected.type !== 'notebook') {
     return {};
   }
-  const selectedNotebookId = noteList.getIn(['selected', 'id']);
+  const selectedNotebookId = noteList.selected.id;
   return {
-    userId: user.toJS().info.UserId,
+    userId: user.info.UserId,
     notebookId: selectedNotebookId,
-    notebookTitle: entities.getIn(['notebook', selectedNotebookId, 'Title']),
+    notebookTitle: entities.notebook[selectedNotebookId].Title,
   }
 }
 

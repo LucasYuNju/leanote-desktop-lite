@@ -21,17 +21,15 @@ function mapStateToProps(state) {
   } = state;
 
   let notes = [];
-  if (noteList.getIn(['selected', 'type']) === 'notebook') {
-    const selectedNotebookId = noteList.getIn(['selected', 'id']);
-    const selectedNotebook = entities.getIn(['notebook', selectedNotebookId]).toJS();
-    notes = selectedNotebook.NoteIds.map(noteId => entities.getIn(['note', noteId]).toJS());
+  if (noteList.selected.type === 'notebook') {
+    const notebook = entities.notebook[noteList.selected.id]
+    notes = notebook.NoteIds.map(noteId => entities.note[noteId]);
   }
-  const selectedNoteId = note.get('selected');
-  const selectedNote = selectedNoteId ? entities.getIn(['note', selectedNoteId]).toJS() : null;
+  const selectedNote = note.selected ? entities.note[note.selected] : null;
   return {
     notes,
     selectedNote,
-    selectedNoteList: noteList.get('selected').toJS(),
+    selectedNoteList: noteList.selected,
   };
 }
 

@@ -1,8 +1,5 @@
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
-import { login } from '../actions/UserActions';
 import LoginFormContainer from '../containers/LoginFormContainer';
 import TitleBar from '../components/TitleBar';
 

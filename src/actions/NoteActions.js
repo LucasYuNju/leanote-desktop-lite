@@ -16,7 +16,6 @@ export function fetchNotes(notebookId) {
     return new Promise((resolve, reject) => {
       service.note.getNotes(notebookId, (res) => {
         if (res) {
-          const ids = res.map(note => note.NoteId);
           const normalized = normalize(res, arrayOf(noteSchema));
           dispatch(receiveNotes('success', normalized.entities.notes, normalized.result, notebookId));
           resolve();

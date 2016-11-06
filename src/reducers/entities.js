@@ -1,50 +1,75 @@
-import combineImmutableReducers from '../store/combineImmutableReducers';
-import { fromJS, List, Map } from 'immutable';
+import { combineReducers } from 'redux';
 import * as types from '../constants/ActionTypes';
+// import merge from 'lodash/merge';
 
-function note(state = Map(), action) {
+function note(state = {}, action) {
   switch (action.type) {
     case types.ADD_NOTE:
-      return state.set(action.note.NoteId, action.note);
+      return {
+        ...state,
+        [action.note.NoteId]: action.note,
+      };
     case types.RECEIVE_NOTES:
-      if (action.entities) {
-        return state.merge(fromJS(action.entities));
+      return {
+        ...state,
+        ...action.entities,
       }
-      return state;
     case types.UPDATE_NOTE_SUCCEEDED:
-      return state.mergeIn(action.note.NoteId, action.note);
+      return {
+        ...state,
+        [action.note.NoteId]: action.note,
+      };
     default:
       return state;
   }
 }
 
-const initialNotebook = fromJS({
+const initialNotebook = {
   root: {
     NotebookId: 'root',
     Subs: [],
   }
-});
+};
 
 function notebook(state = initialNotebook, action) {
   switch (action.type) {
     case types.ADD_NOTE:
-      return state.updateIn([action.notebookId, 'NoteIds'], noteIds => noteIds.unshift(actino.note.NoteId));
-    case types.RECEIVE_NOTES:
-      return state.setIn([action.notebookId, 'NoteIds'], List(action.ids));
-    case types.RECEIVE_NOTEBOOKS:
-      if (action.entities) {
-        state = state.merge(fromJS(action.entities));
-        state = state.setIn(['root', 'Subs'], fromJS(action.rootIds));
-        console.error(state.toJS());
-        return state;
+      return {
+        ...state,
+        [action.notebookId]: {
+          ...state[action.notebookId],
+          NoteIds: [
+            action.note.NoteId,
+            ...state[action.notebookId].NoteIds,
+          ],
+        }
       }
-      return state;
+    case types.RECEIVE_NOTES:
+      return {
+        ...state,
+        [action.notebookId]: {
+          ...state[action.notebookId],
+          NoteIds: action.ids,
+        }
+      }
+    case types.RECEIVE_NOTEBOOKS:
+      state = {
+        ...state,
+        ...action.entities,
+      };
+      return {
+        ...state,
+        root: {
+          ...state.root,
+          Subs: action.rootIds,
+        },
+      };
     default:
       return state;
   }
 }
 
-export default combineImmutableReducers({
+export default combineReducers({
   note,
   notebook,
 });

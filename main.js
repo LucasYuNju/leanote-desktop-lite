@@ -3,6 +3,7 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 let mainWindow;
 let authWindow;
 
+console.log('######', process.env.ENV);
 function createAuthWindow() {
   authWindow = new BrowserWindow({
     center: true,
@@ -31,7 +32,7 @@ function createMainWindow() {
     fullscreenable: false,
     width: 1080,
     height: 680,
-    show: false,
+    show: process.env.ENV === 'development',
     titleBarStyle: 'hidden-inset',
     useContentSize: true,
   });
