@@ -27,7 +27,7 @@ class NoteList extends Component {
     else {
       // Switched to a new note list, select first note by default.
       if (nextProps.notes.length) {
-        this.props.selectNote(nextProps.notes[0].NoteId);
+        this.props.selectNote(nextProps.notes[0].noteId);
       }
       else {
         this.props.selectNote(null);
@@ -39,14 +39,14 @@ class NoteList extends Component {
   renderNote(note) {
     return (
       <NoteListItem
-        content={note.Content}
-        key={note.NoteId}
-        value={note.NoteId}
-        snippet={note.Abstract}
-        starred={note.Star}
-        title={note.Title}
-        updatedTime={note.UpdatedTime}
-        imgSrc={note.ImgSrc}
+        content={note.content}
+        key={note.noteId}
+        value={note.noteId}
+        snippet={note.abstract}
+        starred={note.star}
+        title={note.title}
+        updatedTime={note.updatedTime}
+        imgSrc={note.imgSrc}
       />
     );
   }
@@ -61,7 +61,7 @@ class NoteList extends Component {
       <SelectableList
         className="note-list"
         onChange={selectNote}
-        value={selectedNote ? selectedNote.NoteId : null}
+        value={selectedNote ? selectedNote.noteId : null}
       >
         {notes.map(this.renderNote)}
       </SelectableList>

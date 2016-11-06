@@ -24,17 +24,17 @@ class Note extends Component {
       <div className='note'>
         <NoteToolbar
           editMode={this.state.editMode}
-          toggleEditMode={note.IsMarkdown ? this.toggleEditMode : null}
+          toggleEditMode={note.isMarkdown ? this.toggleEditMode : null}
         />
         <NoteEditor
-          active={!note.IsMarkdown}
+          active={!note.isMarkdown}
           note={note}
           onContentChange={this.handleContentChange}
           onTitleChanging={this.handleTitleChanging}
           onTitleChange={this.handleTitlChange}
         />
         <MarkdownEditor
-          active={note.IsMarkdown}
+          active={note.isMarkdown}
           editMode={this.state.editMode}
           note={note}
         />
@@ -52,7 +52,7 @@ class Note extends Component {
   handleContentChange = (content) => {
     const note = {
       ...this.props.note,
-      Content: content,
+      content,
     };
     this.props.onChange(note);
   };

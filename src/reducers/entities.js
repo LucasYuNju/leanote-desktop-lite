@@ -26,8 +26,8 @@ function notes(state = {}, action) {
 
 const initialNotebook = {
   root: {
-    NotebookId: 'root',
-    Subs: [],
+    notebookId: 'root',
+    subs: [],
   }
 };
 
@@ -38,7 +38,7 @@ function notebooks(state = initialNotebook, action) {
         ...state,
         [action.notebookId]: {
           ...state[action.notebookId],
-          NoteIds: [
+          noteIds: [
             action.note.NoteId,
             ...state[action.notebookId].NoteIds,
           ],
@@ -49,7 +49,7 @@ function notebooks(state = initialNotebook, action) {
         ...state,
         [action.notebookId]: {
           ...state[action.notebookId],
-          NoteIds: action.ids,
+          noteIds: action.ids,
         }
       }
     case types.RECEIVE_NOTEBOOKS:
@@ -61,7 +61,7 @@ function notebooks(state = initialNotebook, action) {
         ...state,
         root: {
           ...state.root,
-          Subs: action.rootIds,
+          subs: action.rootIds,
         },
       };
     default:

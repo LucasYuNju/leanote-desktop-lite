@@ -16,12 +16,12 @@ class MarkdownEditor extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.container.className = classNames('markdown-editor', { hidden: !nextProps.note.IsMarkdown });
-    if (!nextProps.note.IsMarkdown) {
+    this.container.className = classNames('markdown-editor', { hidden: !nextProps.note.isMarkdown });
+    if (!nextProps.note.isMarkdown) {
       return;
     }
-    if (nextProps.note.NoteId !== this.props.note.NoteId) {
-      this.simplemde.value(nextProps.note.Content);
+    if (nextProps.note.noteId !== this.props.note.noteId) {
+      this.simplemde.value(nextProps.note.content);
     }
     if (nextProps.editMode !== this.editMode) {
       this.togglePreview();
@@ -41,7 +41,7 @@ class MarkdownEditor extends Component {
     return (
       <div className="markdown-editor" 
         ref={(ref) => this.container = ref}
-        className={classNames('markdown-editor', { hidden: !note.IsMarkdown })}
+        className={classNames('markdown-editor', { hidden: !note.isMarkdown })}
       >
         <textarea id="simplemde-container" 
           ref={(ref) => this.textarea = ref}
@@ -58,8 +58,8 @@ class MarkdownEditor extends Component {
       status: false,
       spellChecker: false,
     });
-    if (this.props.note.IsMarkdown) {
-      this.simplemde.value(this.props.note.Content);
+    if (this.props.note.isMarkdown) {
+      this.simplemde.value(this.props.note.content);
     }    
   }
 

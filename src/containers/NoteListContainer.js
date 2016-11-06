@@ -23,7 +23,7 @@ function mapStateToProps(state) {
   let notes = [];
   if (noteList.id) {
     const notebook = entities[noteList.type][noteList.id]
-    notes = notebook.NoteIds.map(noteId => entities.notes[noteId]);    
+    notes = notebook.noteIds.map(noteId => entities.notes[noteId]);    
   }
   const selectedNote = note.id ? entities.notes[note.id] : null;
   return {

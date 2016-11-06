@@ -1,4 +1,5 @@
 import { arrayOf, normalize } from 'normalizr';
+import { camelizeKeys, pascalizeKeys } from 'humps';
 
 import * as types from '../constants/ActionTypes';
 import { fetchNotes, selectNote } from '../actions/NoteActions';
@@ -11,7 +12,7 @@ export function receiveNotebooks(status, entities, rootIds) {
 export function fetchNotebooks() {
   return (dispatch) => {
     service.notebook.getNotebooks((res) => {
-      const normalized = normalize(res, arrayOf(notebookSchema));
+      const normalized = normalize(camelizeKeys(res), arrayOf(notebookSchema));
       dispatch(receiveNotebooks('success', normalized.entities.notebooks, normalized.result));
     });
   };

@@ -26,9 +26,9 @@ class NoteEditor extends Component {
   };
   
   reset = (note) => {
-    this.title.value = note.Title;
+    this.title.value = note.title;
     this.quill.history.clear();
-    this.quill.clipboard.dangerouslyPasteHTML(note.Content);
+    this.quill.clipboard.dangerouslyPasteHTML(note.content);
     this.changed = false;
   }
   
@@ -39,7 +39,7 @@ class NoteEditor extends Component {
     }
     const note = this.props.note;
     const nextNote = nextProps.note;
-    if (note.NoteId !== nextNote.NoteId) {
+    if (note.noteId !== nextNote.noteId) {
       this.reset(nextNote);
     }
   }

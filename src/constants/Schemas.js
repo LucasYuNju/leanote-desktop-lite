@@ -1,11 +1,11 @@
 import { Schema, arrayOf } from 'normalizr';
 
-const notebookSchema = new Schema('notebooks', { idAttribute: 'NotebookId' });
+const notebookSchema = new Schema('notebooks', { idAttribute: 'notebookId' });
 
-const noteSchema = new Schema('notes', { idAttribute: 'NoteId' });
+const noteSchema = new Schema('notes', { idAttribute: 'noteId' });
 
 notebookSchema.define({
-  Subs: arrayOf(notebookSchema),
+  subs: arrayOf(notebookSchema),
 });
 
 export {

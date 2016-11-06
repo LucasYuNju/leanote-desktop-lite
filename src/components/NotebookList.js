@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 import { connect } from 'react-redux';
+import React, { Component, PropTypes } from 'react';
 
 import List from '../components/List';
 import ListItem from '../components/ListItem';
@@ -26,7 +27,7 @@ class NotebookList extends Component {
     } = nextProps;
     if (!nextProps.selectedNoteList.id && !this.defaultSelected) {
       this.defaultSelected = true;
-      const defaultNotebookId = rootNotebook.Subs[0];
+      const defaultNotebookId = rootNotebook.subs[0];
       if (defaultNotebookId) {
         this.props.selectNotebook(defaultNotebookId);
         return false;
@@ -59,7 +60,7 @@ class NotebookList extends Component {
           icon="star"
         >
         </ListItem>
-        {rootNotebook.Subs.map(notebookId => this.renderNotebook(notebookIndex[notebookId]))}
+        {rootNotebook.subs.map(notebookId => this.renderNotebook(notebookIndex[notebookId]))}
       </SelectableList>
     );
   }
@@ -71,16 +72,14 @@ class NotebookList extends Component {
   };
 
   renderNotebook = (notebook) => {
-    const hasSublist = notebook.Subs.length > 0;
-    const icon = hasSublist ? 'file-directory' : 'repo';
-
+    const hasSublist = notebook.subs.length > 0;
     return (
       <ListItem
-        key={notebook.NotebookId}
-        icon={icon}
-        nestedItems={notebook.Subs.map(notebookId => this.renderNotebook(this.props.notebookIndex[notebookId]))}
-        text={notebook.Title}
-        value={notebook.NotebookId}
+        key={notebook.notebookId}
+        icon={classNames({ 'file-directory': hasSublist }, { repo: !hasSublist })}
+        nestedItems={notebook.subs.map(notebookId => this.renderNotebook(this.props.notebookIndex[notebookId]))}
+        text={notebook.title}
+        value={notebook.notebookId}
       />
     );
   };
