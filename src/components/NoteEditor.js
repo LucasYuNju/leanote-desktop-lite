@@ -92,7 +92,7 @@ class NoteEditor extends Component {
     this.quill.on('text-change', (range, oldRange, source) => {
       this.handleContentChange();
     });
-    // quill selection-change event can do the same thing. But it has a bug.
+    // There are some bugs with quill's selection-change event.
     document.getElementsByClassName('ql-editor')[0].onblur = () => {
       this.handleEditorBlur();
     }

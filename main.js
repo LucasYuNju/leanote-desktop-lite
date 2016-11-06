@@ -43,7 +43,7 @@ function createMainWindow() {
   
   mainWindow.on('closed', function () {
     mainWindow = null;
-  });
+  });  
 }
 
 // app.commandLine.appendSwitch('disable-renderer-backgrounding');

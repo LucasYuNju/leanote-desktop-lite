@@ -9,8 +9,9 @@ const SelectableList = makeSelectable(List);
 
 class NoteList extends Component {
   static propTypes = {
-    notes: PropTypes.array.isRequired,
     selectNote: PropTypes.func.isRequired,
+    sortNoteList: PropTypes.func.isRequired,
+    notes: PropTypes.array.isRequired,
     selectedNote: PropTypes.object,
     noteListId: PropTypes.string,
     noteListTitle: PropTypes.string,
@@ -57,12 +58,14 @@ class NoteList extends Component {
       notes,
       selectNote,
       selectedNote,
+      sortNoteList,
       noteListTitle,
     } = this.props;
     return (
       <div className="note-list">
         <NoteListHeader 
           title={noteListTitle}
+          sortNoteList={sortNoteList}
         />
         <SelectableList
           className="note-list-items"

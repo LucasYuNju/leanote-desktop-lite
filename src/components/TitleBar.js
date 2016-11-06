@@ -5,7 +5,7 @@ const remote = require('electron').remote;
 
 /**
  * OSX title bar. 
- * Double click to minimize window, drag to move window.
+ * Support minimizing winow and drag window
  */
 class TitleBar extends Component {
   static defaultProps = {

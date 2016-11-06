@@ -7,7 +7,6 @@ import Icon from '../components/Icon';
 function getStyles(props, state) {
   const styles = {
     // Extra styles so that ripples will span the entire container
-    // TODO delete
     innerDiv: {
       paddingLeft: props.nestedLevel * 12 + 8,
     }

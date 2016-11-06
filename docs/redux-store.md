@@ -9,6 +9,7 @@ state = {
       },
     }
     notebooks: {
+      // better use rootIds
       root: {
         Title: 'dumb notebook',
         NotebookId: 'root',
@@ -45,6 +46,10 @@ state = {
   noteList: {
     type: 'notebooks',  // or 'tags', 'noteLists'
     id: '57b574',
+    order: {
+      key,
+      ascending,
+    }
   }
   user: {
     id,

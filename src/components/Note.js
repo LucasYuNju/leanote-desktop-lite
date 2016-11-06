@@ -2,9 +2,9 @@ import classNames from 'classnames';
 import React, {Component, PropTypes} from 'react';
 
 import Icon from '../components/Icon';
+import MarkdownEditor from '../components/MarkdownEditor';
 import NoteToolbar from '../components/NoteToolbar';
 import NoteEditor from '../components/NoteEditor';
-import MarkdownEditor from '../components/MarkdownEditor';
 
 class Note extends Component {
   static propTypes = {

@@ -6,11 +6,9 @@ import SystemMenu from '../util/SystemMenu';
 
 class NoteListHeader extends Component {
   static propTypes = {
+    order: PropTypes.object,
+    sortNoteList: PropTypes.func.isRequired,
     title: PropTypes.string,
-  };
-
-  state = {
-    
   };
 
   render() {
@@ -20,23 +18,32 @@ class NoteListHeader extends Component {
     return (
       <div className="note-list-header">
         <span className="title">{title}</span>
-        <Icon iconName="list-unordered" />
+        <Icon
+          iconName="list-unordered"
+          onClick={this.handleSortButtonClick}
+        />
       </div>
     );
   }
-  
-  handleSortButtonClick = () => {
+
+  handleSortButtonClick = (event) => {
     if (!this.menu) {
       this.menu = new SystemMenu([
         {
-          // label:
+          label: 'by title',
+          click: () => {
+            this.props.sortNoteList('title');
+          },
         },
         {
-          
+          label: 'by time',
+          click: () => {
+            this.props.sortNoteList('updatedTime');
+          },
         },
       ]);
     }
-    this.menu.popup();
+    this.menu.popup(event);
   };
 }
 

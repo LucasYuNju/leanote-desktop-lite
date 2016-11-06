@@ -22,7 +22,8 @@ class Icon extends Component {
     } = this.props;
     
     return (
-      <span className={classNames('icon', 'octicon', 'octicon-' + iconName, className)} 
+      <span
+        className={classNames('icon', 'octicon', 'octicon-' + iconName, className)} 
         onClick={onClick}
         title={iconName}
       />

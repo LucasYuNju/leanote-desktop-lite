@@ -62,8 +62,8 @@ class Header extends Component {
       isNew: true,
       fromUserId: this.props.userId,
       isMarkdown: isMarkdown,
-      createdTime: new Date(),
-      updatedTime: new Date(),
+      createdTime: new Date().toString(),
+      updatedTime: new Date().toString(),
     };
     this.props.createNote(note, this.props.notebookId);
     this.props.updateNote(note);

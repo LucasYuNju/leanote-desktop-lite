@@ -60,3 +60,7 @@ export function createNote(note, notebookId) {
 export function sendNotes() {
   return { type: types.SEND_NOTES_REQUESTED };
 }
+
+export function sortNoteList(key) {
+  return { type: types.SORT_NOTE_LIST, key };
+}

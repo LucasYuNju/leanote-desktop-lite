@@ -26,8 +26,20 @@ function mapStateToProps(state) {
   };
   if (noteListRef.id) {
     const noteList = entities[noteListRef.type][noteListRef.id];
-    result.notes = noteList.noteIds.map(noteId => entities.notes[noteId]);
-    result.noteListId = noteList.Id;
+    const order = noteListRef.order;
+    // TODO rewrite with reselect
+    result.notes = noteList.noteIds
+      .map(noteId => entities.notes[noteId])
+      .sort((note1, note2) => {
+        let extractKey = (note) => note[order.key];
+        if (order.key.toLowerCase().includes('time')) {
+          extractKey = (note) => new Date(note[order.key]);
+        }
+        const key1 = extractKey(note1);
+        const key2 = extractKey(note2);
+        return order.ascending ? key1 > key2 : key1 < key2;
+      });
+    result.noteListId = noteListRef.id;
     result.noteListTitle = noteListRef.type === 'tags' ? noteList.tag : noteList.title;
   }
   return result;
