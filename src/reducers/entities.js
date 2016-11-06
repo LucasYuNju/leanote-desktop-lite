@@ -40,7 +40,7 @@ function notebooks(state = initialNotebook, action) {
           ...state[action.notebookId],
           noteIds: [
             action.note.noteId,
-            ...state[action.notebookId].NoteIds,
+            ...state[action.notebookId].noteIds,
           ],
         }
       }

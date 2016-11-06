@@ -53,17 +53,17 @@ class Header extends Component {
 
   createNote = (event, isMarkdown = false) => {
     const note = {
-      NoteId: objectId(),
-      Title: '',
-      Tags:[],
-      Desc: '',
-      Content: '',
-      NotebookId: this.props.notebookId,
-      IsNew: true,
-      FromUserId: this.props.userId,
-      IsMarkdown: isMarkdown,
-      CreatedTime: new Date(),
-      UpdatedTime: new Date(),
+      noteId: objectId(),
+      title: '',
+      tags:[],
+      desc: '',
+      content: '',
+      notebookId: this.props.notebookId,
+      isNew: true,
+      fromUserId: this.props.userId,
+      isMarkdown: isMarkdown,
+      createdTime: new Date(),
+      updatedTime: new Date(),
     };
     this.props.createNote(note, this.props.notebookId);
     this.props.updateNote(note);

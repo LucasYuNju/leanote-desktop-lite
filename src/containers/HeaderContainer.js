@@ -19,15 +19,13 @@ function mapStateToProps(state) {
     noteList,
     entities,
   } = state;
-  // TODO
-  if (noteList.type !== 'notebook') {
+  if (noteList.type !== 'notebooks') {
     return {};
   }
-  const selectedNotebookId = noteList.id;
   return {
     userId: user.info.UserId,
-    notebookId: selectedNotebookId,
-    notebookTitle: entities.notebooks[selectedNotebookId].title,
+    notebookId: noteList.id,
+    notebookTitle: entities.notebooks[noteList.id].title,
   }
 }
 

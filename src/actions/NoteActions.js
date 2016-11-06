@@ -50,7 +50,7 @@ export function updateNote(changedNote) {
 export function createNote(note, notebookId) {
   return (dispatch) => {
     dispatch({ type: types.ADD_NOTE, note, notebookId });
-    dispatch({ type: types.SELECT_NOTE, noteId: note.NoteId });
+    dispatch({ type: types.SELECT_NOTE, noteId: note.noteId });
   }
 }
 

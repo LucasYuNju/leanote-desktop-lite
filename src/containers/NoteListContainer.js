@@ -29,7 +29,7 @@ function mapStateToProps(state) {
   return {
     notes,
     selectedNote,
-    selectedNoteList: noteList,
+    noteListId: noteList.id,
   };
 }
 

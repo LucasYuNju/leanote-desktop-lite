@@ -11,7 +11,7 @@ class NoteList extends Component {
     notes: PropTypes.array.isRequired,
     selectNote: PropTypes.func.isRequired,
     selectedNote: PropTypes.object,
-    selectedNoteList: PropTypes.object.isRequired,
+    noteListId: PropTypes.string,
     view: PropTypes.string,
   };
 
@@ -20,12 +20,11 @@ class NoteList extends Component {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.selectedNoteList.id === nextProps.selectedNoteList.id) {
-      // TODO selectedNoteList prop is not needed here
+    if (this.props.noteListId === nextProps.noteListId) {
       return true;
     }
     else {
-      // Switched to a new note list, select first note by default.
+      // select first note by default.
       if (nextProps.notes.length) {
         this.props.selectNote(nextProps.notes[0].noteId);
       }

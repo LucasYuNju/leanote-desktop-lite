@@ -6,13 +6,10 @@ import thunkMiddleware from 'redux-thunk'
 
 import DevTools from './containers/DevTools';
 import Main from './containers/Main';
-import rootReducer from './reducers';
-
-const enhancer = compose(applyMiddleware(thunkMiddleware), DevTools.instrument());
-const store = createStore(rootReducer, {}, enhancer);
+import configureStore from './store/configureStore';
 
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={configureStore()}>
     <div>
       <Main />
       <DevTools />
