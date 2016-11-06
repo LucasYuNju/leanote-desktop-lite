@@ -7,7 +7,7 @@ function notes(state = {}, action) {
     case types.ADD_NOTE:
       return {
         ...state,
-        [action.note.NoteId]: action.note,
+        [action.note.noteId]: action.note,
       };
     case types.RECEIVE_NOTES:
       return {
@@ -17,7 +17,7 @@ function notes(state = {}, action) {
     case types.UPDATE_NOTE_SUCCEEDED:
       return {
         ...state,
-        [action.note.NoteId]: action.note,
+        [action.note.noteId]: action.note,
       };
     default:
       return state;
@@ -39,7 +39,7 @@ function notebooks(state = initialNotebook, action) {
         [action.notebookId]: {
           ...state[action.notebookId],
           noteIds: [
-            action.note.NoteId,
+            action.note.noteId,
             ...state[action.notebookId].NoteIds,
           ],
         }

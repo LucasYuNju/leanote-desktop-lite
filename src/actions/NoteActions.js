@@ -36,9 +36,9 @@ export function fetchNotes(notebookId) {
 export function updateNote(changedNote) {
   return (dispatch) => {
     dispatch({ type: types.UPDATE_NOTE_REQUESTED, note: changedNote });
-    service.note.updateNoteOrContent(changedNote, (result) => {
+    service.note.updateNoteOrContent(pascalizeKeys(changedNote), (result) => {
       if (result) {
-        dispatch({ type: types.UPDATE_NOTE_SUCCEEDED, note: result });
+        dispatch({ type: types.UPDATE_NOTE_SUCCEEDED, note: camelizeKeys(result) });
       }
       else {
         dispatch({ type: types.UPDATE_NOTE_FAILED });        

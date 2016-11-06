@@ -45,7 +45,7 @@ class Note extends Component {
   handleTitlChange = (title) => {
     this.props.onChange({
       ...this.props.note,
-      Title: title,
+      title,
     });
   };
 
