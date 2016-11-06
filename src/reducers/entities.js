@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import * as types from '../constants/ActionTypes';
 // import merge from 'lodash/merge';
 
-function note(state = {}, action) {
+function notes(state = {}, action) {
   switch (action.type) {
     case types.ADD_NOTE:
       return {
@@ -31,7 +31,7 @@ const initialNotebook = {
   }
 };
 
-function notebook(state = initialNotebook, action) {
+function notebooks(state = initialNotebook, action) {
   switch (action.type) {
     case types.ADD_NOTE:
       return {
@@ -70,6 +70,6 @@ function notebook(state = initialNotebook, action) {
 }
 
 export default combineReducers({
-  note,
-  notebook,
+  notes,
+  notebooks,
 });

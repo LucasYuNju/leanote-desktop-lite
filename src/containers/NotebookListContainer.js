@@ -18,7 +18,7 @@ function mapStateToProps(state) {
     entities,
     noteList,
   } = state;
-  const notebooks = entities.notebook;
+  const notebooks = entities.notebooks;
   return {
     rootNotebook: notebooks.root,
     notebookIndex: notebooks,

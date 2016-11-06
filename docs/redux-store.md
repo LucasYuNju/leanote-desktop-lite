@@ -22,7 +22,7 @@ state = {
         Subs: [],
       },
     },
-    tag: {
+    tags: {
       // Leanote does not provide api to get note with a certain tag.
       1ys0a1: {
         tagId: 1ys001,
@@ -30,7 +30,7 @@ state = {
         NoteIds,
       }
     },
-    noteList: {
+    noteLists: {
       starred: {
         NoteIds,
       },
@@ -40,14 +40,14 @@ state = {
     }
   },
   note: {
-    selected: '20dr92',
+    id: '20dr92',
   },
   noteList: {
-    selected: {
-      type: 'notebooks',  // or 'tags', 'noteList'
-      id: '57b574',
-    },
+    type: 'notebooks',  // or 'tags', 'noteLists'
+    id: '57b574',
   }
-  user: {},
+  user: {
+    id,
+  },
 }
 ```
