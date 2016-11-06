@@ -3,7 +3,6 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 let mainWindow;
 let authWindow;
 
-console.log('######', process.env.ENV);
 function createAuthWindow() {
   authWindow = new BrowserWindow({
     center: true,

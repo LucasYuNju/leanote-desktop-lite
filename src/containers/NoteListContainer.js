@@ -17,20 +17,20 @@ function mapStateToProps(state) {
   let {
     entities,
     note,
-    noteList,
+    noteList: noteListRef,
   } = state;
 
-  let notes = [];
-  if (noteList.id) {
-    const notebook = entities[noteList.type][noteList.id]
-    notes = notebook.noteIds.map(noteId => entities.notes[noteId]);    
-  }
-  const selectedNote = note.id ? entities.notes[note.id] : null;
-  return {
-    notes,
-    selectedNote,
-    noteListId: noteList.id,
+  const result = {
+    notes: [],
+    selectedNote: entities.notes[note.id],
   };
+  if (noteListRef.id) {
+    const noteList = entities[noteListRef.type][noteListRef.id];
+    result.notes = noteList.noteIds.map(noteId => entities.notes[noteId]);
+    result.noteListId = noteList.Id;
+    result.noteListTitle = noteListRef.type === 'tags' ? noteList.tag : noteList.title;
+  }
+  return result;
 }
 
 function mapDispatchToProps(dispatch) {

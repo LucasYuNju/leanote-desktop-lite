@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import List from '../components/List';
 import makeSelectable from '../components/makeSelectable';
+import NoteListHeader from '../components/NoteListHeader';
 import NoteListItem from '../components/NoteListItem';
 
 const SelectableList = makeSelectable(List);
@@ -12,6 +13,7 @@ class NoteList extends Component {
     selectNote: PropTypes.func.isRequired,
     selectedNote: PropTypes.object,
     noteListId: PropTypes.string,
+    noteListTitle: PropTypes.string,
     view: PropTypes.string,
   };
 
@@ -55,15 +57,21 @@ class NoteList extends Component {
       notes,
       selectNote,
       selectedNote,
+      noteListTitle,
     } = this.props;
     return (
-      <SelectableList
-        className="note-list"
-        onChange={selectNote}
-        value={selectedNote ? selectedNote.noteId : null}
-      >
-        {notes.map(this.renderNote)}
-      </SelectableList>
+      <div className="note-list">
+        <NoteListHeader 
+          title={noteListTitle}
+        />
+        <SelectableList
+          className="note-list-items"
+          onChange={selectNote}
+          value={selectedNote ? selectedNote.noteId : null}
+        >
+          {notes.map(this.renderNote)}
+        </SelectableList>
+      </div>
     );
   }
 }
