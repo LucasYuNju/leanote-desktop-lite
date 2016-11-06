@@ -1,9 +1,10 @@
 .note-list
 {
   border-right: 1px solid @border-color;
-  overflow-y: scroll;
   width: 205px;
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
 
   *
   {
@@ -15,6 +16,11 @@
 
   .note-list-items
   {
+    overflow-y: scroll;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    
     .note-list-item
     {
       cursor: default;
