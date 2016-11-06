@@ -10,7 +10,7 @@ export default function noteList(state = initialState, action) {
       if (action.value) {
         return {
           ...state,
-          type: 'notebook',
+          type: 'notebooks',
           id: action.value,            
         }
       }
