@@ -52,7 +52,8 @@
         margin: 10px 8px 10px 11px;
         display: inline-block;
         flex-grow: 1;
-        
+        min-width: 0;
+
         .title
         {
           font-size: 16px;
@@ -63,7 +64,7 @@
           overflow: hidden;
           padding-bottom: 6px;
         }
-        
+
         .detail
         {
           font-size: 12px;
@@ -96,17 +97,7 @@
         height: 70px;
         background-size: cover;
         background-position: center center;
-        background-repeat: no-repeat;
-        
-        & img {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          height: 100%;
-          width: auto;
-          -webkit-transform: translate(-50%,-50%);
-                  transform: translate(-50%,-50%);
-        }
+        background-repeat: no-repeat;        
       }
     }
   }

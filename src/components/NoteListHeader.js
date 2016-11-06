@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 import Icon from '../components/Icon';
+import SystemMenu from '../util/SystemMenu';
 
 class NoteListHeader extends Component {
   static propTypes = {
@@ -23,6 +24,20 @@ class NoteListHeader extends Component {
       </div>
     );
   }
+  
+  handleSortButtonClick = () => {
+    if (!this.menu) {
+      this.menu = new SystemMenu([
+        {
+          // label:
+        },
+        {
+          
+        },
+      ]);
+    }
+    this.menu.popup();
+  };
 }
 
 export default NoteListHeader;
