@@ -22,7 +22,7 @@ function mapStateToProps(state) {
   return {
     rootNotebook: notebooks.root,
     notebookIndex: notebooks,
-    selectedNoteList: noteList.selected,
+    selectedNoteList: noteList,
   }
 }
 

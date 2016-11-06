@@ -20,10 +20,10 @@ function mapStateToProps(state) {
     entities,
   } = state;
   // TODO
-  if (noteList.selected.type !== 'notebook') {
+  if (noteList.type !== 'notebook') {
     return {};
   }
-  const selectedNotebookId = noteList.selected.id;
+  const selectedNotebookId = noteList.id;
   return {
     userId: user.info.UserId,
     notebookId: selectedNotebookId,

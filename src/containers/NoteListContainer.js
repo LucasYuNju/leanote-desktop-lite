@@ -21,15 +21,15 @@ function mapStateToProps(state) {
   } = state;
 
   let notes = [];
-  if (noteList.selected.type === 'notebook') {
-    const notebook = entities.notebooks[noteList.selected.id]
+  if (noteList.type === 'notebook') {
+    const notebook = entities.notebooks[noteList.id]
     notes = notebook.NoteIds.map(noteId => entities.notes[noteId]);
   }
-  const selectedNote = note.selected ? entities.notes[note.selected] : null;
+  const selectedNote = note.id ? entities.notes[note.id] : null;
   return {
     notes,
     selectedNote,
-    selectedNoteList: noteList.selected,
+    selectedNoteList: noteList,
   };
 }
 

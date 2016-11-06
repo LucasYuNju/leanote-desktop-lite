@@ -1,7 +1,7 @@
 import * as types from '../constants/ActionTypes';
 
 const initialState = {
-  selected: {},
+  
 };
 
 export default function noteList(state = initialState, action) {
@@ -10,10 +10,8 @@ export default function noteList(state = initialState, action) {
       if (action.value) {
         return {
           ...state,
-          selected: {
-            type: 'notebook',
-            id: action.value,            
-          }
+          type: 'notebook',
+          id: action.value,            
         }
       }
       return state;

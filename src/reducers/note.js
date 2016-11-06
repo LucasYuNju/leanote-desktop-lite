@@ -1,7 +1,7 @@
 import * as types from '../constants/ActionTypes';
 
 const initialState = {
-  selected: null,
+  id: null,
 };
 
 export default function note(state = initialState, action) {
@@ -9,7 +9,7 @@ export default function note(state = initialState, action) {
     case types.SELECT_NOTE:
       return {
         ...state,
-        selected: action.noteId,
+        id: action.noteId,
       };
     default:
       return state;
