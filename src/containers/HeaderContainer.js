@@ -15,7 +15,7 @@ class HeaderContainer extends Component {
 
 function mapStateToProps(state) {
   const {
-    currentUser,
+    user,
     noteList,
     entities,
   } = state;
@@ -23,7 +23,7 @@ function mapStateToProps(state) {
     return {};
   }
   return {
-    userId: currentUser,
+    userId: user.id,
     notebookId: noteList.id,
     notebookTitle: entities.notebooks.byId[noteList.id].title,
   }

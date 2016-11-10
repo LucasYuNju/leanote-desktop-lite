@@ -32,7 +32,6 @@ class NotebookList extends Component {
   }
 
   render() {
-    console.log(this.props);
     const {
       notebooks,
       rootNotebookIds,

@@ -24,17 +24,13 @@ state = {
       }
     },
     tags: {
-      // Leanote does not provide api to get note with a certain tag.    
-      byId: {
-          1ys0a1: {
-            tagId: 1ys001,
+      // derived
+      byTag: {
+          TODO: {
             Tag: 'TODO',
             NoteIds,
-          }          
+          }
       },
-      byName: {
-          TODO: '1ys0a1',
-      }
     },
     users: {
       byId: {

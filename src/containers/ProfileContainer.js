@@ -22,7 +22,7 @@ function mapStateToProps(state) {
     entities,
   } = state;
   return {
-    user: entities.users[user],
+    user: entities.users.byId[user.id],
   };
 }
 
