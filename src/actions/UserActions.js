@@ -1,16 +1,19 @@
+import { arrayOf, normalize } from 'normalizr';
+import { camelizeKeys, pascalizeKeys } from 'humps';
+
 import * as types from '../constants/ActionTypes';
 
-export function receiveAuthedUser(status, userInfo) {
-  return { type: types.RECEIVE_AUTHED_USER, status, userInfo };
+export function receiveAuthedUser(status, user) {
+  return { type: types.RECEIVE_AUTHED_USER, status, user };
 }
 
 export function autologin() {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      service.user.init((userInfo) => {
-        if (userInfo) {
-          dispatch(receiveAuthedUser('success', userInfo));
-          resolve(userInfo);
+      service.user.init((user) => {
+        if (user) {
+          dispatch(receiveAuthedUser('success', camelizeKeys(user)));
+          resolve(camelizeKeys(user));
         }
         else {
           dispatch(receiveAuthedUser('error'));

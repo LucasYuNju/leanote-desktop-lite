@@ -69,7 +69,23 @@ function notebooks(state = initialNotebook, action) {
   }
 }
 
+function users(state = {}, action) {
+  switch (action.type) {
+    case types.RECEIVE_AUTHED_USER:
+      if (action.status === 'success') {
+        return {
+          ...state,
+          [action.user.userId]: action.user,
+        }
+      }
+      return state;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   notes,
   notebooks,
+  users,
 });

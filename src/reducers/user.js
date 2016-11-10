@@ -1,13 +1,10 @@
 import * as types from '../constants/ActionTypes';
 
-export default function user(state = {}, action) {
+export default function user(state = null, action) {
   switch (action.type) {
     case types.RECEIVE_AUTHED_USER:
       if (action.status === 'success') {
-        return {
-          ...state,
-          info: action.userInfo,
-        }
+        return action.user.userId;
       }
       return state;
     default:
