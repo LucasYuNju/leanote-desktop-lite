@@ -8,7 +8,11 @@ class UserContainer extends Component {
   render() {
     const info = this.props.user.info;
     return (
-      <Profile username={info.Username} logo={info.Logo} />
+      <Profile 
+        email={info.Email}
+        logo={info.Logo}    
+        username={info.Username}
+      />
     );
   }
 }

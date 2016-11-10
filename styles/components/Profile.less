@@ -2,12 +2,13 @@
 {
   @item-height: 26px;
   
-  height: 40px;
+  height: 50px;
   display: flex;
   align-items: center;
   padding-left: 12px;
   padding-right: 12px;
-  border-top: 1px solid @border-color;
+  padding-bottom: 12px;
+  // border-top: 1px solid @border-color;
 
   > img
   {
@@ -18,19 +19,29 @@
     border-radius: 50%;
     display: inline-block;
   }
-
-  .name
+  
+  .info
   {
-    color: @nav-color;
-    flex-grow: 1;
-    padding-left: 8px;
-    font-weight: normal;
-    height: @item-height;
-    line-height: @item-height;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;    
+      flex-grow: 1;
+      padding-left: 8px;
+      min-width: 0;
+
+      .name, .email
+      {
+        color: @nav-color;
+        font-weight: normal;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+      
+      .email
+      {
+          font-size: 10px;
+          color: @icon-color;
+      }
   }
+  
 
   .icon
   {

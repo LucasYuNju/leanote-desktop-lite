@@ -8,6 +8,7 @@ const { ipcRenderer } = require('electron');
 
 class User extends Component {
   static propTypes = {
+    email: PropTypes.string,
     username: PropTypes.string.isRequired,
     logo: PropTypes.string,
   };
@@ -38,8 +39,11 @@ class User extends Component {
         onClick={this.handleClick}
       >
         <img src={this.props.logo} />
-        <span className="name">{this.props.username}</span>
-        <Icon iconName="chevron-down"/>
+        <div className="info">
+          <p className="name">{this.props.username}</p>
+          <p className="email">{this.props.email}</p>
+        </div>
+        <Icon iconName="gear"/>
       </div>
     );
   }
