@@ -18,10 +18,9 @@ function mapStateToProps(state) {
     entities,
     noteList,
   } = state;
-  const notebooks = entities.notebooks;
   return {
-    rootNotebook: notebooks.root,
-    notebookIndex: notebooks,
+    rootNotebookIds: entities.notebooks.rootIds,
+    notebooks: entities.notebooks.byId,
     selectedNoteList: noteList,
   }
 }

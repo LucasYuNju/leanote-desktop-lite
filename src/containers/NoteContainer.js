@@ -26,7 +26,7 @@ function mapStateToProps(state) {
   } = state;
   let selectedNote = null;
   if (note.id) {
-    selectedNote = entities.notes[note.id];
+    selectedNote = entities.notes.byId[note.id];
   }
   return {
     note: selectedNote,

@@ -10,10 +10,10 @@ const SelectableList = makeSelectable(List);
 
 class NotebookList extends Component {
   static propTypes = {
-    notebookIndex: PropTypes.object.isRequired,
-    rootNotebook: PropTypes.object.isRequired,
-    selectNotebook: PropTypes.func.isRequired,
+    notebooks: PropTypes.object.isRequired,
+    rootNotebookIds: PropTypes.array.isRequired,
     selectedNoteList: PropTypes.object.isRequired,
+    selectNotebook: PropTypes.func.isRequired,
   };
   
   componentDidMount() {
@@ -21,15 +21,10 @@ class NotebookList extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const {
-      rootNotebook,
-      selectedNoteList,
-    } = nextProps;
-    if (!nextProps.selectedNoteList.id && !this.defaultSelected) {
-      this.defaultSelected = true;
-      const defaultNotebookId = rootNotebook.subs[0];
-      if (defaultNotebookId) {
-        this.props.selectNotebook(defaultNotebookId);
+    if (!nextProps.selectedNoteList.id && !this.initialized) {
+      this.initialized = true;
+      if (nextProps.rootNotebookIds.length) {
+        this.props.selectNotebook(nextProps.rootNotebookIds[0]);
         return false;
       }
     }
@@ -37,9 +32,10 @@ class NotebookList extends Component {
   }
 
   render() {
+    console.log(this.props);
     const {
-      notebookIndex,
-      rootNotebook,
+      notebooks,
+      rootNotebookIds,
       selectedNoteList,
     } = this.props;
     return (
@@ -60,16 +56,10 @@ class NotebookList extends Component {
           icon="star"
         >
         </ListItem>
-        {rootNotebook.subs.map(notebookId => this.renderNotebook(notebookIndex[notebookId]))}
+        {rootNotebookIds.map(notebookId => this.renderNotebook(notebooks[notebookId]))}
       </SelectableList>
     );
   }
-  
-  handleItemSelect = (value) => {
-    if (value !== 'tags' && value !== 'starred') {
-      this.props.selectNotebook(value);
-    }
-  };
 
   renderNotebook = (notebook) => {
     const hasSublist = notebook.subs.length > 0;
@@ -77,11 +67,17 @@ class NotebookList extends Component {
       <ListItem
         key={notebook.notebookId}
         icon={classNames({ 'file-directory': hasSublist }, { repo: !hasSublist })}
-        nestedItems={notebook.subs.map(notebookId => this.renderNotebook(this.props.notebookIndex[notebookId]))}
+        nestedItems={notebook.subs.map(notebookId => this.renderNotebook(this.props.notebooks[notebookId]))}
         text={notebook.title}
         value={notebook.notebookId}
       />
     );
+  };
+  
+  handleItemSelect = (value) => {
+    if (value !== 'tags' && value !== 'starred') {
+      this.props.selectNotebook(value);
+    }
   };
 }
 

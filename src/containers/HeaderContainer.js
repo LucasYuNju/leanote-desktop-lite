@@ -25,7 +25,7 @@ function mapStateToProps(state) {
   return {
     userId: currentUser,
     notebookId: noteList.id,
-    notebookTitle: entities.notebooks[noteList.id].title,
+    notebookTitle: entities.notebooks.byId[noteList.id].title,
   }
 }
 

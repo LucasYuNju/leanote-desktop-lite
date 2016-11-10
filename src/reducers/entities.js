@@ -2,67 +2,76 @@ import { combineReducers } from 'redux';
 import * as types from '../constants/ActionTypes';
 // import merge from 'lodash/merge';
 
-function notes(state = {}, action) {
+const initialNotes = {
+  searchIds: [],
+  starredIds: [],
+  byId: {},
+}
+
+function notes(state = initialNotes, action) {
   switch (action.type) {
     case types.ADD_NOTE:
       return {
         ...state,
-        [action.note.noteId]: action.note,
+        byId: {
+          ...state.byId,
+          [action.note.noteId]: action.note,
+        }
       };
     case types.RECEIVE_NOTES:
       return {
-        ...state,
-        ...action.entities,
+        ...initialNotes,
+        byId: action.entities,
       }
     case types.UPDATE_NOTE_SUCCEEDED:
       return {
         ...state,
-        [action.note.noteId]: action.note,
+        byId: {
+          ...state.byId,
+          [action.note.noteId]: action.note,
+        }
       };
     default:
       return state;
   }
 }
 
-const initialNotebook = {
-  root: {
-    notebookId: 'root',
-    subs: [],
-  }
+const initialNotebooks = {
+  rootIds: [],
+  byId: {},
 };
 
-function notebooks(state = initialNotebook, action) {
+function notebooks(state = initialNotebooks, action) {
   switch (action.type) {
     case types.ADD_NOTE:
       return {
         ...state,
-        [action.notebookId]: {
-          ...state[action.notebookId],
-          noteIds: [
-            action.note.noteId,
-            ...state[action.notebookId].noteIds,
-          ],
+        byId: {
+          ...state.byId,
+          [action.notebookId]: {
+            ...state.byId[action.notebookId],
+            noteIds: [
+              action.note.noteId,
+              ...state.byId[action.notebookId].noteIds,
+            ],
+          }
         }
       }
     case types.RECEIVE_NOTES:
       return {
         ...state,
-        [action.notebookId]: {
-          ...state[action.notebookId],
-          noteIds: action.ids,
+        byId: {
+          ...state.byId,
+          [action.notebookId]: {
+            ...state.byId[action.notebookId],
+            noteIds: action.ids,
+          }
         }
       }
     case types.RECEIVE_NOTEBOOKS:
-      state = {
-        ...state,
-        ...action.entities,
-      };
       return {
-        ...state,
-        root: {
-          ...state.root,
-          subs: action.rootIds,
-        },
+        rootIds: action.rootIds,
+        byId: action.entities,
       };
     default:
       return state;

@@ -22,14 +22,14 @@ function mapStateToProps(state) {
 
   const result = {
     notes: [],
-    selectedNote: entities.notes[note.id],
+    selectedNote: entities.notes.byId[note.id],
   };
   if (noteListRef.id) {
-    const noteList = entities[noteListRef.type][noteListRef.id];
+    const noteList = entities[noteListRef.type].byId[noteListRef.id];
     const order = noteListRef.order;
     // TODO rewrite with reselect
     result.notes = noteList.noteIds
-      .map(noteId => entities.notes[noteId])
+      .map(noteId => entities.notes.byId[noteId])
       .sort((note1, note2) => {
         let extractKey = (note) => note[order.key];
         if (order.key.toLowerCase().includes('time')) {
