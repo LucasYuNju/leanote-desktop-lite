@@ -6,6 +6,9 @@ import Icon from '../components/Icon';
 class NoteToolbar extends Component {
   static propTypes = {
     editMode: PropTypes.bool,
+		note: PropTypes.object.isRequired,
+		notebookId: PropTypes.string.isRequired,
+		notebookTitle: PropTypes.string,
     toggleEditMode: PropTypes.func,
   };
 
@@ -23,14 +26,33 @@ class NoteToolbar extends Component {
     return null;
   }
 
+	renderTag(tag) {
+		return (
+			<span className="tag" key={tag}>
+				{tag}
+			</span>
+		);
+	}
+
   render() {
     const {
+			note,
+			notebookId,
+			notebookTitle,
       title,
       toggleEditMode,
     } = this.props;
     return (
       <div className="note-toolbar">
-        <div className="tags" />
+				<div className="notebook">
+					<Icon iconName="repo" />
+					<span className="title">{notebookTitle}</span>
+				</div>
+				<div className="tags">
+					<Icon iconName="tag" />
+					{note.tags.map(tag => this.renderTag(tag))}
+					<input placeholder="Add tag here" />
+				</div>
         <div className="osx-buttons actions">
           {this.renderEditModeButton()}
           <div className="osx-button">

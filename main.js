@@ -38,12 +38,12 @@ function createMainWindow() {
   mainWindow.loadURL(`file://${__dirname}/dist/main.html`);
 
   mainWindow.once('ready-to-show', () => {
-    
+
   });
-  
+
   mainWindow.on('closed', function () {
     mainWindow = null;
-  });  
+  });
 }
 
 // app.commandLine.appendSwitch('disable-renderer-backgrounding');
@@ -68,13 +68,13 @@ ipcMain.on('auth-requested', (event, arg) => {
 });
 
 ipcMain.on('auth-succeeded', (event, arg) => {
-  authWindow.close();    
+  authWindow.close();
   createMainWindow();
 });
 
 // ready-to-show is too early, did-finish-load may be blocked by image downloading
 ipcMain.on('main-window-ready', (event, arg) => {
   setTimeout(() => {
-    mainWindow.show();    
+    mainWindow.show();
   }, 200);
 });

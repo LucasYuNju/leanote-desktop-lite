@@ -68,11 +68,10 @@ class Header extends Component {
     this.props.createNote(note, this.props.notebookId);
     this.props.updateNote(note);
   };
-  
+
   render() {
     return (
       <TitleBar className="header">
-        <div className="group" />
         <div className="group">
           <div className="osx-buttons">
             <div className="osx-button sync-button">

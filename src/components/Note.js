@@ -9,21 +9,26 @@ import NoteEditor from '../components/NoteEditor';
 class Note extends Component {
   static propTypes = {
     note: PropTypes.object.isRequired,
+		notebook: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
   };
 
   state = {
     editMode: false,
   };
-  
+
   render() {
     const {
       note,
+			notebook,
     } = this.props;
     return (
       <div className='note'>
         <NoteToolbar
           editMode={this.state.editMode}
+					note={note}
+					notebookId={note.notebookId}
+					notebookTitle={notebook.title}
           toggleEditMode={note.isMarkdown ? this.toggleEditMode : null}
         />
         <NoteEditor

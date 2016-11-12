@@ -8,9 +8,11 @@ import * as NoteActionCreators from '../actions/NoteActions';
 class NoteContainer extends Component {
   render() {
     if (this.props.note) {
+			console.log(this.props);
       return (
         <Note
           note={this.props.note}
+					notebook={this.props.notebook}
           onChange={this.props.updateNote}
         />
       );
@@ -24,13 +26,12 @@ function mapStateToProps(state) {
     entities,
     note,
   } = state;
-  let selectedNote = null;
+	const ret = {};
   if (note.id) {
-    selectedNote = entities.notes.byId[note.id];
+    ret.note = entities.notes.byId[note.id];
+		ret.notebook = entities.notebooks.byId[ret.note.notebookId];
   }
-  return {
-    note: selectedNote,
-  };
+	return ret;
 }
 
 function mapDispatchToProps(dispatch) {

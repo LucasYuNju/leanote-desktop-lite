@@ -18,7 +18,7 @@ html, body, #root, #root > div,
 .title-bar
 {
   -webkit-app-region: drag;
-  
+
   > * {
     -webkit-app-region: no-drag;
   }
@@ -35,24 +35,24 @@ html, body, #root, #root > div,
   height: 24px;
   display: flex;
   align-items: stretch;
-  
+
   .osx-button:first-child
   {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
   }
-  
+
   .osx-button:last-child
   {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
   }
-  
+
   .osx-button
   {
-    cursor: pointer;
+		cursor: pointer;
     margin-left: -1px;
-    border: 1px solid @border-color;
+    border: 1px solid @border-color-darker;
     width: 40px;
     line-height: 22px;
     background: white;
@@ -61,8 +61,8 @@ html, body, #root, #root > div,
     justify-content: center;
     color: @icon-color;
 
-    position: relative;
-    margin-left: -1px;
+    // position: relative;
+    // margin-left: -1px;
 
     &.dropdown-button
     {
@@ -75,12 +75,30 @@ html, body, #root, #root > div,
       border: 1px solid gray;
       background: gray;
       color: white;
-      z-index: 5;
+      // z-index: 5;
     }
-    
+
+		&:hover
+		{
+			background-color: @header-button-bg-darker !important;
+		}
+
     .icon
     {
       align-self: center;
     }
   }
+}
+
+.tag
+{
+	background: rgb(156, 156, 156);
+	padding-left: 4px;
+	padding-right: 4px;
+	border-radius: 4px;
+	color: white;
+
+	display: inline-block;
+	height: 16px;
+	font-size: 12px;
 }

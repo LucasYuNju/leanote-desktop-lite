@@ -1,0 +1,80 @@
+.note-toolbar
+{
+  @item-height: 38px;
+  @padding-left: 20px;
+
+  flex-shrink: 0;
+  display: flex;
+  align-self: stretch;
+  height: @item-height;
+  padding: 0 @padding-left 6px @padding-left;
+	align-items: center;
+
+	.notebook
+	{
+		color: @icon-color;
+		font-size: 12px;
+		cursor: pointer;
+		margin-right: 8px;
+
+		.icon
+		{
+			font-size: 14px;
+			cursor: default;
+		}
+
+		.title
+		{
+			margin-left: 4px;
+		}
+	}
+
+	.tags
+	{
+		flex-grow: 1;
+		flex-shrink: 0;
+		font-size: 14px;
+		display: flex;
+		align-items: center;
+
+		.icon
+		{
+			font-size: 14px;
+		}
+
+		.tag
+		{
+			margin-left: 4px;
+      cursor: pointer;
+		}
+
+    input
+    {
+			margin-left: 4px;
+			border: none;
+			height: 14px;
+    }
+	}
+
+  .actions.osx-buttons
+  {
+    flex: 0 0 auto;
+    align-self: center;
+
+    .osx-button
+    {
+      width: 38px;
+
+      &:active, &.active
+      {
+        color: white;
+        background: @theme-color;
+
+        .icon
+        {
+          color: white;
+        }
+      }
+    }
+  }
+}

@@ -12,13 +12,12 @@
     cursor: pointer;
     left: 10px;
     top: 5px;
-    z-index: 5;
     color: @header-color;
   }
 
   input[type=search]
   {
-    border: 1px solid @border-color;
+    border: 1px solid @border-color-darker;
     background: @header-button-bg;
 
     border-radius: 5px;
@@ -28,13 +27,13 @@
     height: 100%;
     padding: 2px 10px 2px 26px;
     color: @header-color;
-    
+
     &:focus
     {
       outline: none;
       border:1px solid @border-color-darker;
     }
-    
+
     &::-webkit-input-placeholder
     {
       color: @header-color;
