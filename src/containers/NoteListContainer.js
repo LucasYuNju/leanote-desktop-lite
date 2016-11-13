@@ -28,7 +28,6 @@ function mapStateToProps(state) {
     const noteList = entities[noteListRef.type].byId[noteListRef.id];
     const order = noteListRef.order;
     // TODO rewrite with reselect
-		// console.error(noteList.noteIds, entities.notes.byId);
     result.notes = noteList.noteIds
       .map(noteId => entities.notes.byId[noteId])
       .sort((note1, note2) => {

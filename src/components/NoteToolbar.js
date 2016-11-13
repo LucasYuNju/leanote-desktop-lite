@@ -51,7 +51,7 @@ class NoteToolbar extends Component {
 				<div className="tags">
 					<Icon iconName="tag" />
 					{note.tags ? note.tags.map(tag => this.renderTag(tag)) : null}
-					<input placeholder="Add tag here" />
+					<input placeholder="Click to add tag" />
 				</div>
         <div className="osx-buttons actions">
           {this.renderEditModeButton()}

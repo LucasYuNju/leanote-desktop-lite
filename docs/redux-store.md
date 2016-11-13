@@ -7,37 +7,37 @@ state = {
       starredIds: [],
       byId: {
         20dr92: {
-            NoteId: '20dr92',
-            Title: 'wildlife',
-        },          
+          noteId: '20dr92',
+          title: 'wildlife',
+        },
       }
     }
     notebooks: {
       rootIds: [],
       byId: {
-          57b574: {
-            Title: 'Pictured Notebook'
-            NotebookId: '57b574',
-            NoteIds: [],
-            Subs: [],
-          },          
+        57b574: {
+          title: 'Pictured Notebook'
+          notebookId: '57b574',
+          noteIds: [],
+          subs: [],
+        },
       }
     },
     tags: {
       // derived
       byTag: {
-          TODO: {
-            Tag: 'TODO',
-            NoteIds,
-          }
+        TODO: {
+          tag: 'TODO',
+          noteIds,
+        }
       },
     },
     users: {
       byId: {
         512178: {
-            id: '512178',
-            name: 'bot',
-        }            
+          id: '512178',
+          name: 'bot',
+        }
       }
     }
   },

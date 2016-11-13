@@ -5,13 +5,16 @@ import NestedList from './NestedList';
 import Icon from '../components/Icon';
 
 function getStyles(props, state) {
-  const styles = {
-    // Extra styles so that ripples will span the entire container
+  let paddingLeft = 5 + props.nestedLevel * 12;
+  if (props.nestedItems.length === 0) {
+    paddingLeft += 17;
+  }
+  return {
     innerDiv: {
-      paddingLeft: props.nestedLevel * 12 + 8,
+      // Extra padding so that ripples will span the entire container
+      paddingLeft,
     }
-  };
-  return styles;
+  }
 }
 
 class ListItem extends Component {
@@ -62,6 +65,24 @@ class ListItem extends Component {
     }
   }
 
+  renderNestedElements() {
+    const {
+      nestedItems,
+      nestedLevel,
+    } = this.props;
+    if (nestedItems.length > 0) {
+      return (
+        <NestedList
+          open={this.state.open}
+          nestedLevel={nestedLevel}
+          className="nested-list"
+        >
+          {nestedItems}
+        </NestedList>
+      );
+    }
+  }
+
   render() {
     const {
       children,
@@ -71,43 +92,22 @@ class ListItem extends Component {
       nestedLevel,
       text,
     } = this.props;
-    const hasNestedListItems = nestedItems.length > 0;
-    
+
     const contentChildren = [children];
-    
-    if (icon) {
-      const iconElement = (
-        <Icon
-          iconName={icon}
-        />
-      );
-      this.pushElement(contentChildren, iconElement);
-    }
-    
-    const textElement = <span className="text">{text}</span>;
-    this.pushElement(contentChildren, textElement);
-    
+    const hasNestedListItems = nestedItems.length > 0;
     if (hasNestedListItems) {
       const expandIconElement = (
-        <Icon iconName="chevron-left" className="expand-icon" />
+        <Icon iconName="chevron-right" className="expand-icon" />
       );
       this.pushElement(contentChildren, expandIconElement);
     }
-
-    const nestedElements = hasNestedListItems ? (
-      <NestedList
-        open={this.state.open}
-        nestedLevel={nestedLevel}
-        className="nested-list"
-      >
-        {nestedItems}
-      </NestedList>
-    ) : undefined;
-
-    const classes = classNames('list-item', { folder: hasNestedListItems }, { open:this.state.open }, className);
+    if (icon) {
+      this.pushElement(contentChildren, <Icon iconName={icon} />);
+    }
+    this.pushElement(contentChildren, <span className="text">{text}</span>);
 
     return (
-      <div className={classes}>
+      <div className={classNames('list-item', { folder: hasNestedListItems }, { open:this.state.open }, className)}>
         <div
           className="content"
           onClick={this.handleClick}
@@ -115,7 +115,7 @@ class ListItem extends Component {
         >
           {contentChildren}
         </div>
-        {nestedElements}
+        {this.renderNestedElements()}
       </div>
     )
   }

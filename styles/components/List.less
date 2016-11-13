@@ -7,7 +7,7 @@
   width: 100%;
   flex-direction: column;
 
-  > .list-item 
+  > .list-item
   {
     &.selected
     {
@@ -15,21 +15,21 @@
       {
         background: @nav-selection-bg;
         color: @nav-selection-color;
-        
+
         > .icon, > .expand-icon
         {
           color: @icon-color;
         }
       }
     }
-    
+
     &.open
     {
       > .content > .expand-icon
       {
-        transform: rotate(-90deg);
+        transform: rotate(90deg);
       }
-      
+
       > .nested-list
       {
         display: block;
@@ -53,16 +53,24 @@
       font-weight: normal;
       display: flex;
 
+			> .icon
+			{
+				width: 16px;
+			}
+
       > .expand-icon
       {
+				width: 12px;
+				height: 12px;
+				font-size: 12px;
+				font-weight: 500;
         transition: transform 0.25s;
       }
 
       > .icon, > .expand-icon
       {
         color: @icon-color;
-        width: 32px;
-        // margin-left: 6px;
+        margin-right: 5px;
         flex-shrink: 0;
         text-align: center;
         height: @item-height;
