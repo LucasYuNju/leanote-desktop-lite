@@ -8,7 +8,6 @@ class NoteListItem extends Component {
     content: PropTypes.string,
     starred: PropTypes.bool,
     title: PropTypes.string,
-    value: PropTypes.string,
     view: PropTypes.string,
     updatedTime: PropTypes.object,
     imgSrc: PropTypes.string,
@@ -35,13 +34,16 @@ class NoteListItem extends Component {
   }
 
   renderThumbnail(imgSrc) {
-    return !imgSrc ? null : (
-      <div
-        className="thumbnail" 
-        style={{backgroundImage: `url(${imgSrc})`}}
-      >
-      </div>
-    );
+		if (imgSrc) {
+			return (
+	      <div
+	        className="thumbnail"
+	        style={{backgroundImage: `url(${imgSrc})`}}
+	      >
+	      </div>
+	    );
+		}
+		return null;
   }
 
   render() {

@@ -32,18 +32,21 @@ class Main extends Component {
         ipcRenderer.send('auth-requested');
       });
   }
-  
+
   render() {
-    return this.state.authed ? (
-      <div className="main-page">
-        <HeaderContainer />
-        <div className="content">
-          <Nav />
-          <NoteListContainer />
-          <NoteContainer />
-        </div>
-      </div>
-    ) : null;
+		if (this.state.authed) {
+			return (
+				<div className="main-page">
+					<HeaderContainer />
+					<div className="content">
+						<Nav />
+						<NoteListContainer />
+						<NoteContainer />
+					</div>
+				</div>
+			);
+		}
+		return null;
   }
 }
 

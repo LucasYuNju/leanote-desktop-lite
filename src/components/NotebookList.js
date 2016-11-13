@@ -13,9 +13,9 @@ class NotebookList extends Component {
     notebooks: PropTypes.object.isRequired,
     rootNotebookIds: PropTypes.array.isRequired,
     selectedNoteList: PropTypes.object.isRequired,
-    selectNotebook: PropTypes.func.isRequired,
+    selectNoteList: PropTypes.func.isRequired,
   };
-  
+
   componentDidMount() {
     this.props.fetchNotebooks();
   }
@@ -24,7 +24,7 @@ class NotebookList extends Component {
     if (!nextProps.selectedNoteList.id && !this.initialized) {
       this.initialized = true;
       if (nextProps.rootNotebookIds.length) {
-        this.props.selectNotebook(nextProps.rootNotebookIds[0]);
+        this.props.selectNoteList("notebooks", nextProps.rootNotebookIds[0]);
         return false;
       }
     }
@@ -41,42 +41,50 @@ class NotebookList extends Component {
       <SelectableList
         className="notebooks"
         onChange={this.handleItemSelect}
-        value={selectedNoteList.id}
+        id={selectedNoteList.id}
       >
+				<ListItem
+					id="starred"
+					text="Starred"
+					icon="star"
+				>
+				</ListItem>
         <ListItem
-          value="tags"
+          id="tags"
           text="Tags"
           icon="tag"
         >
         </ListItem>
-        <ListItem
-          value="starred"
-          text="Starred"
-          icon="star"
-        >
-        </ListItem>
-        {rootNotebookIds.map(notebookId => this.renderNotebook(notebooks[notebookId]))}
+				<ListItem
+					id="notebook"
+					text="Notebook"
+					icon="repo"
+					nestedItems={rootNotebookIds.map(notebookId => this.renderNotebook(notebooks[notebookId]))}
+				/>
       </SelectableList>
     );
   }
+
+	renderTag = (tag) => {
+
+	};
 
   renderNotebook = (notebook) => {
     const hasSublist = notebook.subs.length > 0;
     return (
       <ListItem
-        key={notebook.notebookId}
+        id={notebook.notebookId}
         icon={classNames({ 'file-directory': hasSublist }, { repo: !hasSublist })}
         nestedItems={notebook.subs.map(notebookId => this.renderNotebook(this.props.notebooks[notebookId]))}
         text={notebook.title}
-        value={notebook.notebookId}
+        noteList={{ type: "notebooks", id: notebook.notebookId }}
       />
     );
   };
-  
-  handleItemSelect = (value) => {
-    if (value !== 'tags' && value !== 'starred') {
-      this.props.selectNotebook(value);
-    }
+
+  handleItemSelect = (item) => {
+		console.log(item.props.noteList);
+		this.props.selectNoteList(item.props.noteList);
   };
 }
 

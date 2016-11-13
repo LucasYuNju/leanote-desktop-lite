@@ -3,16 +3,18 @@ import classNames from 'classnames';
 
 export const makeSelectable = (MyComponent) => {
   return class extends Component {
+		// key property is not readable, use id instead.
     static propTypes = {
       children: PropTypes.node,
       onChange: PropTypes.func,
-      value: PropTypes.any,
+      id: PropTypes.any,
     };
 
     extendChild = (child) => {
       if (child && child.type && child.type.selectable) {
         const selected = this.isChildSelected(child, this.props);
-        
+
+				console.log(child.props.id);
         return React.cloneElement(child, {
           onClick: (event) => {
             this.handleItemClick(event, child);
@@ -21,7 +23,7 @@ export const makeSelectable = (MyComponent) => {
             }
           },
           className: classNames({ selected: selected }),
-          key: this.keyIndex++,
+          key: child.props.id,
           nestedItems: Children.map(child.props.nestedItems, this.extendChild),
         });
       } else {
@@ -30,18 +32,18 @@ export const makeSelectable = (MyComponent) => {
     }
 
     isChildSelected(child, props) {
-      return props.value === child.props.value;
+      return props.id === child.props.id;
     }
 
     handleItemClick = (event, item) => {
       const {
         nestedItems,
-        value,
+        id,
       } = item.props;
       const hasNestedListItems = nestedItems && nestedItems.length > 0;
-      if (value !== this.props.value && !hasNestedListItems) {
-        this.props.onChange(value);
-      }      
+      if (id !== this.props.id && !hasNestedListItems) {
+        this.props.onChange(item);
+      }
     };
 
     render() {

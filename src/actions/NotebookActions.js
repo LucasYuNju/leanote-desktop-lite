@@ -18,13 +18,18 @@ export function fetchNotebooks() {
   };
 }
 
-export function selectNotebook(notebookId) {
-  return (dispatch) => {
-    // Notes are expected to be cached.
-    dispatch(fetchNotes(notebookId)).then(() => {
-      dispatch({ type: types.SELECT_NOTEBOOK, value: notebookId });
-    });
-  }
+export function selectNoteList(type, id) {
+	if (type === "notebooks") {
+		return (dispatch) => {
+	    // Notes are expected to be cached.
+	    dispatch(fetchNotes(id)).then(() => {
+	      dispatch({ type: types.SELECT_NOTEBOOK, value: id });
+	    });
+	  }
+	}
+	return {
+		type: "SELECT_NOTELIST",
+	};
 }
 
 export function addNote(notebookId, noteId) {

@@ -34,8 +34,8 @@ class User extends Component {
 
   render() {
     return (
-      <div 
-        className="user-info" 
+      <div
+        className="user-info"
         onClick={this.handleClick}
       >
         <img src={this.props.logo} />

@@ -42,8 +42,8 @@ class NoteList extends Component {
     return (
       <NoteListItem
         content={note.content}
-        key={note.noteId}
-        value={note.noteId}
+        id={note.noteId}
+				key={note.noteId}
         snippet={note.abstract}
         starred={note.star}
         title={note.title}
@@ -70,13 +70,17 @@ class NoteList extends Component {
         <SelectableList
           className="note-list-items"
           onChange={selectNote}
-          value={selectedNote ? selectedNote.noteId : null}
+          id={selectedNote ? selectedNote.noteId : null}
         >
           {notes.map(this.renderNote)}
         </SelectableList>
       </div>
     );
   }
+
+	handleNoteSelect = (item) => {
+		this.props.selectNote(item.props.id);
+	}
 }
 
 export default NoteList;
