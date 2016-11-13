@@ -25,6 +25,7 @@ state = {
     },
     tags: {
       // derived
+			allIds: [],
       byTag: {
         TODO: {
           tag: 'TODO',

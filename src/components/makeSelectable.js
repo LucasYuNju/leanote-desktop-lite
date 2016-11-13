@@ -11,10 +11,7 @@ export const makeSelectable = (MyComponent) => {
     };
 
     extendChild = (child) => {
-      if (child && child.type && child.type.selectable) {
-        const selected = this.isChildSelected(child, this.props);
-
-				console.log(child.props.id);
+      if (child && child.type.propTypes.selected) {
         return React.cloneElement(child, {
           onClick: (event) => {
             this.handleItemClick(event, child);
@@ -22,9 +19,9 @@ export const makeSelectable = (MyComponent) => {
               child.props.onClick(event);
             }
           },
-          className: classNames({ selected: selected }),
           key: child.props.id,
           nestedItems: Children.map(child.props.nestedItems, this.extendChild),
+					selected: this.isChildSelected(child, this.props),
         });
       } else {
         return child;

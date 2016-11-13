@@ -69,7 +69,7 @@ class NoteList extends Component {
         />
         <SelectableList
           className="note-list-items"
-          onChange={selectNote}
+          onChange={this.handleNoteSelect}
           id={selectedNote ? selectedNote.noteId : null}
         >
           {notes.map(this.renderNote)}

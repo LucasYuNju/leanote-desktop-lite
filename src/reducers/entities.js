@@ -80,14 +80,16 @@ function notebooks(state = initialNotebooks, action) {
 
 
 const initialTags={
-  byTag: {},
+	allIds: [],
+  byId: {},
 }
 function tags(state = initialTags, action) {
   switch (action.type) {
     case types.RECEIVE_NOTES:
       const ret = {
-        byTag: {
-          ...state.byTag,
+				allIds: [...state.allIds],
+        byId: {
+          ...state.byId,
         },
       }
       const notes = Object.keys(action.entities).forEach(noteId => {
@@ -95,14 +97,21 @@ function tags(state = initialTags, action) {
         if (note.tags) {
           note.tags.forEach(tag => {
             if (tag) {
-              if (!ret.byTag[tag]) {
-                ret.byTag[tag] = {
+              if (!ret.byId[tag]) {
+								ret.allIds.push(tag);
+                ret.byId[tag] = {
                   tag,
                   noteIds: [],
                 };
               }
-              if (!ret.byTag[tag].noteIds.includes()) {
-                ret.byTag[tag].noteIds.push(noteId);
+              if (!ret.byId[tag].noteIds.includes(note.noteId)) {
+                ret.byId[tag] = {
+									...ret.byId[tag],
+									noteIds: [
+										ret.byId[tag].noteIds,
+										noteId,
+									],
+								}
               }
             }
           });

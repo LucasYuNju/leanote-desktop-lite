@@ -23,6 +23,7 @@ class ListItem extends Component {
     nestedItems: PropTypes.arrayOf(PropTypes.element),
     nesetdLevel: PropTypes.number,
     onClick: PropTypes.func,
+    selected: PropTypes.bool,
     text: PropTypes.string,
   };
 
@@ -31,10 +32,8 @@ class ListItem extends Component {
     nestedLevel: 0,
     onClick: () => {},
     open: false,
+    selected: false,
   };
-
-  // TODO replace with Proptypes.selected
-  static selectable = true;
 
   state = {
     open: this.props.open,
@@ -90,6 +89,7 @@ class ListItem extends Component {
       icon,
       nestedItems,
       nestedLevel,
+      selected,
       text,
     } = this.props;
 
@@ -107,7 +107,7 @@ class ListItem extends Component {
     this.pushElement(contentChildren, <span className="text">{text}</span>);
 
     return (
-      <div className={classNames('list-item', { folder: hasNestedListItems }, { open:this.state.open }, className)}>
+      <div className={classNames('list-item', { folder: hasNestedListItems }, { open:this.state.open }, { selected: selected }, className)}>
         <div
           className="content"
           onClick={this.handleClick}

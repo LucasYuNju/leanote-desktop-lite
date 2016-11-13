@@ -6,14 +6,16 @@ import TimeFormatUtil from '../util/TimeFormatUtil';
 class NoteListItem extends Component {
   static propTypes = {
     content: PropTypes.string,
+		imgSrc: PropTypes.string,
+		selected: PropTypes.bool,
     starred: PropTypes.bool,
     title: PropTypes.string,
     view: PropTypes.string,
     updatedTime: PropTypes.object,
-    imgSrc: PropTypes.string,
   };
 
   static defaultProps = {
+		selected: false,
     view: 'snippet',
   };
 
@@ -51,13 +53,14 @@ class NoteListItem extends Component {
       content,
       className,
       imgSrc,
+			selected,
       title,
       updatedTime,
     } = this.props;
     const formattedTime = TimeFormatUtil.fromNow(updatedTime);
     return (
       <div
-        className={classNames('note-list-item', className)}
+        className={classNames('note-list-item', { selected: selected }, className)}
         onClick={this.handleClick}
       >
         <div className="shim" />
