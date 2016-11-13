@@ -2,7 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
-import * as NotebookActionCreators from '../actions/NotebookActions';
+import * as NoteListActionCreators from '../actions/NoteListActions';
 import NotebookList from '../components/NotebookList';
 
 class NotebookListContainer extends Component {
@@ -27,7 +27,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(NotebookActionCreators, dispatch);
+  return bindActionCreators(NoteListActionCreators, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotebookListContainer);

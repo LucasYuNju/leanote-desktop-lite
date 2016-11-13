@@ -46,9 +46,10 @@ class NotebookList extends Component {
         id={selectedNoteList.id}
       >
 				<NotebookListItem
-					id="starred"
-					text="Starred"
-					icon="star"
+					id="latest"
+					text="Latest"
+					icon="history"
+          noteList={{ type: 'generatedNoteLists', id: 'latest' }}
 				>
 				</NotebookListItem>
         <NotebookListItem
@@ -74,7 +75,7 @@ class NotebookList extends Component {
         id={tagId}
         icon="tag"
         text={tagId}
-        noteList={{ type: "tags", id: tagId }}
+        noteList={{ type: 'tags', id: tagId }}
       />
     );
 	};
@@ -87,7 +88,7 @@ class NotebookList extends Component {
         icon={classNames({ 'file-directory': hasSublist }, { 'repo': !hasSublist })}
         nestedItems={notebook.subs.map(notebookId => this.renderNotebook(this.props.notebooks[notebookId]))}
         text={notebook.title}
-        noteList={{ type: "notebooks", id: notebook.notebookId }}
+        noteList={{ type: 'notebooks', id: notebook.notebookId }}
       />
     );
   };

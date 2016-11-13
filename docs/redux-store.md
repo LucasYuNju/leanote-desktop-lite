@@ -7,7 +7,7 @@ state = {
 				searchResult: {
 					noteIds: [],
 				},
-				starred: {
+				latest: {
 					noteIds: [],
 				},
 			}

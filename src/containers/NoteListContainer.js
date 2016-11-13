@@ -40,7 +40,10 @@ function mapStateToProps(state) {
         return order.ascending ? key1 > key2 : key1 < key2;
       });
     result.noteListId = noteListRef.id;
-    result.noteListTitle = noteListRef.type === 'tags' ? noteList.tag : noteList.title;
+    result.noteListTitle = noteListRef.type === 'notebooks' ? noteList.title : noteList.tag;
+		if (noteListRef === "latest") {
+			result.noteListTitle = "Latest";
+		}
   }
   return result;
 }

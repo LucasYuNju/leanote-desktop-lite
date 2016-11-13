@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 import * as types from '../constants/ActionTypes';
+import merge from 'lodash/merge';
+import union from 'lodash/union';
 
 const initialNotes = {
   searchIds: [],
@@ -104,15 +106,7 @@ function tags(state = initialTags, action) {
                   noteIds: [],
                 };
               }
-              if (!ret.byId[tag].noteIds.includes(note.noteId)) {
-                ret.byId[tag] = {
-									...ret.byId[tag],
-									noteIds: [
-										...ret.byId[tag].noteIds,
-										noteId,
-									],
-								}
-              }
+							ret.byId[tag].noteIds = union(ret.byId[tag].noteIds, [note.noteId]);
             }
           });
         }
@@ -141,7 +135,31 @@ function users(state = { byId: {} }, action) {
   }
 }
 
+const initialNoteLists = {
+  byId: {
+    latest: { noteIds: [] },
+    searchResult: { noteIds: [] },
+  }
+}
+function generatedNoteLists(state = initialNoteLists, action) {
+  switch(action.type) {
+    case types.UPDATE_NOTE_REQUESTED:
+			const noteIds = union(state.byId.latest.noteIds.slice(0, 9), [action.note.noteId]);
+			return {
+				byId: {
+					...state.byId,
+					latest: {
+						noteIds,
+					}
+				}
+			}
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
+  generatedNoteLists,
   notes,
   notebooks,
   tags,
