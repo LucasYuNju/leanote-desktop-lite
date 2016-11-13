@@ -18,8 +18,11 @@ function notes(state = initialNotes, action) {
       };
     case types.RECEIVE_NOTES:
       return {
-        ...initialNotes,
-        byId: action.entities,
+				...state,
+        byId: {
+					...state.byId,
+					...action.entities,
+				},
       }
     case types.UPDATE_NOTE_SUCCEEDED:
       return {
@@ -89,19 +92,21 @@ function tags(state = initialTags, action) {
       }
       const notes = Object.keys(action.entities).forEach(noteId => {
         const note = action.entities[noteId];
-        note.tags.forEach(tag => {
-          if (tag) {
-            if (!ret.byTag[tag]) {
-              ret.byTag[tag] = {
-                tag,
-                noteIds: [],
-              };
+        if (note.tags) {
+          note.tags.forEach(tag => {
+            if (tag) {
+              if (!ret.byTag[tag]) {
+                ret.byTag[tag] = {
+                  tag,
+                  noteIds: [],
+                };
+              }
+              if (!ret.byTag[tag].noteIds.includes()) {
+                ret.byTag[tag].noteIds.push(noteId);
+              }
             }
-            if (!ret.byTag[tag].noteIds.includes()) {
-              ret.byTag[tag].noteIds.push(noteId);
-            }
-          }
-        })
+          });
+        }
       });
       return ret;
     default:

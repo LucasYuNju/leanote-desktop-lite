@@ -63,7 +63,7 @@ class NoteList extends Component {
     } = this.props;
     return (
       <div className="note-list">
-        <NoteListHeader 
+        <NoteListHeader
           title={noteListTitle}
           sortNoteList={sortNoteList}
         />

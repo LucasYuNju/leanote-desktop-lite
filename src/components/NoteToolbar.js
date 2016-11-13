@@ -50,7 +50,7 @@ class NoteToolbar extends Component {
 				</div>
 				<div className="tags">
 					<Icon iconName="tag" />
-					{note.tags.map(tag => this.renderTag(tag))}
+					{note.tags ? note.tags.map(tag => this.renderTag(tag)) : null}
 					<input placeholder="Add tag here" />
 				</div>
         <div className="osx-buttons actions">

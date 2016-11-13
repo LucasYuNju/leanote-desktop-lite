@@ -8,7 +8,6 @@ import * as NoteActionCreators from '../actions/NoteActions';
 class NoteContainer extends Component {
   render() {
     if (this.props.note) {
-			console.log(this.props);
       return (
         <Note
           note={this.props.note}
