@@ -9,12 +9,12 @@ const initialState = {
 
 export default function noteList(state = initialState, action) {
   switch (action.type) {
-    case types.SELECT_NOTEBOOK:
-      if (action.value) {
+    case types.SELECT_NOTE_LIST:
+      if (action.noteListId) {
         return {
           ...state,
-          type: 'notebooks',
-          id: action.value,            
+          type: action.noteListType,
+          id: action.noteListId,
         }
       }
       return state;

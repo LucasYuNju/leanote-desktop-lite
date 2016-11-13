@@ -2,9 +2,17 @@
 ```
 state = {
   entities: {
+		generatedNoteLists: {
+			byId: {
+				searchResult: {
+					noteIds: [],
+				},
+				starred: {
+					noteIds: [],
+				},
+			}
+		},
     notes: {
-      searchedIds: [],
-      starredIds: [],
       byId: {
         20dr92: {
           noteId: '20dr92',
@@ -26,7 +34,7 @@ state = {
     tags: {
       // derived
 			allIds: [],
-      byTag: {
+      byId: {
         TODO: {
           tag: 'TODO',
           noteIds,

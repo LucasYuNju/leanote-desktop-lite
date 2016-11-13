@@ -108,7 +108,7 @@ function tags(state = initialTags, action) {
                 ret.byId[tag] = {
 									...ret.byId[tag],
 									noteIds: [
-										ret.byId[tag].noteIds,
+										...ret.byId[tag].noteIds,
 										noteId,
 									],
 								}

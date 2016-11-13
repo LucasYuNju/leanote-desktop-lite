@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
 import List from '../components/List';
-import ListItem from '../components/ListItem';
+import NotebookListItem from '../components/NotebookListItem';
 import makeSelectable from '../components/makeSelectable';
 
 const SelectableList = makeSelectable(List);
@@ -13,7 +13,8 @@ class NotebookList extends Component {
     notebooks: PropTypes.object.isRequired,
     rootNotebookIds: PropTypes.array.isRequired,
     selectedNoteList: PropTypes.object.isRequired,
-    selectNoteList: PropTypes.func.isRequired,
+		selectNoteList: PropTypes.func.isRequired,
+		tagIds: PropTypes.array.isRequired,
   };
 
   componentDidMount() {
@@ -36,6 +37,7 @@ class NotebookList extends Component {
       notebooks,
       rootNotebookIds,
       selectedNoteList,
+			tagIds,
     } = this.props;
     return (
       <SelectableList
@@ -43,38 +45,46 @@ class NotebookList extends Component {
         onChange={this.handleItemSelect}
         id={selectedNoteList.id}
       >
-				<ListItem
+				<NotebookListItem
 					id="starred"
 					text="Starred"
 					icon="star"
 				>
-				</ListItem>
-        <ListItem
+				</NotebookListItem>
+        <NotebookListItem
           id="tags"
           text="Tags"
           icon="tag"
+					nestedItems={tagIds.map(this.renderTag)}
         >
-        </ListItem>
-				<ListItem
+        </NotebookListItem>
+				<NotebookListItem
 					id="notebook"
-					text="Notebook"
-					icon="repo"
+					text="Notebooks"
+					icon="file-directory"
 					nestedItems={rootNotebookIds.map(notebookId => this.renderNotebook(notebooks[notebookId]))}
 				/>
       </SelectableList>
     );
   }
 
-	renderTag = (tag) => {
-
+	renderTag = (tagId) => {
+		return (
+      <NotebookListItem
+        id={tagId}
+        icon="tag"
+        text={tagId}
+        noteList={{ type: "tags", id: tagId }}
+      />
+    );
 	};
 
   renderNotebook = (notebook) => {
     const hasSublist = notebook.subs.length > 0;
     return (
-      <ListItem
+      <NotebookListItem
         id={notebook.notebookId}
-        icon={classNames({ 'file-directory': hasSublist }, { repo: !hasSublist })}
+        icon={classNames({ 'file-directory': hasSublist }, { 'repo': !hasSublist })}
         nestedItems={notebook.subs.map(notebookId => this.renderNotebook(this.props.notebooks[notebookId]))}
         text={notebook.title}
         noteList={{ type: "notebooks", id: notebook.notebookId }}
@@ -83,8 +93,8 @@ class NotebookList extends Component {
   };
 
   handleItemSelect = (item) => {
-		console.log(item.props.noteList);
-		this.props.selectNoteList(item.props.noteList);
+		// console.log(item.props.noteList);
+		this.props.selectNoteList(item.props.noteList.type, item.props.noteList.id);
   };
 }
 

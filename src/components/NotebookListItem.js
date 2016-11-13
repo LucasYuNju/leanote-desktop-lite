@@ -17,7 +17,7 @@ function getStyles(props, state) {
   }
 }
 
-class ListItem extends Component {
+class NotebookListItem extends Component {
   static propTypes = {
     icon: PropTypes.string,
     nestedItems: PropTypes.arrayOf(PropTypes.element),
@@ -121,4 +121,4 @@ class ListItem extends Component {
   }
 }
 
-export default ListItem;
+export default NotebookListItem;

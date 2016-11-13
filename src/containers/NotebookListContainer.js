@@ -21,6 +21,7 @@ function mapStateToProps(state) {
   return {
     rootNotebookIds: entities.notebooks.rootIds,
     notebooks: entities.notebooks.byId,
+		tagIds: entities.tags.allIds,
     selectedNoteList: noteList,
   }
 }

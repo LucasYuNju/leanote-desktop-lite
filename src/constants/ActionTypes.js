@@ -19,7 +19,7 @@ export const SEND_NOTES_REQUESTED = 'SEND_NOTES_REQUESTED';
  * notebooks
  */
 export const RECEIVE_NOTEBOOKS = 'RECEIVE_NOTEBOOKS';
-export const SELECT_NOTEBOOK = 'SELECT_NOTEBOOK';
+export const SELECT_NOTE_LIST = 'SELECT_NOTE_LIST';
 
 
 /*
