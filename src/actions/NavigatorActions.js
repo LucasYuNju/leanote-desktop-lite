@@ -1,3 +1,4 @@
+import { parseUrl } from '../Util/RouteUtil';
 import * as types from '../constants/ActionTypes';
 
 /**
@@ -7,14 +8,9 @@ import * as types from '../constants/ActionTypes';
 export function initNavigator() {
 	return (dispatch, getState) => {
 		window.onhashchange = (e) => {
-			console.log('hash change', window.location.hash);
+			const hash = window.location.hash;
+			dispatch(changePath(hash));
 		}
-	}
-}
-
-export function navigateTo(route) {
-	return (dispatch) => {
-		dispatch(changePath(route));
 	}
 }
 
@@ -26,6 +22,6 @@ export function navigateForward() {
 	history.forward();
 }
 
-function changePath(route) {
-  return { type: types.CHANGE_PATH, route };
+function changePath(path) {
+  return { type: types.CHANGE_PATH, path };
 }

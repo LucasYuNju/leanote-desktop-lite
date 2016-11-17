@@ -3,7 +3,7 @@
 ```
 notebooks/:notebookId/notes/:noteId/(note|markdown)
 tags/:tagId/notes/:noteId/(note|markdown)
-starred/notes/:notesId/(note|markdown)
+starred/:ignore/notes/:notesId/(note|markdown)
 setting
 ```
 

@@ -4,9 +4,18 @@ import classNames from 'classnames';
 import objectId from 'objectid-browser';
 
 import Icon from '../components/Icon';
+import Match from '../components/Match';
+import Menu from '../util/SystemMenu';
 import SearchBox from '../components/SearchBox';
 import TitleBar from '../components/TitleBar';
-import Menu from '../util/SystemMenu';
+
+const Echo = (props) => {
+  return (
+    <div>
+      <span>{props.noteListTitle}</span>
+    </div>
+  )
+}
 
 class Header extends Component {
   static propTypes = {

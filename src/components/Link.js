@@ -10,22 +10,17 @@ class Link extends Component {
 	static propTypes = {
 	  children: PropTypes.node,
 	  className: PropTypes.string,
-	  dispatch: PropTypes.func.isRequired,
-	  path: PropTypes.object.isRequired,
+		onClick: PropTypes.func,
+	  to: PropTypes.string.isRequired,
 		style: PropTypes.object,
 	};
 
-  handleClick = (e) => {
-    const { dispatch, path } = this.props;
-    dispatch(navigateTo(path));
-  };
-
   render() {
-    const { children, className, path, style, title } = this.props;
+    const { children, className, style, title, to } = this.props;
     return (
       <a
         className={classNames(className, 'link')}
-        href={`#/${constructUrl(path)}`}
+        href={`#/notebooks/${to}`}
         onClick={this.handleClick}
 				style={style}
       >
@@ -33,6 +28,11 @@ class Link extends Component {
       </a>
     );
   }
+
+	handleClick = (e) => {
+		this.props.onClick(e);
+		return true;
+	};
 }
 
 export default connect()(Link);

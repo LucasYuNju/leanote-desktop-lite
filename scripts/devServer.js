@@ -13,7 +13,6 @@ app.use(webpackDevMiddleware(
   builder,
   {
 		hot: true,
-		quiet: true,
     publicPath: builderConfig.output.publicPath
   }
 ));
