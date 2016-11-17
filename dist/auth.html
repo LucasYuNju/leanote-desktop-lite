@@ -5,7 +5,7 @@
   <script>
     // tmp solution to enable dev mode on windows
     // process.env.ENV = 'development';
-    var baseUrl = process.env.ENV === 'development' ? 'http://localhost:3000/assets' : './assets';
+    var baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/assets' : './assets';
     function loadStlyeSheet(name) {
       var link = document.createElement('link');
       link.rel = 'stylesheet';

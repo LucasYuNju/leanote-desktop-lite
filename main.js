@@ -7,7 +7,7 @@ function createAuthWindow() {
   authWindow = new BrowserWindow({
     center: true,
     fullscreenable: false,
-    resizable: process.env.ENV === 'development',
+    resizable: process.env.NODE_ENV === 'development',
     width: 320,
     height: 420,
     show: false,
@@ -31,7 +31,7 @@ function createMainWindow() {
     fullscreenable: false,
     width: 1080,
     height: 680,
-    show: process.env.ENV === 'development',
+    show: process.env.NODE_ENV === 'development',
     titleBarStyle: 'hidden-inset',
     useContentSize: true,
   });
