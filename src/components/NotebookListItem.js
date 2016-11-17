@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import NestedList from './NestedList';
 
 import Icon from '../components/Icon';
+import Link from '../components/Link';
 
 function getStyles(props, state) {
   let paddingLeft = 5 + props.nestedLevel * 12;
@@ -92,7 +93,6 @@ class NotebookListItem extends Component {
       selected,
       text,
     } = this.props;
-
     const contentChildren = [children];
     const hasNestedListItems = nestedItems.length > 0;
     if (hasNestedListItems) {
@@ -108,13 +108,14 @@ class NotebookListItem extends Component {
 
     return (
       <div className={classNames('list-item', { folder: hasNestedListItems }, { open:this.state.open }, { selected: selected }, className)}>
-        <div
+        <Link
+					path={{ path: ["Doloris"] }}
           className="content"
           onClick={this.handleClick}
           style={getStyles(this.props, this.state).innerDiv}
         >
           {contentChildren}
-        </div>
+        </Link>
         {this.renderNestedElements()}
       </div>
     )

@@ -54,13 +54,7 @@ class NoteList extends Component {
   }
 
   render() {
-    const {
-      notes,
-      selectNote,
-      selectedNote,
-      sortNoteList,
-      noteListTitle,
-    } = this.props;
+    const { notes, selectNote, selectedNote, sortNoteList, noteListTitle } = this.props;
     return (
       <div className="note-list">
         <NoteListHeader

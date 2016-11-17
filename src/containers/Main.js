@@ -7,6 +7,8 @@ import Nav from '../components/Nav';
 import NoteContainer from '../containers/NoteContainer';
 import NoteListContainer from '../containers/NoteListContainer';
 import * as UserActionCreators from '../actions/UserActions';
+import * as NavigatorActionCreators from '../actions/NavigatorActions';
+
 
 const { ipcRenderer } = require('electron');
 
@@ -48,10 +50,14 @@ class Main extends Component {
 		}
 		return null;
   }
+
+	componentDidMount() {
+		this.props.initNavigator();
+	}
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(UserActionCreators, dispatch);
+  return bindActionCreators({ ...UserActionCreators, ...NavigatorActionCreators }, dispatch);
 }
 
 export default connect(() => ({}), mapDispatchToProps)(Main);
