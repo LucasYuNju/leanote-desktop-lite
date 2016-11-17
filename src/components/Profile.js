@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import Menu from '../util/SystemMenu';
-import { hashHistory } from 'react-router';
 
 import Icon from '../components/Icon';
 

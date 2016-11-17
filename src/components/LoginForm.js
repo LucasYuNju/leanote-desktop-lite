@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { hashHistory } from 'react-router';
 
 const { ipcRenderer } = require('electron');
 
@@ -70,7 +69,7 @@ class LoginForm extends React.Component {
                 {this.renderSpinner()}
               </div>
             ) :
-            <input type="submit" className="button" value="Login" />              
+            <input type="submit" className="button" value="Login" />
           }
         </div>
         <span className="link switch-host">
@@ -79,7 +78,7 @@ class LoginForm extends React.Component {
       </form>
     );
   }
-  
+
   renderSpinner() {
     return (
       <div className="sk-fading-circle">

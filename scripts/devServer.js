@@ -5,15 +5,17 @@ const webpackDevMiddleware = require("webpack-dev-middleware");
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, '../dist'))); //  "public" off of current is root
+app.use(express.static(path.join(__dirname, '../dist')));
 
 const builderConfig = require("../webpack.config");
 const builder = webpack(builderConfig);
 app.use(webpackDevMiddleware(
-    builder,
-    {
-        publicPath: builderConfig.output.publicPath
-    }
+  builder,
+  {
+		hot: true,
+		quiet: true,
+    publicPath: builderConfig.output.publicPath
+  }
 ));
 
 app.listen(3000, () => {
