@@ -9,12 +9,13 @@ const SelectableList = makeSelectable(List);
 
 class NoteList extends Component {
   static propTypes = {
+		fetchNotesIfNeeded: PropTypes.func.isRequired,
     selectNote: PropTypes.func.isRequired,
     sortNoteList: PropTypes.func.isRequired,
-    notes: PropTypes.array.isRequired,
-    selectedNoteId: PropTypes.string,
-    noteListId: PropTypes.string,
-    noteListTitle: PropTypes.string,
+    notes: PropTypes.array,
+    noteId: PropTypes.string,
+    notebookId: PropTypes.string,
+    notebookTitle: PropTypes.string,
     view: PropTypes.string,
   };
 
@@ -22,20 +23,31 @@ class NoteList extends Component {
     view: 'snippet',
   };
 
+	componentWillMount() {
+		// TODO need fetch notes?
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (!nextProps.notes) {
+			nextProps.fetchNotesIfNeeded(nextProps.notebookId);
+		}
+	}
+
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.noteListId === nextProps.noteListId) {
-      return true;
-    }
-    else {
-      // select first note by default.
-      if (nextProps.notes.length) {
-        this.props.selectNote(nextProps.notes[0].noteId);
-      }
-      else {
-        this.props.selectNote(null);
-      }
-      return false;
-    }
+    // if (this.props.notebookId === nextProps.notebookId) {
+    //   return true;
+    // }
+    // else {
+    //   // select first note by default.
+    //   if (nextProps.notes.length) {
+    //     this.props.selectNote(nextProps.notes[0].noteId);
+    //   }
+    //   else {
+    //     this.props.selectNote(null);
+    //   }
+    //   return false;
+    // }
+		return true;
   }
 
   renderNote(note) {
@@ -54,19 +66,24 @@ class NoteList extends Component {
   }
 
   render() {
-    const { notes, selectedNoteId, sortNoteList, noteListTitle } = this.props;
+    const {
+			notes,
+			noteId,
+			sortNoteList,
+			notebookTitle
+		} = this.props;
     return (
       <div className="note-list">
         <NoteListHeader
-          title={noteListTitle}
+          title={notebookTitle}
           sortNoteList={sortNoteList}
         />
         <SelectableList
           className="note-list-items"
           onChange={this.handleNoteSelect}
-          id={selectedNoteId}
+          id={noteId}
         >
-          {notes.map(this.renderNote)}
+          {notes ? notes.map(this.renderNote) : null}
         </SelectableList>
       </div>
     );

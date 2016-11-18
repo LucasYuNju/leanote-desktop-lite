@@ -12,6 +12,15 @@ export function receiveNotes(status, entities, ids, notebookId) {
   return { type: types.RECEIVE_NOTES, status, entities, ids, notebookId };
 }
 
+export function fetchNotesIfNeeded(notebookId) {
+	return (dispatch, getState) => {
+		const { entities } = getState();
+		if (!entities.notebooks[notebookId]) {
+			dispatch(fetchNotes(notebookId));
+		}
+	}
+}
+
 export function fetchNotes(notebookId) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
@@ -41,7 +50,7 @@ export function updateNote(changedNote) {
         dispatch({ type: types.UPDATE_NOTE_SUCCEEDED, note: camelizeKeys(result) });
       }
       else {
-        dispatch({ type: types.UPDATE_NOTE_FAILED });        
+        dispatch({ type: types.UPDATE_NOTE_FAILED });
       }
     });
   }

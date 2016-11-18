@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { parseUrl } from '../util/RouteUtil';
 
-// Route component
+// Deprecated
 class Match extends Component {
   static propTypes = {
 		component: PropTypes.func.isRequired,

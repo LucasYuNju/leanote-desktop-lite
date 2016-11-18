@@ -9,11 +9,13 @@ export function initNavigator() {
 	return (dispatch, getState) => {
 		window.onhashchange = (e) => {
 			const hash = window.location.hash;
-			dispatch(changePath(hash));
+			if (getState().navigator.path !== hash) {
+				dispatch(changePath(hash));
+			}
 		}
 		setTimeout(() => {
 			if (window.location.hash) {
-				dispatch(changePath(window.location.hash));
+				// dispatch(changePath(window.location.hash));
 			}
 		});
 	}

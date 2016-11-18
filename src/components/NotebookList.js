@@ -12,23 +12,20 @@ class NotebookList extends Component {
   static propTypes = {
     notebooks: PropTypes.object.isRequired,
     rootNotebookIds: PropTypes.array.isRequired,
-    selectedNoteListId: PropTypes.string,
+    noteListId: PropTypes.string,
 		selectNoteList: PropTypes.func.isRequired,
 		tagIds: PropTypes.array.isRequired,
   };
 
-  componentDidMount() {
-    this.props.fetchNotebooks();
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
-    if (!nextProps.selectedNoteListId && !this.initialized) {
-      this.initialized = true;
-      if (nextProps.rootNotebookIds.length) {
-        this.props.selectNoteList("notebooks", nextProps.rootNotebookIds[0]);
-        return false;
-      }
-    }
+		// TODO
+    // if (!nextProps.noteListId && !this.initialized) {
+    //   this.initialized = true;
+    //   if (nextProps.rootNotebookIds.length) {
+    //     this.props.selectNoteList("notebooks", nextProps.rootNotebookIds[0]);
+    //     return false;
+    //   }
+    // }
     return true;
   }
 
@@ -36,14 +33,14 @@ class NotebookList extends Component {
     const {
       notebooks,
       rootNotebookIds,
-      selectedNoteListId,
+      noteListId,
 			tagIds,
     } = this.props;
     return (
       <SelectableList
         className="notebooks"
         onChange={this.handleItemSelect}
-        id={selectedNoteListId}
+        id={noteListId}
       >
 				<NotebookListItem
 					id="latest"
@@ -92,6 +89,10 @@ class NotebookList extends Component {
       />
     );
   };
+
+	componentDidMount() {
+		this.props.fetchNotebooks();
+	}
 
   handleItemSelect = (item) => {
 		// console.log(item.props.noteList);
