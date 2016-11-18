@@ -1,9 +1,11 @@
 import { arrayOf, normalize } from 'normalizr';
 import { camelizeKeys, pascalizeKeys } from 'humps';
 
-import * as types from '../constants/ActionTypes';
+import { constructUrl, destructUrl } from '../util/RouteUtil';
 import { fetchNotes, selectNote } from '../actions/NoteActions';
+import { navigateTo } from '../actions/NavigatorActions';
 import { notebookSchema } from '../constants/Schemas';
+import * as types from '../constants/ActionTypes';
 
 export function receiveNotebooks(status, entities, rootIds) {
   return { type: types.RECEIVE_NOTEBOOKS, status, entities, rootIds };
@@ -19,15 +21,17 @@ export function fetchNotebooks() {
 }
 
 export function selectNoteList(noteListType, noteListId) {
-	return (dispatch) => {
+	return (dispatch, getState) => {
     // Notes are expected to be cached.
 		if (noteListType === 'notebooks') {
 			dispatch(fetchNotes(noteListId)).then(() => {
-	      dispatch({ type: types.SELECT_NOTE_LIST, noteListType, noteListId });
+				navigateTo(noteListType, noteListId);
+	      // dispatch({ type: types.SELECT_NOTE_LIST, noteListType, noteListId });
 	    });
 		}
 		else {
-			dispatch({ type: types.SELECT_NOTE_LIST, noteListType, noteListId });
+			navigateTo(noteListType, noteListId);
+			// dispatch({ type: types.SELECT_NOTE_LIST, noteListType, noteListId });
 		}
   }
 }

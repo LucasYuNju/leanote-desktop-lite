@@ -12,7 +12,7 @@ class NotebookList extends Component {
   static propTypes = {
     notebooks: PropTypes.object.isRequired,
     rootNotebookIds: PropTypes.array.isRequired,
-    selectedNoteList: PropTypes.object.isRequired,
+    selectedNoteListId: PropTypes.string.isRequired,
 		selectNoteList: PropTypes.func.isRequired,
 		tagIds: PropTypes.array.isRequired,
   };
@@ -22,7 +22,7 @@ class NotebookList extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (!nextProps.selectedNoteList.id && !this.initialized) {
+    if (!nextProps.selectedNoteListId && !this.initialized) {
       this.initialized = true;
       if (nextProps.rootNotebookIds.length) {
         this.props.selectNoteList("notebooks", nextProps.rootNotebookIds[0]);
@@ -33,17 +33,18 @@ class NotebookList extends Component {
   }
 
   render() {
+		console.log('notebookList props', this.props);
     const {
       notebooks,
       rootNotebookIds,
-      selectedNoteList,
+      selectedNoteListId,
 			tagIds,
     } = this.props;
     return (
       <SelectableList
         className="notebooks"
         onChange={this.handleItemSelect}
-        id={selectedNoteList.id}
+        id={selectedNoteListId}
       >
 				<NotebookListItem
 					id="latest"

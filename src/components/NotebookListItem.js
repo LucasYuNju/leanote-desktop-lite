@@ -21,6 +21,7 @@ function getStyles(props, state) {
 class NotebookListItem extends Component {
   static propTypes = {
     icon: PropTypes.string,
+		id: PropTypes.string.isRequired,
     nestedItems: PropTypes.arrayOf(PropTypes.element),
     nesetdLevel: PropTypes.number,
     onClick: PropTypes.func,
@@ -44,14 +45,17 @@ class NotebookListItem extends Component {
     this.setState({
       open: !this.state.open,
     });
-    event.stopPropagation();
+		event.stopPropagation();
   };
 
   handleClick = (event) => {
     if (this.props.onClick) {
       this.props.onClick(event);
     }
-    this.toggleNestedList(event);
+		this.toggleNestedList(event);
+		if (this.props.nestedItems.length > 0) {
+			event.preventDefault();
+		}
   }
 
   pushElement(children, element, additionalProps) {
@@ -88,6 +92,7 @@ class NotebookListItem extends Component {
       children,
       className,
       icon,
+			id,
       nestedItems,
       nestedLevel,
       selected,
@@ -109,7 +114,7 @@ class NotebookListItem extends Component {
     return (
       <div className={classNames('list-item', { folder: hasNestedListItems }, { open:this.state.open }, { selected: selected }, className)}>
         <Link
-					to={text}
+					to={`#/notebooks/${id}`}
           className="content"
           onClick={this.handleClick}
           style={getStyles(this.props, this.state).innerDiv}

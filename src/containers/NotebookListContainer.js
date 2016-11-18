@@ -4,11 +4,16 @@ import React, { Component, PropTypes } from 'react';
 
 import * as NoteListActionCreators from '../actions/NoteListActions';
 import NotebookList from '../components/NotebookList';
+import Match from '../components/Match';
 
 class NotebookListContainer extends Component {
   render() {
     return (
-      <NotebookList {...this.props} />
+			<Match
+				pattern="/:noteListType/:selectedNoteListId"
+				component={NotebookList}
+				{...this.props}
+			/>
     );
   }
 }
@@ -16,13 +21,11 @@ class NotebookListContainer extends Component {
 function mapStateToProps(state) {
   const {
     entities,
-    noteList,
   } = state;
   return {
     rootNotebookIds: entities.notebooks.rootIds,
     notebooks: entities.notebooks.byId,
 		tagIds: entities.tags.allIds,
-    selectedNoteList: noteList,
   }
 }
 

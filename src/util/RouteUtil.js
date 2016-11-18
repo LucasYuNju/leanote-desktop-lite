@@ -18,18 +18,21 @@ export function parseUrl(pattern, url) {
   return params;
 }
 
-
 export function constructUrl(route) {
-  const { path, query } = route;
-  let result = path.join('/');
-  let queryArr = [];
-  if (query && typeof query === 'object') {
-    queryArr = Object.keys(query).sort()
-      .filter(key => query[key] !== null)
-      .map(key => `${key}=${query[key]}`);
-  }
-  if (queryArr.length > 0) {
-    result += `?${queryArr.join('&')}`;
-  }
-  return result;
+	return '#/' + route.join('/');
 }
+
+export function destructUrl(route) {
+	// const route = "/notebooks/17298127192";
+	const regex = /\/([^\/]*)/g;
+	const result = [];
+	let matches = null;
+	while(matches = regex.exec(route)) {
+		result.push(matches[0]);
+	}
+	return result;
+}
+
+// console.log(parseUrl('/:type/:id', '#/notebooks/57b2c855ab644133ed050e63'));
+// console.log(parseUrl('#/*', '#/notebooks'));
+// console.log(parseUrl('#/notebooks/*', '#/notebooks/a/b/c'));

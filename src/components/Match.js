@@ -13,10 +13,15 @@ class Match extends Component {
   };
 
   render() {
-		const { component: Component, navigator, pattern } = this.props;
+		const {
+			component: Component,
+			navigator,
+			pattern,
+			...others,
+		} = this.props;
 		const params = parseUrl(pattern, navigator.path);
     return (
-			<Component {...params}/>
+			<Component {...params} {...others}/>
 		);
   }
 }

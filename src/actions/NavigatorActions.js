@@ -1,4 +1,4 @@
-import { parseUrl } from '../Util/RouteUtil';
+import { constructUrl, parseUrl } from '../Util/RouteUtil';
 import * as types from '../constants/ActionTypes';
 
 /**
@@ -11,6 +11,11 @@ export function initNavigator() {
 			const hash = window.location.hash;
 			dispatch(changePath(hash));
 		}
+		setTimeout(() => {
+			if (window.location.hash) {
+				dispatch(changePath(window.location.hash));
+			}
+		});
 	}
 }
 
@@ -20,6 +25,11 @@ export function navigateBack() {
 
 export function navigateForward() {
 	history.forward();
+}
+
+export function navigateTo(...subPaths) {
+	const hash = constructUrl(subPaths);
+	window.location.hash = hash;
 }
 
 function changePath(path) {

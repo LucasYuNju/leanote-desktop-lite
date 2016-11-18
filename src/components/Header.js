@@ -12,7 +12,7 @@ import TitleBar from '../components/TitleBar';
 const Echo = (props) => {
   return (
     <div>
-      <span>{props.noteListTitle}</span>
+      <span>{props[0]}</span>
     </div>
   )
 }
@@ -103,6 +103,10 @@ class Header extends Component {
           </div>
         </div>
         <div className="group">
+          <Match
+						component={Echo}
+            pattern="/*"
+          />
           <SearchBox />
         </div>
       </TitleBar>

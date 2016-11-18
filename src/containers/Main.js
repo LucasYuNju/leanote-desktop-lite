@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
 import HeaderContainer from '../containers/HeaderContainer';
+import Match from '../components/Match';
 import Nav from '../components/Nav';
 import NoteContainer from '../containers/NoteContainer';
 import NoteListContainer from '../containers/NoteListContainer';
@@ -42,7 +43,7 @@ class Main extends Component {
 					<HeaderContainer />
 					<div className="content">
 						<Nav />
-						<NoteListContainer />
+						<Match pattern="/:noteListType/:noteListId" component={NoteListContainer} />
 						<NoteContainer />
 					</div>
 				</div>

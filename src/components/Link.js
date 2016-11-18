@@ -20,7 +20,7 @@ class Link extends Component {
     return (
       <a
         className={classNames(className, 'link')}
-        href={`#/notebooks/${to}`}
+        href={to}
         onClick={this.handleClick}
 				style={style}
       >
