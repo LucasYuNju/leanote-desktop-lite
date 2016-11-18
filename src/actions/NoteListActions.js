@@ -25,12 +25,12 @@ export function selectNoteList(noteListType, noteListId) {
     // Notes are expected to be cached.
 		if (noteListType === 'notebooks') {
 			dispatch(fetchNotes(noteListId)).then(() => {
-				navigateTo(noteListType, noteListId);
+				navigateTo(noteListType, noteListId, 'notes');
 	      // dispatch({ type: types.SELECT_NOTE_LIST, noteListType, noteListId });
 	    });
 		}
 		else {
-			navigateTo(noteListType, noteListId);
+			navigateTo(noteListType, noteListId, 'notes');
 			// dispatch({ type: types.SELECT_NOTE_LIST, noteListType, noteListId });
 		}
   }

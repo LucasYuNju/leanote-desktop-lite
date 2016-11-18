@@ -20,9 +20,10 @@ class Match extends Component {
 			...others,
 		} = this.props;
 		const params = parseUrl(pattern, navigator.path);
-    return (
-			<Component {...params} {...others}/>
-		);
+		if (params) {
+			return <Component {...params} {...others}/>;
+		}
+		return null;
   }
 }
 

@@ -22,7 +22,7 @@ function mapStateToProps(state) {
 
   const result = {
     notes: [],
-    selectedNote: entities.notes.byId[note.id],
+    selectedNoteId: note.id,
   };
   if (noteListRef.id) {
     const noteList = entities[noteListRef.type].byId[noteListRef.id];

@@ -2,14 +2,16 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
+
 import HeaderContainer from '../containers/HeaderContainer';
 import Match from '../components/Match';
 import Nav from '../components/Nav';
 import NoteContainer from '../containers/NoteContainer';
 import NoteListContainer from '../containers/NoteListContainer';
+import NotebookListContainer from '../containers/NotebookListContainer';
+import ProfileContainer from '../containers/ProfileContainer';
 import * as UserActionCreators from '../actions/UserActions';
 import * as NavigatorActionCreators from '../actions/NavigatorActions';
-
 
 const { ipcRenderer } = require('electron');
 
@@ -42,8 +44,11 @@ class Main extends Component {
 				<div className="main-page">
 					<HeaderContainer />
 					<div className="content">
-						<Nav />
-						<Match pattern="/:noteListType/:noteListId" component={NoteListContainer} />
+						<div className="nav">
+							<NotebookListContainer />
+							<ProfileContainer />
+						</div>
+						<NoteListContainer />
 						<NoteContainer />
 					</div>
 				</div>

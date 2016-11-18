@@ -33,6 +33,7 @@ export function destructUrl(route) {
 	return result;
 }
 
+// console.log(parseUrl('/:type*/:id*', '#/'));
 // console.log(parseUrl('/:type/:id', '#/notebooks/57b2c855ab644133ed050e63'));
 // console.log(parseUrl('#/*', '#/notebooks'));
 // console.log(parseUrl('#/notebooks/*', '#/notebooks/a/b/c'));

@@ -12,7 +12,7 @@ class NoteList extends Component {
     selectNote: PropTypes.func.isRequired,
     sortNoteList: PropTypes.func.isRequired,
     notes: PropTypes.array.isRequired,
-    selectedNote: PropTypes.object,
+    selectedNoteId: PropTypes.string,
     noteListId: PropTypes.string,
     noteListTitle: PropTypes.string,
     view: PropTypes.string,
@@ -54,7 +54,7 @@ class NoteList extends Component {
   }
 
   render() {
-    const { notes, selectNote, selectedNote, sortNoteList, noteListTitle } = this.props;
+    const { notes, selectedNoteId, sortNoteList, noteListTitle } = this.props;
     return (
       <div className="note-list">
         <NoteListHeader
@@ -64,7 +64,7 @@ class NoteList extends Component {
         <SelectableList
           className="note-list-items"
           onChange={this.handleNoteSelect}
-          id={selectedNote ? selectedNote.noteId : null}
+          id={selectedNoteId}
         >
           {notes.map(this.renderNote)}
         </SelectableList>

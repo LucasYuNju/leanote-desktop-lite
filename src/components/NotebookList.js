@@ -12,7 +12,7 @@ class NotebookList extends Component {
   static propTypes = {
     notebooks: PropTypes.object.isRequired,
     rootNotebookIds: PropTypes.array.isRequired,
-    selectedNoteListId: PropTypes.string.isRequired,
+    selectedNoteListId: PropTypes.string,
 		selectNoteList: PropTypes.func.isRequired,
 		tagIds: PropTypes.array.isRequired,
   };
@@ -33,7 +33,6 @@ class NotebookList extends Component {
   }
 
   render() {
-		console.log('notebookList props', this.props);
     const {
       notebooks,
       rootNotebookIds,
