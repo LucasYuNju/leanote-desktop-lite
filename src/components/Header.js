@@ -86,26 +86,20 @@ class Header extends Component {
   render() {
     return (
       <TitleBar className="header">
-        <div className="group">
-          <div className="osx-buttons">
-            <div className="osx-button sync-button">
-              <Icon
-                className={classNames({ 'rotate': this.state.synchonizing }, 'sync-icon')}
-                iconName="sync"
-                onClick={this.handleSyncClick}
-              />
-            </div>
-          </div>
-          <div className="osx-buttons">
-            <div className="osx-button create-note-button" onClick={this.createNote}>
-              <span className="text">
-                Create Note
-              </span>
-            </div>
-            <div className="osx-button dropdown-button" onClick={this.handleCreateButtonClicked}>
-              <Icon iconName="chevron-down" />
-            </div>
-          </div>
+        <div className="group icons">
+					<Icon
+						className="back-icon"
+						iconName="chevron-left"
+					/>
+					<Icon
+						className="forward-icon"
+						iconName="chevron-right"
+					/>
+					<Icon
+            className={classNames({ 'rotate': this.state.synchonizing }, 'sync-icon')}
+            iconName="sync"
+            onClick={this.handleSyncClick}
+          />
         </div>
         <div className="group">
           <Match
@@ -117,6 +111,21 @@ class Header extends Component {
       </TitleBar>
     );
   }
+
+	renderCreateButton() {
+		return (
+			<div className="osx-buttons">
+				<div className="osx-button create-note-button" onClick={this.createNote}>
+					<span className="text">
+						Create Note
+					</span>
+				</div>
+				<div className="osx-button dropdown-button" onClick={this.handleCreateButtonClicked}>
+					<Icon iconName="chevron-down" />
+				</div>
+			</div>
+		);
+	}
 }
 
 export default Header;

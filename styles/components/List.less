@@ -16,6 +16,11 @@
         background: @nav-selection-bg;
         color: @nav-selection-color;
 
+				&::before
+				{
+					opacity: 1;
+				}
+
         > .icon, > .expand-icon
         {
           color: @icon-color;
@@ -52,6 +57,22 @@
       line-height: @item-height;
       font-weight: normal;
       display: flex;
+			position: relative;
+
+			&::before
+      {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 3px;
+				opacity: 0;
+				transition: opacity .16s;
+				background: @theme-color;
+      }
 
 			> .icon
 			{
