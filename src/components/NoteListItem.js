@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
+import Link from '../Components/Link';
 import TimeFormatUtil from '../util/TimeFormatUtil';
 
 class NoteListItem extends Component {
   static propTypes = {
     content: PropTypes.string,
+		id: PropTypes.string.isRequired,
 		imgSrc: PropTypes.string,
 		selected: PropTypes.bool,
     starred: PropTypes.bool,
@@ -23,9 +25,9 @@ class NoteListItem extends Component {
   static selectable = true;
 
   handleClick = (event) => {
-    if (this.props.onClick) {
-      this.props.onClick();
-    }
+    // if (this.props.onClick) {
+    //   this.props.onClick();
+    // }
   }
 
   getText(html) {
@@ -52,6 +54,7 @@ class NoteListItem extends Component {
     const {
       content,
       className,
+			id,
       imgSrc,
 			selected,
       title,
@@ -59,9 +62,9 @@ class NoteListItem extends Component {
     } = this.props;
     const formattedTime = TimeFormatUtil.fromNow(updatedTime);
     return (
-      <div
+      <Link
         className={classNames('note-list-item', { selected: selected }, className)}
-        onClick={this.handleClick}
+				to={id}
       >
         <div className="info">
           <div className="title">{title}</div>
@@ -71,7 +74,7 @@ class NoteListItem extends Component {
           </div>
         </div>
         {this.renderThumbnail(imgSrc)}
-      </div>
+      </Link>
     );
   }
 }

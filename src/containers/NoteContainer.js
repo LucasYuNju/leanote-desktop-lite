@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react';
 
 import Note from '../components/Note';
 import * as NoteActionCreators from '../actions/NoteActions';
+import { parseUrl } from '../util/RouteUtil';
 
 class NoteContainer extends Component {
   render() {
@@ -23,11 +24,14 @@ class NoteContainer extends Component {
 function mapStateToProps(state) {
   const {
     entities,
-    note,
   } = state;
+	const params = parseUrl('/(.*)/(.*)/notes/:noteId', state.navigator.path) || {};
+	const {
+		noteId,
+	} = params;
 	const ret = {};
-  if (note.id) {
-    ret.note = entities.notes.byId[note.id];
+  if (noteId) {
+    ret.note = entities.notes.byId[noteId];
 		ret.notebook = entities.notebooks.byId[ret.note.notebookId];
   }
 	return ret;

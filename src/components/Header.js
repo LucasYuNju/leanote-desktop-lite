@@ -10,10 +10,15 @@ import SearchBox from '../components/SearchBox';
 import TitleBar from '../components/TitleBar';
 
 const Echo = (props) => {
+  const styles = {
+    display: 'inline-block',
+    width: '400px',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  }
   return (
-    <div>
-      <span>{props[0]}</span>
-    </div>
+    <span style={styles} title={props[0]}>{props[0]}</span>
   )
 }
 

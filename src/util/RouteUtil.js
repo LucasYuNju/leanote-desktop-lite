@@ -23,7 +23,6 @@ export function constructUrl(route) {
 }
 
 export function destructUrl(route) {
-	// const route = "/notebooks/17298127192";
 	const regex = /\/([^\/]*)/g;
 	const result = [];
 	let matches = null;

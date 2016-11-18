@@ -21,7 +21,7 @@ function mapStateToProps(state) {
     note,
     noteList: noteListRef,
   } = state;
-	const params = parseUrl('/:noteListType?/:noteListId?/notes', navigator.path) || {};
+	const params = parseUrl('/:noteListType?/:noteListId?/notes/:noteId?', navigator.path) || {};
 	const {
 		noteListType,
 		noteListId,

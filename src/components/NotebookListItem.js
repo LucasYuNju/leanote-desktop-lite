@@ -114,7 +114,7 @@ class NotebookListItem extends Component {
     return (
       <div className={classNames('list-item', { folder: hasNestedListItems }, { open:this.state.open }, { selected: selected }, className)}>
         <Link
-					to={`#/notebooks/${id}/notes`}
+					to={`/notebooks/${id}/notes/`}
           className="content"
           onClick={this.handleClick}
           style={getStyles(this.props, this.state).innerDiv}
