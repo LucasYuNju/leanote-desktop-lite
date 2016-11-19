@@ -1,9 +1,9 @@
 .main-page > .header
 {
   width: 100%;
-  height: 39px;
+  height: 45px;
   flex-shrink: 0;
-  padding-left: 80px;
+  padding-left: 108px;
   display: flex;
   align-items: center;
   background-color: @header-bg;
@@ -20,7 +20,7 @@
     {
       .osx-button
       {
-        color: @header-color;
+        color: @icon-color;
         background: @header-button-bg;
         -webkit-user-select: none;
         user-select: none;
@@ -32,7 +32,7 @@
 
         .icon
         {
-          color: @header-color;
+          color: @icon-color;
         }
       }
     }
@@ -58,27 +58,14 @@
      }
     }
 
-		&.icons
+		&.navigate
 		{
-			position: relative;
 			padding-left: 0;
-
-			&::before
-			{
-				position: absolute;
-				z-index: 2;
-				content: "";
-				width: 1px;
-				left: 0;
-				top: 1px;
-				bottom: 1px;
-				background: @border-color;
-			}
 
 			> .icon
 			{
 				font-size: 18px;
-				margin-left: 13px;
+				margin-right: 12px;
 			}
 
 			> .sync-icon
@@ -100,7 +87,15 @@
 					}
 				}
 			}
+		}
 
+		&.user-profile
+		{
+			> .icon
+			{
+				font-size: 18px;
+				margin-right: 18px;
+			}
 		}
   }
 }

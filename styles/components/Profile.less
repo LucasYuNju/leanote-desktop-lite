@@ -1,13 +1,12 @@
 .user-info
 {
   @item-height: 26px;
-  
-  height: 50px;
+
   display: flex;
   align-items: center;
-  padding-left: 12px;
-  padding-right: 12px;
-  padding-bottom: 12px;
+	height: @item-height;
+  // padding-left: 12px;
+  // padding-right: 12px;
   // border-top: 1px solid @border-color;
 
   > img
@@ -19,35 +18,58 @@
     border-radius: 50%;
     display: inline-block;
   }
-  
-  .info
-  {
-      flex-grow: 1;
-      padding-left: 8px;
-      min-width: 0;
 
-      .name, .email
-      {
-        color: @nav-color;
-        font-weight: normal;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-      
-      .email
-      {
-          font-size: 10px;
-          color: @icon-color;
-      }
-  }
-  
+	> .info
+	{
+		display: flex;
+		align-items: center;
 
-  .icon
-  {
-    height: 39px;
-    line-height: 40px;
-    flex-shrink: 0;
-    color: @icon-color;          
-  }
+		.email
+		{
+			display: inline-block;
+			color: @icon-color;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			max-width: 125px;
+			height: @item-height;
+			line-height: @item-height;
+		}
+
+		.icon
+		{
+			position: relative;
+			top: 2px;
+		}
+	}
+
+  // .info
+  // {
+  //     flex-grow: 1;
+  //     min-width: 0;
+	//
+  //     .name, .email
+  //     {
+  //       color: @icon-color;
+  //       font-weight: normal;
+  //       white-space: nowrap;
+  //       text-overflow: ellipsis;
+  //       overflow: hidden;
+  //     }
+	//
+  //     .email
+  //     {
+  //         font-size: 10px;
+  //         color: @icon-color;
+  //     }
+  // }
+
+
+  // .icon
+  // {
+  //   height: 39px;
+  //   line-height: 40px;
+  //   flex-shrink: 0;
+  //   color: @icon-color;
+  // }
 }

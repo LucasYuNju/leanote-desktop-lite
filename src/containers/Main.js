@@ -9,7 +9,6 @@ import Nav from '../components/Nav';
 import NoteContainer from '../containers/NoteContainer';
 import NoteListContainer from '../containers/NoteListContainer';
 import NotebookListContainer from '../containers/NotebookListContainer';
-import ProfileContainer from '../containers/ProfileContainer';
 import * as UserActionCreators from '../actions/UserActions';
 import * as NavigatorActionCreators from '../actions/NavigatorActions';
 
@@ -46,7 +45,6 @@ class Main extends Component {
 					<div className="content">
 						<div className="nav">
 							<NotebookListContainer />
-							<ProfileContainer />
 						</div>
 						<NoteListContainer />
 						<NoteContainer />

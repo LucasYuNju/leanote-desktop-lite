@@ -4,23 +4,10 @@ import classNames from 'classnames';
 import objectId from 'objectid-browser';
 
 import Icon from '../components/Icon';
-import Match from '../components/Match';
 import Menu from '../util/SystemMenu';
 import SearchBox from '../components/SearchBox';
 import TitleBar from '../components/TitleBar';
-
-const Echo = (props) => {
-  const styles = {
-    display: 'inline-block',
-    width: '400px',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-  }
-  return (
-    <span style={styles} title={props[0]}>{props[0]}</span>
-  )
-}
+import ProfileContainer from '../containers/ProfileContainer';
 
 class Header extends Component {
   static propTypes = {
@@ -86,7 +73,7 @@ class Header extends Component {
   render() {
     return (
       <TitleBar className="header">
-        <div className="group icons">
+        <div className="group navigate">
 					<Icon
 						className="back-icon"
 						iconName="chevron-left"
@@ -95,18 +82,19 @@ class Header extends Component {
 						className="forward-icon"
 						iconName="chevron-right"
 					/>
-					<Icon
-            className={classNames({ 'rotate': this.state.synchonizing }, 'sync-icon')}
-            iconName="sync"
-            onClick={this.handleSyncClick}
-          />
+					<SearchBox />
         </div>
-        <div className="group">
-          <Match
-						component={Echo}
-            pattern="/*"
-          />
-          <SearchBox />
+        <div className="group user-profile">
+					<Icon
+						className="forward-icon"
+						iconName="gear"
+					/>
+					<Icon
+						className={classNames({ 'rotate': this.state.synchonizing }, 'sync-icon')}
+						iconName="sync"
+						onClick={this.handleSyncClick}
+					/>
+					<ProfileContainer />
         </div>
       </TitleBar>
     );

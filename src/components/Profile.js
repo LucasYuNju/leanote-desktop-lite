@@ -37,12 +37,10 @@ class User extends Component {
         className="user-info"
         onClick={this.handleClick}
       >
-        <img src={this.props.logo} />
-        <div className="info">
-          <p className="name">{this.props.username}</p>
-          <p className="email">{this.props.email}</p>
-        </div>
-        <Icon iconName="gear"/>
+				<div className="info">
+					<span className="email">{this.props.email}</span>
+					<Icon iconName="chevron-down"/>
+				</div>
       </div>
     );
   }
