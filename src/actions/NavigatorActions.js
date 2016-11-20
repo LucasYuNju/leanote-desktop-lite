@@ -8,14 +8,6 @@ import * as types from '../constants/ActionTypes';
 // Indicating whether hashChange is triggered by clicking navigating button.
 let manualHashChange = false;
 
-function hashchange(dispatch, getState) {
-	const hash = window.location.hash;
-	console.log('hash change', hash);
-	if (getState().navigator.path !== hash) {
-		dispatch(navigateTo(hash));
-	}
-};
-
 export function initNavigator() {
 	return (dispatch, getState) => {
 		window.onhashchange = (e) => {

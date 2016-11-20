@@ -36,7 +36,6 @@ class NotebookList extends Component {
     return (
       <SelectableList
         className="notebooks"
-        onChange={this.handleItemSelect}
         id={noteListId}
       >
 				<NotebookListItem
@@ -90,11 +89,6 @@ class NotebookList extends Component {
 	componentDidMount() {
 		this.props.fetchNotebooks();
 	}
-
-  handleItemSelect = (item) => {
-		// console.log(item.props.noteList);
-		this.props.selectNoteList(item.props.noteList.type, item.props.noteList.id);
-  };
 }
 
 export default NotebookList;

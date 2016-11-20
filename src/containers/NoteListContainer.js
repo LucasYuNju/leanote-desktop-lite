@@ -15,7 +15,6 @@ class NoteListContainer extends Component {
   }
 
 	selectNote = (noteId) => {
-		console.log('selectNote', noteId);
 		this.props.replaceState(`#/${this.props.noteListType}/${this.props.noteListId}/notes/${noteId}`);
 	};
 }
@@ -37,25 +36,25 @@ function mapStateToProps(state) {
   const result = { ...params };
   if (noteListId) {
     const noteList = entities[noteListType].byId[noteListId];
+		// console.error(noteListId, noteListType, noteList);
+		// if (!noteList) {
+		// 	console.log("notelistcontaine", window.location.hash);
+		// }
+
     const order = noteListRef.order;
     // TODO rewrite with reselect
-		if (noteList.noteIds) {
-			result.notes = noteList.noteIds
-				.map(noteId => entities.notes.byId[noteId])
-				.sort((note1, note2) => {
-					// TODO refactor
-					let extractKey = (note) => note[order.key];
-					if (order.key.toLowerCase().includes('time')) {
-						extractKey = (note) => new Date(note[order.key]);
-					}
-					const key1 = extractKey(note1);
-					const key2 = extractKey(note2);
-					return order.ascending ? key1 > key2 : key1 < key2;
-				});
-		}
-		else {
-			noteList.notes = null;
-		}
+		result.notes = noteList.noteIds
+			.map(noteId => entities.notes.byId[noteId])
+			.sort((note1, note2) => {
+				// TODO refactor
+				let extractKey = (note) => note[order.key];
+				if (order.key.toLowerCase().includes('time')) {
+					extractKey = (note) => new Date(note[order.key]);
+				}
+				const key1 = extractKey(note1);
+				const key2 = extractKey(note2);
+				return order.ascending ? key1 > key2 : key1 < key2;
+			});
     result.notebookId = noteListId;
     result.notebookTitle = noteListType === 'notebooks' ? noteList.title : noteList.tag;
   }
