@@ -28,7 +28,7 @@ class User extends Component {
       ];
       this.menu = new Menu(template);
     }
-    this.menu.popup(event, false);
+    this.menu.popup(event);
   }
 
   render() {

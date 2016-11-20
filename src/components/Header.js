@@ -12,16 +12,85 @@ import ProfileContainer from '../containers/ProfileContainer';
 class Header extends Component {
   static propTypes = {
     createNote: PropTypes.func.isRequired,
+		navigateBack: PropTypes.func.isRequired,
+		navigateForward: PropTypes.func.isRequired,
+		navigateBackEnabled: PropTypes.func.isRequired,
+		navigateForwardEnabled: PropTypes.func.isRequired,
+    notebookId: PropTypes.string,
     sendNotes: PropTypes.func.isRequired,
     updateNote: PropTypes.func.isRequired,
-    notebookTitle: PropTypes.string,
-    notebookId: PropTypes.string,
     userId: PropTypes.string,
   };
 
   state = {
     synchonizing: false,
   }
+
+  render() {
+		const {
+			navigator,
+			navigateBack,
+			navigateBackEnabled,
+			navigateForward,
+			navigateForwardEnabled,
+		} = this.props;
+    return (
+      <TitleBar className="header">
+        <div className="group navigate">
+					<Icon
+						className={classNames('back-icon', { disabled: !navigateBackEnabled })}
+						iconName="chevron-left"
+						onClick={navigateBack}
+					/>
+					<Icon
+						className={classNames('forward-icon', { disabled: !navigateForwardEnabled })}
+						iconName="chevron-right"
+						onClick={navigateForward}
+					/>
+					<SearchBox />
+        </div>
+        <div className="group user-profile">
+					<Icon
+						className="forward-icon"
+						iconName="gear"
+					/>
+					<Icon
+						className={classNames({ 'rotate': this.state.synchonizing }, 'sync-icon')}
+						iconName="sync"
+						onClick={this.handleSyncClick}
+					/>
+					<ProfileContainer />
+        </div>
+      </TitleBar>
+    );
+  }
+
+	renderCreateButton() {
+		return (
+			<div className="osx-buttons">
+				<div className="osx-button create-note-button" onClick={this.createNote}>
+					<span className="text">
+						Create Note
+					</span>
+				</div>
+				<div className="osx-button dropdown-button" onClick={this.handleCreateButtonClicked}>
+					<Icon iconName="chevron-down" />
+				</div>
+			</div>
+		);
+	}
+
+  handleNavigateBack = () => {
+		if (this.props.navigateBackEnabled) {
+			this.props.navigateBack();
+		}
+  };
+
+  handleNavigateForward = () => {
+		if (this.props.navigateForwardEnabled) {
+			this.props.navigateForward();
+		}
+  };
 
   handleSyncClick = () => {
     this.props.sendNotes();
@@ -69,51 +138,6 @@ class Header extends Component {
     this.props.createNote(note, this.props.notebookId);
     this.props.updateNote(note);
   };
-
-  render() {
-    return (
-      <TitleBar className="header">
-        <div className="group navigate">
-					<Icon
-						className="back-icon"
-						iconName="chevron-left"
-					/>
-					<Icon
-						className="forward-icon"
-						iconName="chevron-right"
-					/>
-					<SearchBox />
-        </div>
-        <div className="group user-profile">
-					<Icon
-						className="forward-icon"
-						iconName="gear"
-					/>
-					<Icon
-						className={classNames({ 'rotate': this.state.synchonizing }, 'sync-icon')}
-						iconName="sync"
-						onClick={this.handleSyncClick}
-					/>
-					<ProfileContainer />
-        </div>
-      </TitleBar>
-    );
-  }
-
-	renderCreateButton() {
-		return (
-			<div className="osx-buttons">
-				<div className="osx-button create-note-button" onClick={this.createNote}>
-					<span className="text">
-						Create Note
-					</span>
-				</div>
-				<div className="osx-button dropdown-button" onClick={this.handleCreateButtonClicked}>
-					<Icon iconName="chevron-down" />
-				</div>
-			</div>
-		);
-	}
 }
 
 export default Header;

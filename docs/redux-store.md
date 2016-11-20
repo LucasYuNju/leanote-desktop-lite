@@ -60,17 +60,17 @@ state = {
       }
     }
   },
-  note: {
-    id: '20dr92',
-  },
+	navigator: {
+		current,
+		length,
+		path,
+	},
   noteList: {
-    type: 'notebooks',  // or 'tags', 'searched', "starred"
-    id: '57b574',
     order: {
       key,
       ascending,
-    }
-  }
+    },
+  },
   user: {
     id:'512178',
   },

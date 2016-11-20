@@ -20,7 +20,6 @@ export const SEND_NOTES_REQUESTED = 'SEND_NOTES_REQUESTED';
 export const RECEIVE_NOTEBOOKS = 'RECEIVE_NOTEBOOKS';
 export const SELECT_NOTE_LIST = 'SELECT_NOTE_LIST';
 
-
 /*
  * user
  */
@@ -29,4 +28,6 @@ export const RECEIVE_AUTHED_USER = 'RECEIVE_AUTHED_USER';
 /*
  * navigator
  */
+export const NAVIGATE_BACK = 'NAVIGATE_BACK';
+export const NAVIGATE_FORWARD = 'NAVIGATE_FORWARD';
 export const CHANGE_PATH = 'CHANGE_PATH';

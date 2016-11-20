@@ -6,10 +6,13 @@
 
   input[type=search]
   {
-    // border: 1px solid @border-color-darker;
-    // background: @header-button-bg;
-		border: none;
-		background: rgb(225, 225, 225);
+    border: 1px solid @border-color-darker;
+    background: white;
+		box-shadow: inset 0 1px 2px rgba(0,0,0,0.075);
+
+		// wechat like search
+		// border: none;
+		// background: rgb(225, 225, 225);
 
     border-radius: 4px;
     font-size: 14px;
@@ -25,7 +28,7 @@
 
     &:focus
     {
-      outline: none;
+      // outline: none;
       border:1px solid @border-color-darker;
 			text-indent: 0;
 

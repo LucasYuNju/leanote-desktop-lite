@@ -9,9 +9,26 @@ const initialState = {
 export default function navigator(state = initialState, action) {
 	switch(action.type) {
 		case types.CHANGE_PATH:
+			if (action.manually) {
+				return {
+					...state,
+					path: action.path,
+				}
+			}
+			return {
+				current: state.current + 1,
+				length: state.current + 1,
+				path: action.path,
+			}
+		case types.NAVIGATE_BACK:
 			return {
 				...state,
-				path: action.path,
+				current: state.current - 1,
+			}
+		case types.NAVIGATE_FORWARD:
+			return {
+				...state,
+				current: state.current + 1,
 			}
 		default:
 			return state;
