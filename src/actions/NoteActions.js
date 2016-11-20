@@ -14,8 +14,8 @@ export function receiveNotes(status, entities, ids, notebookId) {
 
 export function fetchNotesIfNeeded(notebookId) {
 	return (dispatch, getState) => {
-		const { entities } = getState();
-		if (!entities.notebooks[notebookId]) {
+		const notebook = getState().entities.notebooks.byId[notebookId];
+		if (notebook.numberNotes !== notebook.noteIds.length) {
 			dispatch(fetchNotes(notebookId));
 		}
 	}

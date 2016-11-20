@@ -11,21 +11,18 @@ const SelectableList = makeSelectable(List);
 class NotebookList extends Component {
   static propTypes = {
     notebooks: PropTypes.object.isRequired,
-    rootNotebookIds: PropTypes.array.isRequired,
     noteListId: PropTypes.string,
+		rootNotebookIds: PropTypes.array.isRequired,
 		selectNoteList: PropTypes.func.isRequired,
 		tagIds: PropTypes.array.isRequired,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-		// TODO
-    // if (!nextProps.noteListId && !this.initialized) {
-    //   this.initialized = true;
-    //   if (nextProps.rootNotebookIds.length) {
-    //     this.props.selectNoteList("notebooks", nextProps.rootNotebookIds[0]);
-    //     return false;
-    //   }
-    // }
+		// select first notebook by default
+    if (!nextProps.noteListId && nextProps.rootNotebookIds.length) {
+      nextProps.selectNoteList(nextProps.rootNotebookIds[0]);
+      return true;
+    }
     return true;
   }
 

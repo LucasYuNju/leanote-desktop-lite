@@ -3,15 +3,21 @@ import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
 import NoteList from '../components/NoteList';
+import * as NavigatorActionCreators from '../actions/NavigatorActions';
 import * as NoteActionCreators from '../actions/NoteActions';
 import { parseUrl } from '../util/RouteUtil';
 
 class NoteListContainer extends Component {
   render() {
     return (
-      <NoteList {...this.props} />
+      <NoteList {...this.props} selectNote={this.selectNote}/>
     );
   }
+
+	selectNote = (noteId) => {
+		console.log('selectNote', noteId);
+		this.props.replaceState(`#/${this.props.noteListType}/${this.props.noteListId}/notes/${noteId}`);
+	};
 }
 
 function mapStateToProps(state) {
@@ -28,9 +34,7 @@ function mapStateToProps(state) {
 		noteId,
 	} = params;
 
-  const result = {
-    noteId,
-  };
+  const result = { ...params };
   if (noteListId) {
     const noteList = entities[noteListType].byId[noteListId];
     const order = noteListRef.order;
@@ -59,7 +63,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(NoteActionCreators, dispatch);
+  return bindActionCreators({ ...NoteActionCreators, ...NavigatorActionCreators}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteListContainer);

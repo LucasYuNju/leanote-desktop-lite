@@ -9,15 +9,15 @@ const initialState = {
 export default function navigator(state = initialState, action) {
 	switch(action.type) {
 		case types.CHANGE_PATH:
-			if (action.manually) {
+			if (action.overrideHistory) {
 				return {
-					...state,
+					current: state.current + 1,
+					length: state.current + 1,
 					path: action.path,
 				}
 			}
 			return {
-				current: state.current + 1,
-				length: state.current + 1,
+				...state,
 				path: action.path,
 			}
 		case types.NAVIGATE_BACK:

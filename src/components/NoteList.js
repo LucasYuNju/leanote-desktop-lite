@@ -23,17 +23,30 @@ class NoteList extends Component {
     view: 'snippet',
   };
 
-	componentWillMount() {
-		// TODO need fetch notes?
-	}
-
 	componentWillReceiveProps(nextProps) {
-		if (!nextProps.notes) {
+		if (nextProps.notes.length === 0) {
 			nextProps.fetchNotesIfNeeded(nextProps.notebookId);
 		}
 	}
 
   shouldComponentUpdate(nextProps, nextState) {
+		if (nextProps.noteId) {
+			return true;
+		}
+		if (this.props.noteListId === nextProps.noteListId) {
+			// Switched to another note stack, and new note stack is cached
+			if (nextProps.notes.length) {
+				this.props.selectNote(nextProps.notes[0].noteId);
+			}
+		}
+		else {
+			// Note stack just get fetched.
+			const numNotes = this.props.notes ? this.props.notes.length : 0;
+			if (numNotes === 0 && nextProps.notes && nextProps.notes.length) {
+				this.props.selectNote(nextProps.notes[0].noteId);
+			}
+		}
+		return false;
     // if (this.props.notebookId === nextProps.notebookId) {
     //   return true;
     // }

@@ -3,10 +3,10 @@ import * as types from '../constants/ActionTypes';
 
 /**
  * Navigator records each page's position in h5 history stack.
- * Cannot decide hashchange is triggered by clicking navigate button or clicking Link with window.onhashchange event.
  */
 
-let hashChangedManually = false;
+// Indicating whether hashChange is triggered by clicking navigating button.
+let manualHashChange = false;
 
 function hashchange(dispatch, getState) {
 	const hash = window.location.hash;
@@ -19,15 +19,15 @@ function hashchange(dispatch, getState) {
 export function initNavigator() {
 	return (dispatch, getState) => {
 		window.onhashchange = (e) => {
-			if (hashChangedManually) {
-				dispatch(changePath(window.location.hash, true));
+			if (manualHashChange) {
+				dispatch(changePath(window.location.hash, false));
 			}
 			else {
 				if (getState().navigator.path !== window.location.hash) {
-					dispatch(changePath(window.location.hash, false));
+					dispatch(changePath(window.location.hash, true));
 				}
 			}
-			hashChangedManually = false;
+			manualHashChange = false;
 		}
 		setTimeout(() => {
 			if (window.location.hash) {
@@ -38,23 +38,26 @@ export function initNavigator() {
 }
 
 export function navigateBack() {
-	hashChangedManually = true;
+	manualHashChange = true;
 	window.history.back();
-	console.log(window.location.hash);
 	return { type: types.NAVIGATE_BACK };
 }
 
 export function navigateForward() {
-	hashChangedManually = true;
+	manualHashChange = true;
 	window.history.forward();
 	return { type: types.NAVIGATE_FORWARD };
 }
 
-function changePath(path, manually) {
- 	return { type: types.CHANGE_PATH, path, manually};
+// Used to select default notebook or note
+export function replaceState(path) {
+	return (dispatch) => {
+		window.history.replaceState(null, '', path);
+		dispatch(changePath(path));
+	}
 }
 
-// export function navigateTo(...subPaths) {
-// 	const hash = constructUrl(subPaths);
-// 	window.location.hash = hash;
-// }
+// If hashchange is caused by clicking hyperlink, all the following browser-history will be overriden.
+function changePath(path, overrideHistory) {
+ 	return { type: types.CHANGE_PATH, path, overrideHistory};
+}
