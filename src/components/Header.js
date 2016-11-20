@@ -29,9 +29,7 @@ class Header extends Component {
   render() {
 		const {
 			navigator,
-			navigateBack,
 			navigateBackEnabled,
-			navigateForward,
 			navigateForwardEnabled,
 		} = this.props;
     return (
@@ -40,12 +38,12 @@ class Header extends Component {
 					<Icon
 						className={classNames('back-icon', { disabled: !navigateBackEnabled })}
 						iconName="chevron-left"
-						onClick={navigateBack}
+						onClick={this.handleNavigateBack}
 					/>
 					<Icon
 						className={classNames('forward-icon', { disabled: !navigateForwardEnabled })}
 						iconName="chevron-right"
-						onClick={navigateForward}
+						onClick={this.handleNavigateForward}
 					/>
 					<SearchBox />
         </div>
