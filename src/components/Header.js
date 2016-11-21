@@ -18,7 +18,7 @@ class Header extends Component {
 		navigateBackEnabled: PropTypes.bool.isRequired,
 		navigateForwardEnabled: PropTypes.bool.isRequired,
     notebookId: PropTypes.string,
-    sendNotes: PropTypes.func.isRequired,
+    sendNotes: PropTypes.func,
     updateNote: PropTypes.func.isRequired,
     userId: PropTypes.string,
   };
@@ -91,7 +91,7 @@ class Header extends Component {
   };
 
   handleSyncClick = () => {
-    this.props.sendNotes();
+    // this.props.sendNotes();
     this.setState({
       synchonizing: true,
     });

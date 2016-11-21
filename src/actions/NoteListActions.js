@@ -20,23 +20,6 @@ export function fetchNotebooks() {
   };
 }
 
-// TODO remove
-// export function selectNoteList(noteListType, noteListId) {
-// 	return (dispatch, getState) => {
-//     // Notes are expected to be cached.
-// 		if (noteListType === 'notebooks') {
-// 			// dispatch(fetchNotes(noteListId)).then(() => {
-// 				// navigateTo(noteListType, noteListId, 'notes');
-// 	      // dispatch({ type: types.SELECT_NOTE_LIST, noteListType, noteListId });
-// 	    // });
-// 		}
-// 		else {
-// 			// navigateTo(noteListType, noteListId, 'notes');
-// 			// dispatch({ type: types.SELECT_NOTE_LIST, noteListType, noteListId });
-// 		}
-//   }
-// }
-
 export function addNote(notebookId, noteId) {
   return { type: types.ADD_NOTE, notebookId, noteId };
 }

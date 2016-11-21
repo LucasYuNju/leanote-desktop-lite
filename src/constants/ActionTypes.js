@@ -16,6 +16,13 @@ export const SEND_NOTES_REQUESTED = 'SEND_NOTES_REQUESTED';
 
 export const TOGGLE_EDIT_MODE = 'TOGGLE_EDIT_MODE';
 
+
+/*
+ * tags
+ */
+export const LINK_TAG = 'LINK_TAG';
+export const UNLINK_TAG = 'UNLINK_TAG';
+
 /*
  * notebooks
  */

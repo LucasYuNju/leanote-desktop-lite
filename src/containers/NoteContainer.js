@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
 import Note from '../components/Note';
-import * as NoteActionCreators from '../actions/NoteActions';
+import * as NoteActions from '../actions/NoteActions';
+import * as TagActions from '../actions/TagActions';
 import { parseUrl } from '../util/RouteUtil';
 
 class NoteContainer extends Component {
@@ -26,7 +27,10 @@ function mapStateToProps(state) {
 	const {
 		noteId,
 	} = params;
-	const ret = {};
+
+	const ret = {
+		tags: entities.tags.allIds,
+	};
   if (noteId) {
 		ret.editMode = editMode[noteId] || false;
     ret.note = entities.notes.byId[noteId];
@@ -36,7 +40,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(NoteActionCreators, dispatch);
+  return bindActionCreators({ ...NoteActions, ...TagActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteContainer);

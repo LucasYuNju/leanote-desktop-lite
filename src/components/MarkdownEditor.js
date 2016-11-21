@@ -39,11 +39,11 @@ class MarkdownEditor extends Component {
     } = this.props;
 
     return (
-      <div className="markdown-editor" 
+      <div className="markdown-editor"
         ref={(ref) => this.container = ref}
         className={classNames('markdown-editor', { hidden: !note.isMarkdown })}
       >
-        <textarea id="simplemde-container" 
+        <textarea id="simplemde-container"
           ref={(ref) => this.textarea = ref}
         />
       </div>
@@ -60,7 +60,7 @@ class MarkdownEditor extends Component {
     });
     if (this.props.note.isMarkdown) {
       this.simplemde.value(this.props.note.content);
-    }    
+    }
   }
 
   togglePreview = () => {

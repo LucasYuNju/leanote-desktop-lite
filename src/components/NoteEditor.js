@@ -20,18 +20,18 @@ class NoteEditor extends Component {
     }
     this.changed = false;
   };
-  
+
   handleContentChange = () => {
     this.changed = true;
   };
-  
+
   reset = (note) => {
     this.title.value = note.title;
     this.quill.history.clear();
     this.quill.clipboard.dangerouslyPasteHTML(note.content);
     this.changed = false;
   }
-  
+
   componentWillReceiveProps(nextProps) {
     this.container.className = classNames('note-editor', { hidden: !nextProps.active });
     if (!nextProps.active) {
@@ -77,10 +77,10 @@ class NoteEditor extends Component {
         ],
       },
     });
-    
+
     const editorContainer = document.getElementById('editor-container');
     this.container.insertBefore(document.createElement('hr'), editorContainer);
-    
+
     this.title = document.createElement('input');
     this.title.className = 'note-title';
     this.title.placeholder = "Title your note";
@@ -88,7 +88,7 @@ class NoteEditor extends Component {
       this.props.onTitleChange(this.title.value);
     };
     this.container.insertBefore(this.title, editorContainer);
-    
+
     this.quill.on('text-change', (range, oldRange, source) => {
       this.handleContentChange();
     });
@@ -96,9 +96,9 @@ class NoteEditor extends Component {
     document.getElementsByClassName('ql-editor')[0].onblur = () => {
       this.handleEditorBlur();
     }
-    
+
     if (this.props.active) {
-      this.reset(this.props.note);      
+      this.reset(this.props.note);
     }
   }
 }

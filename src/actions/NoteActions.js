@@ -70,9 +70,9 @@ export function createNote(note, notebookId) {
 /**
  * push changed notes to server
  */
-export function sendNotes() {
-  return { type: types.SEND_NOTES_REQUESTED };
-}
+// export function sendNotes() {
+//   return { type: types.SEND_NOTES_REQUESTED };
+// }
 
 export function sortNoteList(key) {
   return { type: types.SORT_NOTE_LIST, key };

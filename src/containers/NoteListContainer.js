@@ -36,11 +36,6 @@ function mapStateToProps(state) {
   const result = { ...params };
   if (noteListId) {
     const noteList = entities[noteListType].byId[noteListId];
-		// console.error(noteListId, noteListType, noteList);
-		// if (!noteList) {
-		// 	console.log("notelistcontaine", window.location.hash);
-		// }
-
     const order = noteListRef.order;
     // TODO rewrite with reselect
 		result.notes = noteList.noteIds
