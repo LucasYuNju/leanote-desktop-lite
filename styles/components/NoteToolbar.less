@@ -56,25 +56,34 @@
     }
 	}
 
-  .actions.osx-buttons
+	.toolbar-items
   {
     flex: 0 0 auto;
     align-self: center;
 
-    .osx-button
-    {
-      width: 38px;
+		.btn
+		{
+			margin-left: 10px;
+			margin-right: 0;
+			line-height: 1.75em;
+			flex-shrink: 0;
+			height: 1.75em;
+		}
 
-      &:active, &.active
-      {
-        color: white;
-        background: @theme-color;
-
-        .icon
-        {
-          color: white;
-        }
-      }
-    }
+    // .osx-button
+    // {
+    //   width: 38px;
+		//
+    //   &:active, &.active
+    //   {
+    //     color: white;
+    //     background: @theme-color;
+		//
+    //     .icon
+    //     {
+    //       color: white;
+    //     }
+    //   }
+    // }
   }
 }

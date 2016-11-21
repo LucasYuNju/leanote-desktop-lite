@@ -47,19 +47,19 @@ class Header extends Component {
 					/>
 					<SearchBox />
         </div>
-        <div className="group user-profile">
-					<Icon
-						className="forward-icon"
-						iconName="gear"
-					/>
-					<Icon
-						className={classNames({ 'rotate': this.state.synchonizing }, 'sync-icon')}
-						iconName="sync"
-						onClick={this.handleSyncClick}
-					/>
-					<ProfileContainer />
+        <div className="group actions">
         </div>
       </TitleBar>
+    );
+  }
+
+  renderSyncIcon() {
+    return (
+      <Icon
+        className={classNames({ 'rotate': this.state.synchonizing }, 'sync-icon')}
+        iconName="sync"
+        onClick={this.handleSyncClick}
+      />
     );
   }
 
