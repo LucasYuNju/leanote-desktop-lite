@@ -3,33 +3,28 @@ import React, {Component, PropTypes} from 'react';
 
 import Icon from '../components/Icon';
 import MarkdownEditor from '../components/MarkdownEditor';
-import NoteToolbar from '../components/NoteToolbar';
+import TagBar from '../components/TagBar';
 import NoteEditor from '../components/NoteEditor';
 
 class Note extends Component {
   static propTypes = {
+		editMode: PropTypes.bool,
     note: PropTypes.object.isRequired,
 		notebook: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired,
-  };
-
-  state = {
-    editMode: false,
+    updateNote: PropTypes.func.isRequired,
   };
 
   render() {
     const {
+			editMode,
       note,
 			notebook,
     } = this.props;
     return (
       <div className='note'>
-        <NoteToolbar
-          editMode={this.state.editMode}
+        <TagBar
 					note={note}
-					notebookId={note.notebookId}
 					notebookTitle={notebook.title}
-          toggleEditMode={note.isMarkdown ? this.toggleEditMode : null}
         />
         <NoteEditor
           active={!note.isMarkdown}
@@ -40,7 +35,7 @@ class Note extends Component {
         />
         <MarkdownEditor
           active={note.isMarkdown}
-          editMode={this.state.editMode}
+          editMode={editMode}
           note={note}
         />
       </div>
@@ -48,7 +43,7 @@ class Note extends Component {
   }
 
   handleTitlChange = (title) => {
-    this.props.onChange({
+    this.props.updateNote({
       ...this.props.note,
       title,
     });
@@ -59,13 +54,7 @@ class Note extends Component {
       ...this.props.note,
       content,
     };
-    this.props.onChange(note);
-  };
-
-  toggleEditMode = () => {
-    this.setState({
-      editMode: !this.state.editMode,
-    });
+    this.props.updateNote(note);
   };
 }
 

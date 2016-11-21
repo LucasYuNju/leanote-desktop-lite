@@ -14,6 +14,8 @@ export const UPDATE_NOTE_FAILED = 'UPDATE_NOTE_FAILED';
 // send local changes to server
 export const SEND_NOTES_REQUESTED = 'SEND_NOTES_REQUESTED';
 
+export const TOGGLE_EDIT_MODE = 'TOGGLE_EDIT_MODE';
+
 /*
  * notebooks
  */

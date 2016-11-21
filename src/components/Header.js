@@ -7,6 +7,7 @@ import Icon from '../components/Icon';
 import Menu from '../util/SystemMenu';
 import SearchBox from '../components/SearchBox';
 import TitleBar from '../components/TitleBar';
+import ToolBarContainer from '../containers/ToolBarContainer';
 import ProfileContainer from '../containers/ProfileContainer';
 
 class Header extends Component {
@@ -34,7 +35,7 @@ class Header extends Component {
 		} = this.props;
     return (
       <TitleBar className="header">
-        <div className="group navigate">
+        <div className="navigate">
 					<Icon
 						className={classNames('back-icon', { disabled: !navigateBackEnabled })}
 						iconName="chevron-left"
@@ -47,8 +48,7 @@ class Header extends Component {
 					/>
 					<SearchBox />
         </div>
-        <div className="group actions">
-        </div>
+        <ToolBarContainer />
       </TitleBar>
     );
   }

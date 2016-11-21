@@ -10,11 +10,7 @@ class NoteContainer extends Component {
   render() {
     if (this.props.note) {
       return (
-        <Note
-          note={this.props.note}
-					notebook={this.props.notebook}
-          onChange={this.props.updateNote}
-        />
+        <Note {...this.props} />
       );
     }
     return null;
@@ -23,6 +19,7 @@ class NoteContainer extends Component {
 
 function mapStateToProps(state) {
   const {
+		editMode,
     entities,
   } = state;
 	const params = parseUrl('/(.*)/(.*)/notes/:noteId', state.navigator.path) || {};
@@ -31,6 +28,7 @@ function mapStateToProps(state) {
 	} = params;
 	const ret = {};
   if (noteId) {
+		ret.editMode = editMode[noteId] || false;
     ret.note = entities.notes.byId[noteId];
 		ret.notebook = entities.notebooks.byId[ret.note.notebookId];
   }

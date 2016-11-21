@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux';
 import entities from './entities';
 import navigator from './navigator';
-import note from './note';
+import editMode from './editMode';
 import noteList from './noteList';
 import user from './user';
 
 export default combineReducers({
+	editMode,
   entities,
 	navigator,
-  note,
   noteList,
   user,
 });

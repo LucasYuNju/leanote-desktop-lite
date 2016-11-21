@@ -12,6 +12,10 @@ export function receiveNotes(status, entities, ids, notebookId) {
   return { type: types.RECEIVE_NOTES, status, entities, ids, notebookId };
 }
 
+export function toggleEditMode(noteId) {
+	return { type: types.TOGGLE_EDIT_MODE, noteId };
+}
+
 export function fetchNotesIfNeeded(notebookId) {
 	return (dispatch, getState) => {
 		const notebook = getState().entities.notebooks.byId[notebookId];

@@ -20,18 +20,10 @@
 
   > .group
   {
-    display: flex;
-    align-items: center;
-
     // .osx-buttons
     // {
     //   .osx-button
     //   {
-    //     color: @icon-color;
-    //     background: @header-button-bg;
-    //     -webkit-user-select: none;
-    //     user-select: none;
-		//
     //     &:active
     //     {
     //       background: @header-button-bg-darker;
@@ -64,51 +56,58 @@
     //    }
     //  }
     // }
-
-		&.navigate
-		{
-			padding-left: 0;
-
-			> .icon
-			{
-				font-size: 18px;
-				margin-right: 12px;
-				color: @icon-color;
-
-				&.disabled
-				{
-					color: #bbb;
-				}
-			}
-
-			> .sync-icon
-			{
-
-				// endless rotate
-				&.rotate
-				{
-					animation: rotating 2s linear infinite;
-				}
-
-				@-webkit-keyframes rotating
-				{
-					from {
-						transform: rotate(0deg);
-					}
-					to {
-						transform: rotate(-360deg);
-					}
-				}
-			}
-		}
-
-		&.user-profile
-		{
-			> .icon
-			{
-				font-size: 18px;
-				margin-right: 18px;
-			}
-		}
   }
+
+	> *
+	{
+		display: flex;
+		align-items: center;
+	}
+
+	.navigate
+	{
+		padding-left: 0;
+
+		> .icon
+		{
+			font-size: 18px;
+			margin-right: 12px;
+			color: @icon-color;
+
+			&.disabled
+			{
+				color: #bbb;
+			}
+		}
+
+		> .sync-icon
+		{
+			// endless rotate
+			&.rotate
+			{
+				animation: rotating 2s linear infinite;
+			}
+
+			@-webkit-keyframes rotating
+			{
+				from {
+					transform: rotate(0deg);
+				}
+				to {
+					transform: rotate(-360deg);
+				}
+			}
+		}
+	}
+
+	.toolbar-container
+	{
+		.toolbar-items
+		{
+			.btn
+			{
+				margin-left: 10px;
+			}
+		}
+	}
 }

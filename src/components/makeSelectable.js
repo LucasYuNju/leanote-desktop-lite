@@ -10,6 +10,10 @@ export const makeSelectable = (MyComponent) => {
       id: PropTypes.any,
     };
 
+    static defaultProps = {
+      onChange: () => {},
+    };
+
     extendChild = (child) => {
       if (child && child.type.propTypes.selected) {
         return React.cloneElement(child, {

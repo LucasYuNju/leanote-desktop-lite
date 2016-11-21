@@ -60,6 +60,10 @@ state = {
       }
     }
   },
+	edit: {
+		20dr92(noteId) : 'edit',
+		311sa0(noteId) : 'preview',
+	}
 	navigator: {
 		current,
 		length,
