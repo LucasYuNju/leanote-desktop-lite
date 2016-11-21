@@ -31,9 +31,16 @@
     cursor: default;
     background: darken(white, 9%);
   }
+
   &:focus {
     outline: none
   }
+
+	&.active {
+		> * {
+			color: @theme-color;
+		}
+	}
 
   font-size: @font-size-small;
 

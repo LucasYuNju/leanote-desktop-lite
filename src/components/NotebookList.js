@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 
 import List from '../components/List';
 import NotebookListItem from '../components/NotebookListItem';
-import makeSelectable from '../components/makeSelectable';
+import makeSelectable from '../decorators/makeSelectable';
 
 const SelectableList = makeSelectable(List);
 

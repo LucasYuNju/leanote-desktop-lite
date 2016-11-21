@@ -6,6 +6,7 @@ import Icon from '../components/Icon';
 class ToolBar extends Component {
   static propTypes = {
 		editMode: PropTypes.bool,
+		isMarkdown: PropTypes.bool,
 		noteId: PropTypes.string.isRequired,
 		toggleEditMode: PropTypes.func,
   };
@@ -33,9 +34,10 @@ class ToolBar extends Component {
 	renderEditModeButton = () => {
 		const {
 			editMode,
+			isMarkdown,
 			toggleEditMode,
 		} = this.props;
-		if (toggleEditMode) {
+		if (isMarkdown) {
 			return (
 				<div
 					onClick={this.toggleEditMode}
