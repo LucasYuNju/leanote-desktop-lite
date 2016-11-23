@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import NotebookListContainer from '../containers/NotebookListContainer';
+import NoteStackListContainer from '../containers/NoteStackListContainer';
 import ProfileContainer from '../containers/ProfileContainer';
 
 // deprecated
@@ -11,7 +11,7 @@ class Nav extends Component {
   render() {
     return (
       <div className="nav">
-        <NotebookListContainer />
+        <NoteStackListContainer />
 				<ProfileContainer />
       </div>
     );

@@ -5,12 +5,12 @@ import React, { Component, PropTypes } from 'react';
 import { parseUrl } from '../util/RouteUtil';
 import * as NavigatorActionCreators from '../actions/NavigatorActions';
 import * as NoteListActionCreators from '../actions/NoteListActions';
-import NotebookList from '../components/NotebookList';
+import NoteStackList from '../components/NoteStackList';
 
-class NotebookListContainer extends Component {
+class NoteStackListContainer extends Component {
   render() {
     return (
-			<NotebookList {...this.props}
+			<NoteStackList {...this.props}
 			selectNoteList={this.selectNotebook}/>
     );
   }
@@ -38,4 +38,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ ...NoteListActionCreators, ...NavigatorActionCreators}, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotebookListContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(NoteStackListContainer);

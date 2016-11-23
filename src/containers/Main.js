@@ -2,13 +2,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
-
 import HeaderContainer from '../containers/HeaderContainer';
 import Match from '../components/Match';
 import Nav from '../components/Nav';
 import NoteContainer from '../containers/NoteContainer';
 import NoteListContainer from '../containers/NoteListContainer';
-import NotebookListContainer from '../containers/NotebookListContainer';
+import NoteStackListContainer from '../containers/NoteStackListContainer';
 import ProfileContainer from '../containers/ProfileContainer';
 import * as UserActionCreators from '../actions/UserActions';
 import * as NavigatorActionCreators from '../actions/NavigatorActions';
@@ -45,7 +44,7 @@ class Main extends Component {
 					<HeaderContainer />
 					<div className="content">
 						<div className="nav">
-							<NotebookListContainer />
+							<NoteStackListContainer />
 							<ProfileContainer />
 						</div>
 						<NoteListContainer />

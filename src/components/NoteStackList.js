@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
 import List from '../components/List';
-import NotebookListItem from '../components/NotebookListItem';
+import NoteStackListItem from '../components/NoteStackListItem';
 import makeSelectable from '../decorators/makeSelectable';
 
 const SelectableList = makeSelectable(List);
 
-class NotebookList extends Component {
+class NoteStackList extends Component {
   static propTypes = {
     notebooks: PropTypes.object.isRequired,
     noteListId: PropTypes.string,
@@ -38,21 +38,21 @@ class NotebookList extends Component {
         className="notebooks"
         id={noteListId}
       >
-				<NotebookListItem
+				<NoteStackListItem
 					id="latest"
 					text="Latest"
 					icon="history"
           noteList={{ type: 'generatedNoteLists', id: 'latest' }}
 				>
-				</NotebookListItem>
-        <NotebookListItem
+				</NoteStackListItem>
+        <NoteStackListItem
           id="tags"
           text="Tags"
           icon="tag"
 					nestedItems={tagIds.map(this.renderTag)}
         >
-        </NotebookListItem>
-				<NotebookListItem
+        </NoteStackListItem>
+				<NoteStackListItem
 					id="notebook"
 					text="Notebooks"
 					icon="file-directory"
@@ -64,7 +64,7 @@ class NotebookList extends Component {
 
 	renderTag = (tagId) => {
 		return (
-      <NotebookListItem
+      <NoteStackListItem
         id={tagId}
         icon="tag"
         text={tagId}
@@ -76,7 +76,7 @@ class NotebookList extends Component {
   renderNotebook = (notebook) => {
     const hasSublist = notebook.subs.length > 0;
     return (
-      <NotebookListItem
+      <NoteStackListItem
         id={notebook.notebookId}
         icon={classNames({ 'file-directory': hasSublist }, { 'repo': !hasSublist })}
         nestedItems={notebook.subs.map(notebookId => this.renderNotebook(this.props.notebooks[notebookId]))}
@@ -91,4 +91,4 @@ class NotebookList extends Component {
 	}
 }
 
-export default NotebookList;
+export default NoteStackList;
