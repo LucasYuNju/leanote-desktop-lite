@@ -1,0 +1,74 @@
+.toolbar-container
+{
+	.toolbar-items
+	{
+		flex: 0 0 auto;
+		align-self: center;
+		display: flex;
+
+		.tag-picker-container
+		{
+			.btn-tool-bar
+			{
+				position: relative;
+				z-index: 100;
+
+				.triangle
+				{
+					position: absolute;
+					top: 23px;
+					left: 0;
+					right: 0;
+					margin-left: auto;
+					margin-right: auto;
+					width: 0px;
+					height: 0px;
+					border-left: 10px solid transparent;
+					border-right: 10px solid transparent;
+					border-bottom: 10px solid @border-color-darker;
+					z-index: 101;
+				}
+
+				.triangle-smaller
+				{
+					position: absolute;
+					top: 24px;
+					left: 0;
+					right: 0;
+					margin-left: auto;
+					margin-right: auto;
+					width: 0px;
+					height: 0px;
+					border-left: 10px solid transparent;
+					border-right: 10px solid transparent;
+					border-bottom: 10px solid @nav-bg;
+					z-index: 101;
+				}
+
+				.tag-picker-popover
+				{
+					position: absolute;
+					top: 33px;
+					left: -100px;
+					right: -100px;
+					margin-left: auto;
+					margin-right: auto;
+					height: 150px;
+					border: 1px solid @border-color-darker;
+					border-radius: 4px;
+					background: @nav-bg;
+					padding: 10px;
+				}
+			}
+		}
+
+		.btn-tool-bar, .tag-picker-container > .btn-tool-bar
+		{
+			margin-left: 10px;
+			margin-right: 0;
+			line-height: 1.75em;
+			flex-shrink: 0;
+			height: 1.75em;
+		}
+	}
+}

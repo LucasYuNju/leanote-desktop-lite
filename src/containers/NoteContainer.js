@@ -29,7 +29,7 @@ function mapStateToProps(state) {
 	} = params;
 
 	const ret = {
-		tags: entities.tags.allIds,
+		allTags: entities.tags.allIds,
 	};
   if (noteId) {
 		ret.editMode = editMode[noteId] || false;

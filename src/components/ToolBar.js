@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 import Icon from '../components/Icon';
+import TagPicker from '../components/TagPicker.js';
 
 class ToolBar extends Component {
   static propTypes = {
@@ -20,6 +21,7 @@ class ToolBar extends Component {
 			<div className="toolbar-container">
 				<div className="toolbar-items">
 					{this.renderEditModeButton()}
+					<TagPicker />
 					<div className="btn btn-tool-bar">
 						<Icon iconName="history" />
 					</div>

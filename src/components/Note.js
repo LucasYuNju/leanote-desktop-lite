@@ -11,7 +11,7 @@ class Note extends Component {
 		editMode: PropTypes.bool,
     note: PropTypes.object.isRequired,
 		notebook: PropTypes.object.isRequired,
-		tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+		allTags: PropTypes.arrayOf(PropTypes.string).isRequired,
     updateNote: PropTypes.func.isRequired,
 		linkTag: PropTypes.func.isRequired,
 		unlinkTag: PropTypes.func.isRequired,
@@ -23,16 +23,17 @@ class Note extends Component {
 			linkTag,
       note,
 			notebook,
-			tags,
+			allTags,
 			unlinkTag,
     } = this.props;
     return (
       <div className='note'>
         <TagBar
 					linkTag={linkTag}
-					note={note}
 					notebookTitle={notebook.title}
-					tags={tags}
+					noteId={note.noteId}
+					noteTags={note.tags}
+					allTags={allTags}
 					unlinkTag={unlinkTag}
         />
         <NoteEditor

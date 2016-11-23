@@ -10,9 +10,9 @@ const MAX_NUM_SUGGESTIONS = 8;
 class TagBar extends Component {
   static propTypes = {
 		linkTag: PropTypes.func.isRequired,
-		note: PropTypes.object.isRequired,
 		notebookTitle: PropTypes.string,
-		tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+    noteTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+		allTags: PropTypes.arrayOf(PropTypes.string).isRequired,
 		unlinkTag: PropTypes.func.isRequired,
   };
 
@@ -27,7 +27,7 @@ class TagBar extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.note.noteId !== this.props.note.noteId) {
+		if (nextProps.noteId !== this.props.noteId) {
 			this.setState({
 				input: '',
 				suggestions: [],
@@ -36,7 +36,7 @@ class TagBar extends Component {
 	}
 
   render() {
-    const { note, notebookTitle, title, toggleEditMode } = this.props;
+    const { noteTags, notebookTitle, title, toggleEditMode } = this.props;
 		const { input } = this.state;
     return (
       <div className="tag-bar">
@@ -46,7 +46,7 @@ class TagBar extends Component {
 				</div>
 				<div className="tags">
 					<Icon iconName="tag" />
-					{note.tags ? note.tags.map(tag => this.renderTag(tag)) : null}
+					{noteTags.map(tag => this.renderTag(tag))}
 					<input
 						onBlur={this.addTag}
 						onInput={this.onInputChange}
@@ -104,7 +104,7 @@ class TagBar extends Component {
 
 	addTag = (tag = this.state.input) => {
 		if (tag !== '') {
-			this.props.linkTag(this.props.note.noteId, tag);
+			this.props.linkTag(this.props.noteId, tag);
 		}
 		this.setState({
 			input: '',
@@ -150,12 +150,12 @@ class TagBar extends Component {
 	}
 
 	updateSuggestions(keyword) {
-		const { tags } = this.props;
+		const { allTags } = this.props;
 		keyword = keyword.toLowerCase();
 		let suggestions = [];
 
 		if (keyword !== '') {
-			suggestions = tags
+			suggestions = allTags
 				.filter(tag => {
 					return tag.toLowerCase().startsWith(keyword);
 				})
