@@ -5,6 +5,8 @@ import debounce from 'lodash/debounce';
 import Icon from '../components/Icon';
 import ToolBarContainer from '../containers/ToolBarContainer';
 
+const MAX_NUM_SUGGESTIONS = 8;
+
 class TagBar extends Component {
   static propTypes = {
 		linkTag: PropTypes.func.isRequired,
@@ -19,6 +21,7 @@ class TagBar extends Component {
 		this.state = {
 			input: '',
 			suggestions: [],
+			selectedSuggestion: 0,
 		};
 		this.updateSuggestions = debounce(this.updateSuggestions, 200);
 	}
@@ -33,13 +36,8 @@ class TagBar extends Component {
 	}
 
   render() {
-    const {
-			input,
-			note,
-			notebookTitle,
-      title,
-      toggleEditMode,
-    } = this.props;
+    const { note, notebookTitle, title, toggleEditMode } = this.props;
+		const { input } = this.state;
     return (
       <div className="tag-bar">
 				<div className="notebook">
@@ -49,7 +47,13 @@ class TagBar extends Component {
 				<div className="tags">
 					<Icon iconName="tag" />
 					{note.tags ? note.tags.map(tag => this.renderTag(tag)) : null}
-					<input placeholder="Click to add tag" value={input} onInput={this.handleInput} />
+					<input
+						onBlur={this.addTag}
+						onInput={this.onInputChange}
+						onKeyDown={this.onInputKeydown}
+						placeholder="Click to add tag"
+						value={input}
+					/>
 					{this.renderSuggestions()}
 				</div>
       </div>
@@ -65,51 +69,104 @@ class TagBar extends Component {
 	}
 
 	renderSuggestions = () => {
-		const suggestions = [...this.state.suggestions, this.state.input];
 		return (
-			<ul className={classNames('tag-suggestions', { hidden: suggestions.length === 0 })}>
-				{suggestions.map(this.renderSuggestion)}
+			<ul
+				className={classNames('suggestions', 'dropdown', { hidden: this.state.suggestions.length <= 1 })}
+			>
+				{this.state.suggestions.map(this.renderSuggestion)}
 			</ul>
 		);
 	}
 
-	renderSuggestion = (suggestion) => {
+	renderSuggestion = (suggestion, i) => {
 		return (
 			<li
+				className={classNames({ selected: i === this.state.selectedSuggestion }, { hidden: i === 0 })}
 				key={suggestion}
+				onMouseDown={this.onSuggestionMouseDown}
 			>
 			{suggestion}
 			</li>
-		)
+		);
 	}
 
-	handleInput = (e) => {
+	onInputChange = (e) => {
 		this.setState({
 			input: e.currentTarget.value,
 		});
-		this.updateSuggestions();
+		this.updateSuggestions(e.currentTarget.value);
 	}
 
-	updateSuggestions() {
-		const tags = this.props.tags;
-		const keyword = this.state.input.toLowerCase();
-		if (keyword === '') {
-			this.setState({
-				suggestions: [],
-			});
+	onSuggestionMouseDown = (e) => {
+		e.preventDefault();
+		this.addTag(e.currentTarget.text);
+	}
+
+	addTag = (tag = this.state.input) => {
+		if (tag !== '') {
+			this.props.linkTag(this.props.note.noteId, tag);
 		}
-		else {
-			const suggestions = tags
+		this.setState({
+			input: '',
+			suggestions: [],
+			selectedSuggestion: 0,
+		});
+	}
+
+	onInputKeydown = (e) => {
+		const {
+			suggestions,
+			selectedSuggestion,
+		} = this.state;
+		let nextSelection;
+		switch(e.keyCode) {
+			case 8:
+				// backspace
+				break;
+			case 13:
+				// enter
+				this.addTag();
+				break;
+			case 38:
+				// up arrow
+				nextSelection = (this.state.selectedSuggestion - 1 + suggestions.length) % suggestions.length;
+				this.setState({
+					input: suggestions[nextSelection],
+					selectedSuggestion: nextSelection,
+				});
+				e.preventDefault();
+				break;
+			case 40:
+				// down arrow
+				nextSelection = (this.state.selectedSuggestion + 1) % suggestions.length;
+				this.setState({
+					input: suggestions[nextSelection],
+					selectedSuggestion: nextSelection,
+				})
+				e.preventDefault();
+				break;
+			default:
+		}
+	}
+
+	updateSuggestions(keyword) {
+		const { tags } = this.props;
+		keyword = keyword.toLowerCase();
+		let suggestions = [];
+
+		if (keyword !== '') {
+			suggestions = tags
 				.filter(tag => {
 					return tag.toLowerCase().startsWith(keyword);
 				})
 				.sort()
-				.slice(0, 6);
-			console.log(suggestions);
-			this.setState({
-				suggestions,
-			});
+				.slice(0, MAX_NUM_SUGGESTIONS);
+			suggestions.unshift(keyword);
 		}
+		this.setState({
+			suggestions,
+			selectedSuggestion: 0,
+		});
 	}
 }
 

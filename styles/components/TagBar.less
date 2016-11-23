@@ -2,6 +2,8 @@
 {
   @item-height: 38px;
   @padding-left: 20px;
+	@input-width: 160px;
+	@input-height: 20px;
 
   flex-shrink: 0;
   display: flex;
@@ -9,6 +11,7 @@
   height: @item-height;
   padding: 0 @padding-left 6px @padding-left;
 	align-items: center;
+	font-size: 12px;
 
 	.notebook
 	{
@@ -31,11 +34,10 @@
 
 	.tags
 	{
-		flex-grow: 1;
-		flex-shrink: 0;
-		font-size: 14px;
+		flex: 0 0 auto;
 		display: flex;
 		align-items: center;
+		position: relative;
 
 		.icon
 		{
@@ -51,24 +53,42 @@
     input
     {
 			margin-left: 4px;
-			border: none;
-			height: 14px;
+			border: 1px solid transparent;
+			border-radius: 2px;
+			width: @input-width;
+			height: @input-height;
+			text-indent: 2px;
+
+			&:focus
+			{
+				border: 1px solid #4d90fe;
+				outline: none;
+			}
     }
 	}
 
-	.toolbar-items
-  {
-    flex: 0 0 auto;
-    align-self: center;
+	ul.suggestions
+	{
+		position: absolute;
+		list-style: none;
+		right: 2px;
+		top: @input-height - 1;
+		background: rgba(255, 255, 255, 0.95);
+		z-index: 2;
+		width: @input-width - 4;
+		border: 1px solid @border-color-darker;
+		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 
-		.btn
+		li
 		{
-			margin-left: 10px;
-			margin-right: 0;
-			line-height: 1.75em;
-			flex-shrink: 0;
-			height: 1.75em;
+			display: block;
+			padding-left: 2px;
+			padding-right: 2px;
 		}
 
-  }
+		li.selected
+		{
+			background: @nav-selection-bg;
+		}
+	}
 }

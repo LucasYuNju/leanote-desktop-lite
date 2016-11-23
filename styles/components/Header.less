@@ -102,12 +102,19 @@
 
 	.toolbar-container
 	{
-		.toolbar-items
-		{
-			.btn
-			{
-				margin-left: 10px;
-			}
-		}
+    .toolbar-items
+    {
+      flex: 0 0 auto;
+      align-self: center;
+
+      .btn
+      {
+        margin-left: 10px;
+        margin-right: 0;
+        line-height: 1.75em;
+        flex-shrink: 0;
+        height: 1.75em;
+      }
+    }
 	}
 }

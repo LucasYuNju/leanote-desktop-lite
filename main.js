@@ -46,8 +46,6 @@ function createMainWindow() {
   });
 }
 
-// app.commandLine.appendSwitch('disable-renderer-backgrounding');
-
 app.on('ready', createMainWindow);
 
 app.on('window-all-closed', function () {
