@@ -20,10 +20,10 @@ class ToolBar extends Component {
 			<div className="toolbar-container">
 				<div className="toolbar-items">
 					{this.renderEditModeButton()}
-					<div className="btn btn-toolbar">
+					<div className="btn btn-tool-bar">
 						<Icon iconName="history" />
 					</div>
-					<div className="btn btn-toolbar">
+					<div className="btn btn-tool-bar">
 						<Icon iconName="trashcan" />
 					</div>
 				</div>
@@ -41,7 +41,7 @@ class ToolBar extends Component {
 			return (
 				<div
 					onClick={this.toggleEditMode}
-					className={classNames('btn', 'btn-toolbar', {active: editMode})}
+					className={classNames('btn', 'btn-tool-bar', {active: editMode})}
 				>
 					<Icon iconName="pencil" />
 				</div>
