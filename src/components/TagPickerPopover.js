@@ -114,6 +114,9 @@ class TagPickerPopover extends Component {
 			this.props.removeNoteTag(this.props.noteId, tag);
 		}
 		else {
+      if (this.props.tagged[tag] === undefined) {
+        this.props.addTag(tag);
+      }
 			this.props.addNoteTag(this.props.noteId, tag);
 		}
 	}
@@ -130,6 +133,7 @@ class TagPickerPopover extends Component {
 				if (this.state.selected >= 0) {
 					this.toggleTag(this.state.filteredTags[this.state.selected]);
 				}
+        this.props.hide();
 				break;
 			case 38:
 				// up arrow

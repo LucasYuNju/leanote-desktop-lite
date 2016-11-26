@@ -113,6 +113,26 @@ const initialTags={
 }
 function tags(state = initialTags, action) {
   switch (action.type) {
+		case types.ADD_TAG:
+			return {
+				allIds: [...state.allIds, action.tag],
+				byId: {
+					...state.byId,
+					[action.tag]: {
+						tag: action.tag,
+						noteIds: [],
+					},
+				}
+			}
+		case types.REMOVE_TAG:
+			let byId = {
+				...state.byId,
+			};
+			delete byId[action.tag];
+			return {
+				...state,
+				byId,
+			}
     case types.RECEIVE_NOTES:
       const ret = {
 				allIds: [...state.allIds],

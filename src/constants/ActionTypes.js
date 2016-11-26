@@ -20,6 +20,8 @@ export const TOGGLE_EDIT_MODE = 'TOGGLE_EDIT_MODE';
 /*
  * tags
  */
+export const ADD_TAG = 'ADD_TAG';
+export const REMOVE_TAG = 'REMOVE_TAG';
 export const LINK_TAG = 'LINK_TAG';
 export const UNLINK_TAG = 'UNLINK_TAG';
 

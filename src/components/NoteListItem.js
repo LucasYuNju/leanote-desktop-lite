@@ -21,16 +21,8 @@ class NoteListItem extends Component {
     view: 'snippet',
   };
 
-  // TODO remove this.
-  static selectable = true;
-
-  handleClick = (event) => {
-    // if (this.props.onClick) {
-    //   this.props.onClick();
-    // }
-  }
-
   getText(html) {
+		// TODO possible bottleneck
     const div = document.createElement('div');
     div.innerHTML = html;
     const text = div.textContext || div.innerText || '';

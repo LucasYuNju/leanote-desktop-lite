@@ -16,9 +16,9 @@ export function removeNoteTag(noteId, tag) {
 }
 
 export function addTag(tag) {
-
+	return { type: types.ADD_TAG, tag };
 }
 
 export function removeTag(tag) {
-
+	return { type: types.REMOVE_TAG, tag };
 }
