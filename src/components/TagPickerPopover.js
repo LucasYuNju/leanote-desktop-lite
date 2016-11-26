@@ -30,7 +30,6 @@ class TagPickerPopover extends Component {
 		return (
 			<div className="tag-picker-popover">
 				<div className="search-bar">
-					<Icon iconName="search" />
 					<input
 						ref={(input) => { this.input = input }}
 						onBlur={this.onInputBlur}
@@ -39,6 +38,7 @@ class TagPickerPopover extends Component {
 						placeholder="Click to add tag"
 						value={input}
 					/>
+          <Icon iconName="search" />
 				</div>
 				<ul className={classNames('tag-list', 'dropdown')}>
 					{filteredTags.map((tag, i) => {
