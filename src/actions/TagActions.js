@@ -1,13 +1,24 @@
 import * as types from '../constants/ActionTypes';
+import { updateNote } from '../actions/NoteActions';
 
-export function createTag(tag) {
+export function addNoteTag(noteId, tag) {
+	return (dispatch, getState) => {
+		dispatch({ type: types.LINK_TAG, noteId, tag });
+		dispatch(updateNote(getState().entities.notes.byId[noteId]));
+	}
+}
+
+export function removeNoteTag(noteId, tag) {
+	return (dispatch, getState) => {
+		dispatch({ type: types.UNLINK_TAG, noteId, tag });
+		dispatch(updateNote(getState().entities.notes.byId[noteId]));
+	}
+}
+
+export function addTag(tag) {
 
 }
 
-export function linkTag(noteId, tag) {
-	return { type: types.LINK_TAG, noteId, tag };
-}
+export function removeTag(tag) {
 
-export function unlinkTag(noteId, tag) {
-	return { type: types.UNLINK_TAG, noteId, tag };
 }

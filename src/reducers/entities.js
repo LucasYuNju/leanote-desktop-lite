@@ -18,6 +18,32 @@ function notes(state = initialNotes, action) {
           [action.note.noteId]: action.note,
         }
       };
+		case types.LINK_TAG:
+			return {
+				...state,
+				byId: {
+					...state.byId,
+					[action.noteId]: {
+						...state.byId[action.noteId],
+						tags: [...state.byId[action.noteId].tags, action.tag],
+					}
+				}
+			};
+		case types.UNLINK_TAG:
+			let deletedIndex = state.byId[action.noteId].tags.indexOf(action.tag);
+			return {
+				...state,
+				byId: {
+					...state.byId,
+					[action.noteId]: {
+						...state.byId[action.noteId],
+						tags: [
+							...state.byId[action.noteId].tags.slice(0, deletedIndex),
+							...state.byId[action.noteId].tags.slice(deletedIndex + 1),
+						],
+					}
+				}
+			}
     case types.RECEIVE_NOTES:
       return {
 				...state,
