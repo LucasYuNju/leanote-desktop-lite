@@ -34,12 +34,11 @@ class NotebookListItem extends Component {
     nestedItems: [],
     nestedLevel: 0,
     onClick: () => {},
-    open: false,
     selected: false,
   };
 
   state = {
-    open: this.props.open,
+    open: this.props.nestedLevel === 0 ? true : false,
   };
 
   toggleNestedList = (event) => {

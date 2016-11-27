@@ -44,20 +44,18 @@ class NoteStackList extends Component {
 					text="Latest"
 					icon="history"
           noteList={{ type: 'generatedNoteLists', id: 'latest' }}
-				>
-				</NoteStackListItem>
-        <NoteStackListItem
-          id="tags"
-          text="Tags"
-          icon="tag"
-					nestedItems={tagIds.map(this.renderTag)}
-        >
-        </NoteStackListItem>
+				/>
 				<NoteStackListItem
 					id="notebook"
 					text="Notebooks"
 					icon="file-directory"
 					nestedItems={rootNotebookIds.map(notebookId => this.renderNotebook(notebooks[notebookId]))}
+				/>
+				<NoteStackListItem
+					id="tags"
+					text="Tags"
+					icon="tag"
+					nestedItems={tagIds.map(this.renderTag)}
 				/>
       </SelectableList>
     );
