@@ -1,12 +1,19 @@
 import { Schema, arrayOf } from 'normalizr';
 
-const notebookSchema = new Schema('notebooks', { idAttribute: 'notebookId', defaults: { noteIds: [] } });
+// Be careful for using defaults value! Object or array will be shared among multiple entities.
+const notebookSchema = new Schema('notebooks', {
+	idAttribute: 'notebookId',
+	defaults: {
+		subs: [],
+		noteIds: [],
+	}
+});
 
 const noteSchema = new Schema('notes', { idAttribute: 'noteId' });
 
-notebookSchema.define({
-  subs: arrayOf(notebookSchema),
-});
+// notebookSchema.define({
+//   subs: arrayOf(notebookSchema),
+// });
 
 export {
   noteSchema,

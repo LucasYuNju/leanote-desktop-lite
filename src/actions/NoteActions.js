@@ -3,6 +3,7 @@ import { camelizeKeys, pascalizeKeys } from 'humps';
 
 import * as types from '../constants/ActionTypes';
 import { noteSchema } from '../constants/Schemas';
+import { CALL_API } from '../middleware/api';
 
 export function selectNote(noteId) {
   return { type: types.SELECT_NOTE, noteId };
@@ -26,21 +27,42 @@ export function fetchNotesIfNeeded(notebookId) {
 }
 
 export function fetchNotes(notebookId) {
+	return (dispatch) => {
+		return dispatch({
+			[CALL_API] : {
+				types: [ 'NOTES_REQUEST', 'NOTES_SUCCESS', 'NOTES_FAILURE' ],
+				endpoint: 'note/getNotes',
+				query: {
+					notebookId,
+				},
+				schema: arrayOf(noteSchema),
+			},
+		}).then(result => {
+			dispatch(receiveNotes('success', result.response.entities.notes, result.response.result, notebookId));
+      for (let noteId of result.response.result) {
+        dispatch(fetchNoteAndContent(noteId, notebookId));
+      }
+			return result;
+		});
+	}
+}
+
+export function fetchNoteAndContent(noteId, notebookId) {
   return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      service.note.getNotes(notebookId, (res) => {
-        if (res) {
-          const normalized = normalize(camelizeKeys(res), arrayOf(noteSchema));
-          dispatch(receiveNotes('success', normalized.entities.notes, normalized.result, notebookId));
-          resolve();
-        }
-        else {
-          dispatch(receiveNotes('error'));
-          reject();
-        }
-      })
-    });
-  }
+		return dispatch({
+			[CALL_API] : {
+				types: [ 'NOTE_REQUEST', 'NOTE_SUCCESS', 'NOTE_FAILURE' ],
+				endpoint: 'note/getNoteAndContent',
+				query: {
+					noteId,
+				},
+				schema: noteSchema,
+			},
+		}).then(result => {
+			dispatch(receiveNotes('success', result.response.entities.notes, [result.response.result], notebookId));
+			return result;
+		});
+	}
 }
 
 /**

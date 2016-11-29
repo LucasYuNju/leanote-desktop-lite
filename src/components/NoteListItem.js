@@ -13,7 +13,7 @@ class NoteListItem extends Component {
     starred: PropTypes.bool,
     title: PropTypes.string,
     view: PropTypes.string,
-    updatedTime: PropTypes.object,
+    updatedTime: PropTypes.string,
   };
 
   static defaultProps = {

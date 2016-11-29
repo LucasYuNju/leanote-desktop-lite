@@ -66,7 +66,7 @@ ipcMain.on('auth-requested', (event, arg) => {
 });
 
 ipcMain.on('auth-succeeded', (event, arg) => {
-  authWindow.close();
+  // authWindow.close();
   createMainWindow();
 });
 
