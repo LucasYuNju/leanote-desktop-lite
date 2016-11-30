@@ -4,8 +4,8 @@ import { camelizeKeys, pascalizeKeys } from 'humps';
 import * as types from '../constants/ActionTypes';
 import { CALL_API } from '../middleware/api';
 
-export function receiveAuthedUser(status, user) {
-  return { type: types.RECEIVE_AUTHED_USER, status, user };
+export function updateUser(user) {
+  return { type: types.UPDATE_USER, user };
 }
 
 export function autologin() {
@@ -18,7 +18,7 @@ export function fetchInfo(userId) {
 	return (dispatch) => {
 		return dispatch({
 			[CALL_API]: {
-				types: [ 'USER_INFO_REQUEST', 'USER_INFO_SUCCESS', 'USER_INFO_FAILURE' ],
+				types: [ 'FETCH_USER_REQUEST', 'FETCH_USER_SUCCESS', 'FETCH_USER_FAILURE' ],
 				endpoint: `user/info`,
 				query: {
 					userId,
@@ -28,7 +28,7 @@ export function fetchInfo(userId) {
 				},
 			}
 		}).then((result) => {
-			dispatch(receiveAuthedUser('success', result.response))
+			dispatch(updateUser(result.response))
 		});
 	}
 }

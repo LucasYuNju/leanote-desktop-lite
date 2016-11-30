@@ -3,103 +3,74 @@ import * as types from '../constants/ActionTypes';
 import merge from 'lodash/merge';
 import union from 'lodash/union';
 
-const initialNotes = {
-  searchIds: [],
-  starredIds: [],
-  byId: {},
-}
-function notes(state = initialNotes, action) {
+function notes(state = {}, action) {
   switch (action.type) {
     case types.ADD_NOTE:
       return {
         ...state,
-        byId: {
-          ...state.byId,
-          [action.note.noteId]: action.note,
-        }
+				[action.note.noteId]: action.note,
       };
 		case types.LINK_TAG:
 			return {
 				...state,
-				byId: {
-					...state.byId,
-					[action.noteId]: {
-						...state.byId[action.noteId],
-						tags: [...state.byId[action.noteId].tags, action.tag],
-					}
+				[action.noteId]: {
+					...state[action.noteId],
+					tags: [...state[action.noteId].tags, action.tag],
 				}
 			};
 		case types.UNLINK_TAG:
-			let deletedIndex = state.byId[action.noteId].tags.indexOf(action.tag);
+			const deleted = state[action.noteId].tags.indexOf(action.tag);
 			return {
 				...state,
-				byId: {
-					...state.byId,
-					[action.noteId]: {
-						...state.byId[action.noteId],
-						tags: [
-							...state.byId[action.noteId].tags.slice(0, deletedIndex),
-							...state.byId[action.noteId].tags.slice(deletedIndex + 1),
-						],
-					}
+				[action.noteId]: {
+					...state[action.noteId],
+					tags: [
+						...state[action.noteId].tags.slice(0, deleted),
+						...state[action.noteId].tags.slice(deleted + 1),
+					],
 				}
-			}
+			};
     case types.RECEIVE_NOTES:
       return {
 				...state,
-        byId: {
-					...state.byId,
-					...action.entities,
-				},
-      }
+				...action.entities,
+      };
     case types.UPDATE_NOTE_SUCCEEDED:
+			// TODO DELETE
       return {
         ...state,
-        byId: {
-          ...state.byId,
-          [action.note.noteId]: action.note,
-        }
+				[action.note.noteId]: action.note,
       };
     default:
       return state;
   }
 }
 
-const initialNotebooks = {
-  rootIds: [],
-  byId: {},
-};
-function notebooks(state = initialNotebooks, action) {
+function notebooks(state = {}, action) {
   switch (action.type) {
     case types.ADD_NOTE:
       return {
         ...state,
-        byId: {
-          ...state.byId,
-          [action.notebookId]: {
-            ...state.byId[action.notebookId],
-            noteIds: [
-              action.note.noteId,
-              ...state.byId[action.notebookId].noteIds,
-            ],
-          }
-        }
-      }
+				[action.notebookId]: {
+					...state[action.notebookId],
+					noteIds: [
+						...state[action.notebookId].noteIds,
+						action.note.noteId,
+					],
+				}
+      };
     case types.RECEIVE_NOTES:
+			// console.log(action, state.byId[action.notebookId].nodeIds, action.ids, union(state.byId[action.notebookId].nodeIds, action.ids));
       return {
         ...state,
-        byId: {
-          ...state.byId,
-          [action.notebookId]: {
-            ...state.byId[action.notebookId],
-            noteIds: action.ids,
-          }
-        }
+				[action.notebookId]: {
+					...state[action.notebookId],
+					noteIds: union(state[action.notebookId].nodeIds, action.ids),
+				}
       }
     case types.RECEIVE_NOTEBOOKS:
       return {
-        rootIds: action.rootIds,
-        byId: action.entities,
+				...action.entities,
       };
     default:
       return state;
@@ -107,97 +78,69 @@ function notebooks(state = initialNotebooks, action) {
 }
 
 
-const initialTags={
-	allIds: [],
-  byId: {},
-}
-function tags(state = initialTags, action) {
+// const initialTags={
+// 	allIds: [],
+//   byId: {},
+// }
+function tags(state = {}, action) {
+	let nextState = null;
   switch (action.type) {
 		case types.ADD_TAG:
 			return {
-				allIds: [...state.allIds, action.tag],
-				byId: {
-					...state.byId,
-					[action.tag]: {
-						tag: action.tag,
-						noteIds: [],
-					},
-				}
+				...state,
+				[action.tag]: {
+					tag: action.tag,
+					noteIds: [],
+				},
 			}
 		case types.REMOVE_TAG:
-			let byId = {
-				...state.byId,
-			};
-			delete byId[action.tag];
-			return {
+			const nextState = {
 				...state,
-				byId,
-			}
+			};
+			delete nextState[action.tag];
+			return nextState;
     case types.RECEIVE_NOTES:
-      const ret = {
-				allIds: [...state.allIds],
-        byId: {
-          ...state.byId,
-        },
+      const nextSatate = {
+				...state,
       }
-      const notes = Object.keys(action.entities).forEach(noteId => {
+      Object.keys(action.entities).forEach(noteId => {
         const note = action.entities[noteId];
-        if (note.tags) {
-          note.tags.forEach(tag => {
-            if (tag) {
-              if (!ret.byId[tag]) {
-								ret.allIds.push(tag);
-                ret.byId[tag] = {
-                  tag,
-                  noteIds: [],
-                };
-              }
-							ret.byId[tag].noteIds = union(ret.byId[tag].noteIds, [note.noteId]);
-            }
-          });
-        }
+        note.tags.filter(tag => tag)
+					.forEach(tag => {
+	          if (!nextSatate[tag]) {
+	            nextSatate[tag] = { tag, noteIds: []};
+	          }
+						nextSatate[tag].noteIds = union(nextSatate[tag].noteIds, [note.noteId]);
+	        });
       });
-      return ret;
+      return nextSatate;
     default:
       return state;
   }
 }
 
-function users(state = { byId: {} }, action) {
+function users(state = {}, action) {
   switch (action.type) {
-    case types.RECEIVE_AUTHED_USER:
-      if (action.status === 'success') {
-        return {
-          ...state,
-          byId: {
-            ...state.byId,
-            [action.user.userId]: action.user,
-          }
-        }
+    case types.UPDATE_USER:
+      return {
+        ...state,
+        [action.user.userId]: action.user,
       }
-      return state;
     default:
       return state;
   }
 }
 
 const initialNoteLists = {
-  byId: {
-    latest: { noteIds: [] },
-    searchResult: { noteIds: [] },
-  }
+  latest: [],
+  searchResult: { },
 }
-function generatedNoteLists(state = initialNoteLists, action) {
+function generated(state = initialNoteLists, action) {
   switch(action.type) {
-    case types.UPDATE_NOTE_REQUESTED:
-			const noteIds = union(state.byId.latest.noteIds.slice(0, 9), [action.note.noteId]);
+    case types.UPDATE_NOTE:
 			return {
-				byId: {
-					...state.byId,
-					latest: {
-						noteIds,
-					}
-				}
+				...state,
+				latest: union(state.latest.slice(0, 9), [action.note.noteId])
 			}
     default:
       return state;
@@ -205,7 +148,7 @@ function generatedNoteLists(state = initialNoteLists, action) {
 }
 
 export default combineReducers({
-  generatedNoteLists,
+  generated,
   notes,
   notebooks,
   tags,

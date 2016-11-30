@@ -9,7 +9,12 @@ const notebookSchema = new Schema('notebooks', {
 	}
 });
 
-const noteSchema = new Schema('notes', { idAttribute: 'noteId' });
+const noteSchema = new Schema('notes', {
+	idAttribute: 'noteId',
+	defaults: {
+		tags: [],
+	}
+});
 
 // notebookSchema.define({
 //   subs: arrayOf(notebookSchema),

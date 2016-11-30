@@ -16,7 +16,7 @@ export function fetchNotebooks() {
 	return (dispatch) => {
 		return dispatch({
 			[CALL_API]: {
-				types: [ 'NOTEBOOKS_REQUEST', 'NOTEBOOKS_SUCCESS', 'NOTEBOOKS_FAILURE' ],
+				types: [ 'FETCH_NOTEBOOKS_REQUEST', 'FETCH_NOTEBOOKS_SUCCESS', 'FETCH_NOTEBOOKS_FAILURE' ],
 				endpoint: `notebook/getNotebooks`,
 				schema: arrayOf(notebookSchema)
 			}

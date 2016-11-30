@@ -19,7 +19,7 @@ export function toggleEditMode(noteId) {
 
 export function fetchNotesIfNeeded(notebookId) {
 	return (dispatch, getState) => {
-		const notebook = getState().entities.notebooks.byId[notebookId];
+		const notebook = getState().entities.notebooks[notebookId];
 		if (notebook.numberNotes !== notebook.noteIds.length) {
 			dispatch(fetchNotes(notebookId));
 		}
@@ -30,7 +30,7 @@ export function fetchNotes(notebookId) {
 	return (dispatch) => {
 		return dispatch({
 			[CALL_API] : {
-				types: [ 'NOTES_REQUEST', 'NOTES_SUCCESS', 'NOTES_FAILURE' ],
+				types: [ 'FETCH_NOTES_REQUEST', 'FETCH_NOTES_SUCCESS', 'FETCH_NOTES_FAILURE' ],
 				endpoint: 'note/getNotes',
 				query: {
 					notebookId,
@@ -39,8 +39,9 @@ export function fetchNotes(notebookId) {
 			},
 		}).then(result => {
 			dispatch(receiveNotes('success', result.response.entities.notes, result.response.result, notebookId));
+			const promises = [];
       for (let noteId of result.response.result) {
-        dispatch(fetchNoteAndContent(noteId, notebookId));
+        promises.push(dispatch(fetchNoteAndContent(noteId, notebookId)));
       }
 			return result;
 		});
@@ -51,7 +52,7 @@ export function fetchNoteAndContent(noteId, notebookId) {
   return (dispatch) => {
 		return dispatch({
 			[CALL_API] : {
-				types: [ 'NOTE_REQUEST', 'NOTE_SUCCESS', 'NOTE_FAILURE' ],
+				types: [ 'FETCH_NOTE_CONTENT_REQUEST', 'FETCH_NOTE_CONTENT_SUCCESS', 'FETCH_NOTE_CONTENT_FAILURE' ],
 				endpoint: 'note/getNoteAndContent',
 				query: {
 					noteId,
@@ -70,7 +71,7 @@ export function fetchNoteAndContent(noteId, notebookId) {
  */
 export function updateNote(changedNote) {
   return (dispatch) => {
-    dispatch({ type: types.UPDATE_NOTE_REQUESTED, note: changedNote });
+    dispatch({ type: types.UPDATE_NOTE, note: changedNote });
     service.note.updateNoteOrContent(pascalizeKeys(changedNote), (result) => {
       if (result) {
         dispatch({ type: types.UPDATE_NOTE_SUCCEEDED, note: camelizeKeys(result) });

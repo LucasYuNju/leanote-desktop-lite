@@ -27,14 +27,13 @@ function mapStateToProps(state) {
 	const {
 		noteId,
 	} = params;
-
 	const ret = {
-		allTags: entities.tags.allIds,
+		allTags: Object.keys(entities.tags),
 	};
   if (noteId) {
 		ret.editMode = editMode[noteId] || false;
-    ret.note = entities.notes.byId[noteId];
-		ret.notebook = entities.notebooks.byId[ret.note.notebookId];
+    ret.note = entities.notes[noteId];
+		ret.notebook = entities.notebooks[ret.note.notebookId];
   }
 	return ret;
 }
