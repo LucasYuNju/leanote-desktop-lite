@@ -35,11 +35,10 @@ function mapStateToProps(state) {
 
   const result = { ...params };
   if (noteListId) {
-    const noteList = entities[noteListType].byId[noteListId];
+    const noteList = entities[noteListType][noteListId];
     const order = noteListRef.order;
-    // TODO rewrite with reselect
 		result.notes = noteList.noteIds
-			.map(noteId => entities.notes.byId[noteId])
+			.map(noteId => entities.notes[noteId])
 			.sort((note1, note2) => {
 				// TODO refactor
 				let extractKey = (note) => note[order.key];

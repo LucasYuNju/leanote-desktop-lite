@@ -16,6 +16,7 @@ const { ipcRenderer } = require('electron');
 
 class Main extends Component {
   static propTypes = {
+		login: PropTypes.func.isRequired,
     autologin: PropTypes.func.isRequired,
   };
 
@@ -24,8 +25,11 @@ class Main extends Component {
   };
 
   componentWillMount() {
-    this.props.autologin()
-      .then(() => {
+		this.props.login('LucasYuNju@gmail.com', '123456')
+			.then((result) => {
+				return this.props.fetchInfo(result.response.userId);
+			})
+		  .then(() => {
         this.setState({
           authed: true,
         });
@@ -35,6 +39,18 @@ class Main extends Component {
       }, () => {
         ipcRenderer.send('auth-requested');
       });
+
+    // this.props.autologin()
+    //   .then(() => {
+    //     this.setState({
+    //       authed: true,
+    //     });
+    //     setTimeout(() => {
+    //       ipcRenderer.send('main-window-ready');
+    //     });
+    //   }, () => {
+    //     ipcRenderer.send('auth-requested');
+    //   });
   }
 
   render() {

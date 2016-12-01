@@ -7,9 +7,7 @@ export const ADD_NOTE = 'ADD_NOTE';
 
 export const SORT_NOTE_LIST = 'SORT_NOTE_LIST';
 // update local store
-export const UPDATE_NOTE_REQUESTED = 'UPDATE_NOTE_REQUESTED';
-export const UPDATE_NOTE_SUCCEEDED = 'UPDATE_NOTE_SUCCEEDED';
-export const UPDATE_NOTE_FAILED = 'UPDATE_NOTE_FAILED';
+export const UPDATE_NOTE = 'UPDATE_NOTE';
 
 // send local changes to server
 export const SEND_NOTES_REQUESTED = 'SEND_NOTES_REQUESTED';
@@ -28,13 +26,12 @@ export const UNLINK_TAG = 'UNLINK_TAG';
 /*
  * notebooks
  */
-export const RECEIVE_NOTEBOOKS = 'RECEIVE_NOTEBOOKS';
-export const SELECT_NOTE_LIST = 'SELECT_NOTE_LIST';
+export const UPDATE_NOTEBOOKS = 'RECEIVE_NOTEBOOKS';
 
 /*
  * user
  */
-export const RECEIVE_AUTHED_USER = 'RECEIVE_AUTHED_USER';
+export const UPDATE_USER = 'UPDATE_USER';
 
 /*
  * navigator

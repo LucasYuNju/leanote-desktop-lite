@@ -21,10 +21,10 @@ function mapStateToProps(state) {
   } = state;
 	const params = parseUrl('/(.*)/(.*)/notes/:noteId', navigator.path) || {};
 	const tagged = {};
-	entities.tags.allIds.forEach(tag => {
+	Object.keys(entities.tags).forEach(tag => {
 		tagged[tag] = false;
 	});
-	entities.notes.byId[params.noteId].tags.forEach(tag => {
+	entities.notes[params.noteId].tags.forEach(tag => {
 		tagged[tag] = true;
 	});
 	return {

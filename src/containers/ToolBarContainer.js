@@ -27,7 +27,7 @@ function mapStateToProps(state) {
 	const {
 		noteId
 	} = params;
-	const note = entities.notes.byId[noteId];
+	const note = entities.notes[noteId];
 	return {
 		editMode: editMode[noteId] || false,
 		isMarkdown: note ? note.isMarkdown : false,

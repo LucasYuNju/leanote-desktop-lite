@@ -7,11 +7,7 @@ import Profile from '../components/Profile';
 class UserContainer extends Component {
   render() {
     return (
-      <Profile 
-        email={this.props.user.email}
-        logo={this.props.user.logo}    
-        username={this.props.user.username}
-      />
+      <Profile {...this.props} />
     );
   }
 }
@@ -22,7 +18,7 @@ function mapStateToProps(state) {
     entities,
   } = state;
   return {
-    user: entities.users.byId[user.id],
+    user: entities.users[user.id],
   };
 }
 

@@ -26,10 +26,12 @@ function mapStateToProps(state) {
 		navigator,
   } = state;
 	const params = parseUrl('/:noteListType?/:noteListId?/(.*)?', navigator.path) || {};
+	const rootNotebookIds = Object.keys(entities.notebooks)
+		.filter(id => !entities.notebooks[id].parentNotebookId);
   return {
-    rootNotebookIds: entities.notebooks.rootIds,
-    notebooks: entities.notebooks.byId,
-		tagIds: entities.tags.allIds,
+    rootNotebookIds,
+    notebooks: entities.notebooks,
+		tagIds: Object.keys(entities.tags),
 		...params,
   }
 }
