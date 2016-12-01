@@ -95,13 +95,13 @@ function tags(state = {}, action) {
 				},
 			}
 		case types.REMOVE_TAG:
-			const nextState = {
+			nextState = {
 				...state,
 			};
 			delete nextState[action.tag];
 			return nextState;
     case types.RECEIVE_NOTES:
-      const nextState = {
+      nextState = {
 				...state,
       }
       Object.keys(action.entities).forEach(noteId => {
