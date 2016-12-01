@@ -65,7 +65,6 @@ export default store => next => action => {
 				if (response.token) {
 					token = response.token;
 				}
-				console.log('api', endpoint, response);
 				return response;
 			}, error => {
 				console.error('error', error);

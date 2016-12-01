@@ -9,7 +9,7 @@ import * as types from '../constants/ActionTypes';
 import { CALL_API } from '../middleware/api';
 
 export function receiveNotebooks(status, entities, rootIds) {
-  return { type: types.RECEIVE_NOTEBOOKS, status, entities, rootIds };
+  return { type: types.UPDATE_NOTEBOOKS, status, entities, rootIds };
 }
 
 export function fetchNotebooks() {
@@ -25,6 +25,7 @@ export function fetchNotebooks() {
 			const notebooks = result.response.entities.notebooks;
 			// Construct notebook tree
 			for (let notebookId in notebooks) {
+				notebooks[notebookId].noteIds = [];
 				const parentNotebookId = notebooks[notebookId].parentNotebookId;
 				if (!parentNotebookId) {
 					rootNotebookIds.push(notebookId);

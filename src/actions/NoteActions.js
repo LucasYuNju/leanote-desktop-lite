@@ -9,8 +9,8 @@ export function selectNote(noteId) {
   return { type: types.SELECT_NOTE, noteId };
 }
 
-export function receiveNotes(status, entities, ids, notebookId) {
-  return { type: types.RECEIVE_NOTES, status, entities, ids, notebookId };
+export function receiveNotes(status, entities, noteIds, notebookId) {
+  return { type: types.RECEIVE_NOTES, status, entities, noteIds, notebookId };
 }
 
 export function toggleEditMode(noteId) {
@@ -27,7 +27,7 @@ export function fetchNotesIfNeeded(notebookId) {
 }
 
 export function fetchNotes(notebookId) {
-	return (dispatch) => {
+	return (dispatch, getState) => {
 		return dispatch({
 			[CALL_API] : {
 				types: [ 'FETCH_NOTES_REQUEST', 'FETCH_NOTES_SUCCESS', 'FETCH_NOTES_FAILURE' ],
@@ -39,17 +39,17 @@ export function fetchNotes(notebookId) {
 			},
 		}).then(result => {
 			dispatch(receiveNotes('success', result.response.entities.notes, result.response.result, notebookId));
-			const promises = [];
-      for (let noteId of result.response.result) {
-        promises.push(dispatch(fetchNoteAndContent(noteId, notebookId)));
-      }
+			dispatch(fetchNoteAndContent(result.response.result[0], notebookId));
+			// for (let noteId of result.response.result) {
+      //   dispatch(fetchNoteAndContent(noteId, notebookId));
+      // }
 			return result;
 		});
 	}
 }
 
 export function fetchNoteAndContent(noteId, notebookId) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
 		return dispatch({
 			[CALL_API] : {
 				types: [ 'FETCH_NOTE_CONTENT_REQUEST', 'FETCH_NOTE_CONTENT_SUCCESS', 'FETCH_NOTE_CONTENT_FAILURE' ],
@@ -60,6 +60,7 @@ export function fetchNoteAndContent(noteId, notebookId) {
 				schema: noteSchema,
 			},
 		}).then(result => {
+			// console.log(getState().entities.notebooks[notebookId].noteIds);
 			dispatch(receiveNotes('success', result.response.entities.notes, [result.response.result], notebookId));
 			return result;
 		});

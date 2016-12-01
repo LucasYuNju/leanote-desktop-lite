@@ -26,8 +26,7 @@ export const UNLINK_TAG = 'UNLINK_TAG';
 /*
  * notebooks
  */
-export const RECEIVE_NOTEBOOKS = 'RECEIVE_NOTEBOOKS';
-export const SELECT_NOTE_LIST = 'SELECT_NOTE_LIST';
+export const UPDATE_NOTEBOOKS = 'RECEIVE_NOTEBOOKS';
 
 /*
  * user

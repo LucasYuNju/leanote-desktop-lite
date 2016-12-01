@@ -60,15 +60,16 @@ function notebooks(state = {}, action) {
 				}
       };
     case types.RECEIVE_NOTES:
-			// console.log(action, state.byId[action.notebookId].nodeIds, action.ids, union(state.byId[action.notebookId].nodeIds, action.ids));
+			const prevNoteIds = state[action.notebookId].nodeIds ? state[action.notebookId].nodeIds : [];
+			const newNoteIds = prevNoteIds.concat(action.noteIds);
       return {
         ...state,
 				[action.notebookId]: {
 					...state[action.notebookId],
-					noteIds: union(state[action.notebookId].nodeIds, action.ids),
+					noteIds: newNoteIds,
 				}
       }
-    case types.RECEIVE_NOTEBOOKS:
+    case types.UPDATE_NOTEBOOKS:
       return {
 				...action.entities,
       };
@@ -100,20 +101,20 @@ function tags(state = {}, action) {
 			delete nextState[action.tag];
 			return nextState;
     case types.RECEIVE_NOTES:
-      const nextSatate = {
+      const nextState = {
 				...state,
       }
       Object.keys(action.entities).forEach(noteId => {
         const note = action.entities[noteId];
         note.tags.filter(tag => tag)
 					.forEach(tag => {
-	          if (!nextSatate[tag]) {
-	            nextSatate[tag] = { tag, noteIds: []};
+	          if (!nextState[tag]) {
+	            nextState[tag] = { tag, noteIds: []};
 	          }
-						nextSatate[tag].noteIds = union(nextSatate[tag].noteIds, [note.noteId]);
+						nextState[tag].noteIds = union(nextState[tag].noteIds, [note.noteId]);
 	        });
       });
-      return nextSatate;
+      return nextState;
     default:
       return state;
   }

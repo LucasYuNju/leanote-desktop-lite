@@ -5,7 +5,7 @@ const notebookSchema = new Schema('notebooks', {
 	idAttribute: 'notebookId',
 	defaults: {
 		subs: [],
-		noteIds: [],
+		// noteIds: [],
 	}
 });
 
