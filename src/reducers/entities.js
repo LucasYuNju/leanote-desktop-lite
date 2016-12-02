@@ -30,10 +30,11 @@ function notes(state = {}, action) {
 					],
 				}
 			};
-    case types.RECEIVE_NOTES:
+    case types.GET_NOTES_SUCCESS:
+		case types.GET_NOTE_CONTENT_SUCCESS:
       return {
 				...state,
-				...action.entities,
+				...action.payload.entities.notes,
       };
     case types.UPDATE_NOTE_SUCCEEDED:
 			// TODO DELETE
@@ -59,19 +60,17 @@ function notebooks(state = {}, action) {
 					],
 				}
       };
-    case types.RECEIVE_NOTES:
-			const prevNoteIds = state[action.notebookId].nodeIds ? state[action.notebookId].nodeIds : [];
-			const newNoteIds = prevNoteIds.concat(action.noteIds);
+    case types.GET_NOTES_SUCCESS:
       return {
         ...state,
-				[action.notebookId]: {
-					...state[action.notebookId],
-					noteIds: newNoteIds,
+				[action.payload.notebookId]: {
+					...state[action.payload.notebookId],
+					noteIds: union(state[action.payload.notebookId].noteIds, action.payload.result),
 				}
       }
-    case types.UPDATE_NOTEBOOKS:
+    case types.GET_NOTEBOOKS_SUCCESS:
       return {
-				...action.entities,
+				...action.payload.entities.notebooks,
       };
     default:
       return state;
@@ -79,10 +78,6 @@ function notebooks(state = {}, action) {
 }
 
 
-// const initialTags={
-// 	allIds: [],
-//   byId: {},
-// }
 function tags(state = {}, action) {
 	let nextState = null;
   switch (action.type) {
@@ -100,12 +95,12 @@ function tags(state = {}, action) {
 			};
 			delete nextState[action.tag];
 			return nextState;
-    case types.RECEIVE_NOTES:
+    case types.GET_NOTES_SUCCESS:
       nextState = {
 				...state,
       }
-      Object.keys(action.entities).forEach(noteId => {
-        const note = action.entities[noteId];
+			for (let noteId of action.payload.result) {
+        const note = action.payload.entities.notes[noteId];
         note.tags.filter(tag => tag)
 					.forEach(tag => {
 	          if (!nextState[tag]) {
@@ -113,7 +108,7 @@ function tags(state = {}, action) {
 	          }
 						nextState[tag].noteIds = union(nextState[tag].noteIds, [note.noteId]);
 	        });
-      });
+      };
       return nextState;
     default:
       return state;
@@ -122,6 +117,12 @@ function tags(state = {}, action) {
 
 function users(state = {}, action) {
   switch (action.type) {
+    case types.GET_USER_SUCCESS:
+		case types.AUTH_SUCCESS:
+			return {
+				...state,
+				[action.payload.userId]: action.payload,
+			};
     case types.UPDATE_USER:
       return {
         ...state,

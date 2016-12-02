@@ -6,35 +6,30 @@ import { fetchNotes, selectNote } from '../actions/NoteActions';
 import { navigateTo } from '../actions/NavigatorActions';
 import { notebookSchema } from '../constants/Schemas';
 import * as types from '../constants/ActionTypes';
-import { CALL_API } from '../middleware/api';
-
-export function receiveNotebooks(status, entities, rootIds) {
-  return { type: types.UPDATE_NOTEBOOKS, status, entities, rootIds };
-}
 
 export function fetchNotebooks() {
 	return (dispatch) => {
 		return dispatch({
-			[CALL_API]: {
-				types: [ 'FETCH_NOTEBOOKS_REQUEST', 'FETCH_NOTEBOOKS_SUCCESS', 'FETCH_NOTEBOOKS_FAILURE' ],
-				endpoint: `notebook/getNotebooks`,
-				schema: arrayOf(notebookSchema)
-			}
+			types: [ types.GET_NOTEBOOKS_REQUEST, null, types.GET_NOTEBOOKS_FAILURE ],
+			url: `notebook/getNotebooks`,
+			schema: arrayOf(notebookSchema)
 		}).then((result) => {
-			const rootNotebookIds = [];
-			const notebooks = result.response.entities.notebooks;
 			// Construct notebook tree
+			const notebooks = result.payload.entities.notebooks;
 			for (let notebookId in notebooks) {
-				notebooks[notebookId].noteIds = [];
-				const parentNotebookId = notebooks[notebookId].parentNotebookId;
-				if (!parentNotebookId) {
-					rootNotebookIds.push(notebookId);
-				}
-				else {
-					notebooks[parentNotebookId].subs = [...notebooks[parentNotebookId].subs, notebookId];
+				const parent = notebooks[notebookId].parentNotebookId;
+				if (parent) {
+					notebooks[parent].subs = [...notebooks[parent].subs, notebookId];
 				}
 			}
-			dispatch(receiveNotebooks('success', notebooks, rootNotebookIds));
+			dispatch({
+				type: types.GET_NOTEBOOKS_SUCCESS,
+				payload: {
+					entities: {
+						notebooks,
+					}
+				}
+			});
 			return result;
 		});
 	};

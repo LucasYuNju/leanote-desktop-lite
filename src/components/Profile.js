@@ -5,17 +5,17 @@ import Icon from '../components/Icon';
 
 const { ipcRenderer } = require('electron');
 
+const DEFAULT_LOGO = 'http://leanote.com/images/blog/default_avatar.png';
+
 class User extends Component {
   static propTypes = {
 		user: PropTypes.shape({
 			email: PropTypes.string,
 	    username: PropTypes.string.isRequired,
+			userId: PropTypes.string.isRequired,
 	    logo: PropTypes.string,
-		})
-  };
-
-  static defaultProps = {
-    logo: 'http://leanote.com/images/blog/default_avatar.png'
+		}),
+		fetchInfo: PropTypes.func.isRequired,
   };
 
   handleClick = (event) => {
@@ -40,7 +40,7 @@ class User extends Component {
         className="user-info"
         onClick={this.handleClick}
       >
-        <img src={user.logo} />
+        <img src={user.logo ? user.logo : DEFAULT_LOGO} />
         <div className="info">
           <p className="name">{user.username}</p>
           <p className="email">{user.email}</p>
@@ -49,6 +49,12 @@ class User extends Component {
       </div>
     );
   }
+
+	componentDidMount() {
+		if (!this.props.user.logo) {
+			this.props.fetchInfo(this.props.user.userId);
+		}
+	}
 }
 
 export default User;
