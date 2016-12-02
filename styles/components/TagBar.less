@@ -49,46 +49,5 @@
 			margin-left: 4px;
       cursor: pointer;
 		}
-
-    input
-    {
-			margin-left: 4px;
-			border: 1px solid transparent;
-			border-radius: 2px;
-			width: @input-width;
-			height: @input-height;
-			text-indent: 2px;
-
-			&:focus
-			{
-				border: 1px solid #4d90fe;
-				outline: none;
-			}
-    }
-	}
-
-	ul.suggestions
-	{
-		position: absolute;
-		list-style: none;
-		right: 2px;
-		top: @input-height - 1;
-		background: rgba(255, 255, 255, 0.95);
-		z-index: 2;
-		width: @input-width - 4;
-		border: 1px solid @border-color-darker;
-		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-
-		li
-		{
-			display: block;
-			padding-left: 2px;
-			padding-right: 2px;
-		}
-
-		li.selected
-		{
-			background: @nav-selection-bg;
-		}
 	}
 }

@@ -21,6 +21,7 @@ function getStyles(props, state) {
 class NotebookListItem extends Component {
   static propTypes = {
     icon: PropTypes.string,
+		type: PropTypes.string,
 		id: PropTypes.string.isRequired,
     nestedItems: PropTypes.arrayOf(PropTypes.element),
     nesetdLevel: PropTypes.number,
@@ -33,12 +34,11 @@ class NotebookListItem extends Component {
     nestedItems: [],
     nestedLevel: 0,
     onClick: () => {},
-    open: false,
     selected: false,
   };
 
   state = {
-    open: this.props.open,
+    open: this.props.nestedLevel === 0 ? true : false,
   };
 
   toggleNestedList = (event) => {
@@ -97,6 +97,7 @@ class NotebookListItem extends Component {
       nestedLevel,
       selected,
       text,
+			type,
     } = this.props;
     const contentChildren = [children];
     const hasNestedListItems = nestedItems.length > 0;
@@ -114,7 +115,7 @@ class NotebookListItem extends Component {
     return (
       <div className={classNames('list-item', { folder: hasNestedListItems }, { open:this.state.open }, { selected: selected }, className)}>
         <Link
-					to={`/notebooks/${id}/notes/`}
+					to={`/${type}/${id}/notes/`}
           className="content"
           onClick={this.handleClick}
           style={getStyles(this.props, this.state).innerDiv}

@@ -6,63 +6,203 @@
 		align-self: center;
 		display: flex;
 
+		.btn-tool-bar
+		{
+			padding: 0 13px;
+		}
+
 		.tag-picker-container
 		{
-			.btn-tool-bar
+			position: relative;
+
+			.triangle
 			{
-				position: relative;
 				z-index: 100;
+				position: absolute;
+				top: 23px;
+				left: 0;
+				right: 0;
+				margin-left: auto;
+				margin-right: auto;
+				width: 0px;
+				height: 0px;
+				border-left: 10px solid transparent;
+				border-right: 10px solid transparent;
+				border-bottom: 10px solid @border-color-darker;
+				z-index: 101;
+			}
 
-				.triangle
-				{
-					position: absolute;
-					top: 23px;
-					left: 0;
-					right: 0;
-					margin-left: auto;
-					margin-right: auto;
-					width: 0px;
-					height: 0px;
-					border-left: 10px solid transparent;
-					border-right: 10px solid transparent;
-					border-bottom: 10px solid @border-color-darker;
-					z-index: 101;
-				}
+			.triangle-inner
+			{
+				z-index: 100;
+				position: absolute;
+				top: 24px;
+				left: 0;
+				right: 0;
+				margin-left: auto;
+				margin-right: auto;
+				width: 0px;
+				height: 0px;
+				border-left: 10px solid transparent;
+				border-right: 10px solid transparent;
+				border-bottom: 10px solid @nav-bg;
+				z-index: 101;
+			}
 
-				.triangle-smaller
-				{
-					position: absolute;
-					top: 24px;
-					left: 0;
-					right: 0;
-					margin-left: auto;
-					margin-right: auto;
-					width: 0px;
-					height: 0px;
-					border-left: 10px solid transparent;
-					border-right: 10px solid transparent;
-					border-bottom: 10px solid @nav-bg;
-					z-index: 101;
-				}
+			.tag-picker-popover
+			{
+				z-index: 100;
+				position: absolute;
+				top: 33px;
+				left: -100px;
+				right: -100px;
+				margin-left: auto;
+				margin-right: auto;
+				border: 1px solid @border-color-darker;
+				border-radius: 4px;
+				background: @nav-bg;
+				padding-top: 6px;
+				padding-bottom: 6px;
+				max-height: 300px;
+				display: flex;
+				flex-direction: column;
+				align-items: stretch;
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
-				.tag-picker-popover
+        .search-bar
+        {
+          flex: 0 0 auto;
+          height: 1.75em;
+          line-height: 1.75em;
+          position: relative;
+					margin-left: 10px;
+					margin-right: 10px;
+					background: white;
+					border: 1px solid @border-color;
+					border-radius: 3px;
+          box-shadow: inset 0 1px 2px rgba(0,0,0,0.075);
+					overflow: hidden;
+
+          .icon
+          {
+            position: absolute;
+						left: 5px;
+						top: 4px;
+						font-size: 14px;
+						bottom: 0;
+						margin-top: auto;
+						margin-bottom: auto;
+          }
+
+          input
+          {
+						border: none;
+            font-size: @font-size-base;
+            position: absolute;
+						width: 100%;
+						height: 100%;
+						padding-left: 26px;
+
+            &:focus
+            {
+              outline: none;
+            }
+          }
+        }
+
+				.tag-list
 				{
-					position: absolute;
-					top: 33px;
-					left: -100px;
-					right: -100px;
-					margin-left: auto;
-					margin-right: auto;
-					height: 150px;
-					border: 1px solid @border-color-darker;
-					border-radius: 4px;
-					background: @nav-bg;
-					padding: 10px;
+					flex: 0 1 auto;
+					padding-top: 6px;
+					list-style: none;
+					display: flex;
+					flex-direction: column;
+					align-items: stretch;
+          overflow-y: scroll;
+          min-height: 0;
+
+					.tag-list-item
+					{
+						height: 2.2em;
+						line-height: 2.2em;
+						flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+						padding-left: 10px;
+						padding-right: 10px;
+
+            &:hover
+						{
+							background: #f0f0f0;
+						}
+
+						&.selected
+						{
+							background: @theme-color;
+							.text, .checkbox > .icon
+							{
+								color: white;
+							}
+						}
+
+						.text
+						{
+						}
+
+						.checkbox
+						{
+							position: relative;
+							width: 14px;
+							margin-left: 7px;
+							margin-right: 6px;
+
+							input[type=checkbox]
+							{
+								visibility: hidden;
+
+								&:checked + label::after
+								{
+									opacity: 1;
+								}
+							}
+
+							label
+							{
+								position: absolute;
+								top: 0;
+								bottom: 0;
+								left: 0;
+								right: 0;
+								height: 14px;
+								margin-top: auto;
+								margin-bottom: auto;
+								background: #4e61d3;
+								border-radius: 2px;
+
+								&::after
+								{
+									opacity: 0;
+									content: '';
+									position: absolute;
+									width: 6px;
+									height: 3px;
+									top: 4px;
+									left: 3px;
+									border: 2px solid white;
+									border-top: none;
+									border-right: none;
+
+									transform: rotate(-45deg);
+								}
+							}
+						}
+
+					}
 				}
 			}
 		}
 
-		.btn-tool-bar, .tag-picker-container > .btn-tool-bar
+		> *
 		{
 			margin-left: 10px;
 			margin-right: 0;

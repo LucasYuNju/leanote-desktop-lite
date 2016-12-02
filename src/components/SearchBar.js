@@ -36,20 +36,20 @@ class SearchBox extends Component {
     return (
 			<div className="search-bar-container">
 				<div
-					className="btn btn-search-bar"
+					className={classNames('btn', 'btn-search-bar', { 'btn-disabled': !navigateBackEnabled })}
 					onClick={this.handleNavigateBack}
 				>
 					<Icon
-						className={classNames('back-icon', { disabled: !navigateBackEnabled })}
+						className="back-icon"
 						iconName="chevron-left"
 					/>
 				</div>
 				<div
-					className="btn btn-search-bar"
+					className={classNames('btn', 'btn-search-bar', { 'btn-disabled': !navigateForwardEnabled })}
 					onClick={this.handleNavigateForward}
 				>
 					<Icon
-						className={classNames('forward-icon', { disabled: !navigateForwardEnabled })}
+						className="forward-icon"
 						iconName="chevron-right"
 					/>
 				</div>

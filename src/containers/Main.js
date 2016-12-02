@@ -9,13 +9,14 @@ import NoteContainer from '../containers/NoteContainer';
 import NoteListContainer from '../containers/NoteListContainer';
 import NoteStackListContainer from '../containers/NoteStackListContainer';
 import ProfileContainer from '../containers/ProfileContainer';
-import * as UserActionCreators from '../actions/UserActions';
-import * as NavigatorActionCreators from '../actions/NavigatorActions';
+import * as UserActions from '../actions/UserActions';
+import * as NavigatorActions from '../actions/NavigatorActions';
 
 const { ipcRenderer } = require('electron');
 
 class Main extends Component {
   static propTypes = {
+		login: PropTypes.func.isRequired,
     autologin: PropTypes.func.isRequired,
   };
 
@@ -24,8 +25,8 @@ class Main extends Component {
   };
 
   componentWillMount() {
-    this.props.autologin()
-      .then(() => {
+		this.props.login('LucasYuNju@gmail.com', '123456')
+		  .then(() => {
         this.setState({
           authed: true,
         });
@@ -35,6 +36,18 @@ class Main extends Component {
       }, () => {
         ipcRenderer.send('auth-requested');
       });
+
+    // this.props.autologin()
+    //   .then(() => {
+    //     this.setState({
+    //       authed: true,
+    //     });
+    //     setTimeout(() => {
+    //       ipcRenderer.send('main-window-ready');
+    //     });
+    //   }, () => {
+    //     ipcRenderer.send('auth-requested');
+    //   });
   }
 
   render() {
@@ -62,7 +75,7 @@ class Main extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...UserActionCreators, ...NavigatorActionCreators }, dispatch);
+  return bindActionCreators({ ...UserActions, ...NavigatorActions }, dispatch);
 }
 
 export default connect(() => ({}), mapDispatchToProps)(Main);

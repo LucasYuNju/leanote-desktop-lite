@@ -3,15 +3,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import Profile from '../components/Profile';
+import * as UserActions from '../actions/UserActions';
 
 class UserContainer extends Component {
   render() {
     return (
-      <Profile 
-        email={this.props.user.email}
-        logo={this.props.user.logo}    
-        username={this.props.user.username}
-      />
+      <Profile {...this.props} />
     );
   }
 }
@@ -22,8 +19,12 @@ function mapStateToProps(state) {
     entities,
   } = state;
   return {
-    user: entities.users.byId[user.id],
+    user: entities.users[user.id],
   };
 }
 
-export default connect(mapStateToProps)(UserContainer);
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(UserActions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserContainer);

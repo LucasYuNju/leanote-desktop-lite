@@ -11,18 +11,19 @@ class TagPicker extends Component {
 
   render() {
     return (
-			<div className="tag-picker-container" onClick={this.toggleOpen}>
-				<div className="btn btn-tool-bar">
+			<div className="tag-picker-container">
+				<div className="btn btn-tool-bar" onMouseDown={this.togglePopover}>
 					<Icon iconName="tag" />
-						{this.state.open ? <div className="triangle" /> : null}
-						{this.state.open ? <div className="triangle-smaller" /> : null}
-						{this.state.open ? <TagPickerPopoverContainer /> : null}
 				</div>
+				{this.state.open ? <div className="triangle" /> : null}
+				{this.state.open ? <div className="triangle-inner" /> : null}
+				{this.state.open ? <TagPickerPopoverContainer hide={this.togglePopover}/> : null}
 			</div>
     );
   }
 
-	toggleOpen = () => {
+	togglePopover = (e) => {
+		e.preventDefault();
 		this.setState({
 			open: !this.state.open,
 		});

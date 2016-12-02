@@ -39,24 +39,23 @@ class NoteStackList extends Component {
         id={noteListId}
       >
 				<NoteStackListItem
+					type="latest"
 					id="latest"
 					text="Latest"
 					icon="history"
           noteList={{ type: 'generatedNoteLists', id: 'latest' }}
-				>
-				</NoteStackListItem>
-        <NoteStackListItem
-          id="tags"
-          text="Tags"
-          icon="tag"
-					nestedItems={tagIds.map(this.renderTag)}
-        >
-        </NoteStackListItem>
+				/>
 				<NoteStackListItem
 					id="notebook"
 					text="Notebooks"
 					icon="file-directory"
 					nestedItems={rootNotebookIds.map(notebookId => this.renderNotebook(notebooks[notebookId]))}
+				/>
+				<NoteStackListItem
+					id="tags"
+					text="Tags"
+					icon="tag"
+					nestedItems={tagIds.map(this.renderTag)}
 				/>
       </SelectableList>
     );
@@ -65,6 +64,7 @@ class NoteStackList extends Component {
 	renderTag = (tagId) => {
 		return (
       <NoteStackListItem
+				type="tags"
         id={tagId}
         icon="tag"
         text={tagId}
@@ -77,6 +77,7 @@ class NoteStackList extends Component {
     const hasSublist = notebook.subs.length > 0;
     return (
       <NoteStackListItem
+				type="notebooks"
         id={notebook.notebookId}
         icon={classNames({ 'file-directory': hasSublist }, { 'repo': !hasSublist })}
         nestedItems={notebook.subs.map(notebookId => this.renderNotebook(this.props.notebooks[notebookId]))}

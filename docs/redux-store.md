@@ -12,14 +12,12 @@ setting
 ```
 state = {
   entities: {
-		generatedNoteLists: {
+		generated: {
 			byId: {
 				searchResult: {
-					noteIds: [],
+					[keyword]: []
 				},
-				latest: {
-					noteIds: [],
-				},
+				latest: [],
 			}
 		},
     notes: {
