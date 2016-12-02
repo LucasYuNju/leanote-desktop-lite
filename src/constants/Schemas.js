@@ -12,13 +12,9 @@ const notebookSchema = new Schema('notebooks', {
 const noteSchema = new Schema('notes', {
 	idAttribute: 'noteId',
 	defaults: {
-		tags: [],
+		tags: 'fuck',
 	}
 });
-
-// notebookSchema.define({
-//   subs: arrayOf(notebookSchema),
-// });
 
 export {
   noteSchema,

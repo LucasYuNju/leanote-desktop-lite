@@ -39,7 +39,13 @@ class NoteEditor extends Component {
     }
     const note = this.props.note;
     const nextNote = nextProps.note;
-    if (note.noteId !== nextNote.noteId) {
+		if (note.noteId === nextNote.noteId) {
+			// note content just get loaded
+			if (!note.content && nextNote.content.length > 0) {
+				this.reset(nextNote);
+			}
+		}
+    else {
       this.reset(nextNote);
     }
   }

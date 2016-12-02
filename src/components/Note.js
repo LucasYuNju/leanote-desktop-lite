@@ -26,6 +26,7 @@ class Note extends Component {
 			allTags,
 			removeNoteTag,
     } = this.props;
+		console.log(note);
     return (
       <div className='note'>
         <TagBar

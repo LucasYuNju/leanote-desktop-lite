@@ -32,11 +32,11 @@ export function fetchNotes(notebookId) {
 			},
 			schema: arrayOf(noteSchema),
 			notebookId,
-		}).then(result => {
-			for (let noteId of result.payload.result) {
+		}).then(action => {
+			for (let noteId of action.payload.result) {
         dispatch(fetchNoteAndContent(noteId, notebookId));
       }
-			return result;
+			return action;
 		});
 	}
 }
