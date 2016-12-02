@@ -44,6 +44,7 @@ export function login(account, password, host) {
 		})
 		.then((result) => {
 			setToken(result.payload.token);
+			service.init(result.payload.userId, result.payload.token);
 		}).catch((reason) => {
 			console.log(reason);
 		});

@@ -3,7 +3,7 @@ import { camelizeKeys, pascalizeKeys } from 'humps';
 
 import * as types from '../constants/ActionTypes';
 import { noteSchema } from '../constants/Schemas';
-import { CALL_API } from '../middleware/api';
+import { httpsToLeanote } from '../util/Protocol';
 
 export function selectNote(noteId) {
   return { type: types.SELECT_NOTE, noteId };
@@ -44,13 +44,23 @@ export function fetchNotes(notebookId) {
 export function fetchNoteAndContent(noteId, notebookId) {
   return (dispatch, getState) => {
 		return dispatch({
-			types: [ null, types.GET_NOTE_CONTENT_SUCCESS, types.GET_NOTE_CONTENT_FAILURE ],
+			types: [ null, null, types.GET_NOTE_CONTENT_FAILURE ],
 			url: 'note/getNoteAndContent',
 			params: {
 				noteId,
 			},
 			schema: noteSchema,
 			notebookId,
+		}).then(action => {
+			const note = action.payload.entities.notes[action.payload.result];
+			if (note.files && note.files.length) {
+				note.content = httpsToLeanote(note.content);
+			}
+			dispatch({
+				...action,
+				type: types.GET_NOTE_CONTENT_SUCCESS,
+			});
+			return action;
 		});
 	}
 }
