@@ -10,7 +10,7 @@ import * as types from '../constants/ActionTypes';
 export function fetchNotebooks() {
 	return (dispatch) => {
 		return dispatch({
-			types: [ types.GET_NOTEBOOKS_REQUEST, null, types.GET_NOTEBOOKS_FAILURE ],
+			types: [ null, null, types.GET_NOTEBOOKS_FAILURE ],
 			url: `notebook/getNotebooks`,
 			schema: arrayOf(notebookSchema)
 		}).then((result) => {

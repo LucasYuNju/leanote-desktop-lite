@@ -17,7 +17,7 @@ export function autologin() {
 export function fetchInfo(userId) {
 	return (dispatch) => {
 		return dispatch({
-			types: [ types.GET_USER_REQUEST, types.GET_USER_SUCCESS, types.GET_USER_FAILURE ],
+			types: [ null, types.GET_USER_SUCCESS, types.GET_USER_FAILURE ],
 			url: `user/info`,
 			params: {
 				userId,
@@ -32,7 +32,7 @@ export function fetchInfo(userId) {
 export function login(account, password, host) {
 	return (dispatch) => {
 		return dispatch({
-			types: [ types.AUTH_REQUEST, types.AUTH_SUCCESS, types.AUTH_FAILURE ],
+			types: [ null, types.AUTH_SUCCESS, types.AUTH_FAILURE ],
 			url: `auth/login`,
 			params: {
 				email: account,

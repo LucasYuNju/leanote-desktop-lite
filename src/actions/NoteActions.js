@@ -16,7 +16,7 @@ export function toggleEditMode(noteId) {
 export function fetchNotesIfNeeded(notebookId) {
 	return (dispatch, getState) => {
 		const notebook = getState().entities.notebooks[notebookId];
-		if (notebook.numberNotes !== notebook.noteIds.length) {
+		if (!notebook.fetched) {
 			dispatch(fetchNotes(notebookId));
 		}
 	}
@@ -44,7 +44,7 @@ export function fetchNotes(notebookId) {
 export function fetchNoteAndContent(noteId, notebookId) {
   return (dispatch, getState) => {
 		return dispatch({
-			types: [ types.GET_NOTE_CONTENT_REQUEST, types.GET_NOTE_CONTENT_SUCCESS, types.GET_NOTE_CONTENT_FAILURE ],
+			types: [ null, types.GET_NOTE_CONTENT_SUCCESS, types.GET_NOTE_CONTENT_FAILURE ],
 			url: 'note/getNoteAndContent',
 			params: {
 				noteId,

@@ -66,6 +66,14 @@ function notebooks(state = {}, action) {
 					],
 				}
       };
+    case types.GET_NOTES_REQUEST:
+      return {
+        ...state,
+        [action.payload.notebookId]: {
+          ...state[action.payload.notebookId],
+          fetched: true,
+        }
+      };
     case types.GET_NOTES_SUCCESS:
       return {
         ...state,
