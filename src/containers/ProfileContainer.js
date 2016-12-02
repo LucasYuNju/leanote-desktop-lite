@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import Profile from '../components/Profile';
+import * as UserActions from '../actions/UserActions';
 
 class UserContainer extends Component {
   render() {
@@ -22,4 +23,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(UserContainer);
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(UserActions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserContainer);

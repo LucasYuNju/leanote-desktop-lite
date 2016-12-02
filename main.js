@@ -61,8 +61,8 @@ app.on('activate', function () {
 });
 
 ipcMain.on('auth-requested', (event, arg) => {
-  mainWindow.close();
-  createAuthWindow();
+  // mainWindow.close();
+  // createAuthWindow();
 });
 
 ipcMain.on('auth-succeeded', (event, arg) => {

@@ -9,10 +9,6 @@ export function selectNote(noteId) {
   return { type: types.SELECT_NOTE, noteId };
 }
 
-export function receiveNotes(status, entities, noteIds, notebookId) {
-  return { type: types.RECEIVE_NOTES, status, entities, noteIds, notebookId };
-}
-
 export function toggleEditMode(noteId) {
 	return { type: types.TOGGLE_EDIT_MODE, noteId };
 }
@@ -29,20 +25,17 @@ export function fetchNotesIfNeeded(notebookId) {
 export function fetchNotes(notebookId) {
 	return (dispatch, getState) => {
 		return dispatch({
-			[CALL_API] : {
-				types: [ 'FETCH_NOTES_REQUEST', 'FETCH_NOTES_SUCCESS', 'FETCH_NOTES_FAILURE' ],
-				endpoint: 'note/getNotes',
-				query: {
-					notebookId,
-				},
-				schema: arrayOf(noteSchema),
+			types: [ types.GET_NOTES_REQUEST, types.GET_NOTES_SUCCESS, types.GET_NOTES_FAILURE ],
+			url: 'note/getNotes',
+			params: {
+				notebookId,
 			},
+			schema: arrayOf(noteSchema),
+			notebookId,
 		}).then(result => {
-			dispatch(receiveNotes('success', result.response.entities.notes, result.response.result, notebookId));
-			dispatch(fetchNoteAndContent(result.response.result[0], notebookId));
-			// for (let noteId of result.response.result) {
-      //   dispatch(fetchNoteAndContent(noteId, notebookId));
-      // }
+			for (let noteId of result.payload.result) {
+        dispatch(fetchNoteAndContent(noteId, notebookId));
+      }
 			return result;
 		});
 	}
@@ -51,18 +44,13 @@ export function fetchNotes(notebookId) {
 export function fetchNoteAndContent(noteId, notebookId) {
   return (dispatch, getState) => {
 		return dispatch({
-			[CALL_API] : {
-				types: [ 'FETCH_NOTE_CONTENT_REQUEST', 'FETCH_NOTE_CONTENT_SUCCESS', 'FETCH_NOTE_CONTENT_FAILURE' ],
-				endpoint: 'note/getNoteAndContent',
-				query: {
-					noteId,
-				},
-				schema: noteSchema,
+			types: [ types.GET_NOTE_CONTENT_REQUEST, types.GET_NOTE_CONTENT_SUCCESS, types.GET_NOTE_CONTENT_FAILURE ],
+			url: 'note/getNoteAndContent',
+			params: {
+				noteId,
 			},
-		}).then(result => {
-			// console.log(getState().entities.notebooks[notebookId].noteIds);
-			dispatch(receiveNotes('success', result.response.entities.notes, [result.response.result], notebookId));
-			return result;
+			schema: noteSchema,
+			notebookId,
 		});
 	}
 }

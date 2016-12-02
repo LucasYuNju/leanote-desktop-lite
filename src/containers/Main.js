@@ -26,9 +26,6 @@ class Main extends Component {
 
   componentWillMount() {
 		this.props.login('LucasYuNju@gmail.com', '123456')
-			.then((result) => {
-				return this.props.fetchInfo(result.response.userId);
-			})
 		  .then(() => {
         this.setState({
           authed: true,
