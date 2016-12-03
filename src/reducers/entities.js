@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
-import * as types from '../constants/ActionTypes';
 import merge from 'lodash/merge';
 import union from 'lodash/union';
+
+import * as types from '../constants/ActionTypes';
 
 function notes(state = {}, action) {
   switch (action.type) {

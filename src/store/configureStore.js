@@ -1,17 +1,22 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
+import { autoRehydrate, persistStore } from 'redux-persist'
 import thunkMiddleware from 'redux-thunk';
-import apiMiddleware from '../middleware/api';
+import localForage from 'localforage';
 
+import apiMiddleware from '../middleware/api';
 import DevTools from '../containers/DevTools';
 import rootReducer from '../reducers';
 
 const enhancer = compose(
 	applyMiddleware(thunkMiddleware, apiMiddleware),
-	DevTools.instrument()
+  autoRehydrate(),
+	DevTools.instrument(),
 );
 
-// To ensure that you may only apply middleware once, enhancer operates on createStore() rather than on store itself.
 export default function configureStore() {
-	const enhancedCreateStore = enhancer(createStore);
-	return enhancedCreateStore(rootReducer, {});
+  // Enhancer operates on createStore() rather than on store itself.
+  // Creating store in such way is more logical.
+	const store = enhancer(createStore)(rootReducer, {});
+  persistStore(store, { storage: localForage });
+  return store;
 }

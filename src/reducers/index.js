@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+
 import entities from './entities';
 import navigator from './navigator';
 import editMode from './editMode';

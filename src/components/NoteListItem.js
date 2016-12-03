@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-import Link from '../Components/Link';
+import Link from '../components/Link';
 import TimeFormatUtil from '../util/TimeFormatUtil';
 
 class NoteListItem extends Component {

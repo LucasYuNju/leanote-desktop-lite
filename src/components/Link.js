@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 
 import { navigateTo } from '../actions/NavigatorActions';
-import { constructUrl } from '../util/RouteUtil';
 
 // Route component
 class Link extends Component {

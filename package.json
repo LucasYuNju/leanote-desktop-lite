@@ -29,6 +29,7 @@
     "classnames": "^2.2.5",
     "electron": "^1.4.0",
     "humps": "^2.0.0",
+    "localforage": "^1.4.3",
     "lodash": "^4.16.6",
     "moment": "^2.15.1",
     "normalizr": "^2.2.1",
@@ -40,6 +41,7 @@
     "react-dom": "^15.3.2",
     "react-redux": "^4.4.5",
     "redux": "^3.6.0",
+    "redux-persist": "^4.0.0-beta1",
     "redux-thunk": "^2.1.0",
     "simplemde": "^1.11.2"
   },

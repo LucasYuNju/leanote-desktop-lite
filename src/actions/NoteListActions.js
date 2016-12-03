@@ -1,9 +1,6 @@
 import { arrayOf } from 'normalizr';
-import { camelizeKeys, pascalizeKeys } from 'humps';
 
-import { constructUrl, destructUrl } from '../util/RouteUtil';
 import { fetchNotes, selectNote } from '../actions/NoteActions';
-import { navigateTo } from '../actions/NavigatorActions';
 import { notebookSchema } from '../constants/Schemas';
 import * as types from '../constants/ActionTypes';
 
@@ -24,11 +21,7 @@ export function fetchNotebooks() {
 			}
 			dispatch({
 				type: types.GET_NOTEBOOKS_SUCCESS,
-				payload: {
-					entities: {
-						notebooks,
-					}
-				}
+				payload: result.payload,
 			});
 			return result;
 		});
