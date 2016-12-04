@@ -1,10 +1,18 @@
-import { Schema, arrayOf, normalize } from 'normalizr'
-import { camelizeKeys } from 'humps'
+import { Schema, arrayOf, normalize } from 'normalizr';
+import { camelizeKeys } from 'humps';
+import { AUTH_REQUEST } from '../constants/ActionTypes';
+import { REHYDRATE } from 'redux-persist/constants';
 
-const API_ROOT = 'https://leanote.com/api/'
+const API_ROOT = 'https://leanote.com/api/';
 let token = '';
-export function setToken(value) {
-	token = value;
+
+const initTokenIfNeeded = ({ dispatch, getState }) => {
+  if (!token) {
+    const { entities, user } = getState();
+    if (user.id && entities.users[user.id]) {
+      token = entities.users[user.id].token;
+    }
+  }
 }
 
 // Fetches an API response and normalizes the result JSON according to schema.
@@ -27,15 +35,30 @@ const callApi = (endpoint, schema) => {
 // A Redux middleware that interprets actions with url and types info specified.
 // Performs the call and promises when such actions are dispatched.
 export default store => next => action => {
+  if (!token) {
+    initTokenIfNeeded(store);
+  }
+  if (action.type === REHYDRATE) {
+    // REHYDRATE will trigger other actions, so token is supposed to be ready after calling next.
+    const result = next(action);
+    if (!token) {
+      require('electron').ipcRenderer.send('auth-requested');
+    }
+    return result;
+  }
+
 	if (!action.types || !action.url) {
 		return next(action);
 	}
 
   let { schema, types, params, url } = action;
   if (!Array.isArray(types) || types.length !== 3) {
-    throw new Error('Expected an array of three action types.')
+    throw new Error('Expected an array of three action types.');
   }
   const [ LOADING, SUCCESS, ERROR ] = types;
+  if (!token && LOADING !== AUTH_REQUEST) {
+    throw new Error('Token has not been initialized');
+  }
   LOADING && next({
 		type: LOADING,
 		payload: {

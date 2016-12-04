@@ -2,7 +2,7 @@ import { arrayOf, normalize } from 'normalizr';
 import { camelizeKeys, pascalizeKeys } from 'humps';
 
 import * as types from '../constants/ActionTypes';
-import { setToken } from '../middleware/api';
+// import { setToken } from '../middleware/api';
 
 export function updateUser(user) {
   return { type: types.UPDATE_USER, user };
@@ -32,7 +32,7 @@ export function fetchInfo(userId) {
 export function login(account, password, host) {
 	return (dispatch) => {
 		return dispatch({
-			types: [ null, types.AUTH_SUCCESS, types.AUTH_FAILURE ],
+			types: [ types.AUTH_REQUEST, types.AUTH_SUCCESS, types.AUTH_FAILURE ],
 			url: `auth/login`,
 			params: {
 				email: account,
@@ -43,10 +43,7 @@ export function login(account, password, host) {
 			},
 		})
 		.then((result) => {
-			setToken(result.payload.token);
 			service.init(result.payload.userId, result.payload.token);
-		}).catch((reason) => {
-			console.log(reason);
 		});
 	}
 }

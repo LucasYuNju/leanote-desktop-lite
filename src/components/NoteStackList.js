@@ -88,7 +88,7 @@ class NoteStackList extends Component {
   };
 
 	componentDidMount() {
-		this.props.fetchNotebooks();
+    this.props.fetchNotebooks();
 	}
 }
 

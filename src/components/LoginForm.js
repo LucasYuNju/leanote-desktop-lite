@@ -36,7 +36,9 @@ class LoginForm extends React.Component {
     this.props
       .login(account, password, host)
       .then(() => {
-        ipcRenderer.send('auth-succeeded');
+        setTimeout(() => {
+          ipcRenderer.send('auth-succeeded');
+        }, 200);
       }, () => {
         // set error msg
       });

@@ -8,10 +8,7 @@ import LoginForm from '../components/LoginForm';
 class LoginFormContainer extends Component {
   render() {
     return (
-      <LoginForm
-        {...this.props}
-        onSubmit={this.handleFormSubmit}
-      />
+      <LoginForm {...this.props} />
     );
   }
 }

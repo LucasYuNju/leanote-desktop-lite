@@ -16,42 +16,27 @@ const { ipcRenderer } = require('electron');
 
 class Main extends Component {
   static propTypes = {
-		login: PropTypes.func.isRequired,
-    autologin: PropTypes.func.isRequired,
+    token: PropTypes.string,
+    userId: PropTypes.string,
   };
 
   state = {
     authed: false,
   };
 
-  componentWillMount() {
-		this.props.login('LucasYuNju@gmail.com', '123456')
-		  .then(() => {
-        this.setState({
-          authed: true,
-        });
-        setTimeout(() => {
-          ipcRenderer.send('main-window-ready');
-        });
-      }, () => {
-        ipcRenderer.send('auth-requested');
+  componentWillReceiveProps(nextProps) {
+    const { token, userId } = nextProps;
+    if (token) {
+      service.init(userId, token);
+      setTimeout(() => {
+        ipcRenderer.send('main-window-ready');
       });
-
-    // this.props.autologin()
-    //   .then(() => {
-    //     this.setState({
-    //       authed: true,
-    //     });
-    //     setTimeout(() => {
-    //       ipcRenderer.send('main-window-ready');
-    //     });
-    //   }, () => {
-    //     ipcRenderer.send('auth-requested');
-    //   });
+    }
   }
 
   render() {
-		if (this.state.authed) {
+    const { token } = this.props;
+		if (token) {
 			return (
 				<div className="main-page">
 					<HeaderContainer />
@@ -74,8 +59,20 @@ class Main extends Component {
 	}
 }
 
+function mapStateToProps(state) {
+  const {
+    entities,
+    user,
+  } = state;
+
+  return {
+    token: user.id ? entities.users[user.id].token : null,
+    userId: user.Id || null,
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ ...UserActions, ...NavigatorActions }, dispatch);
 }
 
-export default connect(() => ({}), mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

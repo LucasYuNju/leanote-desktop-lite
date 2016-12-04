@@ -134,10 +134,13 @@ function users(state = {}, action) {
   switch (action.type) {
     case types.GET_USER_SUCCESS:
 		case types.AUTH_SUCCESS:
-			return {
-				...state,
-				[action.payload.userId]: action.payload,
-			};
+      return {
+        ...state,
+        [action.payload.userId]: {
+          ...state[action.payload.userId],
+          ...action.payload,
+        },
+      };
     case types.UPDATE_USER:
       return {
         ...state,

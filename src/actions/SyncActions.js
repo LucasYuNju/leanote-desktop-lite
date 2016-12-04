@@ -1,8 +1,17 @@
+import * as types from '../constants/ActionTypes';
 
 export function getLastUsn() {
 
 }
 
-export function syncAll() {
+export function syncIfNeeded() {
+
+}
+
+function pull() {
+
+}
+
+function push() {
 
 }
