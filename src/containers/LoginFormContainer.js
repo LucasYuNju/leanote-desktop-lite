@@ -2,7 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
-import * as UserActionCreators from '../actions/UserActions';
+import * as UserActions from '../actions/UserActions';
 import LoginForm from '../components/LoginForm';
 
 class LoginFormContainer extends Component {
@@ -14,7 +14,7 @@ class LoginFormContainer extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(UserActionCreators, dispatch);
+  return bindActionCreators(UserActions, dispatch);
 }
 
 export default connect(() => ({}), mapDispatchToProps)(LoginFormContainer);

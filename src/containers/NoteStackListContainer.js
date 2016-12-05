@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
 import { parseUrl } from '../util/RouteUtil';
-import * as NavigatorActionCreators from '../actions/NavigatorActions';
-import * as NoteListActionCreators from '../actions/NoteListActions';
+import * as NavigatorActions from '../actions/NavigatorActions';
+import * as NoteListActions from '../actions/NoteListActions';
 import NoteStackList from '../components/NoteStackList';
 
 class NoteStackListContainer extends Component {
@@ -37,7 +37,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...NoteListActionCreators, ...NavigatorActionCreators}, dispatch);
+  return bindActionCreators({ ...NoteListActions, ...NavigatorActions}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteStackListContainer);
