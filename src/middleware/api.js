@@ -37,7 +37,7 @@ export default store => next => action => {
     initTokenIfNeeded(store);
   }
   if (action.type === REHYDRATE) {
-    // REHYDRATE will trigger other actions, so token is supposed to be ready after calling next.
+    // REHYDRATE triggers other actions, so token is supposed to be initialized after next() return.
     const result = next(action);
     if (!token) {
       require('electron').ipcRenderer.send('auth-requested');
@@ -60,7 +60,7 @@ export default store => next => action => {
   LOADING && next({
 		type: LOADING,
 		payload: {
-			...action,
+			...action.payload,
 		},
 	});
   return callApi(url + queryString(params), schema)
@@ -69,7 +69,7 @@ export default store => next => action => {
 				const finalAction = {
 					type: SUCCESS,
 					payload: {
-						...action,
+						...action.payload,
 						...response,
 					},
 				}

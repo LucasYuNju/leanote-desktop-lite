@@ -30,8 +30,10 @@ export function fetchNotes(notebookId) {
 			params: {
 				notebookId,
 			},
+      payload: {
+        notebookId,
+      },
 			schema: arrayOf(noteSchema),
-			notebookId,
 		}).then(action => {
 			for (let noteId of action.payload.result) {
         dispatch(fetchNoteAndContent(noteId, notebookId));
@@ -49,8 +51,10 @@ export function fetchNoteAndContent(noteId, notebookId) {
 			params: {
 				noteId,
 			},
+      payload: {
+        notebookId,
+      },
 			schema: noteSchema,
-			notebookId,
 		}).then(action => {
 			const note = action.payload.entities.notes[action.payload.result];
 			if (note.files && note.files.length) {
