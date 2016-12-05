@@ -3,11 +3,11 @@ import union from 'lodash/union';
 
 import * as types from '../../constants/ActionTypes';
 
-const initialNoteLists = {
+const initialState = {
   latest: [],
   searchResult: { },
 }
-function generated(state = initialNoteLists, action) {
+function generated(state = initialState, action) {
   switch(action.type) {
     case types.UPDATE_NOTE:
 			return {

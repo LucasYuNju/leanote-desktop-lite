@@ -1,6 +1,24 @@
+import { REHYDRATE } from 'redux-persist/constants';
+
 import * as types from '../constants/ActionTypes';
 
-export default function user(state = {}, action) {
+const initialState = {
+  localUsn: 0,
+}
+
+export default function user(state = initialState, action) {
+  let localUsn = state.localUsn;
+  if (action.type !== REHYDRATE && action.payload && action.payload.entities) {
+    for (let type in action.payload.entities) {
+      for (let id in action.payload.entities[type]) {
+        localUsn = Math.max(localUsn, action.payload.entities[type][id].usn || localUsn);
+      }
+    }
+    return {
+      ...state,
+      localUsn,
+    }
+  }
   switch (action.type) {
     case types.AUTH_SUCCESS:
     case types.GET_USER_SUCCESS:
