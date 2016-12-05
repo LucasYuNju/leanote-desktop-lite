@@ -37,7 +37,7 @@ export function login(account, password, host) {
 
 export function getLastUsn() {
   return {
-    types: [null, types.GET_LAST_USN, null],
+    types: [null, types.GET_LAST_USN_SUCCESS, null],
     url: 'user/getSyncState',
   };
 }

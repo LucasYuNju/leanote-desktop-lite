@@ -23,9 +23,10 @@ class Main extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { token, userId } = nextProps;
+    const { syncIfNeeded, token, userId } = nextProps;
     if (token) {
       service.init(userId, token);
+      syncIfNeeded();
       setTimeout(() => {
         ipcRenderer.send('main-window-ready');
       });
@@ -54,7 +55,6 @@ class Main extends Component {
 
 	componentDidMount() {
 		this.props.initNavigator();
-    this.props.syncIfNeeded();
 	}
 }
 
