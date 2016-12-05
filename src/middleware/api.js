@@ -8,10 +8,8 @@ let token = '';
 
 const initTokenIfNeeded = ({ dispatch, getState }) => {
   if (!token) {
-    const { entities, user } = getState();
-    if (user.id && entities.users[user.id]) {
-      token = entities.users[user.id].token;
-    }
+    const { user } = getState();
+    token = user.token;
   }
 }
 

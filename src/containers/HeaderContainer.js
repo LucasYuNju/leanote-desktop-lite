@@ -23,7 +23,7 @@ function mapStateToProps(state) {
 		user,
   } = state;
   return {
-    userId: user.id,
+    userId: user.userId,
 		navigateBackEnabled: navigator.current > 1,
 		navigateForwardEnabled: navigator.current < navigator.length,
   }

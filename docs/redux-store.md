@@ -13,50 +13,32 @@ setting
 state = {
   entities: {
 		generated: {
-			byId: {
-				searchResult: {
-					[keyword]: []
-				},
-				latest: [],
-			}
+			searchResult: {
+				[keyword]: []
+			},
+			latest: [],
 		},
     notes: {
-      byId: {
-        20dr92: {
-          noteId: '20dr92',
-          title: 'wildlife',
-        },
-      }
+      20dr92: {
+        noteId: '20dr92',
+        title: 'wildlife',
+      },
     }
     notebooks: {
-      rootIds: [],
-      byId: {
-        57b574: {
-          title: 'Pictured Notebook'
-          notebookId: '57b574',
-          noteIds: [],
-          subs: [],
-        },
-      }
+      57b574: {
+        title: 'Pictured Notebook'
+        notebookId: '57b574',
+        noteIds: [],
+        subs: [],
+      },
     },
     tags: {
       // derived
-			allIds: [],
-      byId: {
-        TODO: {
-          tag: 'TODO',
-          noteIds,
-        }
-      },
-    },
-    users: {
-      byId: {
-        512178: {
-          id: '512178',
-          name: 'bot',
-        }
+      TODO: {
+        tag: 'TODO',
+        noteIds,
       }
-    }
+    },
   },
 	edit: {
 		20dr92(noteId) : 'edit',
@@ -74,7 +56,11 @@ state = {
     },
   },
   user: {
+    email: '',
     id:'512178',
+    logo: 'http://xxx.jpg',
+    name: 'bot',
+    usn: 1077,
   },
 }
 ```

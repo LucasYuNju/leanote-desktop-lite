@@ -20,10 +20,6 @@ class Main extends Component {
     userId: PropTypes.string,
   };
 
-  state = {
-    authed: false,
-  };
-
   componentWillReceiveProps(nextProps) {
     const { token, userId } = nextProps;
     if (token) {
@@ -36,22 +32,22 @@ class Main extends Component {
 
   render() {
     const { token } = this.props;
-		if (token) {
-			return (
-				<div className="main-page">
-					<HeaderContainer />
-					<div className="content">
-						<div className="nav">
-							<NoteStackListContainer />
-							<ProfileContainer />
-						</div>
-						<NoteListContainer />
-						<NoteContainer />
+		if (!token) {
+      return null;
+    }
+		return (
+			<div className="main-page">
+				<HeaderContainer />
+				<div className="content">
+					<div className="nav">
+						<NoteStackListContainer />
+						<ProfileContainer />
 					</div>
+					<NoteListContainer />
+					<NoteContainer />
 				</div>
-			);
-		}
-		return null;
+			</div>
+		);
   }
 
 	componentDidMount() {
@@ -61,13 +57,11 @@ class Main extends Component {
 
 function mapStateToProps(state) {
   const {
-    entities,
     user,
   } = state;
-
   return {
-    token: user.id ? entities.users[user.id].token : null,
-    userId: user.Id || null,
+    token: user.token,
+    userId: user.userId,
   };
 }
 
