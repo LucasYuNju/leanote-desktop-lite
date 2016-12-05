@@ -54,7 +54,7 @@ class Main extends Component {
 
 	componentDidMount() {
 		this.props.initNavigator();
-    // this.props.syncIfNeeded();
+    this.props.syncIfNeeded();
 	}
 }
 
