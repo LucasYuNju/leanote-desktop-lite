@@ -1,5 +1,5 @@
 /*
- * note
+ * notes
  */
 export const SELECT_NOTE = 'SELECT_NOTE';
 export const ADD_NOTE = 'ADD_NOTE';
@@ -15,11 +15,9 @@ export const TOGGLE_EDIT_MODE = 'TOGGLE_EDIT_MODE';
 
 export const GET_NOTES_REQUEST = 'GET_NOTES_REQUEST';
 export const GET_NOTES_SUCCESS = 'GET_NOTES_SUCCESS';
-export const GET_NOTES_FAILURE = 'GET_NOTES_FAILURE';
 
 export const GET_NOTE_CONTENT_REQUEST = 'GET_NOTE_CONTENT_REQUEST';
 export const GET_NOTE_CONTENT_SUCCESS = 'GET_NOTE_CONTENT_SUCCESS';
-export const GET_NOTE_CONTENT_FAILURE = 'GET_NOTE_CONTENT_FAILURE';
 
 /*
  * tags
@@ -45,7 +43,8 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAILURE = 'AUTH_FAILURE';
 export const GET_USER_REQUEST = 'GET_USER_REQUEST'
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
-export const GET_USER_FAILURE = 'GET_USER_FAILURE'
+export const GET_USER_FAILURE = 'GET_USER_FAILURE';
+export const GET_LAST_USN = 'GET_LAST_USN';
 
 /*
  * navigator

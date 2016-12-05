@@ -1,17 +1,13 @@
 import * as types from '../constants/ActionTypes';
-
-export function getLastUsn() {
-
-}
+import { getLastUsn } from '../actions/UserActions';
 
 export function syncIfNeeded() {
-
+  return (dispatch) => {
+    dispatch(getLastUsn).then((action) => {
+    });
+  }
 }
 
-function pull() {
-
-}
-
-function push() {
+export function pullAll() {
 
 }

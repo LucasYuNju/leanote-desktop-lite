@@ -9,13 +9,15 @@ import NoteContainer from '../containers/NoteContainer';
 import NoteListContainer from '../containers/NoteListContainer';
 import NoteStackListContainer from '../containers/NoteStackListContainer';
 import ProfileContainer from '../containers/ProfileContainer';
-import * as UserActions from '../actions/UserActions';
+import * as SyncActions from '../actions/SyncActions';
 import * as NavigatorActions from '../actions/NavigatorActions';
 
 const { ipcRenderer } = require('electron');
 
 class Main extends Component {
   static propTypes = {
+    initNavigator: PropTypes.func.isRequired,
+    syncIfNeeded: PropTypes.func.isRequired,
     token: PropTypes.string,
     userId: PropTypes.string,
   };
@@ -52,6 +54,7 @@ class Main extends Component {
 
 	componentDidMount() {
 		this.props.initNavigator();
+    // this.props.syncIfNeeded();
 	}
 }
 
@@ -66,7 +69,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...UserActions, ...NavigatorActions }, dispatch);
+  return bindActionCreators({ ...SyncActions, ...NavigatorActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
