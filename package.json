@@ -4,9 +4,9 @@
   "description": "Leanote Desktop App, based on Electron",
   "main": "./main.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development npm run server & npm start",
+		"dev": "npm start & npm run server",
     "build": "webpack",
-    "server": "cross-env NODE_ENV=development node ./server.js",
+    "server": "node ./server.js",
     "start": "cross-env NODE_ENV=development electron ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
