@@ -60,7 +60,8 @@ state = {
     id:'512178',
     logo: 'http://xxx.jpg',
     name: 'bot',
-    usn: 1077,
+    localUsn: 1077,
+    remoteUsn: 1077,
   },
 }
 ```

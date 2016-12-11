@@ -4,35 +4,17 @@ import { fetchNotes, selectNote } from '../actions/NoteActions';
 import { notebookSchema } from '../constants/Schemas';
 import * as types from '../constants/ActionTypes';
 
-export function fetchNotebooks() {
-	return (dispatch) => {
-		// return dispatch({
-		// 	types: [ null, null, types.GET_NOTEBOOKS_FAILURE ],
-		// 	url: `notebook/getNotebooks`,
-		// 	schema: arrayOf(notebookSchema)
-		// }).then((result) => {
-		// 	const notebooks = result.payload.entities.notebooks;
-    //   buildNotebookTree(notebooks);
-		// 	dispatch({
-		// 		type: types.GET_NOTEBOOKS_SUCCESS,
-		// 		payload: result.payload,
-		// 	});
-		// 	return result;
-		// });
-	};
-}
-
-export function fetchOutdatedNotebooks(afterUsn) {
+export function fetchOutdatedNotebooks() {
   return async (dispatch, getState) => {
     const notebooks = {};
     while (true) {
-      // GET_OUTDATED_NOTEBOOKS_SUCCESS gives user reducer a chance to update usn
+      // action GET_OUTDATED_NOTEBOOKS_SUCCESS gives user reducer a chance to update usn
       const action = await dispatch({
         types: [null, 'GET_OUTDATED_NOTEBOOKS_SUCCESS', null],
         url: 'notebook/getSyncNotebooks',
         params: {
           afterUsn: getState().user.localUsn,
-          maxEntry: 3,
+          maxEntry: 20,
         },
         schema: arrayOf(notebookSchema),
       });
@@ -57,7 +39,7 @@ export function addNote(notebookId, noteId) {
   return { type: types.ADD_NOTE, notebookId, noteId };
 }
 
-// By default, each notebook has a pointer to its parent.
+// In the received data, each notebook has a pointer to its parent.
 function buildNotebookTree(notebooks) {
   const ids = Object.keys(notebooks);
   for (let id of ids) {

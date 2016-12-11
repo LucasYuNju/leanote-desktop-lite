@@ -13,15 +13,40 @@ export function toggleEditMode(noteId) {
 	return { type: types.TOGGLE_EDIT_MODE, noteId };
 }
 
+export function fetchOutdatedNotes() {
+  return async (dispatch, getState) => {
+    const notes = {};
+    while (true) {
+      const action = await dispatch({
+        types: [null, 'GET_NOTES_SUCCESS', null],
+        url: 'note/getSyncNotes',
+        params: {
+          afterUsn: getState().user.localUsn,
+          maxEntry: 50,
+        },
+        schema: arrayOf(noteSchema),
+      });
+      Object.assign(notes, action.payload.entities.notes);
+      if (action.payload.result.length === 0) {
+        break;
+      }
+    }
+    for (let noteId in notes) {
+      dispatch(fetchNoteAndContent(noteId));
+    }
+  }
+}
+
 export function fetchNotesIfNeeded(notebookId) {
 	return (dispatch, getState) => {
 		const notebook = getState().entities.notebooks[notebookId];
 		if (!notebook.fetched) {
-			dispatch(fetchNotes(notebookId));
+			// dispatch(fetchNotes(notebookId));
 		}
 	}
 }
 
+// deprecated
 export function fetchNotes(notebookId) {
 	return (dispatch, getState) => {
 		return dispatch({
@@ -30,20 +55,17 @@ export function fetchNotes(notebookId) {
 			params: {
 				notebookId,
 			},
-      payload: {
-        notebookId,
-      },
 			schema: arrayOf(noteSchema),
 		}).then(action => {
 			for (let noteId of action.payload.result) {
-        dispatch(fetchNoteAndContent(noteId, notebookId));
+        dispatch(fetchNoteAndContent(noteId));
       }
 			return action;
 		});
 	}
 }
 
-export function fetchNoteAndContent(noteId, notebookId) {
+export function fetchNoteAndContent(noteId) {
   return (dispatch, getState) => {
 		return dispatch({
 			types: [ null, null, types.GET_NOTE_CONTENT_FAILURE ],
@@ -51,9 +73,6 @@ export function fetchNoteAndContent(noteId, notebookId) {
 			params: {
 				noteId,
 			},
-      payload: {
-        notebookId,
-      },
 			schema: noteSchema,
 		}).then(action => {
 			const note = action.payload.entities.notes[action.payload.result];

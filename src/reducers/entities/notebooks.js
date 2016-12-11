@@ -25,13 +25,17 @@ function notebooks(state = {}, action) {
         }
       };
     case types.GET_NOTES_SUCCESS:
-      return {
-        ...state,
-				[action.payload.notebookId]: {
-					...state[action.payload.notebookId],
-					noteIds: union(state[action.payload.notebookId].noteIds, action.payload.result),
-				}
+      for (let noteId in action.payload.entities.notes) {
+        const note = action.payload.entities.notes[noteId];
+        state = {
+          ...state,
+          [note.notebookId]: {
+            ...state[note.notebookId],
+            noteIds: union(state[note.notebookId].noteIds, [noteId]),
+          }
+        };
       }
+      return state;
     case types.GET_NOTEBOOKS_SUCCESS:
       return {
 				...action.payload.entities.notebooks,

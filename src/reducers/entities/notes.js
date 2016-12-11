@@ -33,11 +33,11 @@ function notes(state = {}, action) {
 		case types.GET_NOTE_CONTENT_SUCCESS:
     case types.GET_NOTES_SUCCESS:
 			// default value of note.tags is null, normalizr wont override it.
-			Object.keys(action.payload.entities.notes).forEach(noteId => {
+      for (let noteId in action.payload.entities.notes) {
 				if (!action.payload.entities.notes[noteId].tags) {
 					action.payload.entities.notes[noteId].tags = [];
 				}
-			});
+			};
       return {
 				...state,
 				...action.payload.entities.notes,
