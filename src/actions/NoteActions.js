@@ -15,24 +15,28 @@ export function toggleEditMode(noteId) {
 
 export function fetchOutdatedNotes() {
   return async (dispatch, getState) => {
-    const notes = {};
     while (true) {
       const action = await dispatch({
-        types: [null, 'GET_NOTES_SUCCESS', null],
+        types: [null, types.GET_NOTES_SUCCESS, null],
         url: 'note/getSyncNotes',
         params: {
-          afterUsn: getState().user.localUsn,
+          afterUsn: getState().user.localUsn.note,
           maxEntry: 50,
         },
         schema: arrayOf(noteSchema),
       });
-      Object.assign(notes, action.payload.entities.notes);
+      // Dispatch all networks at the same time will cause 404 error.
+      action.payload.result
+        .map(noteId => action.payload.entities.notes[noteId])
+        .filter(note => !note.isDeleted && !note.isTrash)
+        .reduce((promise, note) => {
+          return promise.then(() => {
+            return dispatch(fetchNoteAndContent(note.noteId));
+          });
+        }, Promise.resolve());
       if (action.payload.result.length === 0) {
         break;
       }
-    }
-    for (let noteId in notes) {
-      dispatch(fetchNoteAndContent(noteId));
     }
   }
 }
@@ -111,10 +115,6 @@ export function createNote(note, notebookId) {
     dispatch({ type: types.SELECT_NOTE, noteId: note.noteId });
   }
 }
-
-/**
- * push changed notes to server
- */
 
 export function sortNoteList(key) {
   return { type: types.SORT_NOTE_LIST, key };

@@ -8,10 +8,11 @@ export function syncIfNeeded() {
     return dispatch(getLastUsn())
       .then(() => {
         const { user } = getState();
-        if (user.localUsn < user.remoteUsn) {
+        const localUsn = Math.max(user.localUsn.note, user.localUsn.notebook);
+        if (localUsn < user.remoteUsn) {
           return dispatch(pull());
         }
-        if (user.localUsn > user.remoteUsn) {
+        if (localUsn > user.remoteUsn) {
           return dispatch(push());
         }
       });

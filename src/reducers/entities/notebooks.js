@@ -27,6 +27,7 @@ function notebooks(state = {}, action) {
     case types.GET_NOTES_SUCCESS:
       for (let noteId in action.payload.entities.notes) {
         const note = action.payload.entities.notes[noteId];
+        if (note.isTrash || note.isDeleted) continue;
         state = {
           ...state,
           [note.notebookId]: {
@@ -36,7 +37,7 @@ function notebooks(state = {}, action) {
         };
       }
       return state;
-    case types.GET_NOTEBOOKS_SUCCESS:
+    case types.BATCH_SET_NOTEBOOKS:
       return {
 				...action.payload.entities.notebooks,
       };

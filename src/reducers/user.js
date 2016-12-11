@@ -3,23 +3,37 @@ import { REHYDRATE } from 'redux-persist/constants';
 import * as types from '../constants/ActionTypes';
 
 const initialState = {
-  localUsn: 0,
+  localUsn: {
+    note: 0,
+    notebook: 0,
+  }
 }
 
 export default function user(state = initialState, action) {
-  let localUsn = state.localUsn;
-  if (action.type !== REHYDRATE && action.payload && action.payload.entities) {
-    for (let type in action.payload.entities) {
-      for (let id in action.payload.entities[type]) {
-        localUsn = Math.max(localUsn, action.payload.entities[type][id].usn || localUsn);
-      }
-    }
-    return {
-      ...state,
-      localUsn,
-    }
-  }
   switch (action.type) {
+    case types.GET_NOTES_SUCCESS:
+      return {
+        ...state,
+        localUsn: {
+          ...state.localUsn,
+          note: Math.max(getMaxUsn(action.payload.entities), state.localUsn.note),
+        }
+      }
+    case types.GET_NOTEBOOKS_SUCCESS:
+      console.log(action , {
+        ...state,
+        localUsn: {
+          ...state.localUsn,
+          notebook: Math.max(getMaxUsn(action.payload.entities), state.localUsn.notebook),
+        }
+      });
+      return {
+        ...state,
+        localUsn: {
+          ...state.localUsn,
+          notebook: getMaxUsn(action.payload.entities),
+        }
+      }
     case types.AUTH_SUCCESS:
     case types.GET_USER_SUCCESS:
       return {
@@ -39,4 +53,14 @@ export default function user(state = initialState, action) {
     default:
       return state;
   }
+}
+
+function getMaxUsn(entities) {
+  let usn = 0;
+  for (let type in entities) {
+    for (let id in entities[type]) {
+      usn = Math.max(usn, entities[type][id].usn || 0);
+    }
+  }
+  return usn;
 }

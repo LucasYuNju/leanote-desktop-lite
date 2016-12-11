@@ -10,10 +10,10 @@ export function fetchOutdatedNotebooks() {
     while (true) {
       // action GET_OUTDATED_NOTEBOOKS_SUCCESS gives user reducer a chance to update usn
       const action = await dispatch({
-        types: [null, 'GET_OUTDATED_NOTEBOOKS_SUCCESS', null],
+        types: [null, types.GET_NOTEBOOKS_SUCCESS, null],
         url: 'notebook/getSyncNotebooks',
         params: {
-          afterUsn: getState().user.localUsn,
+          afterUsn: getState().user.localUsn.notebook,
           maxEntry: 20,
         },
         schema: arrayOf(notebookSchema),
@@ -25,7 +25,7 @@ export function fetchOutdatedNotebooks() {
     }
     buildNotebookTree(notebooks);
     return dispatch({
-      type: 'GET_NOTEBOOKS_SUCCESS',
+      type: types.BATCH_SET_NOTEBOOKS,
       payload: {
         entities: {
           notebooks,
