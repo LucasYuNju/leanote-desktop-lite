@@ -1,5 +1,5 @@
 import { applyMiddleware, compose, createStore } from 'redux';
-import { autoRehydrate, persistStore } from 'redux-persist'
+import { autoRehydrate, persistStore } from 'redux-persist';
 import thunkMiddleware from 'redux-thunk';
 import localForage from 'localforage';
 
