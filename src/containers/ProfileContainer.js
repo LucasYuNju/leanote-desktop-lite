@@ -1,6 +1,6 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import React, { Component, PropTypes } from 'react';
 
 import Profile from '../components/Profile';
 import * as UserActions from '../actions/UserActions';
@@ -16,10 +16,9 @@ class UserContainer extends Component {
 function mapStateToProps(state) {
   const {
     user,
-    entities,
   } = state;
   return {
-    user: entities.users[user.id],
+    user,
   };
 }
 

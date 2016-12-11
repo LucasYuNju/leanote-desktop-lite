@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 
 import List from '../components/List';
 import NoteStackListItem from '../components/NoteStackListItem';
-import makeSelectable from '../decorators/makeSelectable';
+import makeSelectable from '../components/makeSelectable';
 
 const SelectableList = makeSelectable(List);
 
@@ -86,10 +86,6 @@ class NoteStackList extends Component {
       />
     );
   };
-
-	componentDidMount() {
-		this.props.fetchNotebooks();
-	}
 }
 
 export default NoteStackList;

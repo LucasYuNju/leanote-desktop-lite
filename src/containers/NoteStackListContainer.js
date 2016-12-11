@@ -3,10 +3,14 @@ import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
 import { parseUrl } from '../util/RouteUtil';
-import * as NavigatorActionCreators from '../actions/NavigatorActions';
-import * as NoteListActionCreators from '../actions/NoteListActions';
+import * as NavigatorActions from '../actions/NavigatorActions';
+import * as NotebookActions from '../actions/NotebookActions';
 import NoteStackList from '../components/NoteStackList';
 
+/**
+ * Note stack represents a bunch of notes,
+ * like notes belong to the same notebook, or notes having the same tag.
+ */
 class NoteStackListContainer extends Component {
   render() {
     return (
@@ -37,7 +41,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...NoteListActionCreators, ...NavigatorActionCreators}, dispatch);
+  return bindActionCreators({ ...NotebookActions, ...NavigatorActions}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteStackListContainer);

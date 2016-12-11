@@ -31,7 +31,7 @@ node_modules/*
 jspm_packages
 
 # temporarily track leanote-service
-!node_modules/a-service
+# !node_modules/a-service
 
 # Optional npm cache directory
 .npm

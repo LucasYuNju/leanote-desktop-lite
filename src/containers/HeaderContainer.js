@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import Header from '../components/Header';
-import * as NoteActionCreators from '../actions/NoteActions';
-import * as NavigatorActionCreators from '../actions/NavigatorActions';
+import * as NoteActions from '../actions/NoteActions';
+import * as NavigatorActions from '../actions/NavigatorActions';
 import { parseUrl } from '../util/RouteUtil';
 
 class HeaderContainer extends Component {
@@ -23,14 +23,14 @@ function mapStateToProps(state) {
 		user,
   } = state;
   return {
-    userId: user.id,
+    userId: user.userId,
 		navigateBackEnabled: navigator.current > 1,
 		navigateForwardEnabled: navigator.current < navigator.length,
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...NoteActionCreators, ...NavigatorActionCreators }, dispatch);
+  return bindActionCreators({ ...NoteActions, ...NavigatorActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);
