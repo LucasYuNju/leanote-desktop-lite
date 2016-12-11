@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as NoteActionCreators from '../actions/NoteActions';
+import * as NoteActions from '../actions/NoteActions';
 import ToolBar from '../components/ToolBar';
 import { parseUrl } from '../util/RouteUtil';
 
@@ -36,7 +36,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators(NoteActionCreators, dispatch);
+	return bindActionCreators(NoteActions, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ToolBarContainer);

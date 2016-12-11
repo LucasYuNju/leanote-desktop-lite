@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import List from '../components/List';
-import makeSelectable from '../decorators/makeSelectable';
+import makeSelectable from '../components/makeSelectable';
 import NoteListHeader from '../components/NoteListHeader';
 import NoteListItem from '../components/NoteListItem';
 

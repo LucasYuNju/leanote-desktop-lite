@@ -1,13 +1,66 @@
+import { REHYDRATE } from 'redux-persist/constants';
+
 import * as types from '../constants/ActionTypes';
 
-export default function user(state = {}, action) {
+const initialState = {
+  localUsn: {
+    note: 0,
+    notebook: 0,
+  }
+}
+
+export default function user(state = initialState, action) {
   switch (action.type) {
-    case types.AUTH_SUCCESS:
+    case types.GET_NOTES_SUCCESS:
       return {
         ...state,
-        id: action.payload.userId,
+        localUsn: {
+          ...state.localUsn,
+          note: Math.max(getMaxUsn(action.payload.entities), state.localUsn.note),
+        }
+      }
+    case types.GET_NOTEBOOKS_SUCCESS:
+      console.log(action , {
+        ...state,
+        localUsn: {
+          ...state.localUsn,
+          notebook: Math.max(getMaxUsn(action.payload.entities), state.localUsn.notebook),
+        }
+      });
+      return {
+        ...state,
+        localUsn: {
+          ...state.localUsn,
+          notebook: getMaxUsn(action.payload.entities),
+        }
+      }
+    case types.AUTH_SUCCESS:
+    case types.GET_USER_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case types.UPDATE_USER:
+      return {
+        ...state,
+        ...action.user,
+      };
+    case types.GET_LAST_USN_SUCCESS:
+      return {
+        ...state,
+        remoteUsn: action.payload.lastSyncUsn,
       }
     default:
       return state;
   }
+}
+
+function getMaxUsn(entities) {
+  let usn = 0;
+  for (let type in entities) {
+    for (let id in entities[type]) {
+      usn = Math.max(usn, entities[type][id].usn || 0);
+    }
+  }
+  return usn;
 }

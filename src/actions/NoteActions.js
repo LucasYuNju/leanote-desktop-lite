@@ -13,15 +13,44 @@ export function toggleEditMode(noteId) {
 	return { type: types.TOGGLE_EDIT_MODE, noteId };
 }
 
+export function fetchOutdatedNotes() {
+  return async (dispatch, getState) => {
+    while (true) {
+      const action = await dispatch({
+        types: [null, types.GET_NOTES_SUCCESS, null],
+        url: 'note/getSyncNotes',
+        params: {
+          afterUsn: getState().user.localUsn.note,
+          maxEntry: 50,
+        },
+        schema: arrayOf(noteSchema),
+      });
+      // Dispatch all networks at the same time will cause 404 error.
+      action.payload.result
+        .map(noteId => action.payload.entities.notes[noteId])
+        .filter(note => !note.isDeleted && !note.isTrash)
+        .reduce((promise, note) => {
+          return promise.then(() => {
+            return dispatch(fetchNoteAndContent(note.noteId));
+          });
+        }, Promise.resolve());
+      if (action.payload.result.length === 0) {
+        break;
+      }
+    }
+  }
+}
+
 export function fetchNotesIfNeeded(notebookId) {
 	return (dispatch, getState) => {
 		const notebook = getState().entities.notebooks[notebookId];
 		if (!notebook.fetched) {
-			dispatch(fetchNotes(notebookId));
+			// dispatch(fetchNotes(notebookId));
 		}
 	}
 }
 
+// deprecated
 export function fetchNotes(notebookId) {
 	return (dispatch, getState) => {
 		return dispatch({
@@ -31,17 +60,16 @@ export function fetchNotes(notebookId) {
 				notebookId,
 			},
 			schema: arrayOf(noteSchema),
-			notebookId,
 		}).then(action => {
 			for (let noteId of action.payload.result) {
-        dispatch(fetchNoteAndContent(noteId, notebookId));
+        dispatch(fetchNoteAndContent(noteId));
       }
 			return action;
 		});
 	}
 }
 
-export function fetchNoteAndContent(noteId, notebookId) {
+export function fetchNoteAndContent(noteId) {
   return (dispatch, getState) => {
 		return dispatch({
 			types: [ null, null, types.GET_NOTE_CONTENT_FAILURE ],
@@ -50,7 +78,6 @@ export function fetchNoteAndContent(noteId, notebookId) {
 				noteId,
 			},
 			schema: noteSchema,
-			notebookId,
 		}).then(action => {
 			const note = action.payload.entities.notes[action.payload.result];
 			if (note.files && note.files.length) {
@@ -88,10 +115,6 @@ export function createNote(note, notebookId) {
     dispatch({ type: types.SELECT_NOTE, noteId: note.noteId });
   }
 }
-
-/**
- * push changed notes to server
- */
 
 export function sortNoteList(key) {
   return { type: types.SORT_NOTE_LIST, key };

@@ -1,4 +1,4 @@
-import { constructUrl, parseUrl } from '../Util/RouteUtil';
+import { constructUrl, parseUrl } from '../util/RouteUtil';
 import * as types from '../constants/ActionTypes';
 
 /**

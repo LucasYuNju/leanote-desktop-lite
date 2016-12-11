@@ -1,5 +1,5 @@
 /*
- * note
+ * notes
  */
 export const SELECT_NOTE = 'SELECT_NOTE';
 export const ADD_NOTE = 'ADD_NOTE';
@@ -35,6 +35,7 @@ export const UNLINK_TAG = 'UNLINK_TAG';
 export const GET_NOTEBOOKS_REQUEST = 'GET_NOTEBOOKS_REQUEST';
 export const GET_NOTEBOOKS_SUCCESS = 'GET_NOTEBOOKS_SUCCESS';
 export const GET_NOTEBOOKS_FAILURE = 'GET_NOTEBOOKS_FAILURE';
+export const BATCH_SET_NOTEBOOKS = 'BATCH_SET_NOTEBOOKS';
 
 /*
  * user
@@ -45,7 +46,8 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAILURE = 'AUTH_FAILURE';
 export const GET_USER_REQUEST = 'GET_USER_REQUEST'
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
-export const GET_USER_FAILURE = 'GET_USER_FAILURE'
+export const GET_USER_FAILURE = 'GET_USER_FAILURE';
+export const GET_LAST_USN_SUCCESS = 'GET_LAST_USN_SUCCESS';
 
 /*
  * navigator

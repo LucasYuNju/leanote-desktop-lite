@@ -6,7 +6,7 @@ module.exports = {
   devtool: 'source-map',
 	context: path.resolve("./src"),
   entry: {
-    vendor: [],
+    vendor: ['babel-polyfill'],
     main: ['./main.js', '../styles/index.less'],
     auth: ['./auth.js', '../styles/index.less']
   },
@@ -40,7 +40,7 @@ module.exports = {
 		]
 	},
   resolve: {
-    extensions: ['', '.js', '.jsx', '.css'] 
+    extensions: ['', '.js', '.jsx', '.css']
   },
   plugins: [
     new ExtractTextPlugin("[name]/bundle.css"),

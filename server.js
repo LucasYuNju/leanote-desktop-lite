@@ -12,10 +12,16 @@ app.use(webpackDevMiddleware(
   builder,
   {
 		hot: true,
-    publicPath: builderConfig.output.publicPath
+    publicPath: builderConfig.output.publicPath,
+    stats: {
+      chunks: false,
+      colors: true,
+    }
   }
 ));
 
 app.listen(3000, () => {
   console.log("Server listening on port 3000");
 });
+
+module.exports = app;

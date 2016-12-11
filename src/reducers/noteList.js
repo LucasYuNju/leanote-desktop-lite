@@ -9,16 +9,6 @@ const initialState = {
 
 export default function noteList(state = initialState, action) {
   switch (action.type) {
-    case types.SELECT_NOTE_LIST:
-			// TODO remove this
-      if (action.noteListId) {
-        return {
-          ...state,
-          type: action.noteListType,
-          id: action.noteListId,
-        }
-      }
-      return state;
     case types.SORT_NOTE_LIST:
       return {
         ...state,
