@@ -40,7 +40,6 @@ class Note extends Component {
           active={!note.isMarkdown}
           note={note}
           onContentChange={this.handleContentChange}
-          onTitleChanging={this.handleTitleChanging}
           onTitleChange={this.handleTitlChange}
         />
         <MarkdownEditor
@@ -67,5 +66,17 @@ class Note extends Component {
     this.props.updateNote(note);
   };
 }
+
+function getAbstract(content) {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  const text = div.textContext || div.innerText || '';
+  return text.substring(0, 100);
+}
+
+function getThumbnail(content) {
+
+}
+
 
 export default Note;

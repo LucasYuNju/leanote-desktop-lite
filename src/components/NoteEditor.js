@@ -1,8 +1,9 @@
 import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 import Quill from 'quill';
-
 import 'quill/dist/quill.snow';
+
+import { httpsToLeanote, leanoteToHttps } from '../util/Protocol';
 
 class NoteEditor extends Component {
   static propTypes = {
@@ -16,7 +17,7 @@ class NoteEditor extends Component {
 
   handleEditorBlur = () => {
     if (this.changed) {
-      this.props.onContentChange(this.quill.root.innerHTML);
+      this.props.onContentChange(leanoteToHttps(this.quill.root.innerHTML));
     }
     this.changed = false;
   };
@@ -28,7 +29,7 @@ class NoteEditor extends Component {
   reset = (note) => {
     this.title.value = note.title;
     this.quill.history.clear();
-    this.quill.clipboard.dangerouslyPasteHTML(note.content);
+    this.quill.clipboard.dangerouslyPasteHTML(httpsToLeanote(note.content));
     this.changed = false;
   }
 
@@ -41,7 +42,7 @@ class NoteEditor extends Component {
     const nextNote = nextProps.note;
 		if (note.noteId === nextNote.noteId) {
 			// note content just get loaded
-			if (!note.content && nextNote.content.length > 0) {
+			if (!note.content && nextNote.content) {
 				this.reset(nextNote);
 			}
 		}

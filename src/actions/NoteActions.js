@@ -79,10 +79,10 @@ export function fetchNoteAndContent(noteId) {
 			},
 			schema: noteSchema,
 		}).then(action => {
-			const note = action.payload.entities.notes[action.payload.result];
-			if (note.files && note.files.length) {
-				note.content = httpsToLeanote(note.content);
-			}
+			// const note = action.payload.entities.notes[action.payload.result];
+			// if (note.files && note.files.length) {
+			// 	note.content = httpsToLeanote(note.content);
+			// }
 			dispatch({
 				...action,
 				type: types.GET_NOTE_CONTENT_SUCCESS,
