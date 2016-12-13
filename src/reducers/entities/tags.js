@@ -24,8 +24,9 @@ function tags(state = {}, action) {
       nextState = {
 				...state,
       }
-			for (let noteId of action.payload.result) {
+			for (let noteId in action.payload.entities.notes) {
         const note = action.payload.entities.notes[noteId];
+        if (!note) continue;
         note.tags.filter(tag => tag)
 					.forEach(tag => {
 	          if (!nextState[tag]) {

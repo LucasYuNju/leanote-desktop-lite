@@ -32,15 +32,20 @@ function notes(state = {}, action) {
 			};
 		case types.GET_NOTE_CONTENT_SUCCESS:
     case types.GET_NOTES_SUCCESS:
+      const notes = { ...action.payload.entities.notes };
 			// default value of note.tags is null, normalizr wont override it.
-      for (let noteId in action.payload.entities.notes) {
-				if (!action.payload.entities.notes[noteId].tags) {
-					action.payload.entities.notes[noteId].tags = [];
+      for (let noteId in notes) {
+				if (!notes[noteId].tags) {
+					notes[noteId].tags = [];
 				}
+        // remove deleted note
+        if (notes[noteId].isDeleted || notes[noteId].isTrash) {
+          delete notes[noteId];
+        }
 			};
       return {
 				...state,
-				...action.payload.entities.notes,
+				...notes,
       };
     case types.UPDATE_NOTE_SUCCEEDED:
 			// TODO DELETE

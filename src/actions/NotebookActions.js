@@ -23,15 +23,17 @@ export function fetchOutdatedNotebooks() {
         break;
       }
     }
-    buildNotebookTree(notebooks);
-    return dispatch({
-      type: types.BATCH_SET_NOTEBOOKS,
-      payload: {
-        entities: {
-          notebooks,
+    if (Object.keys(notebooks).length) {
+      buildNotebookTree(notebooks);
+      return dispatch({
+        type: types.BATCH_SET_NOTEBOOKS,
+        payload: {
+          entities: {
+            notebooks,
+          },
         },
-      },
-    });
+      });
+    }
   }
 }
 

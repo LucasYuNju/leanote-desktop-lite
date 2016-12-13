@@ -53,6 +53,7 @@ class NoteListItem extends Component {
       updatedTime,
     } = this.props;
     const formattedTime = TimeFormatUtil.fromNow(updatedTime);
+    console.log('note list item redraw');
     return (
       <Link
         className={classNames('note-list-item', { selected: selected }, className)}
