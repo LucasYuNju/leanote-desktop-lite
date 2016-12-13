@@ -20,20 +20,16 @@ export default function user(state = initialState, action) {
         }
       }
     case types.GET_NOTEBOOKS_SUCCESS:
-      console.log(action , {
-        ...state,
-        localUsn: {
-          ...state.localUsn,
-          notebook: Math.max(getMaxUsn(action.payload.entities), state.localUsn.notebook),
-        }
-      });
-      return {
-        ...state,
-        localUsn: {
-          ...state.localUsn,
-          notebook: getMaxUsn(action.payload.entities),
+      if (action.payload.result.length) {
+        return {
+          ...state,
+          localUsn: {
+            ...state.localUsn,
+            notebook: getMaxUsn(action.payload.entities),
+          }
         }
       }
+      return state;
     case types.AUTH_SUCCESS:
     case types.GET_USER_SUCCESS:
       return {
