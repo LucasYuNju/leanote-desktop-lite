@@ -41,53 +41,15 @@ export function fetchOutdatedNotes() {
   }
 }
 
-export function fetchNotesIfNeeded(notebookId) {
-	return (dispatch, getState) => {
-		const notebook = getState().entities.notebooks[notebookId];
-		if (!notebook.fetched) {
-			// dispatch(fetchNotes(notebookId));
-		}
-	}
-}
-
-// deprecated
-export function fetchNotes(notebookId) {
-	return (dispatch, getState) => {
-		return dispatch({
-			types: [ types.GET_NOTES_REQUEST, types.GET_NOTES_SUCCESS, types.GET_NOTES_FAILURE ],
-			url: 'note/getNotes',
-			params: {
-				notebookId,
-			},
-			schema: arrayOf(noteSchema),
-		}).then(action => {
-			for (let noteId of action.payload.result) {
-        dispatch(fetchNoteAndContent(noteId));
-      }
-			return action;
-		});
-	}
-}
-
 export function fetchNoteAndContent(noteId) {
   return (dispatch, getState) => {
 		return dispatch({
-			types: [ null, null, types.GET_NOTE_CONTENT_FAILURE ],
+			types: [ null, types.GET_NOTE_CONTENT_SUCCESS, types.GET_NOTE_CONTENT_FAILURE ],
 			url: 'note/getNoteAndContent',
 			params: {
 				noteId,
 			},
 			schema: noteSchema,
-		}).then(action => {
-			// const note = action.payload.entities.notes[action.payload.result];
-			// if (note.files && note.files.length) {
-			// 	note.content = httpsToLeanote(note.content);
-			// }
-			dispatch({
-				...action,
-				type: types.GET_NOTE_CONTENT_SUCCESS,
-			});
-			return action;
 		});
 	}
 }
@@ -98,6 +60,7 @@ export function fetchNoteAndContent(noteId) {
 export function updateNote(changedNote) {
   return (dispatch) => {
     dispatch({ type: types.UPDATE_NOTE, note: changedNote });
+
     service.note.updateNoteOrContent(pascalizeKeys(changedNote), (result) => {
       if (result) {
         dispatch({ type: types.UPDATE_NOTE_SUCCEEDED, note: camelizeKeys(result) });

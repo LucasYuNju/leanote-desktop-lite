@@ -9,7 +9,6 @@ const SelectableList = makeSelectable(List);
 
 class NoteList extends Component {
   static propTypes = {
-    fetchNotesIfNeeded: PropTypes.func.isRequired,
     selectNote: PropTypes.func.isRequired,
     sortNoteList: PropTypes.func.isRequired,
     notes: PropTypes.array,
@@ -22,12 +21,6 @@ class NoteList extends Component {
   static defaultProps = {
     view: 'snippet',
   };
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.notes.length === 0) {
-			nextProps.fetchNotesIfNeeded(nextProps.notebookId);
-		}
-	}
 
   shouldComponentUpdate(nextProps, nextState) {
 		if (nextProps.noteId) {
