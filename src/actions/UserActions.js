@@ -18,7 +18,7 @@ export function fetchInfo(userId) {
 	return {
     types: [null, types.GET_USER_SUCCESS, types.GET_USER_FAILURE],
     url: `user/info`,
-    params: {
+    query: {
       userId,
     },
   };
@@ -28,7 +28,7 @@ export function login(account, password, host) {
 	return {
     types: [types.AUTH_REQUEST, types.AUTH_SUCCESS, types.AUTH_FAILURE],
     url: `auth/login`,
-    params: {
+    query: {
       email: account,
       pwd: password,
     },

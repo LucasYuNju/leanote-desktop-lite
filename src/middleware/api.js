@@ -6,16 +6,9 @@ import { REHYDRATE } from 'redux-persist/constants';
 const API_ROOT = 'https://leanote.com/api/';
 let token = '';
 
-const initTokenIfNeeded = ({ dispatch, getState }) => {
-  if (!token) {
-    const { user } = getState();
-    token = user.token;
-  }
-}
-
 // Fetches an API response and normalizes the result JSON according to schema.
-const callApi = (endpoint, schema) => {
-  return fetch(API_ROOT + endpoint)
+function callApi(url, options, schema) {
+  return fetch(API_ROOT + url, options)
     .then(response =>
       response.json().then(json => {
         if (!response.ok) {
@@ -34,7 +27,7 @@ const callApi = (endpoint, schema) => {
 // Performs the call and promises when such actions are dispatched.
 export default store => next => action => {
   if (!token) {
-    initTokenIfNeeded(store);
+    token = store.getState().user.token;
   }
   if (action.type === REHYDRATE) {
     // REHYDRATE triggers other actions, so token is supposed to be initialized after next() return.
@@ -49,7 +42,7 @@ export default store => next => action => {
 		return next(action);
 	}
 
-  let { schema, types, params, url } = action;
+  let { schema, types, query, url, method = 'GET', body } = action;
   if (!Array.isArray(types) || types.length !== 3) {
     throw new Error('Expected an array of three action types.');
   }
@@ -59,17 +52,13 @@ export default store => next => action => {
   }
   LOADING && next({
 		type: LOADING,
-		payload: {
-			...action.payload,
-		},
 	});
-  return callApi(url + queryString(params), schema)
+  return callApi(`${url}?${qs(query)}`, { method, body: JSON.stringify(body) }, schema)
 		.then(
 			(response) => {
 				const finalAction = {
 					type: SUCCESS,
 					payload: {
-						...action.payload,
 						...response,
 					},
 				}
@@ -88,11 +77,10 @@ export default store => next => action => {
 		);
 }
 
-function queryString(query = {}) {
-	let res = '?';
-	query.token = token;
-	for (let key in query) {
-		res += `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}&`;
-	}
-	return res;
+function qs(query = {}) {
+  query.token = token;
+  const esc = encodeURIComponent;
+  return Object.keys(query)
+    .map(k => esc(k) + '=' + esc(query[k]))
+    .join('&');
 }

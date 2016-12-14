@@ -19,7 +19,7 @@ export function fetchOutdatedNotes() {
       const action = await dispatch({
         types: [null, types.GET_NOTES_SUCCESS, null],
         url: 'note/getSyncNotes',
-        params: {
+        query: {
           afterUsn: getState().user.localUsn.note,
           maxEntry: 50,
         },
@@ -46,7 +46,7 @@ export function fetchNoteAndContent(noteId) {
 		return dispatch({
 			types: [ null, types.GET_NOTE_CONTENT_SUCCESS, types.GET_NOTE_CONTENT_FAILURE ],
 			url: 'note/getNoteAndContent',
-			params: {
+			query: {
 				noteId,
 			},
 			schema: noteSchema,

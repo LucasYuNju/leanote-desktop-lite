@@ -12,7 +12,7 @@ export function fetchOutdatedNotebooks() {
       const action = await dispatch({
         types: [null, types.GET_NOTEBOOKS_SUCCESS, null],
         url: 'notebook/getSyncNotebooks',
-        params: {
+        query: {
           afterUsn: getState().user.localUsn.notebook,
           maxEntry: 20,
         },
