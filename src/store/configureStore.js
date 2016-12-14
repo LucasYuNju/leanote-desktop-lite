@@ -5,10 +5,11 @@ import localForage from 'localforage';
 
 import apiMiddleware from '../middleware/api';
 import DevTools from '../containers/DevTools';
+import errorLoggerMiddleware from '../middleware/errorLogger';
 import rootReducer from '../reducers';
 
 const enhancer = compose(
-	applyMiddleware(thunkMiddleware, apiMiddleware),
+	applyMiddleware(thunkMiddleware, apiMiddleware, errorLoggerMiddleware),
   autoRehydrate(),
 	DevTools.instrument(),
 );
