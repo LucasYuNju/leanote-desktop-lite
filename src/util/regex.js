@@ -13,3 +13,18 @@ export function leanoteToHttps(text) {
   const replaced = text.replace(leanoteRegex, 'https://leanote.com/api/$2');
   return replaced;
 }
+
+export function findThumbnail(text) {
+  const matches = httpsRegex.exec(text);
+  if (matches) {
+    return matches[0];
+  }
+  return null;
+}
+
+export function getAbstract(html) {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  const text = div.innerText || div.textContext || '';
+  return text.substring(0, 100);
+}

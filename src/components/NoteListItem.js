@@ -2,32 +2,26 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 import Link from '../components/Link';
-import TimeFormatUtil from '../util/TimeFormatUtil';
+import { fromNow } from '../util/timeFormat';
 
 class NoteListItem extends Component {
   static propTypes = {
-    content: PropTypes.string,
-		id: PropTypes.string.isRequired,
-		imgSrc: PropTypes.string,
-		selected: PropTypes.bool,
-    starred: PropTypes.bool,
-    title: PropTypes.string,
+    note: PropTypes.shape({
+      abstract: PropTypes.string,
+      content: PropTypes.string,
+  		noteId: PropTypes.string.isRequired,
+      title: PropTypes.string,
+      updatedTime: PropTypes.string,
+    }).isRequired,
+    thumbnail: PropTypes.string,
+    selected: PropTypes.bool,
     view: PropTypes.string,
-    updatedTime: PropTypes.string,
   };
 
   static defaultProps = {
 		selected: false,
     view: 'snippet',
   };
-
-  getText(html) {
-		// TODO possible bottleneck
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    const text = div.textContext || div.innerText || '';
-    return text.substring(0, 100);
-  }
 
   renderThumbnail(imgSrc) {
 		if (imgSrc) {
@@ -44,29 +38,25 @@ class NoteListItem extends Component {
 
   render() {
     const {
-      content,
+      note,
       className,
-			id,
-      imgSrc,
+      thumbnail,
 			selected,
-      title,
-      updatedTime,
     } = this.props;
-    const formattedTime = TimeFormatUtil.fromNow(updatedTime);
-    console.log('note list item redraw');
+    // console.log('note list item redraw', note);
     return (
       <Link
         className={classNames('note-list-item', { selected: selected }, className)}
-				to={id}
+				to={note.noteId}
       >
         <div className="info">
-          <div className="title">{title}</div>
+          <div className="title">{note.title}</div>
           <div className="detail">
-            <span className="updated-time">{formattedTime}</span>
-            <span className="snippet">{this.getText(content)}</span>
+            <span className="updated-time">{fromNow(note.updatedTime)}</span>
+            <span className="snippet">{note.abstract}</span>
           </div>
         </div>
-        {this.renderThumbnail(imgSrc)}
+        {this.renderThumbnail(thumbnail)}
       </Link>
     );
   }

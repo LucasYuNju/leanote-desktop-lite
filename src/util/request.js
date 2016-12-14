@@ -1,7 +1,8 @@
-export function qs(query = {}) {
+// query string
+export function qs(obj = {}) {
   const esc = encodeURIComponent;
-  return Object.keys(query)
-    .map(k => esc(k) + '=' + esc(query[k]))
+  return Object.keys(obj)
+    .map(k => esc(k) + '=' + esc(obj[k]))
     .join('&');
 }
 

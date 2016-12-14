@@ -45,14 +45,9 @@ class NoteList extends Component {
   renderNote(note) {
     return (
       <NoteListItem
-        content={note.content}
-        id={note.noteId}
 				key={note.noteId}
-        snippet={note.abstract}
-        starred={note.star}
-        title={note.title}
-        updatedTime={note.updatedTime}
-        imgSrc={note.imgSrc}
+        note={note}
+        thumbnail={''}
       />
     );
   }

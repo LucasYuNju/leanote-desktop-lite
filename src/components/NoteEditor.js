@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow';
 
-import { httpsToLeanote, leanoteToHttps } from '../util/Protocol';
+import { httpsToLeanote, leanoteToHttps } from '../util/regex';
 
 class NoteEditor extends Component {
   static propTypes = {

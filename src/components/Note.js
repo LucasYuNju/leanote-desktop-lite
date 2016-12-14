@@ -59,18 +59,18 @@ class Note extends Component {
   };
 
   handleContentChange = (content) => {
-    const note = {
-      ...this.props.note,
+    this.props.updateNote({
       content,
-    };
-    this.props.updateNote(note);
+      noteId: this.props.note.noteId,
+      usn: this.props.note.usn,
+    });
   };
 }
 
 function getAbstract(content) {
   const div = document.createElement('div');
-  div.innerHTML = html;
-  const text = div.textContext || div.innerText || '';
+  div.innerHTML = html.substring(0, 150);
+  const text = div.textContext || '';
   return text.substring(0, 100);
 }
 

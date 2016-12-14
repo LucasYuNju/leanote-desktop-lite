@@ -1,8 +1,9 @@
 import { arrayOf, normalize } from 'normalizr';
 import { camelizeKeys, pascalizeKeys } from 'humps';
 
-import * as types from '../constants/ActionTypes';
+import { findThumbnail, getAbstract } from '../util/regex';
 import { noteSchema } from '../constants/Schemas';
+import * as types from '../constants/ActionTypes';
 
 export function selectNote(noteId) {
   return { type: types.SELECT_NOTE, noteId };
@@ -43,13 +44,18 @@ export function fetchOutdatedNotes() {
 export function fetchNoteAndContent(noteId) {
   return (dispatch, getState) => {
 		return dispatch({
-			types: [ null, types.GET_NOTE_CONTENT_SUCCESS, types.GET_NOTE_CONTENT_FAILURE ],
+			types: [ null, null, types.GET_NOTE_CONTENT_FAILURE ],
 			url: 'note/getNoteAndContent',
 			query: {
 				noteId,
 			},
 			schema: noteSchema,
-		});
+		}).then(action => {
+      const note = action.payload.entities.notes[action.payload.result];
+      note.thumbnail = findThumbnail(note.content);
+      note.abstract = getAbstract(note.content);
+      dispatch({ type: types.GET_NOTE_CONTENT_SUCCESS, payload: action.payload });
+    });
 	}
 }
 
