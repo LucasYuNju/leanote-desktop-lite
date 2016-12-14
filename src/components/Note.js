@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, {Component, PropTypes} from 'react';
 
+import { findThumbnail, getAbstract } from '../util/regex';
 import Icon from '../components/Icon';
 import MarkdownEditor from '../components/MarkdownEditor';
 import TagBar from '../components/TagBar';
@@ -60,22 +61,13 @@ class Note extends Component {
 
   handleContentChange = (content) => {
     this.props.updateNote({
+      abstract: getAbstract(content),
       content,
       noteId: this.props.note.noteId,
+      thumbnail: findThumbnail(content),
       usn: this.props.note.usn,
     });
   };
-}
-
-function getAbstract(content) {
-  const div = document.createElement('div');
-  div.innerHTML = html.substring(0, 150);
-  const text = div.textContext || '';
-  return text.substring(0, 100);
-}
-
-function getThumbnail(content) {
-
 }
 
 

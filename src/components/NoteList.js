@@ -46,6 +46,7 @@ class NoteList extends Component {
     return (
       <NoteListItem
 				key={note.noteId}
+        id={note.noteId}
         note={note}
         thumbnail={''}
       />

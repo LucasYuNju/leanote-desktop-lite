@@ -43,6 +43,7 @@ class NoteListItem extends Component {
       thumbnail,
 			selected,
     } = this.props;
+    // TODO selected note
     // console.log('note list item redraw', note);
     return (
       <Link
