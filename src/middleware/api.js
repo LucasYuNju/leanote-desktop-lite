@@ -1,10 +1,12 @@
 import { Schema, arrayOf, normalize } from 'normalizr';
-import { camelizeKeys } from 'humps';
+import { camelizeKeys, pascalizeKeys } from 'humps';
 import { AUTH_REQUEST } from '../constants/ActionTypes';
 import { REHYDRATE } from 'redux-persist/constants';
 
-const API_ROOT = 'https://leanote.com/api/';
+import { formData, qs } from '../util/request';
+
 let token = '';
+const API_ROOT = 'https://leanote.com/api/';
 
 // Fetches an API response and normalizes the result JSON according to schema.
 function callApi(url, options, schema) {
@@ -42,7 +44,7 @@ export default store => next => action => {
 		return next(action);
 	}
 
-  let { schema, types, query, url, method = 'GET', body } = action;
+  let { schema, types, query = {}, url, method = 'GET', body = {} } = action;
   if (!Array.isArray(types) || types.length !== 3) {
     throw new Error('Expected an array of three action types.');
   }
@@ -52,8 +54,10 @@ export default store => next => action => {
   }
   LOADING && next({
 		type: LOADING,
+    payload: action,
 	});
-  return callApi(`${url}?${qs(query)}`, { method, body: JSON.stringify(body) }, schema)
+  query.token = token;
+  return callApi(`${url}?${qs(query)}`, { method, body: formData(pascalizeKeys(body)) }, schema)
 		.then(
 			(response) => {
 				const finalAction = {
@@ -75,12 +79,4 @@ export default store => next => action => {
 				return ERROR ? next(ERROR) : finalAction;
 			}
 		);
-}
-
-function qs(query = {}) {
-  query.token = token;
-  const esc = encodeURIComponent;
-  return Object.keys(query)
-    .map(k => esc(k) + '=' + esc(query[k]))
-    .join('&');
 }

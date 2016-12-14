@@ -47,11 +47,14 @@ function notes(state = {}, action) {
 				...state,
 				...notes,
       };
-    case types.UPDATE_NOTE_SUCCEEDED:
+    case types.UPDATE_NOTE:
 			// TODO DELETE
       return {
         ...state,
-				[action.note.noteId]: action.note,
+				[action.payload.note.noteId]: {
+          ...state[action.payload.note.noteId],
+          ...action.payload.note,
+        },
       };
     default:
       return state;

@@ -12,7 +12,7 @@ function generated(state = initialState, action) {
     case types.UPDATE_NOTE:
 			return {
 				...state,
-				latest: union(state.latest.slice(0, 9), [action.note.noteId])
+				latest: union(state.latest, [action.payload.note.noteId]).slice(0, 10)
 			}
     default:
       return state;

@@ -6,7 +6,7 @@ export function qs(query = {}) {
 }
 
 export function formData(obj = {}) {
-  if (Object.keys(obj),length) {
+  if (Object.keys(obj).length) {
     return Object.keys(obj)
       .reduce((formData, k) => {
         formData.append(k, obj[k]);

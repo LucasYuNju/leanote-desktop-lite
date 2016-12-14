@@ -3,7 +3,6 @@ import { camelizeKeys, pascalizeKeys } from 'humps';
 
 import * as types from '../constants/ActionTypes';
 import { noteSchema } from '../constants/Schemas';
-import { httpsToLeanote } from '../util/Protocol';
 
 export function selectNote(noteId) {
   return { type: types.SELECT_NOTE, noteId };
@@ -57,17 +56,29 @@ export function fetchNoteAndContent(noteId) {
 /**
  * param change: changed part of note object, only NoteId is required
  */
-export function updateNote(changedNote) {
+export function updateNote(note) {
   return (dispatch) => {
-    dispatch({ type: types.UPDATE_NOTE, note: changedNote });
-
-    service.note.updateNoteOrContent(pascalizeKeys(changedNote), (result) => {
-      if (result) {
-        dispatch({ type: types.UPDATE_NOTE_SUCCEEDED, note: camelizeKeys(result) });
-      }
-      else {
-        dispatch({ type: types.UPDATE_NOTE_FAILED });
-      }
+    // optimistic update
+    dispatch({ type: types.UPDATE_NOTE, payload: { note } });
+    dispatch({
+      types: [types.POST_NOTE_REQUEST, types.POST_NOTE_SUCCESS, null],
+      url: 'note/updateNote',
+      method: 'POST',
+      body: {
+        ...note,
+      },
+      schema: noteSchema,
+    }).then((action) => {
+      const note = action.payload.entities.notes[action.payload.result];
+      dispatch({
+        type: types.UPDATE_NOTE,
+        payload: {
+          note: {
+            noteId: note.noteId,
+            usn: note.usn
+          }
+        }
+      });
     });
   }
 }
