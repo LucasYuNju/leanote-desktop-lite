@@ -3,8 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <script>
-    // tmp solution to enable dev mode on windows
-    // process.env.ENV = 'development';
     var baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/assets' : './assets';
     function loadStlyeSheet(name) {
       var link = document.createElement('link');
@@ -23,7 +21,6 @@
 <body>
   <div id="root" />
   <script type="text/javascript">
-		// window.service = require('../lib');
     loadScript('/vendor/bundle.js');
     loadScript('/main/bundle.js');
   </script>

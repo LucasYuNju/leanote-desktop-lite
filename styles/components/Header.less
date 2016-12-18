@@ -26,6 +26,41 @@
 	{
 	}
 
+  .create-note-buttons
+  {
+    .btn
+    {
+
+      &:not(:last-child)
+      {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      &:not(:first-child)
+      {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+
+      &:nth-child(1)
+      {
+        padding: 0 4px;
+      }
+
+      &:nth-child(2)
+      {
+        padding: 0 1px;
+        .icon
+        {
+          font-size: @font-size-smaller;
+          height: inherit;
+          line-height: inherit;
+        }
+      }
+    }
+  }
+
 	.toolbar-container
 	{
 	}

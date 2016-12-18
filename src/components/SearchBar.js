@@ -36,7 +36,7 @@ class SearchBox extends Component {
     return (
 			<div className="search-bar-container">
 				<div
-					className={classNames('btn', 'btn-search-bar', { 'btn-disabled': !navigateBackEnabled })}
+					className={classNames('btn', { 'btn-disabled': !navigateBackEnabled })}
 					onClick={this.handleNavigateBack}
 				>
 					<Icon
@@ -45,7 +45,7 @@ class SearchBox extends Component {
 					/>
 				</div>
 				<div
-					className={classNames('btn', 'btn-search-bar', { 'btn-disabled': !navigateForwardEnabled })}
+					className={classNames('btn', { 'btn-disabled': !navigateForwardEnabled })}
 					onClick={this.handleNavigateForward}
 				>
 					<Icon

@@ -42,6 +42,7 @@ class Header extends Component {
 					navigateBackEnabled={navigateBackEnabled}
 					navigateForwardEnabled={navigateForwardEnabled}
 				/>
+        {this.renderCreateButton()}
         <ToolBarContainer />
       </TitleBar>
     );
@@ -59,21 +60,24 @@ class Header extends Component {
 
 	renderCreateButton() {
 		return (
-			<div className="osx-buttons">
-				<div className="osx-button create-note-button" onClick={this.createNote}>
-					<span className="text">
-						Create Note
-					</span>
-				</div>
-				<div className="osx-button dropdown-button" onClick={this.handleCreateButtonClicked}>
-					<Icon iconName="chevron-down" />
-				</div>
-			</div>
+      <div className="create-note-buttons">
+        <div
+          className={classNames('btn')}
+          onClick={this.createNote}
+        >
+          <span className="text">New Note</span>
+        </div>
+        <div
+          className={classNames('btn')}
+          onClick={this.dropdown}
+        >
+          <Icon iconName="chevron-down" />
+        </div>
+      </div>
 		);
 	}
 
   handleSyncClick = () => {
-    // this.props.sendNotes();
     this.setState({
       synchonizing: true,
     });
@@ -84,7 +88,7 @@ class Header extends Component {
     }, 2000);
   };
 
-  handleCreateButtonClicked = (event) => {
+  dropdown = (event) => {
     if (!this.menu) {
       const template = [
         {
