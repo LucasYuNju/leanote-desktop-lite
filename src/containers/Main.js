@@ -25,7 +25,8 @@ class Main extends Component {
   componentWillReceiveProps(nextProps) {
     const { syncIfNeeded, token, userId } = nextProps;
     if (token) {
-      service.init(userId, token);
+      // Too late to init service
+      // service.init(token);
       syncIfNeeded();
       setTimeout(() => {
         ipcRenderer.send('main-window-ready');

@@ -13,8 +13,14 @@ class LoginFormContainer extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    token: state.user.token,
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(UserActions, dispatch);
 }
 
-export default connect(() => ({}), mapDispatchToProps)(LoginFormContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginFormContainer);

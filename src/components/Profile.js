@@ -24,7 +24,7 @@ class User extends Component {
         {
           label: 'Sign out',
           click: () => {
-            ipcRenderer.send('auth-requested');
+            ipcRenderer.send('auth-request');
           },
         },
       ];

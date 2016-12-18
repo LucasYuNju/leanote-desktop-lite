@@ -1,5 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 
+const leanote = require('./lib');
+
 let mainWindow;
 let authWindow;
 
@@ -60,16 +62,20 @@ app.on('activate', function () {
   }
 });
 
-ipcMain.on('auth-requested', (event, arg) => {
+ipcMain.on('auth-request', (event, arg) => {
   if (mainWindow) {
     mainWindow.close();
     createAuthWindow();
   }
 });
 
-ipcMain.on('auth-succeeded', (event, arg) => {
-  authWindow.close();
+ipcMain.on('auth-success', (event, arg) => {
+  // authWindow.close();
   createMainWindow();
+});
+
+ipcMain.on('register-protocol', (event, token) => {
+  leanote.init(token);
 });
 
 // ready-to-show is too early, did-finish-load may be blocked by image downloading

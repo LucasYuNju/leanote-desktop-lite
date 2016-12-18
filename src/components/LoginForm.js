@@ -5,6 +5,7 @@ const { ipcRenderer } = require('electron');
 class LoginForm extends React.Component {
   static propTypes = {
     login: PropTypes.func.isRequired,
+    token: PropTypes.string,
   };
 
   state = {
@@ -13,40 +14,19 @@ class LoginForm extends React.Component {
     submitted: false,
   };
 
-  handleAccountChange = (e) => {
-    this.setState({
-      account: e.target.value
-    });
-  };
-
-  handlePasswordChange = (e) => {
-    this.setState({
-      password: e.target.value
-    });
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const account = this.state.account;
-    const password = this.state.password;
-    const host = 'https://leanote.com';
-    this.setState({
-      submitted: true,
-    });
-    this.props
-      .login(account, password, host)
-      .then(() => {
-        setTimeout(() => {
-          ipcRenderer.send('auth-succeeded');
-        }, 200);
-      }, () => {
-        // set error msg
-      });
-  };
+  componentWillReceiveProps(nextProps) {
+    const { token } = nextProps;
+    if (token) {
+      setTimeout(() => {
+        ipcRenderer.send('register-protocol', token);
+        ipcRenderer.send('auth-success');
+      }, 200);
+    }
+  }
 
   render() {
     return (
-      <form className="login-form" onSubmit={this.handleSubmit}>
+      <form className="login-form" onSubmit={this.handleFormSubmit}>
         <div className="row">
           <input
             type="text"
@@ -89,6 +69,38 @@ class LoginForm extends React.Component {
       </div>
     );
   }
+
+  handleAccountChange = (e) => {
+    this.setState({
+      account: e.currentTarget.value
+    });
+  };
+
+  handlePasswordChange = (e) => {
+    this.setState({
+      password: e.currentTarget.value
+    });
+  };
+
+  handleFormSubmit = (e) => {
+    e.preventDefault();
+    const account = this.state.account;
+    const password = this.state.password;
+    const host = 'https://leanote.com';
+    this.setState({
+      submitted: true,
+    });
+    this.props
+      .login(account, password, host)
+      .then((res) => {
+        // setTimeout(() => {
+        //   // ipcRenderer.send('register-protocol');
+        //   ipcRenderer.send('auth-success');
+        // }, 200);
+      }, () => {
+        // set error msg
+      });
+  };
 }
 
 export default LoginForm;

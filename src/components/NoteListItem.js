@@ -26,7 +26,6 @@ class NoteListItem extends Component {
 
   renderThumbnail(thumbnail) {
 		if (thumbnail) {
-      console.log(thumbnail);
 			return (
 	      <div
 	        className="thumbnail"
