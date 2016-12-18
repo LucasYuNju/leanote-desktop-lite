@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, {Component, PropTypes} from 'react';
 
-import { findThumbnail, getAbstract } from '../util/regex';
+import { getThumbnail, getAbstract } from '../util/regex';
 import Icon from '../components/Icon';
 import MarkdownEditor from '../components/MarkdownEditor';
 import TagBar from '../components/TagBar';
@@ -64,11 +64,10 @@ class Note extends Component {
       abstract: getAbstract(content),
       content,
       noteId: this.props.note.noteId,
-      thumbnail: findThumbnail(content),
+      thumbnail: getThumbnail(content),
       usn: this.props.note.usn,
     });
   };
 }
-
 
 export default Note;

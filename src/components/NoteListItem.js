@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-import Link from '../components/Link';
 import { fromNow } from '../util/timeFormat';
+import { httpsToLeanote } from '../util/regex';
+import Link from '../components/Link';
 
 class NoteListItem extends Component {
   static propTypes = {
@@ -23,12 +24,13 @@ class NoteListItem extends Component {
     view: 'snippet',
   };
 
-  renderThumbnail(imgSrc) {
-		if (imgSrc) {
+  renderThumbnail(thumbnail) {
+		if (thumbnail) {
+      console.log(thumbnail);
 			return (
 	      <div
 	        className="thumbnail"
-	        style={{backgroundImage: `url(${imgSrc})`}}
+	        style={{backgroundImage: `url(${httpsToLeanote(thumbnail)})`}}
 	      >
 	      </div>
 	    );
@@ -43,8 +45,6 @@ class NoteListItem extends Component {
       thumbnail,
 			selected,
     } = this.props;
-    // TODO selected note
-    // console.log('note list item redraw', note);
     return (
       <Link
         className={classNames('note-list-item', { selected: selected }, className)}

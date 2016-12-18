@@ -1,7 +1,6 @@
-import { arrayOf, normalize } from 'normalizr';
-import { camelizeKeys, pascalizeKeys } from 'humps';
+import { arrayOf } from 'normalizr';
 
-import { findThumbnail, getAbstract } from '../util/regex';
+import { getThumbnail, getAbstract } from '../util/regex';
 import { noteSchema } from '../constants/Schemas';
 import * as types from '../constants/ActionTypes';
 
@@ -52,7 +51,7 @@ export function fetchNoteAndContent(noteId) {
 			schema: noteSchema,
 		}).then(action => {
       const note = action.payload.entities.notes[action.payload.result];
-      note.thumbnail = findThumbnail(note.content);
+      note.thumbnail = getThumbnail(note.content);
       note.abstract = getAbstract(note.content);
       dispatch({ type: types.GET_NOTE_CONTENT_SUCCESS, payload: action.payload });
     });

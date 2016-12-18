@@ -14,7 +14,7 @@ export function leanoteToHttps(text) {
   return replaced;
 }
 
-export function findThumbnail(text) {
+export function getThumbnail(text) {
   const matches = httpsRegex.exec(text);
   if (matches) {
     return matches[0];

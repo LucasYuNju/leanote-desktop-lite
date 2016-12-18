@@ -48,7 +48,7 @@ class NoteList extends Component {
 				key={note.noteId}
         id={note.noteId}
         note={note}
-        thumbnail={''}
+        thumbnail={note.thumbnail}
       />
     );
   }
