@@ -34,7 +34,10 @@ export default store => next => action => {
   if (action.type === REHYDRATE) {
     // REHYDRATE triggers other actions, so token is supposed to be initialized after next() return.
     const result = next(action);
-    if (!token) {
+    if (token) {
+      require('electron').ipcRenderer.send('register-protocol', token);
+    }
+    else {
       require('electron').ipcRenderer.send('auth-request');
     }
     return result;
