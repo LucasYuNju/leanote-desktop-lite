@@ -44,3 +44,6 @@ docs/design
 
 # dict
 *.utf8
+
+# crawled data
+/lib/recommand/data
