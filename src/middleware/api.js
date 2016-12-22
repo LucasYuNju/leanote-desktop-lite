@@ -28,16 +28,14 @@ function callApi(url, options, schema) {
 // A Redux middleware that interprets actions with url and types info specified.
 // Performs the call and promises when such actions are dispatched.
 export default store => next => action => {
-  if (!token) {
+  if (!token && store.getState().user.token) {
     token = store.getState().user.token;
+    require('electron').ipcRenderer.send('register-protocol', token);
   }
   if (action.type === REHYDRATE) {
-    // REHYDRATE triggers other actions, so token is supposed to be initialized after next() return.
+    // Action REHYDRATE triggers other actions, and token is supposed to be initialized after next() return.
     const result = next(action);
-    if (token) {
-      require('electron').ipcRenderer.send('register-protocol', token);
-    }
-    else {
+    if (!token) {
       require('electron').ipcRenderer.send('auth-request');
     }
     return result;
