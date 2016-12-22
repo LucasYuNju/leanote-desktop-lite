@@ -3,7 +3,7 @@
   width: 100%;
   height: 38px;
   flex-shrink: 0;
-  padding-left: 97px;
+  padding-left: 91px;
   display: flex;
   align-items: center;
   background-color: @header-bg;
@@ -30,31 +30,27 @@
   .create-note-buttons
   {
     flex-grow: 0;
-    margin-left: 8px;
+    margin-right: 8px;
 
     .btn
     {
 
-      &:not(:last-child)
+      &.create-button
       {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
+        padding: 0 11px;
+        display: flex;
+        align-items: center;
+
+        img
+        {
+          zoom: 0.5;
+        }
       }
 
-      &:not(:first-child)
-      {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-      }
-
-      &:nth-child(1)
-      {
-        padding: 0 4px;
-      }
-
-      &:nth-child(2)
+      &.dropdown-button
       {
         padding: 0 1px;
+
         .icon
         {
           font-size: @font-size-smaller;

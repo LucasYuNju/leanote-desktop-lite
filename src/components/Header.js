@@ -23,10 +23,6 @@ class Header extends Component {
     userId: PropTypes.string,
   };
 
-  state = {
-    synchonizing: false,
-  }
-
   render() {
 		const {
 			navigateBack,
@@ -36,40 +32,30 @@ class Header extends Component {
 		} = this.props;
     return (
       <TitleBar className="header">
+        {this.renderCreateButton()}
 				<SearchBar
 					navigateBack={navigateBack}
 					navigateForward={navigateForward}
 					navigateBackEnabled={navigateBackEnabled}
 					navigateForwardEnabled={navigateForwardEnabled}
 				/>
-        {this.renderCreateButton()}
         <div className="placeholder" />
         <ToolBarContainer />
       </TitleBar>
     );
   }
 
-  renderSyncIcon() {
-    return (
-      <Icon
-        className={classNames({ 'rotate': this.state.synchonizing }, 'sync-icon')}
-        iconName="sync"
-        onClick={this.handleSyncClick}
-      />
-    );
-  }
-
 	renderCreateButton() {
 		return (
-      <div className="create-note-buttons">
+      <div className="create-note-buttons btns">
         <div
-          className={classNames('btn')}
+          className={classNames('btn', 'create-button')}
           onClick={this.createNote}
         >
-          <span className="text">New Note</span>
+          <img alt="compose" src="images/toolbar-compose@2x.png" />
         </div>
         <div
-          className={classNames('btn')}
+          className={classNames('btn', 'dropdown-button')}
           onClick={this.dropdown}
         >
           <Icon iconName="chevron-down" />
@@ -77,17 +63,6 @@ class Header extends Component {
       </div>
 		);
 	}
-
-  handleSyncClick = () => {
-    this.setState({
-      synchonizing: true,
-    });
-    setTimeout(() => {
-      this.setState({
-        synchonizing: false,
-      });
-    }, 2000);
-  };
 
   dropdown = (event) => {
     if (!this.menu) {
