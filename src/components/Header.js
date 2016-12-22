@@ -43,6 +43,7 @@ class Header extends Component {
 					navigateForwardEnabled={navigateForwardEnabled}
 				/>
         {this.renderCreateButton()}
+        <div className="placeholder" />
         <ToolBarContainer />
       </TitleBar>
     );

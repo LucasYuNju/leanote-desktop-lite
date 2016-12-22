@@ -44,3 +44,6 @@ dist/assets
 
 # design images
 docs/design
+
+# crawled data
+/lib/recommend/data
