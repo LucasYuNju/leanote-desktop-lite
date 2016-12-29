@@ -2,12 +2,12 @@
   "name": "leanote-desktop-react",
   "version": "0.2.0",
   "description": "Leanote Desktop App, based on Electron",
-  "main": "./src/browser",
+  "main": "./src/browser/main.js",
   "scripts": {
-		"dev": "npm start & npm run server",
+    "dev": "npm start & npm run server",
     "build": "webpack",
     "server": "node ./build/server.js",
-    "start": "cross-env NODE_ENV=development electron ./",
+    "start": "electron . --dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -35,6 +35,7 @@
     "normalizr": "^2.2.1",
     "objectid-browser": "0.0.1",
     "octicons": "^3.1.0",
+    "optimist": "^0.6.1",
     "path-to-regexp": "^1.7.0",
     "quill": "^1.1.1",
     "react": "^15.3.2",
@@ -55,7 +56,6 @@
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.5.0",
     "concurrently": "^2.2.0",
-    "cross-env": "^3.1.3",
     "css-loader": "^0.25.0",
     "eslint": "^3.4.0",
     "eslint-config-airbnb": "^10.0.1",
