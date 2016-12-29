@@ -2,27 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <script>
-    var baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/assets' : './assets';
-    function loadStlyeSheet(name) {
-      var link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = baseUrl + name;
-      document.write(link.outerHTML);
-    }
-    function loadScript(name) {
-      var script = document.createElement('script');
-      script.src = baseUrl + name;
-      document.write(script.outerHTML);
-    }
-    loadStlyeSheet('/auth/bundle.css');
-  </script>
+  <link rel="stylesheet" href="assets/auth/bundle.css"/>
 </head>
 <body>
   <div id="root" />
-  <script type="text/javascript">
-    loadScript('/vendor/bundle.js');
-    loadScript('/auth/bundle.js');
-  </script>
+  <script src="assets/vendor/bundle.js" charset="utf-8"></script>
+  <script src="assets/auth/bundle.js" charset="utf-8"></script>
 </body>
 </html>

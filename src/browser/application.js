@@ -22,7 +22,7 @@ class Application {
     });
 
     app.on('activate', () => {
-      if (authWindow === null && mainWindow === null) {
+      if (this.authWindow === null && this.mainWindow === null) {
         this.createMainWindow();
       }
     });
@@ -66,12 +66,8 @@ class Application {
     });
     this.mainWindow.loadURL(path.join(this.baseUrl, 'main.html'));
 
-    this.mainWindow.once('ready-to-show', () => {
-
-    });
-
-    this.mainWindow.on('closed', function () {
-      mainWindow = null;
+    this.mainWindow.on('closed', () => {
+      this.mainWindow = null;
     });
   }
 
