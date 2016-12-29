@@ -7,11 +7,11 @@ module.exports = {
 	context: path.resolve("./src"),
   entry: {
     vendor: ['babel-polyfill'],
-    main: ['./main.js', '../styles/index.less'],
-    auth: ['./auth.js', '../styles/index.less']
+    main: ['./main.js', '../static/index.less'],
+    auth: ['./auth.js', '../static/index.less']
   },
   output: {
-      path: path.resolve("./dist/assets"),
+      path: path.resolve("./static/assets"),
       publicPath: "/assets/",
       filename: "[name]/bundle.js"
   },
@@ -46,5 +46,5 @@ module.exports = {
     new ExtractTextPlugin("[name]/bundle.css"),
     new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|ko|ja|zh-cn)$/)
   ],
-  target: "electron"
+  target: "electron-renderer"
 };

@@ -4,9 +4,9 @@ const path = require("path");
 const webpackDevMiddleware = require("webpack-dev-middleware");
 
 const app = express();
-app.use(express.static(path.join(__dirname, './dist')));
+app.use(express.static(path.join(__dirname, '..', 'static')));
 
-const builderConfig = require("./webpack.config");
+const builderConfig = require("../webpack.config");
 const builder = webpack(builderConfig);
 app.use(webpackDevMiddleware(
   builder,

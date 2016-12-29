@@ -2,11 +2,11 @@
   "name": "leanote-desktop-react",
   "version": "0.2.0",
   "description": "Leanote Desktop App, based on Electron",
-  "main": "./lib",
+  "main": "./src/browser",
   "scripts": {
 		"dev": "npm start & npm run server",
     "build": "webpack",
-    "server": "node ./server.js",
+    "server": "node ./build/server.js",
     "start": "cross-env NODE_ENV=development electron ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

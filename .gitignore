@@ -46,4 +46,4 @@ dist/assets
 docs/design
 
 # crawled data
-/lib/recommend/data
+/src/browser/recommend/data

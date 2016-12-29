@@ -21,7 +21,6 @@ function unregister(callback) {
 }
 
 function register(userToken) {
-  console.log('####### register token', userToken);
   if (token === userToken) {
     return;
   }

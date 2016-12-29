@@ -1,22 +1,27 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('path');
 
 const protocol = require('./protocol');
 
 let mainWindow;
 let authWindow;
+const DEV = process.env.NODE_ENV === 'development';
+const BASE_URL = DEV ? 'http://localhost:3000' : `file://${path.join(__dirname, '..', '..', 'static')}`;
 
 function createAuthWindow() {
   authWindow = new BrowserWindow({
     center: true,
     fullscreenable: false,
-    resizable: process.env.NODE_ENV === 'development',
+    resizable: DEV,
     width: 320,
     height: 420,
     show: false,
     titleBarStyle: 'hidden',
+    webPreferences: {
+      webSecurity: false,
+    },
   });
-  // remote pages do not have node integration
-  authWindow.loadURL(`file://${__dirname}/../dist/auth.html`);
+  authWindow.loadURL(path.join(BASE_URL, 'auth.html'));
 
   authWindow.on('ready-to-show', () => {
     authWindow.show();
@@ -33,11 +38,14 @@ function createMainWindow() {
     fullscreenable: false,
     width: 1080,
     height: 680,
-    show: process.env.NODE_ENV === 'development',
+    show: DEV,
     titleBarStyle: 'hidden-inset',
     useContentSize: true,
+    webPreferences: {
+      webSecurity: false,
+    },
   });
-  mainWindow.loadURL(`file://${__dirname}/../dist/main.html`);
+  mainWindow.loadURL(path.join(BASE_URL, 'main.html'));
 
   mainWindow.once('ready-to-show', () => {
 
@@ -70,7 +78,7 @@ ipcMain.on('auth-request', (event, arg) => {
 });
 
 ipcMain.on('auth-success', (event, arg) => {
-  // authWindow.close();
+  authWindow.close();
   createMainWindow();
 });
 
