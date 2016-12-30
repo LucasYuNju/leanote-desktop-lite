@@ -8,11 +8,11 @@ function notebooks(state = {}, action) {
     case types.ADD_NOTE:
       return {
         ...state,
-				[action.notebookId]: {
-					...state[action.notebookId],
+				[action.payload.notebookId]: {
+					...state[action.payload.notebookId],
 					noteIds: [
-						...state[action.notebookId].noteIds,
-						action.note.noteId,
+						...state[action.payload.notebookId].noteIds,
+						action.payload.note.noteId,
 					],
 				}
       };

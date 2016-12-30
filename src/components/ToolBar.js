@@ -6,9 +6,10 @@ import TagPicker from '../components/TagPicker.js';
 
 class ToolBar extends Component {
   static propTypes = {
+    deleteNote: PropTypes.func.isRequired,
 		editMode: PropTypes.bool,
 		isMarkdown: PropTypes.bool,
-		noteId: PropTypes.string.isRequired,
+		note: PropTypes.object.isRequired,
 		toggleEditMode: PropTypes.func,
   };
 
@@ -25,7 +26,10 @@ class ToolBar extends Component {
 					<div className="btn btn-tool-bar">
 						<Icon iconName="history" />
 					</div>
-					<div className="btn btn-tool-bar">
+					<div
+            className="btn btn-tool-bar"
+            onClick={this.deleteNote}
+          >
 						<Icon iconName="trashcan" />
 					</div>
 				</div>
@@ -52,8 +56,12 @@ class ToolBar extends Component {
 		return null;
 	}
 
+  deleteNote = () => {
+    this.props.deleteNote(this.props.note);
+  }
+
 	toggleEditMode = () => {
-		this.props.toggleEditMode(this.props.noteId);
+		this.props.toggleEditMode(this.props.note.noteId);
 	}
 }
 

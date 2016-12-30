@@ -27,7 +27,7 @@
   "homepage": "https://github.com/LucasYuNju/leanote-desktop-react#readme",
   "dependencies": {
     "classnames": "^2.2.5",
-    "electron": "^1.4.0",
+    "electron": "^1.4.13",
     "humps": "^2.0.0",
     "localforage": "^1.4.3",
     "lodash": "^4.16.6",
@@ -47,8 +47,7 @@
     "simplemde": "^1.11.2"
   },
   "devDependencies": {
-    "babel": "^6.5.2",
-    "babel-core": "^6.17.0",
+    "babel-cli": "^6.18.0",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.5",
     "babel-polyfill": "^6.13.0",

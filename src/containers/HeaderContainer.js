@@ -22,8 +22,15 @@ function mapStateToProps(state) {
     noteList,
 		user,
   } = state;
+  const params = parseUrl('/:noteListType?/:noteListId?/notes/:noteId?', navigator.path) || {};
+  const {
+    noteListType,
+    noteListId,
+  } = params;
+
   return {
     userId: user.userId,
+    notebookId: noteListType === 'notebooks' ? noteListId : null,
 		navigateBackEnabled: navigator.current > 1,
 		navigateForwardEnabled: navigator.current < navigator.length,
   }

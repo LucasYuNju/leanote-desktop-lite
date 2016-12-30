@@ -8,7 +8,7 @@ import { parseUrl } from '../util/RouteUtil';
 
 class ToolBarContainer extends Component {
   render() {
-		if (this.props.noteId) {
+		if (this.props.note) {
 			return (
 				<ToolBar {...this.props} />
 	    );
@@ -31,7 +31,7 @@ function mapStateToProps(state) {
 	return {
 		editMode: editMode[noteId] || false,
 		isMarkdown: note ? note.isMarkdown : false,
-		noteId,
+		note: entities.notes[noteId],
 	}
 }
 

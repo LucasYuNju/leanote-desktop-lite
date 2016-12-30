@@ -5,7 +5,7 @@ import { noteSchema } from '../constants/Schemas';
 import * as types from '../constants/ActionTypes';
 
 export function selectNote(noteId) {
-  return { type: types.SELECT_NOTE, noteId };
+  return { type: types.SELECT_NOTE, payload: { noteId } };
 }
 
 export function toggleEditMode(noteId) {
@@ -58,6 +58,24 @@ export function fetchNoteAndContent(noteId) {
 	}
 }
 
+
+export function createNote(note, notebookId) {
+  const now = new Date().toString();
+  note.createdTime = now;
+  note.updatedTime = now;
+  return (dispatch) => {
+    dispatch({ type: types.ADD_NOTE, payload: { note, notebookId } });
+    dispatch(selectNote(note.noteId));
+    dispatch({
+      types: [types.ADD_NOTE_REQUEST, types.ADD_NOTE_SUCCESS, null],
+      url: 'note/addNote',
+      method: 'POST',
+      body: note,
+      schema: noteSchema,
+    });
+  }
+}
+
 /**
  * param change: changed part of note object, only NoteId is required
  */
@@ -66,32 +84,29 @@ export function updateNote(note) {
     // optimistic update
     dispatch({ type: types.UPDATE_NOTE, payload: { note } });
     dispatch({
-      types: [types.POST_NOTE_REQUEST, types.POST_NOTE_SUCCESS, null],
+      types: [types.UPDATE_NOTE_REQUEST, types.UPDATE_NOTE_SUCCESS, null],
       url: 'note/updateNote',
       method: 'POST',
-      body: {
-        ...note,
-      },
+      body: note,
       schema: noteSchema,
-    }).then((action) => {
-      const note = action.payload.entities.notes[action.payload.result];
-      dispatch({
-        type: types.UPDATE_NOTE,
-        payload: {
-          note: {
-            noteId: note.noteId,
-            usn: note.usn
-          }
-        }
-      });
     });
   }
 }
 
-export function createNote(note, notebookId) {
+export function deleteNote(note) {
+  note.isTrash = true;
   return (dispatch) => {
-    dispatch({ type: types.ADD_NOTE, note, notebookId });
-    dispatch({ type: types.SELECT_NOTE, noteId: note.noteId });
+    dispatch({ type: types.DELETE_NOTE, payload: { note } });
+    dispatch({
+      types: [types.DELETE_NOTE_REQUEST, types.DELETE_NOTE_SUCCESS, types.DELETE_NOTE_FAILURE],
+      url: 'note/deleteTrash',
+      method: 'POST',
+      body: {
+        noteId: note.noteId,
+        usn: note.usn,
+      },
+      schema: noteSchema,
+    });
   }
 }
 

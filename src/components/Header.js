@@ -50,7 +50,7 @@ class Header extends Component {
       <div className="create-note-buttons btns">
         <div
           className={classNames('btn', 'create-button')}
-          onClick={this.createNote}
+          onClick={this.createNote.bind(this, null, false)}
         >
           <img alt="compose" src="images/toolbar-compose@2x.png" />
         </div>
@@ -69,11 +69,11 @@ class Header extends Component {
       const template = [
         {
           label: 'Create Note',
-          click: this.createNote.bind(this, null, false),
+          click: (event) => this.createNote.call(this, event, false),
         },
         {
           label: 'Create Markdown Note',
-          click: this.createNote.bind(this, null, true),
+          click: (event) => this.createNote.call(this, event, true),
         },
       ];
       this.menu = new Menu(template);
@@ -82,6 +82,10 @@ class Header extends Component {
   };
 
   createNote = (event, isMarkdown = false) => {
+    if (!this.props.notebookId) {
+      console.error('notebook not specified');
+      return;
+    }
     const note = {
       noteId: objectId(),
       title: '',
@@ -90,13 +94,10 @@ class Header extends Component {
       content: '',
       notebookId: this.props.notebookId,
       isNew: true,
-      fromUserId: this.props.userId,
       isMarkdown: isMarkdown,
-      createdTime: new Date().toString(),
-      updatedTime: new Date().toString(),
     };
     this.props.createNote(note, this.props.notebookId);
-    this.props.updateNote(note);
+    // this.props.updateNote(note);
   };
 }
 

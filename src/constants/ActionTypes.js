@@ -1,16 +1,9 @@
 /*
  * notes
  */
+// 以REQUEST、SUCCESS、FAILURE结尾的的action均涉及网络请求，其他的action仅仅是本地操作
 export const SELECT_NOTE = 'SELECT_NOTE';
-export const ADD_NOTE = 'ADD_NOTE';
-
 export const SORT_NOTE_LIST = 'SORT_NOTE_LIST';
-// update local store
-export const UPDATE_NOTE = 'UPDATE_NOTE';
-
-// send local changes to server
-export const SEND_NOTES_REQUESTED = 'SEND_NOTES_REQUESTED';
-
 export const TOGGLE_EDIT_MODE = 'TOGGLE_EDIT_MODE';
 
 export const GET_NOTES_REQUEST = 'GET_NOTES_REQUEST';
@@ -21,9 +14,20 @@ export const GET_NOTE_CONTENT_REQUEST = 'GET_NOTE_CONTENT_REQUEST';
 export const GET_NOTE_CONTENT_SUCCESS = 'GET_NOTE_CONTENT_SUCCESS';
 export const GET_NOTE_CONTENT_FAILURE = 'GET_NOTE_CONTENT_FAILURE';
 
-export const POST_NOTE_REQUEST = 'POST_NOTE_REQUEST';
-export const POST_NOTE_SUCCESS = 'POST_NOTE_SUCCESS';
-export const POST_NOTE_FAILURE = 'POST_NOTE_FAILURE';
+// update local store
+export const UPDATE_NOTE = 'UPDATE_NOTE';
+export const UPDATE_NOTE_REQUEST = 'UPDATE_NOTE_REQUEST';
+export const UPDATE_NOTE_SUCCESS = 'UPDATE_NOTE_SUCCESS';
+export const UPDATE_NOTE_FAILURE = 'UPDATE_NOTE_FAILURE';
+
+export const ADD_NOTE = 'ADD_NOTE';
+export const ADD_NOTE_REQUEST = 'ADD_NOTE_REQUEST';
+export const ADD_NOTE_SUCCESS = 'ADD_NOTE_SUCCESS';
+
+export const DELETE_NOTE = 'DELETE_NOTE';
+export const DELETE_NOTE_REQUEST = 'DELETE_NOTE_REQUEST';
+export const DELETE_NOTE_SUCCESS = 'DELETE_NOTE_SUCCESS';
+export const DELETE_NOTE_FAILURE = 'DELETE_NOTE_FAILURE';
 
 /*
  * tags

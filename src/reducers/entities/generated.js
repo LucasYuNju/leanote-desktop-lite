@@ -9,10 +9,11 @@ const initialState = {
 }
 function generated(state = initialState, action) {
   switch(action.type) {
-    case types.UPDATE_NOTE:
+    case types.ADD_NOTE_SUCCESS:
+    case types.UPDATE_NOTE_SUCCESS:
 			return {
 				...state,
-				latest: union(state.latest, [action.payload.note.noteId]).slice(0, 10)
+				latest: union(state.latest, [action.payload.result]).slice(0, 10)
 			}
     default:
       return state;

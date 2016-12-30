@@ -41,7 +41,7 @@ class Note extends Component {
           active={!note.isMarkdown}
           note={note}
           onContentChange={this.handleContentChange}
-          onTitleChange={this.handleTitlChange}
+          onTitleChange={this.handleTitleChange}
         />
         <MarkdownEditor
           active={note.isMarkdown}
@@ -52,7 +52,7 @@ class Note extends Component {
     );
   }
 
-  handleTitlChange = (title) => {
+  handleTitleChange = (title) => {
     this.props.updateNote({
       ...this.props.note,
       title,

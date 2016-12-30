@@ -8,7 +8,7 @@ function notes(state = {}, action) {
     case types.ADD_NOTE:
       return {
         ...state,
-				[action.note.noteId]: action.note,
+				[action.payload.note.noteId]: action.payload.note,
       };
 		case types.LINK_TAG:
 			return {
@@ -48,14 +48,26 @@ function notes(state = {}, action) {
 				...notes,
       };
     case types.UPDATE_NOTE:
-			// TODO DELETE
       return {
         ...state,
-				[action.payload.note.noteId]: {
+        [action.payload.note.noteId]: {
           ...state[action.payload.note.noteId],
           ...action.payload.note,
         },
+      }
+    case types.ADD_NOTE_SUCCESS:
+    case types.UPDATE_NOTE_SUCCESS:
+      return {
+        ...state,
+				[action.payload.result]: {
+          ...state[action.payload.result],
+          ...action.payload.entities.notes[action.payload.result],
+        },
       };
+    case types.DELETE_NOTE:
+      const copy = { ...state };
+      delete copy[action.note.noteId];
+      return copy;
     default:
       return state;
   }
