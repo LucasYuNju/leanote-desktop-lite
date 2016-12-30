@@ -60,6 +60,4 @@ export const GET_LAST_USN_SUCCESS = 'GET_LAST_USN_SUCCESS';
 /*
  * navigator
  */
-export const NAVIGATE_BACK = 'NAVIGATE_BACK';
-export const NAVIGATE_FORWARD = 'NAVIGATE_FORWARD';
 export const CHANGE_PATH = 'CHANGE_PATH';

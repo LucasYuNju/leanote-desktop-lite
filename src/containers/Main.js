@@ -7,8 +7,6 @@ import Match from '../components/Match';
 import Nav from '../components/Nav';
 import NoteContainer from '../containers/NoteContainer';
 import NoteListContainer from '../containers/NoteListContainer';
-import NoteStackListContainer from '../containers/NoteStackListContainer';
-import ProfileContainer from '../containers/ProfileContainer';
 import * as SyncActions from '../actions/SyncActions';
 import * as NavigatorActions from '../actions/NavigatorActions';
 
@@ -16,7 +14,6 @@ const { ipcRenderer } = require('electron');
 
 class Main extends Component {
   static propTypes = {
-    initNavigator: PropTypes.func.isRequired,
     syncIfNeeded: PropTypes.func.isRequired,
     token: PropTypes.string,
     userId: PropTypes.string,
@@ -25,8 +22,6 @@ class Main extends Component {
   componentWillReceiveProps(nextProps) {
     const { syncIfNeeded, token, userId } = nextProps;
     if (token) {
-      // Too late to init service
-      // service.init(token);
       syncIfNeeded();
       setTimeout(() => {
         ipcRenderer.send('main-window-ready');
@@ -43,20 +38,13 @@ class Main extends Component {
 			<div className="main-page">
 				<HeaderContainer />
 				<div className="content">
-					<div className="nav">
-						<NoteStackListContainer />
-						<ProfileContainer />
-					</div>
+          <Nav />
 					<NoteListContainer />
 					<NoteContainer />
 				</div>
 			</div>
 		);
   }
-
-	componentDidMount() {
-		this.props.initNavigator();
-	}
 }
 
 function mapStateToProps(state) {

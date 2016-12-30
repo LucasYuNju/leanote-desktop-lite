@@ -5,18 +5,15 @@ import objectId from 'objectid-browser';
 
 import Icon from '../components/Icon';
 import Menu from '../util/SystemMenu';
-import SearchBar from '../components/SearchBar';
+import Navigator from '../components/Navigator';
 import TitleBar from '../components/TitleBar';
 import ToolBarContainer from '../containers/ToolBarContainer';
 import ProfileContainer from '../containers/ProfileContainer';
 
 class Header extends Component {
   static propTypes = {
+    changePath: PropTypes.func.isRequired,
     createNote: PropTypes.func.isRequired,
-		navigateBack: PropTypes.func.isRequired,
-		navigateForward: PropTypes.func.isRequired,
-		navigateBackEnabled: PropTypes.bool.isRequired,
-		navigateForwardEnabled: PropTypes.bool.isRequired,
     notebookId: PropTypes.string,
     sendNotes: PropTypes.func,
     updateNote: PropTypes.func.isRequired,
@@ -24,21 +21,11 @@ class Header extends Component {
   };
 
   render() {
-		const {
-			navigateBack,
-			navigateForward,
-			navigateBackEnabled,
-			navigateForwardEnabled,
-		} = this.props;
+    const { changePath } = this.props;
     return (
       <TitleBar className="header">
         {this.renderCreateButton()}
-				<SearchBar
-					navigateBack={navigateBack}
-					navigateForward={navigateForward}
-					navigateBackEnabled={navigateBackEnabled}
-					navigateForwardEnabled={navigateForwardEnabled}
-				/>
+				<Navigator changePath={changePath} />
         <div className="placeholder" />
         <ToolBarContainer />
       </TitleBar>
