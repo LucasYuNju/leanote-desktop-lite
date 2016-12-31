@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 
 import * as NoteActions from '../actions/NoteActions';
 import ToolBar from '../components/ToolBar';
-import { parseUrl } from '../util/RouteUtil';
 
 class ToolBarContainer extends Component {
   render() {
@@ -23,10 +22,9 @@ function mapStateToProps(state) {
 		editMode,
 		navigator,
 	} = state;
-	const params = parseUrl('/:noteListType/:noteListId/notes/:noteId?', navigator.path) || {};
 	const {
 		noteId
-	} = params;
+	} = navigator.params;
 	const note = entities.notes[noteId];
 	return {
 		editMode: editMode[noteId] || false,

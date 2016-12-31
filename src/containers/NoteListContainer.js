@@ -5,18 +5,13 @@ import React, { Component, PropTypes } from 'react';
 import NoteList from '../components/NoteList';
 import * as NavigatorActions from '../actions/NavigatorActions';
 import * as NoteActions from '../actions/NoteActions';
-import { parseUrl } from '../util/RouteUtil';
 
 class NoteListContainer extends Component {
   render() {
     return (
-      <NoteList {...this.props} selectNote={this.selectNote}/>
+      <NoteList {...this.props} selectNote={this.props.selectNote}/>
     );
   }
-
-	selectNote = (noteId) => {
-		this.props.replaceState(`#/${this.props.noteListType}/${this.props.noteListId}/notes/${noteId}`);
-	};
 }
 
 function mapStateToProps(state) {
@@ -26,16 +21,15 @@ function mapStateToProps(state) {
     note,
     noteList: noteListRef,
   } = state;
-	const params = parseUrl('/:noteListType?/:noteListId?/notes/:noteId?', navigator.path) || {};
 	const {
-		noteListType,
-		noteListId,
+		noteStackType,
+		noteStackId,
 		noteId,
-	} = params;
+	} = navigator.params;
 
-  const result = { ...params };
-  if (noteListId) {
-    const noteList = entities[noteListType][noteListId];
+  const result = { ...navigator.params };
+  if (noteStackId && (noteStackType === 'notebook' || noteStackType === 'tag')) {
+    const noteList = entities[noteStackType + 's'][noteStackId];
     const order = noteListRef.order;
 		result.notes = noteList.noteIds
 			.map(noteId => entities.notes[noteId])
@@ -49,8 +43,8 @@ function mapStateToProps(state) {
 				const key2 = extractKey(note2);
 				return order.ascending ? key1 > key2 : key1 < key2;
 			});
-    result.notebookId = noteListId;
-    result.notebookTitle = noteListType === 'notebooks' ? noteList.title : noteList.tag;
+    result.notebookId = noteStackId;
+    result.notebookTitle = noteStackType === 'notebook' ? noteList.title : noteList.tag;
   }
   return result;
 }

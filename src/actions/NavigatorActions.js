@@ -5,7 +5,14 @@ import * as types from '../constants/ActionTypes';
 // 所有的路由变化的来源，包括超链接、selectNote()和selectNoteStack()，都是基于state.navigator.path的，和当前真实的window.location.hash无关。
 // 以确保在state.navigator反序列化之后（此时window.location.hash !== state.navigator.path），页面路由仍然能够正常工作。
 
-const URL_PATTERN = '/:subject/:noteStackType?-:noteStackId?/:noteId?';
+function parse(path) {
+  const params = parseUrl('/:subject/:noteStackType?-:noteStackId?/:noteId?', path);
+  if (Object.keys(params).length) {
+    return params;
+  }
+  // path-to-regex的问题，处理不了带连字符的情况，只能分两种情况分别parse
+  return parseUrl('/:subject/*', path);
+}
 
 // 更改当前的window.location.hash，不触发hashchange事件，不影响history stack
 export function replaceState(path) {
@@ -21,7 +28,7 @@ export function replaceState(path) {
 // 用于选择默认笔记，也就是当前排序的第一条笔记。
 export function selectNote(noteId) {
   return (dispatch, getState) => {
-    const params = parseUrl(URL_PATTERN, getState().navigator.path);
+    const params = getState().navigator.params;
     if (params.subject !== 'edit') {
       console.error(`Action not allowed under current sbuject： ${params.subject}`);
     }
@@ -37,7 +44,7 @@ export function selectNote(noteId) {
 // 用于选择默认笔记本
 export function selectNoteStack(noteStackId, noteStackType) {
   return (dispatch, getState) => {
-    const params = parseUrl(URL_PATTERN, getState().navigator.path);
+    const params = getState().navigator.params;
     if (params.subject !== 'edit') {
       console.error(`Action not allowed under current sbuject： ${params.subject}`);
     }
@@ -51,12 +58,17 @@ export function selectNoteStack(noteStackId, noteStackType) {
 }
 
 export function changePath(path) {
-  const params = parseUrl(URL_PATTERN, path);
-  console.log(path, params);
- 	return { type: types.REPLACE_PARAMS, payload: { path, params }};
+  const params = parse(path);
+  console.log('navigator', path, params);
+ 	return { type: types.CHANGE_PATH, payload: { path, params }};
 }
 
-window.location.hash = '/edit';
-window.addEventListener('hashchange', () => {
-  changePath(window.location.hash);
-});
+// 为了得到dispatch函数的引用，必须由Main调用
+export function initRouter() {
+  return (dispatch) => {
+    window.addEventListener('hashchange', () => {
+      dispatch(changePath(window.location.hash));
+    });
+    window.location.hash = '/edit';
+  }
+}

@@ -8,12 +8,11 @@ export function parseUrl(pattern, url) {
   const regex = toRegex(pattern, keys);
   const match = regex.exec(url);
   if (!match) {
-		return null;
+		return {};
 	}
   const params = Object.create(null);
   for (let i = 1; i < match.length; i++) {
-    params[keys[i - 1].name] =
-      match[i] !== undefined ? match[i] : undefined;
+    params[keys[i - 1].name] = match[i] !== undefined ? match[i] : undefined;
   }
   return params;
 }

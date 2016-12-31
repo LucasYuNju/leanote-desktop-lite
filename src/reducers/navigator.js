@@ -1,13 +1,15 @@
 import * as types from '../constants/ActionTypes';
 
 const initialState = {
-	path: '',
-  params: {},
+	path: '/edit',
+  params: {
+    subject: 'edit',
+  },
 };
 
 export default function navigator(state = initialState, action) {
 	switch(action.type) {
-		case types.REPLACE_PARAMS:
+		case types.CHANGE_PATH:
       return {
         ...state,
         path: action.payload.path,

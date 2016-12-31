@@ -4,7 +4,6 @@ import React, { Component, PropTypes } from 'react';
 
 import TagPickerPopover from '../components/TagPickerPopover';
 import * as TagActions from '../actions/TagActions';
-import { parseUrl } from '../util/RouteUtil';
 
 class TagPickerPopoverContainer extends Component {
   render() {
@@ -19,17 +18,16 @@ function mapStateToProps(state) {
     entities,
 		navigator,
   } = state;
-	const params = parseUrl('/(.*)/(.*)/notes/:noteId', navigator.path) || {};
 	const tagged = {};
 	Object.keys(entities.tags).forEach(tag => {
 		tagged[tag] = false;
 	});
-	entities.notes[params.noteId].tags.forEach(tag => {
+	entities.notes[navigator.params.noteId].tags.forEach(tag => {
 		tagged[tag] = true;
 	});
 	return {
 		tagged,
-		noteId: params.noteId,
+		noteId: navigator.params.noteId,
 	};
 }
 

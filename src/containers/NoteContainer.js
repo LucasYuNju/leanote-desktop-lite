@@ -5,7 +5,6 @@ import React, { Component, PropTypes } from 'react';
 import Note from '../components/Note';
 import * as NoteActions from '../actions/NoteActions';
 import * as TagActions from '../actions/TagActions';
-import { parseUrl } from '../util/RouteUtil';
 
 class NoteContainer extends Component {
   render() {
@@ -22,11 +21,11 @@ function mapStateToProps(state) {
   const {
 		editMode,
     entities,
+    navigator,
   } = state;
-	const params = parseUrl('/(.*)/(.*)/notes/:noteId', state.navigator.path) || {};
 	const {
 		noteId,
-	} = params;
+	} = navigator.params;
 	const ret = {
 		allTags: Object.keys(entities.tags),
 	};

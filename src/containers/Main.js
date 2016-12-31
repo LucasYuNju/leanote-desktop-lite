@@ -29,6 +29,10 @@ class Main extends Component {
     }
   }
 
+  componentWillMount() {
+    this.props.initRouter();
+  }
+
   render() {
     const { token } = this.props;
 		if (!token) {

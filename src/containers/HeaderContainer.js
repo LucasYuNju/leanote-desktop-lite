@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import Header from '../components/Header';
 import * as NoteActions from '../actions/NoteActions';
 import * as NavigatorActions from '../actions/NavigatorActions';
-import { parseUrl } from '../util/RouteUtil';
 
 class HeaderContainer extends Component {
   render() {
@@ -22,11 +21,10 @@ function mapStateToProps(state) {
     noteList,
 		user,
   } = state;
-  const params = parseUrl('/:noteListType?/:noteListId?/notes/:noteId?', navigator.path) || {};
   const {
     noteListType,
     noteListId,
-  } = params;
+  } = navigator.params;
 
   return {
     userId: user.userId,

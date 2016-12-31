@@ -11,7 +11,7 @@ const SelectableList = makeSelectable(List);
 class NoteStackList extends Component {
   static propTypes = {
     notebooks: PropTypes.object.isRequired,
-    noteListId: PropTypes.string,
+    noteStackId: PropTypes.string,
 		rootNotebookIds: PropTypes.array.isRequired,
 		selectNoteList: PropTypes.func.isRequired,
 		tagIds: PropTypes.array.isRequired,
@@ -19,7 +19,7 @@ class NoteStackList extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
 		// select first notebook by default
-    if (!nextProps.noteListId && nextProps.rootNotebookIds.length) {
+    if (!nextProps.noteStackId && nextProps.rootNotebookIds.length) {
       nextProps.selectNoteList(nextProps.rootNotebookIds[0]);
       return true;
     }
@@ -30,20 +30,19 @@ class NoteStackList extends Component {
     const {
       notebooks,
       rootNotebookIds,
-      noteListId,
+      noteStackId,
 			tagIds,
     } = this.props;
     return (
       <SelectableList
         className="notebooks"
-        id={noteListId}
+        id={noteStackId}
       >
 				<NoteStackListItem
 					type="latest"
 					id="latest"
 					text="Latest"
 					icon="history"
-          noteList={{ type: 'generatedNoteLists', id: 'latest' }}
 				/>
 				<NoteStackListItem
 					id="notebook"
@@ -64,11 +63,10 @@ class NoteStackList extends Component {
 	renderTag = (tagId) => {
 		return (
       <NoteStackListItem
-				type="tags"
+				type="tag"
         id={tagId}
         icon="tag"
         text={tagId}
-        noteList={{ type: 'tags', id: tagId }}
       />
     );
 	};
@@ -77,12 +75,11 @@ class NoteStackList extends Component {
     const hasSublist = notebook.subs.length > 0;
     return (
       <NoteStackListItem
-				type="notebooks"
+				type="notebook"
         id={notebook.notebookId}
         icon={classNames({ 'file-directory': hasSublist }, { 'repo': !hasSublist })}
         nestedItems={notebook.subs.map(notebookId => this.renderNotebook(this.props.notebooks[notebookId]))}
         text={notebook.title}
-        noteList={{ type: 'notebooks', id: notebook.notebookId }}
       />
     );
   };
