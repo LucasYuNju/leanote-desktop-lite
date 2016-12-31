@@ -1,11 +1,11 @@
 ### route pattern:
 
-```
-notebooks/:notebookId/notes/:noteId/(note|markdown)
-tags/:tagId/notes/:noteId/(note|markdown)
-starred/:ignore/notes/:notesId/(note|markdown)
-setting
-```
+pattern: `/edit/:type-:noteStackId/:noteId`
+
+examples:
+- `/edit/notebook-8qt4/s12oi9`
+- `/edit/tag-web/s12oi9`
+- `/edit/search-英语/j2os89`
 
 ### state shape
 
