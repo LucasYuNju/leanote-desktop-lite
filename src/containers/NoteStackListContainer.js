@@ -2,7 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
-import * as NavigatorActions from '../actions/NavigatorActions';
+import * as RouterActions from '../actions/RouterActions';
 import * as NotebookActions from '../actions/NotebookActions';
 import NoteStackList from '../components/NoteStackList';
 
@@ -13,8 +13,7 @@ import NoteStackList from '../components/NoteStackList';
 class NoteStackListContainer extends Component {
   render() {
     return (
-			<NoteStackList {...this.props}
-			selectNoteList={this.props.selectNoteStack}/>
+			<NoteStackList {...this.props} />
     );
   }
 }
@@ -22,7 +21,7 @@ class NoteStackListContainer extends Component {
 function mapStateToProps(state) {
   const {
     entities,
-		navigator,
+		router,
   } = state;
 	const rootNotebookIds = Object.keys(entities.notebooks)
 		.filter(id => !entities.notebooks[id].parentNotebookId);
@@ -30,12 +29,12 @@ function mapStateToProps(state) {
     rootNotebookIds,
     notebooks: entities.notebooks,
 		tagIds: Object.keys(entities.tags),
-		...navigator.params,
+		...router.params,
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...NotebookActions, ...NavigatorActions}, dispatch);
+  return bindActionCreators({ ...NotebookActions, ...RouterActions}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteStackListContainer);

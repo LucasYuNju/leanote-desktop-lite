@@ -13,8 +13,8 @@ class NoteList extends Component {
     sortNoteList: PropTypes.func.isRequired,
     notes: PropTypes.array,
     noteId: PropTypes.string,
-    notebookId: PropTypes.string,
-    notebookTitle: PropTypes.string,
+    noteStackId: PropTypes.string,
+    noteStackTitle: PropTypes.string,
     view: PropTypes.string,
   };
 
@@ -26,16 +26,17 @@ class NoteList extends Component {
 		if (nextProps.noteId) {
 			return true;
 		}
-		if (this.props.noteListId === nextProps.noteListId) {
-      // Note stack just get fetched.
-      const numNotes = this.props.notes ? this.props.notes.length : 0;
-      if (numNotes === 0 && nextProps.notes && nextProps.notes.length) {
+    // 默认选中第一个笔记
+		if (this.props.noteStackId === nextProps.noteStackId) {
+      const hasNote = this.props.notes ? this.props.notes.length : 0;
+      if (hasNote === 0 && nextProps.notes && nextProps.notes.length) {
+        // 刚刚获取到笔记本的内容
         this.props.selectNote(nextProps.notes[0].noteId);
       }
 		}
 		else {
-      // Switched to another note stack, whose notes is cached
-      if (nextProps.notes.length) {
+      if (nextProps.notes && nextProps.notes.length) {
+        // 切换到新笔记本，且该笔记本已被缓存
         this.props.selectNote(nextProps.notes[0].noteId);
       }
 		}
@@ -58,12 +59,12 @@ class NoteList extends Component {
 			notes,
 			noteId,
 			sortNoteList,
-			notebookTitle
+			noteStackTitle
 		} = this.props;
     return (
       <div className="note-list">
         <NoteListHeader
-          title={notebookTitle}
+          title={noteStackTitle}
           sortNoteList={sortNoteList}
         />
         <SelectableList

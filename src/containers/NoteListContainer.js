@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
 import NoteList from '../components/NoteList';
-import * as NavigatorActions from '../actions/NavigatorActions';
+import * as RouterActions from '../actions/RouterActions';
 import * as NoteActions from '../actions/NoteActions';
 
 class NoteListContainer extends Component {
   render() {
     return (
-      <NoteList {...this.props} selectNote={this.props.selectNote}/>
+      <NoteList {...this.props} />
     );
   }
 }
@@ -17,7 +17,7 @@ class NoteListContainer extends Component {
 function mapStateToProps(state) {
   const {
     entities,
-		navigator,
+		router,
     note,
     noteList: noteListRef,
   } = state;
@@ -25,13 +25,13 @@ function mapStateToProps(state) {
 		noteStackType,
 		noteStackId,
 		noteId,
-	} = navigator.params;
+	} = router.params;
 
-  const result = { ...navigator.params };
+  const props = { ...router.params };
   if (noteStackId && (noteStackType === 'notebook' || noteStackType === 'tag')) {
     const noteList = entities[noteStackType + 's'][noteStackId];
     const order = noteListRef.order;
-		result.notes = noteList.noteIds
+		props.notes = noteList.noteIds
 			.map(noteId => entities.notes[noteId])
 			.sort((note1, note2) => {
 				// TODO refactor
@@ -43,14 +43,14 @@ function mapStateToProps(state) {
 				const key2 = extractKey(note2);
 				return order.ascending ? key1 > key2 : key1 < key2;
 			});
-    result.notebookId = noteStackId;
-    result.notebookTitle = noteStackType === 'notebook' ? noteList.title : noteList.tag;
+    props.noStackId = noteStackId;
+    props.noteStackTitle = noteStackType === 'notebook' ? noteList.title : noteList.tag;
   }
-  return result;
+  return props;
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...NoteActions, ...NavigatorActions}, dispatch);
+  return bindActionCreators({ ...NoteActions, ...RouterActions}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteListContainer);

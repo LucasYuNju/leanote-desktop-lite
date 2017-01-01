@@ -20,16 +20,13 @@ function mapStateToProps(state) {
 	const {
 		entities,
 		editMode,
-		navigator,
+		router,
 	} = state;
-	const {
-		noteId
-	} = navigator.params;
-	const note = entities.notes[noteId];
+	const note = entities.notes[router.params.noteId];
 	return {
-		editMode: editMode[noteId] || false,
+		editMode: editMode[router.params.noteId] || false,
 		isMarkdown: note ? note.isMarkdown : false,
-		note: entities.notes[noteId],
+		note: entities.notes[router.params.noteId],
 	}
 }
 

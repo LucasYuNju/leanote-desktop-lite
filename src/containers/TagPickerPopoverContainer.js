@@ -16,18 +16,18 @@ class TagPickerPopoverContainer extends Component {
 function mapStateToProps(state) {
   const {
     entities,
-		navigator,
+		router,
   } = state;
 	const tagged = {};
 	Object.keys(entities.tags).forEach(tag => {
 		tagged[tag] = false;
 	});
-	entities.notes[navigator.params.noteId].tags.forEach(tag => {
+	entities.notes[router.params.noteId].tags.forEach(tag => {
 		tagged[tag] = true;
 	});
 	return {
 		tagged,
-		noteId: navigator.params.noteId,
+		noteId: router.params.noteId,
 	};
 }
 

@@ -21,20 +21,17 @@ function mapStateToProps(state) {
   const {
 		editMode,
     entities,
-    navigator,
+    router,
   } = state;
-	const {
-		noteId,
-	} = navigator.params;
-	const ret = {
+	const props = {
 		allTags: Object.keys(entities.tags),
 	};
-  if (noteId) {
-		ret.editMode = editMode[noteId] || false;
-    ret.note = entities.notes[noteId];
-		ret.notebook = entities.notebooks[ret.note.notebookId];
+  if (router.params.noteId) {
+		props.editMode = editMode[router.params.noteId] || false;
+    props.note = entities.notes[router.params.noteId];
+		props.notebook = entities.notebooks[props.note.notebookId];
   }
-	return ret;
+	return props;
 }
 
 function mapDispatchToProps(dispatch) {

@@ -13,14 +13,14 @@ class NoteStackList extends Component {
     notebooks: PropTypes.object.isRequired,
     noteStackId: PropTypes.string,
 		rootNotebookIds: PropTypes.array.isRequired,
-		selectNoteList: PropTypes.func.isRequired,
+		selectNoteStack: PropTypes.func.isRequired,
 		tagIds: PropTypes.array.isRequired,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
 		// select first notebook by default
     if (!nextProps.noteStackId && nextProps.rootNotebookIds.length) {
-      nextProps.selectNoteList(nextProps.rootNotebookIds[0]);
+      nextProps.selectNoteStack(nextProps.rootNotebookIds[0]);
       return true;
     }
     return true;

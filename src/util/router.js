@@ -1,9 +1,6 @@
 import toRegex from 'path-to-regexp';
 
 export function parseUrl(pattern, url) {
-	if (!pattern.startsWith("#")) {
-		pattern = "#" + pattern;
-	}
   const keys = [];
   const regex = toRegex(pattern, keys);
   const match = regex.exec(url);
@@ -15,18 +12,4 @@ export function parseUrl(pattern, url) {
     params[keys[i - 1].name] = match[i] !== undefined ? match[i] : undefined;
   }
   return params;
-}
-
-export function constructUrl(route) {
-	return '#/' + route.join('/');
-}
-
-export function destructUrl(route) {
-	const regex = /\/([^\/]*)/g;
-	const result = [];
-	let matches = null;
-	while(matches = regex.exec(route)) {
-		result.push(matches[0]);
-	}
-	return result;
 }

@@ -7,7 +7,7 @@ const initialState = {
   },
 };
 
-export default function navigator(state = initialState, action) {
+export default function router(state = initialState, action) {
 	switch(action.type) {
 		case types.CHANGE_PATH:
       return {

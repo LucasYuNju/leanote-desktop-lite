@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import Header from '../components/Header';
 import * as NoteActions from '../actions/NoteActions';
-import * as NavigatorActions from '../actions/NavigatorActions';
+import * as RouterActions from '../actions/RouterActions';
 
 class HeaderContainer extends Component {
   render() {
@@ -17,25 +17,18 @@ class HeaderContainer extends Component {
 function mapStateToProps(state) {
   const {
 		entities,
-		navigator,
-    noteList,
+		router,
 		user,
   } = state;
-  const {
-    noteListType,
-    noteListId,
-  } = navigator.params;
 
   return {
     userId: user.userId,
-    notebookId: noteListType === 'notebooks' ? noteListId : null,
-		navigateBackEnabled: navigator.current > 1,
-		navigateForwardEnabled: navigator.current < navigator.length,
+    notebookId: router.params.noteStackType === 'notebook' ? router.params.noteStackId : null,
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...NoteActions, ...NavigatorActions }, dispatch);
+  return bindActionCreators({ ...NoteActions, ...RouterActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);

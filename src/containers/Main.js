@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
 import HeaderContainer from '../containers/HeaderContainer';
-import Match from '../components/Match';
 import Nav from '../components/Nav';
 import NoteContainer from '../containers/NoteContainer';
 import NoteListContainer from '../containers/NoteListContainer';
 import * as SyncActions from '../actions/SyncActions';
-import * as NavigatorActions from '../actions/NavigatorActions';
+import * as RouterActions from '../actions/RouterActions';
 
 const { ipcRenderer } = require('electron');
 
@@ -62,7 +61,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...SyncActions, ...NavigatorActions }, dispatch);
+  return bindActionCreators({ ...SyncActions, ...RouterActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

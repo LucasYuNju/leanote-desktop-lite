@@ -2,9 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 
-import { navigateTo } from '../actions/NavigatorActions';
-
-// Route component
+// Container component
 class Link extends Component {
 	static propTypes = {
 	  children: PropTypes.node,
@@ -21,7 +19,7 @@ class Link extends Component {
 	createHref(to) {
 		if (!to.startsWith('/')) {
 			const regex = /[^\/]*$/;
-			to = this.props.navigator.path.replace(regex, to)
+			to = this.props.router.path.replace(regex, to)
 		}
 		if (!to.startsWith('#')) {
 			to = '#' + to;
@@ -51,7 +49,7 @@ class Link extends Component {
 
 function mapStateToProps(state) {
 	return {
-		navigator: state.navigator,
+		router: state.router,
 	}
 };
 
