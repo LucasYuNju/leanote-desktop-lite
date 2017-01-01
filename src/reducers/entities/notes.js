@@ -48,6 +48,7 @@ function notes(state = {}, action) {
 				...notes,
       };
     case types.UPDATE_NOTE:
+    case types.DELETE_NOTE:
       return {
         ...state,
         [action.payload.note.noteId]: {
@@ -64,10 +65,10 @@ function notes(state = {}, action) {
           ...action.payload.entities.notes[action.payload.result],
         },
       };
-    case types.DELETE_NOTE:
-      const copy = { ...state };
-      delete copy[action.note.noteId];
-      return copy;
+    // case types.DELETE_NOTE:
+    //   const copy = { ...state };
+    //   delete copy[action.payload.note.noteId];
+    //   return copy;
     default:
       return state;
   }

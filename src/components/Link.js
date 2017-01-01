@@ -28,13 +28,14 @@ class Link extends Component {
 	}
 
   render() {
-    const { children, className, style, title, to } = this.props;
+    const { children, className, style, title, to, router, dispatch, ...other } = this.props;
     return (
       <a
         className={classNames(className, 'link')}
         href={this.createHref(to)}
         onClick={this.handleClick}
 				style={style}
+        {...other}
       >
         {children}
       </a>

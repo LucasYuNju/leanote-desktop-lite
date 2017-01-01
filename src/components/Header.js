@@ -43,7 +43,7 @@ class Header extends Component {
         </div>
         <div
           className={classNames('btn', 'dropdown-button')}
-          onClick={this.dropdown}
+          onClick={this.showMenu}
         >
           <Icon iconName="chevron-down" />
         </div>
@@ -51,7 +51,7 @@ class Header extends Component {
 		);
 	}
 
-  dropdown = (event) => {
+  showMenu = (event) => {
     if (!this.menu) {
       const template = [
         {

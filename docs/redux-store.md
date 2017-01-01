@@ -1,6 +1,6 @@
 ### route pattern:
 
-pattern: `/edit/:type-:noteStackId/:noteId`
+pattern: `/edit/:noteStackType-:noteStackId/:noteId`
 
 examples:
 - `/edit/notebook-8qt4/s12oi9`
@@ -26,7 +26,7 @@ state = {
     }
     notebooks: {
       57b574: {
-        title: 'Pictured Notebook'
+        title: 'Pictured Notebook',
         notebookId: '57b574',
         noteIds: [],
         subs: [],

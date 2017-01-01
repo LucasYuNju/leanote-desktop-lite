@@ -3,10 +3,7 @@ import { arrayOf } from 'normalizr';
 import { getThumbnail, getAbstract } from '../util/regex';
 import { noteSchema } from '../constants/Schemas';
 import * as types from '../constants/ActionTypes';
-
-export function selectNote(noteId) {
-  return { type: types.SELECT_NOTE, payload: { noteId } };
-}
+import { selectNote } from './RouterActions';
 
 export function toggleEditMode(noteId) {
 	return { type: types.TOGGLE_EDIT_MODE, noteId };
@@ -58,7 +55,6 @@ export function fetchNoteAndContent(noteId) {
 	}
 }
 
-
 export function createNote(note, notebookId) {
   const now = new Date().toString();
   note.createdTime = now;
@@ -93,21 +89,30 @@ export function updateNote(note) {
   }
 }
 
+// 并没有真的删除，只是在本地设置isTrash属性
+// TODO：usn需要更新
 export function deleteNote(note) {
-  note.isTrash = true;
   return (dispatch) => {
-    dispatch({ type: types.DELETE_NOTE, payload: { note } });
-    dispatch({
-      types: [types.DELETE_NOTE_REQUEST, types.DELETE_NOTE_SUCCESS, types.DELETE_NOTE_FAILURE],
-      url: 'note/deleteTrash',
-      method: 'POST',
-      body: {
-        noteId: note.noteId,
-        usn: note.usn,
-      },
-      schema: noteSchema,
-    });
+    dispatch(updateNote({
+      ...note,
+      isTrash: true,
+    }))
   }
+  // note.isTrash = true;
+  // return (dispatch, getState) => {
+  //   // 先选中下一个笔记，才能删除目标笔记。这个只能在视图层做
+  //   dispatch({ type: types.UPDATE_NOTE, payload: { note: { ...note, isDeleted: true } } });
+  //   dispatch({
+  //     types: [types.DELETE_NOTE_REQUEST, types.DELETE_NOTE_SUCCESS, types.DELETE_NOTE_FAILURE],
+  //     url: 'note/deleteNote',
+  //     method: 'POST',
+  //     body: {
+  //       noteId: note.noteId,
+  //       usn: note.usn,
+  //     },
+  //     schema: noteSchema,
+  //   });
+  // }
 }
 
 export function sortNoteList(key) {

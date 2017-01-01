@@ -4,9 +4,11 @@ import classNames from 'classnames';
 import { fromNow } from '../util/timeFormat';
 import { httpsToLeanote } from '../util/regex';
 import Link from '../components/Link';
+import Menu from '../util/SystemMenu';
 
 class NoteListItem extends Component {
   static propTypes = {
+    deleteNote: PropTypes.func.isRequired,
     note: PropTypes.shape({
       abstract: PropTypes.string,
       content: PropTypes.string,
@@ -14,8 +16,8 @@ class NoteListItem extends Component {
       title: PropTypes.string,
       updatedTime: PropTypes.string,
     }).isRequired,
-    thumbnail: PropTypes.string,
     selected: PropTypes.bool,
+    thumbnail: PropTypes.string,
     view: PropTypes.string,
   };
 
@@ -23,19 +25,6 @@ class NoteListItem extends Component {
 		selected: false,
     view: 'snippet',
   };
-
-  renderThumbnail(thumbnail) {
-		if (thumbnail) {
-			return (
-	      <div
-	        className="thumbnail"
-	        style={{backgroundImage: `url(${httpsToLeanote(thumbnail)})`}}
-	      >
-	      </div>
-	    );
-		}
-		return null;
-  }
 
   render() {
     const {
@@ -48,6 +37,7 @@ class NoteListItem extends Component {
       <Link
         className={classNames('note-list-item', { selected: selected }, className)}
 				to={note.noteId}
+        onContextMenu={this.showMenu}
       >
         <div className="info">
           <div className="title">{note.title}</div>
@@ -59,6 +49,34 @@ class NoteListItem extends Component {
         {this.renderThumbnail(thumbnail)}
       </Link>
     );
+  }
+
+  renderThumbnail(thumbnail) {
+    if (thumbnail) {
+      return (
+        <div
+          className="thumbnail"
+          style={{backgroundImage: `url(${httpsToLeanote(thumbnail)})`}}
+        >
+        </div>
+      );
+    }
+    return null;
+  }
+
+  showMenu = (event) => {
+    if (!this.menu) {
+      const template = [
+        {
+          label: 'Delete',
+          click: (event) => {
+            this.props.deleteNote(this.props.note);
+          },
+        }
+      ];
+      this.menu = new Menu(template);
+    }
+    this.menu.popup(event);
   }
 }
 

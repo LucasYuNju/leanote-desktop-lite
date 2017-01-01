@@ -9,6 +9,7 @@ const SelectableList = makeSelectable(List);
 
 class NoteList extends Component {
   static propTypes = {
+    deleteNote: PropTypes.func.isRequired,
     selectNote: PropTypes.func.isRequired,
     sortNoteList: PropTypes.func.isRequired,
     notes: PropTypes.array,
@@ -23,35 +24,12 @@ class NoteList extends Component {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-		if (nextProps.noteId) {
-			return true;
-		}
     // 默认选中第一个笔记
-		if (this.props.noteStackId === nextProps.noteStackId) {
-      const hasNote = this.props.notes ? this.props.notes.length : 0;
-      if (hasNote === 0 && nextProps.notes && nextProps.notes.length) {
-        // 刚刚获取到笔记本的内容
-        this.props.selectNote(nextProps.notes[0].noteId);
-      }
-		}
-		else {
-      if (nextProps.notes && nextProps.notes.length) {
-        // 切换到新笔记本，且该笔记本已被缓存
-        this.props.selectNote(nextProps.notes[0].noteId);
-      }
-		}
-		return false;
-  }
-
-  renderNote(note) {
-    return (
-      <NoteListItem
-				key={note.noteId}
-        id={note.noteId}
-        note={note}
-        thumbnail={note.thumbnail}
-      />
-    );
+    if (nextProps.notes.length > 0 && !nextProps.noteId) {
+      this.props.selectNote(nextProps.notes[0].noteId);
+      return false;
+    }
+    return true;
   }
 
   render() {
@@ -69,18 +47,38 @@ class NoteList extends Component {
         />
         <SelectableList
           className="note-list-items"
-          onChange={this.handleNoteSelect}
           id={noteId}
         >
-          {notes ? notes.map(this.renderNote) : null}
+          {notes.map(this.renderNote)}
         </SelectableList>
       </div>
     );
   }
 
-	handleNoteSelect = (item) => {
-		this.props.selectNote(item.props.id);
-	}
+  renderNote = (note) => {
+    return (
+      <NoteListItem
+        deleteNote={this.deleteNote}
+        key={note.noteId}
+        id={note.noteId}
+        note={note}
+        thumbnail={note.thumbnail}
+      />
+    );
+  }
+
+  deleteNote = (note) => {
+    // select another note
+    console.log('notelist.deletenote', note);
+    const notes = this.props.notes;
+    let curIndex = 0;
+    for (; curIndex < notes.length && notes[curIndex].noteId !== note.noteId; curIndex++);
+    const nextIndex = curIndex === notes.length - 1 ? curIndex - 1 : curIndex + 1;
+
+    console.log(curIndex, nextIndex, notes);
+    this.props.selectNote(notes[nextIndex].noteId);
+    this.props.deleteNote(note);
+  }
 }
 
 export default NoteList;

@@ -27,12 +27,16 @@ function mapStateToProps(state) {
 		noteId,
 	} = router.params;
 
-  const props = { ...router.params };
+  const props = {
+    ...router.params,
+    notes: [],
+  };
   if (noteStackId && (noteStackType === 'notebook' || noteStackType === 'tag')) {
     const noteList = entities[noteStackType + 's'][noteStackId];
     const order = noteListRef.order;
 		props.notes = noteList.noteIds
 			.map(noteId => entities.notes[noteId])
+      .filter(note => !note.isDeleted && !note.isTrash)
 			.sort((note1, note2) => {
 				// TODO refactor
 				let extractKey = (note) => note[order.key];
