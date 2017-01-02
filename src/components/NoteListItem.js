@@ -39,14 +39,16 @@ class NoteListItem extends Component {
 				to={note.noteId}
         onContextMenu={this.showMenu}
       >
-        <div className="info">
-          <div className="title">{note.title}</div>
-          <div className="detail">
-            <span className="updated-time">{fromNow(note.updatedTime)}</span>
-            <span className="snippet">{note.abstract}</span>
+        <div className="wrapper">
+          <div className="info">
+            <div className="title">{note.title}</div>
+            <div className="detail">
+              <span className="updated-time">{fromNow(note.updatedTime)}</span>
+              <span className="snippet">{note.abstract}</span>
+            </div>
           </div>
+          {this.renderThumbnail(thumbnail)}
         </div>
-        {this.renderThumbnail(thumbnail)}
       </Link>
     );
   }
