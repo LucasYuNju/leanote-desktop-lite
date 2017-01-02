@@ -20,7 +20,7 @@ class NoteStackList extends Component {
   shouldComponentUpdate(nextProps, nextState) {
 		// select first notebook by default
     if (!nextProps.noteStackId && nextProps.rootNotebookIds.length) {
-      nextProps.selectNoteStack(nextProps.rootNotebookIds[0]);
+      nextProps.selectNoteStack(nextProps.rootNotebookIds[0], false);
       return true;
     }
     return true;

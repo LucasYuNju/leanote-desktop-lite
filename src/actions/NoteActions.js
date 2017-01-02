@@ -91,28 +91,18 @@ export function updateNote(note) {
 
 // 并没有真的删除，只是在本地设置isTrash属性
 // TODO：usn需要更新
+// 视图层必须先选中下一个笔记，才能删除目标笔记
 export function deleteNote(note) {
   return (dispatch) => {
     dispatch(updateNote({
       ...note,
       isTrash: true,
-    }))
+    }));
   }
-  // note.isTrash = true;
-  // return (dispatch, getState) => {
-  //   // 先选中下一个笔记，才能删除目标笔记。这个只能在视图层做
-  //   dispatch({ type: types.UPDATE_NOTE, payload: { note: { ...note, isDeleted: true } } });
-  //   dispatch({
-  //     types: [types.DELETE_NOTE_REQUEST, types.DELETE_NOTE_SUCCESS, types.DELETE_NOTE_FAILURE],
-  //     url: 'note/deleteNote',
-  //     method: 'POST',
-  //     body: {
-  //       noteId: note.noteId,
-  //       usn: note.usn,
-  //     },
-  //     schema: noteSchema,
-  //   });
-  // }
+}
+
+export function selectMultipleNotes(noteIds) {
+  return { type: types.SELECT_MULTIPLE_NOTES, payload: { noteIds } };
 }
 
 export function sortNoteList(key) {

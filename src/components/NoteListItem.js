@@ -19,6 +19,8 @@ class NoteListItem extends Component {
     selected: PropTypes.bool,
     thumbnail: PropTypes.string,
     view: PropTypes.string,
+    onCtrlClick: PropTypes.func,
+    onShiftClick: PropTypes.func,
   };
 
   static defaultProps = {
@@ -38,6 +40,7 @@ class NoteListItem extends Component {
         className={classNames('note-list-item', { selected: selected }, className)}
 				to={note.noteId}
         onContextMenu={this.showMenu}
+        onClick={this.handleClick}
       >
         <div className="wrapper">
           <div className="info">
@@ -66,11 +69,29 @@ class NoteListItem extends Component {
     return null;
   }
 
+  handleClick = (event) => {
+    const nativeEvent = event.nativeEvent;
+    if (this.props.onCtrlClick && nativeEvent.metaKey) {
+      this.props.onCtrlClick(this.props.note);
+      event.preventDefault();
+    }
+    if (this.props.onShiftClick && nativeEvent.shiftKey) {
+      this.props.onShiftClick(this.props.note);
+      event.preventDefault();
+    }
+  }
+
   showMenu = (event) => {
     if (!this.menu) {
       const template = [
         {
-          label: 'Delete',
+          label: 'Move to notebook',
+          click: (event) => {
+            console.error('Operation not supported');
+          },
+        },
+        {
+          label: 'Delete note',
           click: (event) => {
             this.props.deleteNote(this.props.note);
           },

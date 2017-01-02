@@ -15,7 +15,8 @@ function parseHash(hash) {
 }
 
 // 用于选择默认笔记，也就是当前排序的第一条笔记。
-export function selectNote(noteId) {
+// newHistory：hash的变化是否生成新的历史记录
+export function selectNote(noteId, newHistory = true) {
   return (dispatch, getState) => {
     const params = getState().router.params;
     if (params.subject !== 'edit') {
@@ -24,13 +25,21 @@ export function selectNote(noteId) {
     else {
       const { subject, noteStackType, noteStackId } = params;
       const hash = `#/${subject}/${noteStackType}-${noteStackId}/${noteId}`;
-      dispatch(replaceState(hash));
+      if (window.location.hash === hash ) {
+        return;
+      }
+      if (newHistory) {
+        window.location.hash = hash;
+      }
+      else {
+        dispatch(replaceState(hash));
+      }
     }
   };
 }
 
 // 用于选择默认笔记本
-export function selectNoteStack(noteStackId, noteStackType) {
+export function selectNoteStack(noteStackId, noteStackType, newHistory = true) {
   return (dispatch, getState) => {
     const params = getState().router.params;
     if (params.subject !== 'edit') {
@@ -39,7 +48,15 @@ export function selectNoteStack(noteStackId, noteStackType) {
     else {
       const { subject, noteStackType, noteStackId } = params;
       const hash = `#/${subject}/${noteStackType}-${noteStackId}`;
-      dispatch(replaceState(hash));
+      if (window.location.hash === hash ) {
+        return;
+      }
+      if (newHistory) {
+        window.location.hash = hash;
+      }
+      else {
+        dispatch(replaceState(hash));
+      }
     }
   }
 }

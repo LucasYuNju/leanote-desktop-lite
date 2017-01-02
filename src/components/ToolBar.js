@@ -18,11 +18,6 @@ class ToolBar extends Component {
 		editMode: 'preview',
   };
 
-  constructor(props, context) {
-    super(props);
-    console.log(props,context);
-  }
-
   render() {
     return (
 			<div className="toolbar-container">
