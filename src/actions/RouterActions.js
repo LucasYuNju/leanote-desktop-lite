@@ -14,27 +14,26 @@ function parseHash(hash) {
   return parseUrl('#/:subject/*', hash);
 }
 
+function updateHashIfNecessary(dispatch, hash, newHistory) {
+  if (window.location.hash === hash) {
+    return;
+  }
+  if (newHistory) {
+    window.location.hash = hash;
+  }
+  else {
+    dispatch(replaceState(hash));
+  }
+}
+
 // 用于选择默认笔记，也就是当前排序的第一条笔记。
 // newHistory：hash的变化是否生成新的历史记录
 export function selectNote(noteId, newHistory = true) {
   return (dispatch, getState) => {
     const params = getState().router.params;
-    if (params.subject !== 'edit') {
-      console.error(`Action not allowed under current sbuject： ${params.subject}`);
-    }
-    else {
-      const { subject, noteStackType, noteStackId } = params;
-      const hash = `#/${subject}/${noteStackType}-${noteStackId}/${noteId}`;
-      if (window.location.hash === hash ) {
-        return;
-      }
-      if (newHistory) {
-        window.location.hash = hash;
-      }
-      else {
-        dispatch(replaceState(hash));
-      }
-    }
+    const { subject, noteStackType, noteStackId } = params;
+    const hash = `#/${subject}/${noteStackType}-${noteStackId}/${noteId}`;
+    updateHashIfNecessary(dispatch, hash, newHistory);
   };
 }
 
@@ -42,22 +41,9 @@ export function selectNote(noteId, newHistory = true) {
 export function selectNoteStack(noteStackId, noteStackType, newHistory = true) {
   return (dispatch, getState) => {
     const params = getState().router.params;
-    if (params.subject !== 'edit') {
-      console.error(`Action not allowed under current sbuject： ${params.subject}`);
-    }
-    else {
-      const { subject, noteStackType, noteStackId } = params;
-      const hash = `#/${subject}/${noteStackType}-${noteStackId}`;
-      if (window.location.hash === hash ) {
-        return;
-      }
-      if (newHistory) {
-        window.location.hash = hash;
-      }
-      else {
-        dispatch(replaceState(hash));
-      }
-    }
+    const { subject, noteStackType, noteStackId } = params;
+    const hash = `#/${subject}/${noteStackType}-${noteStackId}`;
+    updateHashIfNecessary(dispatch, hash, newHistory);
   }
 }
 

@@ -25,18 +25,14 @@ class NoteList extends Component {
     view: 'snippet',
   };
 
+  // TODO 默认选中的逻辑还是有问题
   constructor(props) {
     super(props);
+    const selectedNoteIds = [];
     if (this.props.noteId) {
-      this.state = {
-        selectedNotes: { [this.props.noteId]: true },
-      }
+      selectedNoteIds.push(this.props.noteId);
     }
-    else {
-      this.state = {
-        selectedNotes: {},
-      }
-    }
+    this.state = { selectedNoteIds };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -44,7 +40,7 @@ class NoteList extends Component {
       // clear selection
       const index = this.indexOfNote(nextProps.noteId, nextProps.notes);
       this.setState({
-        selectedNotes: { [nextProps.noteId]: true },
+        selectedNoteIds: [nextProps.noteId],
       });
     }
   }
@@ -86,6 +82,7 @@ class NoteList extends Component {
   }
 
   renderNote = (note) => {
+    const isSelected = this.state.selectedNoteIds.includes(note.noteId);
     return (
       <NoteListItem
         deleteNote={this.deleteNote}
@@ -95,9 +92,10 @@ class NoteList extends Component {
         thumbnail={note.thumbnail}
         onShiftClick={this.handleNoteShiftClick}
         onCtrlClick={this.handleNoteMetaClick}
-        selected={this.state.selectedNotes[note.noteId] ? true : false}
+        selected={isSelected}
       />
     );
+    // TODO performance
   };
 
   deleteNote = (note) => {
@@ -115,25 +113,24 @@ class NoteList extends Component {
   };
 
   handleNoteMetaClick = (note) => {
-    const index = this.indexOfNote(note.noteId, this.props.notes);
-    const selectedNotes = { ...this.state.selectedNotes };
-    if (selectedNotes[note.noteId] && Object.keys(selectedNotes).length > 1) {
-      delete selectedNotes[note.noteId];
+    // Treat state as if it was imuutable
+    const index = this.state.selectedNoteIds.indexOf(note.noteId);
+    if (index === -1) {
       this.setState({
-        selectedNotes,
+        selectedNoteIds: this.state.selectedNoteIds.concat([note.noteId]),
       });
     }
-    else {
-      selectedNotes[note.noteId] = true;
+    else if (this.state.selectedNoteIds.length > 1) {
+      const selectedNoteIds = this.state.selectedNoteIds.slice();
+      selectedNoteIds.splice(index, 1);
       this.setState({
-        selectedNotes,
-        shiftSelectFrom: note.noteId,
+        selectedNoteIds,
       });
     }
-    // 如果只剩下一个被选中的笔记，显示笔记内容
-    if (Object.keys(selectedNotes).length === 1) {
-      this.props.selectNote(Object.keys(selectedNotes)[0]);
-    }
+    // 如果只剩下一个被选中的笔记，显示该笔记内容，在NoteAction中处理。
+    // if (Object.keys(selectedNoteIds).length === 1) {
+    //   this.props.selectNote(Object.keys(selectedNoteIds)[0]);
+    // }
   };
 
   indexOfNote = (noteId, notes) => {
