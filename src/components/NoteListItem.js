@@ -76,7 +76,7 @@ class NoteListItem extends Component {
       ];
       this.menu = new Menu(template);
     }
-    this.menu.popup(event);
+    this.menu.popup(event, false);
   }
 }
 

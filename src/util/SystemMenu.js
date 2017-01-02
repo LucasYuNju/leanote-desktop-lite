@@ -22,19 +22,15 @@ class SystemMenu {
     }
   }
 
-  popupAt(x, y) {
-    this._menu.popup(remote.getCurrentWindow(), x, y);
-  }
-
-  // TODO增加常数POS作为第二个参数，如TOP，BOTTOM_LEFT，CURSOR等
-  popup(event, dropdown = true) {
+  popup(event, atBottomLeft = true) {
     const targetDOM = event.currentTarget;
     const rect = targetDOM.getBoundingClientRect();
-    if (dropdown) {
+    if (atBottomLeft) {
       this._menu.popup(remote.getCurrentWindow(), rect.left - 1, parseInt(rect.bottom) + 6);
     }
     else {
-      this._menu.popup(remote.getCurrentWindow(), event.clientX - 10, parseInt(rect.top - this._menuHeight));
+      this._menu.popup(remote.getCurrentWindow(), event.clientX, event.clientY);
+      // this._menu.popup(remote.getCurrentWindow(), event.clientX - 10, parseInt(rect.top - this._menuHeight));
     }
   }
 }
