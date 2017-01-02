@@ -38,16 +38,17 @@ function mapStateToProps(state) {
 			.map(noteId => entities.notes[noteId])
       .filter(note => !note.isDeleted && !note.isTrash)
 			.sort((note1, note2) => {
-				// TODO refactor
-				let extractKey = (note) => note[order.key];
-				if (order.key.toLowerCase().includes('time')) {
-					extractKey = (note) => new Date(note[order.key]);
-				}
-				const key1 = extractKey(note1);
-				const key2 = extractKey(note2);
+				let key = (note) => {
+          if (order.key === 'updatedTime') {
+            return new Date(note[order.key]);
+          }
+          return note[order.key];
+        };
+				const key1 = key(note1);
+				const key2 = key(note2);
 				return order.ascending ? key1 > key2 : key1 < key2;
 			});
-    props.noStackId = noteStackId;
+    props.noteStackId = noteStackId;
     props.noteStackTitle = noteStackType === 'notebook' ? noteList.title : noteList.tag;
   }
   return props;

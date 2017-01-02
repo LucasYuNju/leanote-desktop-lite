@@ -68,15 +68,13 @@ class NoteList extends Component {
   }
 
   deleteNote = (note) => {
-    // select another note
-    console.log('notelist.deletenote', note);
-    const notes = this.props.notes;
-    let curIndex = 0;
-    for (; curIndex < notes.length && notes[curIndex].noteId !== note.noteId; curIndex++);
-    const nextIndex = curIndex === notes.length - 1 ? curIndex - 1 : curIndex + 1;
-
-    console.log(curIndex, nextIndex, notes);
-    this.props.selectNote(notes[nextIndex].noteId);
+    if (this.props.noteId === note.noteId) {
+      // 如果note被选中，删除之前先选中下一条笔记
+      let index = 0;
+      for (; index < this.props.notes.length && this.props.notes[index].noteId !== note.noteId; index++);
+      const nextIndex = index === this.props.notes.length - 1 ? index - 1 : index + 1;
+      this.props.selectNote(this.props.notes[nextIndex].noteId);
+    }
     this.props.deleteNote(note);
   }
 }
