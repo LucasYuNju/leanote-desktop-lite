@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
+import emitter from '../util/emitter';
 import List from '../components/List';
 import makeSelectable from '../components/makeSelectable';
 import NoteListHeader from '../components/NoteListHeader';
@@ -55,6 +56,10 @@ class NoteList extends Component {
     );
   }
 
+  componentDidMount() {
+    emitter.on('delete-note', this.deleteNote);
+  }
+
   renderNote = (note) => {
     return (
       <NoteListItem
@@ -68,6 +73,7 @@ class NoteList extends Component {
   }
 
   deleteNote = (note) => {
+    console.log('delete note args', note);
     if (this.props.noteId === note.noteId) {
       // 如果note被选中，删除之前先选中下一条笔记
       let index = 0;

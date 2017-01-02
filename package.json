@@ -28,6 +28,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "electron": "^1.4.13",
+    "event-emitter": "^0.3.4",
     "humps": "^2.0.0",
     "localforage": "^1.4.3",
     "lodash": "^4.16.6",

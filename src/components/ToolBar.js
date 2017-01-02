@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
+import emitter from '../util/emitter';
 import Icon from '../components/Icon';
 import TagPicker from '../components/TagPicker.js';
 
@@ -16,6 +17,11 @@ class ToolBar extends Component {
   static defaultProps = {
 		editMode: 'preview',
   };
+
+  constructor(props, context) {
+    super(props);
+    console.log(props,context);
+  }
 
   render() {
     return (
@@ -57,7 +63,7 @@ class ToolBar extends Component {
 	}
 
   deleteNote = () => {
-    this.props.deleteNote(this.props.note);
+    emitter.emit('delete-note', this.props.note);
   }
 
 	toggleEditMode = () => {
