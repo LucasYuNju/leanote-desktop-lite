@@ -1,4 +1,5 @@
 import * as types from '../constants/ActionTypes';
+import { checkNotes } from './NoteActions';
 import { parseUrl } from '../util/router';
 
 // Leanote暂时只有一个URL pattern：'/:subject/:noteStackType?-:noteStackId?/:noteId?'
@@ -32,7 +33,10 @@ export function selectNote(noteId, newHistory = true) {
   return (dispatch, getState) => {
     const params = getState().router.params;
     const { subject, noteStackType, noteStackId } = params;
-    const hash = `#/${subject}/${noteStackType}-${noteStackId}/${noteId}`;
+    let hash = `#/${subject}/${noteStackType}-${noteStackId}`;
+    if (noteId) {
+      hash += '/' + noteId;
+    }
     updateHashIfNecessary(dispatch, hash, newHistory);
   };
 }
@@ -56,8 +60,13 @@ export function replaceState(hash) {
 }
 
 export function changePath(path) {
-  const params = parseHash(path);
- 	return { type: types.CHANGE_PATH, payload: { path, params }};
+  return (dispatch) => {
+    const params = parseHash(path);
+    if (params.noteId) {
+      dispatch(checkNotes([params.noteId]));
+    }
+   	dispatch({ type: types.CHANGE_PATH, payload: { path, params }});
+  }
 }
 
 // 为了得到dispatch函数的引用，必须由Main调用

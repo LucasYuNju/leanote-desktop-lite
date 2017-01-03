@@ -101,8 +101,17 @@ export function deleteNote(note) {
   }
 }
 
-export function selectMultipleNotes(noteIds) {
-  return { type: types.SELECT_MULTIPLE_NOTES, payload: { noteIds } };
+export function checkNotes(checked) {
+  return (dispatch, getState) => {
+    const prevChecked = getState().noteList.checked;
+    if (checked.length === 1 && prevChecked.length > 1) {
+      dispatch(selectNote(checked[0]));
+    }
+    if (checked.length > 1) {
+      dispatch(selectNote(null));
+    }
+    dispatch({ type: types.CHECK_NOTES, payload: { checked } });
+  }
 }
 
 export function sortNoteList(key) {

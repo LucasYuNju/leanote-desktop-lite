@@ -5,7 +5,7 @@ const initialState = {
     key: 'updatedTime',
     ascending: false,
   },
-  selectedNoteIds: [],
+  checked: [],
 };
 
 export default function noteList(state = initialState, action) {
@@ -18,10 +18,10 @@ export default function noteList(state = initialState, action) {
           ascending: state.order.key === action.key ? !state.order.ascending : false,
         }
       }
-    case types.SELECT_MULTIPLE_NOTES:
+    case types.CHECK_NOTES:
       return {
         ...state,
-        selectedNoteIds: action.payload.noteIds,
+        checked: action.payload.checked,
       };
     default:
       return state;

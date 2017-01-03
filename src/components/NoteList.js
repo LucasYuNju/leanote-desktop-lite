@@ -10,10 +10,11 @@ const SelectableList = makeSelectable(List);
 
 class NoteList extends Component {
   static propTypes = {
+    checkNotes: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
     selectNote: PropTypes.func.isRequired,
-    selectMultipleNotes: PropTypes.func.isRequired,
     sortNoteList: PropTypes.func.isRequired,
+    checked: PropTypes.array.isRequired,
     notes: PropTypes.array,
     noteId: PropTypes.string,
     noteStackId: PropTypes.string,
@@ -55,8 +56,9 @@ class NoteList extends Component {
   }
 
   render() {
+    console.log(this.props);
     const {
-			notes,
+      notes,
 			noteId,
 			sortNoteList,
 			noteStackTitle
@@ -127,10 +129,6 @@ class NoteList extends Component {
         selectedNoteIds,
       });
     }
-    // 如果只剩下一个被选中的笔记，显示该笔记内容，在NoteAction中处理。
-    // if (Object.keys(selectedNoteIds).length === 1) {
-    //   this.props.selectNote(Object.keys(selectedNoteIds)[0]);
-    // }
   };
 
   indexOfNote = (noteId, notes) => {

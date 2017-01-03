@@ -55,7 +55,7 @@ state = {
       ascending,
     },
     // shiftSelect & ctrlSelect
-    selectedNoteIds: [],
+    checked: [],
   },
   user: {
     email: '',
