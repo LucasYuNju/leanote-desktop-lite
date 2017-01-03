@@ -33,9 +33,9 @@ export function selectNote(noteId, newHistory = true) {
   return (dispatch, getState) => {
     const params = getState().router.params;
     const { subject, noteStackType, noteStackId } = params;
-    let hash = `#/${subject}/${noteStackType}-${noteStackId}`;
+    let hash = `#/${subject}/${noteStackType}-${noteStackId}/`;
     if (noteId) {
-      hash += '/' + noteId;
+      hash += noteId;
     }
     updateHashIfNecessary(dispatch, hash, newHistory);
   };

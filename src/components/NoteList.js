@@ -27,36 +27,28 @@ class NoteList extends Component {
   };
 
   // TODO 默认选中的逻辑还是有问题
-  constructor(props) {
-    super(props);
-    const selectedNoteIds = [];
-    if (this.props.noteId) {
-      selectedNoteIds.push(this.props.noteId);
-    }
-    this.state = { selectedNoteIds };
-  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.noteId !== nextProps.noteId) {
       // clear selection
       const index = this.indexOfNote(nextProps.noteId, nextProps.notes);
-      this.setState({
-        selectedNoteIds: [nextProps.noteId],
-      });
     }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    // 默认选中第一个笔记
-    if (nextProps.notes.length > 0 && !nextProps.noteId) {
-      this.props.selectNote(nextProps.notes[0].noteId, false);
-      return false;
-    }
+    // if (nextProps.notes.length > 0 && !nextProps.noteId) {
+    //   // 默认选中第一个笔记
+    //   if (nextProps.checked.length <= 1) {
+    //     // 不处于多选模式
+    //     this.props.selectNote(nextProps.notes[0].noteId, false);
+    //     return false;
+    //   }
+    // }
     return true;
   }
 
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     const {
       notes,
 			noteId,
@@ -84,7 +76,7 @@ class NoteList extends Component {
   }
 
   renderNote = (note) => {
-    const isSelected = this.state.selectedNoteIds.includes(note.noteId);
+    const isSelected = this.props.checked.includes(note.noteId);
     return (
       <NoteListItem
         deleteNote={this.deleteNote}
@@ -115,19 +107,15 @@ class NoteList extends Component {
   };
 
   handleNoteMetaClick = (note) => {
-    // Treat state as if it was imuutable
-    const index = this.state.selectedNoteIds.indexOf(note.noteId);
+    // Treat state as if it was immutable
+    const index = this.props.checked.indexOf(note.noteId);
     if (index === -1) {
-      this.setState({
-        selectedNoteIds: this.state.selectedNoteIds.concat([note.noteId]),
-      });
+      this.props.checkNotes(this.props.checked.concat([note.noteId]));
     }
-    else if (this.state.selectedNoteIds.length > 1) {
-      const selectedNoteIds = this.state.selectedNoteIds.slice();
-      selectedNoteIds.splice(index, 1);
-      this.setState({
-        selectedNoteIds,
-      });
+    else if (this.props.checked.length > 1) {
+      const checked = this.props.checked.slice();
+      checked.splice(index, 1);
+      this.props.checkNotes(checked);
     }
   };
 

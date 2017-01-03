@@ -72,10 +72,11 @@ class NoteListItem extends Component {
   handleClick = (event) => {
     const nativeEvent = event.nativeEvent;
     if (this.props.onCtrlClick && nativeEvent.metaKey) {
-      // event.preventDefault();
+      event.preventDefault();
       this.props.onCtrlClick(this.props.note);
     }
     if (this.props.onShiftClick && nativeEvent.shiftKey) {
+      event.preventDefault();
       this.props.onShiftClick(this.props.note);
     }
   }
