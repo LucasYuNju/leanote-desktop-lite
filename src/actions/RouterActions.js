@@ -62,6 +62,9 @@ export function replaceState(hash) {
 export function changePath(path) {
   return (dispatch) => {
     const params = parseHash(path);
+    if (params.noteId) {
+      dispatch(checkNotes([]));
+    }
    	dispatch({ type: types.CHANGE_PATH, payload: { path, params }});
   }
 }

@@ -92,6 +92,7 @@ class NoteList extends Component {
         thumbnail={note.thumbnail}
         onShiftClick={this.handleNoteShiftClick}
         onCtrlClick={this.handleNoteMetaClick}
+        onClick={this.handleNoteClick}
         selected={isSelected}
       />
     );
@@ -107,6 +108,10 @@ class NoteList extends Component {
     }
     this.props.deleteNote(note);
   };
+
+  handleNoteClick = (note) => {
+
+  }
 
   handleNoteShiftClick = (note) => {
     if (note.noteId === this.props.noteId) {
@@ -125,10 +130,10 @@ class NoteList extends Component {
       let minIndex = Number.MAX_SAFE_INTEGER, maxIndex = -1;
       checkedNotes.forEach(checkedNote => {
         minIndex = Math.min(minIndex, this.indexOfNote(checkedNote, this.props.notes));
-        maxIndex = Math.min(maxIndex, this.indexOfNote(checkedNote, this.props.notes));
+        maxIndex = Math.max(maxIndex, this.indexOfNote(checkedNote, this.props.notes));
       });
       for (let i = minIndex; i <= maxIndex; i++) {
-        if (!checkNotes.includes(this.props.notes[i].noteId)) {
+        if (!checkedNotes.includes(this.props.notes[i].noteId)) {
           checkedNotes.push(this.props.notes[i].noteId);
         }
       }
@@ -161,8 +166,8 @@ class NoteList extends Component {
     if (checked.length === 1) {
       this.props.selectNote(checked[0], true);
       setTimeout(() => {
-        // CHANGE_PATH action异步执行，因此会出现checked和noteId同时为空的情况，在componentWillReceiveProps中自动选择笔记
-        // 所以这里需要setTimeout一次
+        // selectNote异步触发action，可能会出现this.props.checked和this.props.noteId同时为空的情况，
+        // 导致在componentWillReceiveProps中自动选择笔记。因此需要setTimeout
         this.props.checkNotes([]);
       });
     }
