@@ -48,7 +48,6 @@ class CheckedItemStack extends Component {
     if (i + 1 === Math.min(MAX_HIDDEN_CARD, a.length)) {
       // 最下面一个card
       style.transform = style.transform + ` translate(2px, 2px)`;
-      console.log(style.transform);
     }
     return (
       <div

@@ -36,19 +36,18 @@ class NoteList extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    // if (nextProps.notes.length > 0 && !nextProps.noteId) {
-    //   // 默认选中第一个笔记
-    //   if (nextProps.checked.length <= 1) {
-    //     // 不处于多选模式
-    //     this.props.selectNote(nextProps.notes[0].noteId, false);
-    //     return false;
-    //   }
-    // }
+    // 不处于多选模式
+    if (nextProps.checked.length === 0) {
+      if (nextProps.notes.length > 0 && !nextProps.noteId) {
+        // 默认选中第一个笔记
+        this.props.selectNote(nextProps.notes[0].noteId, false);
+        return false;
+      }
+    }
     return true;
   }
 
   render() {
-    // console.log(this.props);
     const {
       notes,
 			noteId,
@@ -76,7 +75,13 @@ class NoteList extends Component {
   }
 
   renderNote = (note) => {
-    const isSelected = this.props.checked.includes(note.noteId);
+    let isSelected;
+    if (this.props.checked.length) {
+      isSelected = this.props.checked.includes(note.noteId);
+    }
+    else {
+      isSelected = this.props.noteId === note.noteId;
+    }
     return (
       <NoteListItem
         deleteNote={this.deleteNote}
@@ -107,15 +112,31 @@ class NoteList extends Component {
   };
 
   handleNoteMetaClick = (note) => {
-    // Treat state as if it was immutable
-    const index = this.props.checked.indexOf(note.noteId);
-    if (index === -1) {
-      this.props.checkNotes(this.props.checked.concat([note.noteId]));
+    if (note.noteId === this.props.noteId) {
+      return;
+    }
+
+    // 将之前选中的笔记放进checked数组
+    let checked = [...this.props.checked];
+    if (this.props.noteId) {
+      checked.push(this.props.noteId);
+      this.props.selectNote(null, false);
+    }
+
+    // 将metaClicked笔记放进checked数组
+    const clicked = this.props.checked.indexOf(note.noteId);
+    if (clicked === -1) {
+      checked.push(note.noteId);
     }
     else if (this.props.checked.length > 1) {
-      const checked = this.props.checked.slice();
-      checked.splice(index, 1);
-      this.props.checkNotes(checked);
+      checked.splice(clicked, 1);
+    }
+    this.props.checkNotes(checked);
+
+    // 如果checked数组中只剩一个笔记，选中该笔记
+    if (checked.length === 1) {
+      this.props.checkNotes([]);
+      this.props.selectNote(checked[0]);
     }
   };
 
