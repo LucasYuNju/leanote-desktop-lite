@@ -28,7 +28,7 @@ function updateHashIfNecessary(dispatch, hash, newHistory) {
 }
 
 // 用于选择默认笔记，也就是当前排序的第一条笔记。
-// newHistory：hash的变化是否生成新的历史记录
+// newHistory：hash的变化是否生成新的历史记录，如果是true的话，异步触发CHANGE_PATH action
 export function selectNote(noteId, newHistory = true) {
   return (dispatch, getState) => {
     const params = getState().router.params;

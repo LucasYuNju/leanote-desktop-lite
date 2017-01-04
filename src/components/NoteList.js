@@ -37,6 +37,7 @@ class NoteList extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     // 不处于多选模式
+    console.log(nextProps);
     if (nextProps.checked.length === 0) {
       if (nextProps.notes.length > 0 && !nextProps.noteId) {
         // 默认选中第一个笔记
@@ -108,7 +109,31 @@ class NoteList extends Component {
   };
 
   handleNoteShiftClick = (note) => {
+    if (note.noteId === this.props.noteId) {
+      return;
+    }
 
+    // 将之前选中的笔记放进checked数组
+    const checkedNotes = [...this.props.checked];
+    if (this.props.noteId) {
+      checkedNotes.push(this.props.noteId);
+      this.props.selectNote(null, false);
+    }
+
+    if (!checkedNotes.includes(note.noteId)) {
+      checkedNotes.push(note.noteId);
+      let minIndex = Number.MAX_SAFE_INTEGER, maxIndex = -1;
+      checkedNotes.forEach(checkedNote => {
+        minIndex = Math.min(minIndex, this.indexOfNote(checkedNote, this.props.notes));
+        maxIndex = Math.min(maxIndex, this.indexOfNote(checkedNote, this.props.notes));
+      });
+      for (let i = minIndex; i <= maxIndex; i++) {
+        if (!checkNotes.includes(this.props.notes[i].noteId)) {
+          checkedNotes.push(this.props.notes[i].noteId);
+        }
+      }
+      this.props.checkNotes(checkedNotes);
+    }
   };
 
   handleNoteMetaClick = (note) => {
@@ -131,12 +156,18 @@ class NoteList extends Component {
     else if (this.props.checked.length > 1) {
       checked.splice(clicked, 1);
     }
-    this.props.checkNotes(checked);
 
     // 如果checked数组中只剩一个笔记，选中该笔记
     if (checked.length === 1) {
-      this.props.checkNotes([]);
-      this.props.selectNote(checked[0]);
+      this.props.selectNote(checked[0], true);
+      setTimeout(() => {
+        // CHANGE_PATH action异步执行，因此会出现checked和noteId同时为空的情况，在componentWillReceiveProps中自动选择笔记
+        // 所以这里需要setTimeout一次
+        this.props.checkNotes([]);
+      });
+    }
+    else {
+      this.props.checkNotes(checked);
     }
   };
 
