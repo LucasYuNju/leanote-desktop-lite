@@ -26,21 +26,18 @@ class NoteList extends Component {
     view: 'snippet',
   };
 
-  // TODO 默认选中的逻辑还是有问题
-
+  // TODO 初始化时，默认选中的逻辑
   componentWillReceiveProps(nextProps) {
     if (this.props.noteId !== nextProps.noteId) {
       // clear selection
-      const index = this.indexOfNote(nextProps.noteId, nextProps.notes);
+      // const index = this.indexOfNote(nextProps.noteId, nextProps.notes);
     }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    // 不处于多选模式
-    console.log(nextProps);
     if (nextProps.checked.length === 0) {
       if (nextProps.notes.length > 0 && !nextProps.noteId) {
-        // 默认选中第一个笔记
+        // 不处于多选模式，默认选中第一个笔记
         this.props.selectNote(nextProps.notes[0].noteId, false);
         return false;
       }
