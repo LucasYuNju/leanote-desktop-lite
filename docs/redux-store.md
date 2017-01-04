@@ -54,6 +54,8 @@ state = {
       key,
       ascending,
     },
+    // shiftSelect & ctrlSelect
+    checked: [],
   },
   user: {
     email: '',

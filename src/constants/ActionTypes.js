@@ -1,10 +1,11 @@
+// 以REQUEST、SUCCESS、FAILURE结尾的的action均涉及网络请求，其他的action仅仅是本地操作
+
 /*
  * notes
  */
-// 以REQUEST、SUCCESS、FAILURE结尾的的action均涉及网络请求，其他的action仅仅是本地操作
-export const SELECT_NOTE = 'SELECT_NOTE';
 export const SORT_NOTE_LIST = 'SORT_NOTE_LIST';
 export const TOGGLE_EDIT_MODE = 'TOGGLE_EDIT_MODE';
+export const CHECK_NOTES = 'CHECK_NOTES';
 
 export const GET_NOTES_REQUEST = 'GET_NOTES_REQUEST';
 export const GET_NOTES_SUCCESS = 'GET_NOTES_SUCCESS';
@@ -58,6 +59,6 @@ export const GET_USER_FAILURE = 'GET_USER_FAILURE';
 export const GET_LAST_USN_SUCCESS = 'GET_LAST_USN_SUCCESS';
 
 /*
- * navigator
+ * router
  */
 export const CHANGE_PATH = 'CHANGE_PATH';

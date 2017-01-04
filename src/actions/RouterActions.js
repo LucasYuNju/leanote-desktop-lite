@@ -1,4 +1,5 @@
 import * as types from '../constants/ActionTypes';
+import { checkNotes } from './NoteActions';
 import { parseUrl } from '../util/router';
 
 // Leanote暂时只有一个URL pattern：'/:subject/:noteStackType?-:noteStackId?/:noteId?'
@@ -14,33 +15,39 @@ function parseHash(hash) {
   return parseUrl('#/:subject/*', hash);
 }
 
+function updateHashIfNecessary(dispatch, hash, newHistory) {
+  if (window.location.hash === hash) {
+    return;
+  }
+  if (newHistory) {
+    window.location.hash = hash;
+  }
+  else {
+    dispatch(replaceState(hash));
+  }
+}
+
 // 用于选择默认笔记，也就是当前排序的第一条笔记。
-export function selectNote(noteId) {
+// newHistory：hash的变化是否生成新的历史记录，如果是true的话，异步触发CHANGE_PATH action
+export function selectNote(noteId, newHistory = true) {
   return (dispatch, getState) => {
     const params = getState().router.params;
-    if (params.subject !== 'edit') {
-      console.error(`Action not allowed under current sbuject： ${params.subject}`);
+    const { subject, noteStackType, noteStackId } = params;
+    let hash = `#/${subject}/${noteStackType}-${noteStackId}/`;
+    if (noteId) {
+      hash += noteId;
     }
-    else {
-      const { subject, noteStackType, noteStackId } = params;
-      const hash = `#/${subject}/${noteStackType}-${noteStackId}/${noteId}`;
-      dispatch(replaceState(hash));
-    }
+    updateHashIfNecessary(dispatch, hash, newHistory);
   };
 }
 
 // 用于选择默认笔记本
-export function selectNoteStack(noteStackId, noteStackType) {
+export function selectNoteStack(noteStackId, noteStackType, newHistory = true) {
   return (dispatch, getState) => {
     const params = getState().router.params;
-    if (params.subject !== 'edit') {
-      console.error(`Action not allowed under current sbuject： ${params.subject}`);
-    }
-    else {
-      const { subject, noteStackType, noteStackId } = params;
-      const hash = `#/${subject}/${noteStackType}-${noteStackId}`;
-      dispatch(replaceState(hash));
-    }
+    const { subject, noteStackType, noteStackId } = params;
+    const hash = `#/${subject}/${noteStackType}-${noteStackId}`;
+    updateHashIfNecessary(dispatch, hash, newHistory);
   }
 }
 
@@ -53,8 +60,13 @@ export function replaceState(hash) {
 }
 
 export function changePath(path) {
-  const params = parseHash(path);
- 	return { type: types.CHANGE_PATH, payload: { path, params }};
+  return (dispatch) => {
+    const params = parseHash(path);
+    if (params.noteId) {
+      dispatch(checkNotes([]));
+    }
+   	dispatch({ type: types.CHANGE_PATH, payload: { path, params }});
+  }
 }
 
 // 为了得到dispatch函数的引用，必须由Main调用

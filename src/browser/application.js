@@ -69,6 +69,11 @@ class Application {
     this.mainWindow.on('closed', () => {
       this.mainWindow = null;
     });
+
+    // ctrl click链接的时候，会触发new-window事件
+    this.mainWindow.webContents.on('new-window', (event) => {
+      event.preventDefault();
+    });
   }
 
   createAuthWindow() {

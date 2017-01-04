@@ -19,7 +19,7 @@ function mapStateToProps(state) {
     entities,
 		router,
     note,
-    noteList: noteListRef,
+    noteList,
   } = state;
 	const {
 		noteStackType,
@@ -30,11 +30,12 @@ function mapStateToProps(state) {
   const props = {
     ...router.params,
     notes: [],
+    checked: noteList.checked,
   };
   if (noteStackId && (noteStackType === 'notebook' || noteStackType === 'tag')) {
-    const noteList = entities[noteStackType + 's'][noteStackId];
-    const order = noteListRef.order;
-		props.notes = noteList.noteIds
+    const notes = entities[noteStackType + 's'][noteStackId];
+    const order = noteList.order;
+		props.notes = notes.noteIds
 			.map(noteId => entities.notes[noteId])
       .filter(note => !note.isDeleted && !note.isTrash)
 			.sort((note1, note2) => {
@@ -49,7 +50,7 @@ function mapStateToProps(state) {
 				return order.ascending ? key1 > key2 : key1 < key2;
 			});
     props.noteStackId = noteStackId;
-    props.noteStackTitle = noteStackType === 'notebook' ? noteList.title : noteList.tag;
+    props.noteStackTitle = noteStackType === 'notebook' ? notes.title : notes.tag;
   }
   return props;
 }
