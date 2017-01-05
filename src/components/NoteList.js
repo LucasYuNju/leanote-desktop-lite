@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import findIndex from 'lodash/findIndex';
 
 import emitter from '../util/emitter';
 import List from '../components/List';
@@ -27,13 +28,6 @@ class NoteList extends Component {
   };
 
   // TODO 初始化时，默认选中的逻辑
-  componentWillReceiveProps(nextProps) {
-    if (this.props.noteId !== nextProps.noteId) {
-      // clear selection
-      // const index = this.indexOfNote(nextProps.noteId, nextProps.notes);
-    }
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.checked.length === 0) {
       if (nextProps.notes.length > 0 && !nextProps.noteId) {
@@ -73,6 +67,7 @@ class NoteList extends Component {
   }
 
   renderNote = (note) => {
+    // TODO performance
     let isSelected;
     if (this.props.checked.length) {
       isSelected = this.props.checked.includes(note.noteId);
@@ -93,17 +88,44 @@ class NoteList extends Component {
         selected={isSelected}
       />
     );
-    // TODO performance
   };
 
   deleteNote = (note) => {
     if (this.props.noteId === note.noteId) {
-      // 如果note被选中，删除之前先选中下一条笔记
-      const index = this.indexOfNote(note.noteId, this.props.notes);
-      const nextIndex = index === this.props.notes.length - 1 ? index - 1 : index + 1;
-      this.props.selectNote(this.props.notes[nextIndex].noteId);
+      // 如果note被选中，删除之前先选中前一条笔记
+      const index = findIndex(this.props.notes, (o) => o.noteId === note.noteId);
+      if (this.props.notes.length === 1) {
+        this.props.selectNote(null);
+      }
+      else {
+        const selected = index === 0 ? 1 : index - 1;
+        this.props.selectNote(this.props.notes[selected].noteId);
+      }
+      this.props.deleteNote(note);
     }
-    this.props.deleteNote(note);
+    else if (this.props.checked.includes(note.noteId)) {
+      // debugger;
+      // 如果note在checked数组中，计算minIndex，选中minIndex - 1
+      let minIndex = Number.MAX_SAFE_INTEGER;
+      this.props.checked.forEach(noteId => {
+        minIndex = Math.min(minIndex, findIndex(this.props.notes, (o) => o.noteId === noteId));
+      });
+      if (minIndex === 0) {
+        this.props.selectNote(null);
+      }
+      else {
+        this.props.selectNote(this.props.notes[minIndex].noteId);
+      }
+      this.props.checked.forEach(noteId => {
+        const index = findIndex(this.props.notes, (o) => o.noteId === noteId);
+        console.log(noteId, this.props.notes[index]);
+        this.props.deleteNote(this.props.notes[index]);
+      });
+      this.props.checkNotes([]);
+    }
+    else {
+      this.props.deleteNote(note);
+    }
   };
 
   handleNoteClick = (note) => {
@@ -125,9 +147,9 @@ class NoteList extends Component {
     if (!checkedNotes.includes(note.noteId)) {
       checkedNotes.push(note.noteId);
       let minIndex = Number.MAX_SAFE_INTEGER, maxIndex = -1;
-      checkedNotes.forEach(checkedNote => {
-        minIndex = Math.min(minIndex, this.indexOfNote(checkedNote, this.props.notes));
-        maxIndex = Math.max(maxIndex, this.indexOfNote(checkedNote, this.props.notes));
+      checkedNotes.forEach(noteId => {
+        minIndex = Math.min(minIndex, findIndex(this.props.notes, (o) => o.noteId === noteId));
+        maxIndex = Math.max(maxIndex, findIndex(this.props.notes, (o) => o.noteId === noteId));
       });
       for (let i = minIndex; i <= maxIndex; i++) {
         if (!checkedNotes.includes(this.props.notes[i].noteId)) {
@@ -172,12 +194,6 @@ class NoteList extends Component {
       this.props.checkNotes(checked);
     }
   };
-
-  indexOfNote = (noteId, notes) => {
-    let index = 0;
-    for (; index < notes.length && notes[index].noteId !== noteId; index++);
-    return index < notes.length ? index : -1;
-  }
 }
 
 export default NoteList;

@@ -12,7 +12,10 @@ class NoteContainer extends Component {
     if (this.props.note) {
       return <Note {...this.props} />;
     }
-    return <CheckedItemStack {...this.props} />
+    if (this.props.checked.length) {
+      return <CheckedItemStack {...this.props} />;
+    }
+    return null;
   }
 }
 
