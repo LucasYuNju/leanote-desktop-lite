@@ -60,9 +60,9 @@ export function replaceState(hash) {
 }
 
 export function changePath(path) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     const params = parseHash(path);
-    if (params.noteId) {
+    if (params.noteId && getState().noteList.checked.length) {
       dispatch(checkNotes([]));
     }
    	dispatch({ type: types.CHANGE_PATH, payload: { path, params }});
