@@ -3,7 +3,7 @@ import React, {Component, PropTypes} from 'react';
 
 import { getThumbnail, getAbstract } from '../util/regex';
 import Icon from '../components/Icon';
-import MarkdownEditor from '../components/MarkdownEditor';
+import SlateEditor from '../components/SlateEditor';
 import TagBar from '../components/TagBar';
 import NoteEditor from '../components/NoteEditor';
 
@@ -43,7 +43,7 @@ class Note extends Component {
           onContentChange={this.handleContentChange}
           onTitleChange={this.handleTitleChange}
         />
-        <MarkdownEditor
+        <SlateEditor
           active={note.isMarkdown}
           editMode={editMode}
           note={note}

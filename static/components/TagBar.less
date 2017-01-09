@@ -1,17 +1,18 @@
 .tag-bar
 {
-  @item-height: 38px;
-  @padding-left: 20px;
+  @item-height: 32px;
+  @padding-left: 15px;
 	@input-width: 160px;
-	@input-height: 20px;
+	@input-height: 15px;
 
   flex-shrink: 0;
   display: flex;
   align-self: stretch;
   height: @item-height;
-  padding: 0 @padding-left 6px @padding-left;
+  padding: 0 @padding-left 0 @padding-left;
 	align-items: center;
 	font-size: 12px;
+  border-bottom: 1px solid @border-color;
 
 	.notebook
 	{
