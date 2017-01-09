@@ -3,9 +3,9 @@ import React from 'react';
 
 const schema = {
   nodes: {
+    // Inlines
     [INLINES.LINK]: props => <a href={props.node.data.get('href')} {...props.attributes}>{props.children}</a>,
     [INLINES.IMAGE]: props => <img src={props.node.data.get('src')} {...props.attributes} />,
-    [INLINES.STRIKETHROUGH]: props => <strike {...props.attributes}>{props.children}</strike>,
     // Classic blocks
     [BLOCKS.BLOCKQUOTE]: props => <blockquote {...props.attributes}>{props.children}</blockquote>,
     [BLOCKS.CODE]: props => <pre {...props.attributes}>{props.children}</pre>,
@@ -24,15 +24,16 @@ const schema = {
     [BLOCKS.UL_LIST]: props => <ul {...props.attributes}>{props.children}</ul>,
     [BLOCKS.LIST_ITEM]: props => <li {...props.attributes}>{props.children}</li>,
     // Tables
-    [BLOCKS.TABLE]: props => <table {...props.attributes}>{props.children}</table>,
+    [BLOCKS.TABLE]: props => <table {...props.attributes}><tbody>{props.children}</tbody></table>,
     [BLOCKS.TABLE_ROW]: props => <tr {...props.attributes}>{props.children}</tr>,
     [BLOCKS.TABLE_CELL]: props => <td {...props.attributes}>{props.children}</td>,
     [BLOCKS.DEFAULT]: props => <div {...props.attributes}>{props.children}</div>,
   },
   marks: {
     [MARKS.BOLD]: props => <strong>{props.children}</strong>,
-    [MARKS.ITALIC]: props => <em>{props.children}</em>,
     [MARKS.CODE]: props => <code {...props.attributes}>{props.children}</code>,
+    [MARKS.ITALIC]: props => <em>{props.children}</em>,
+    [MARKS.STRIKETHROUGH]: props => <strike {...props.attributes}>{props.children}</strike>,
   }
 }
 
