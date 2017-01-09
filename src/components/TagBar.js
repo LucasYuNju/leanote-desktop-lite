@@ -17,6 +17,7 @@ class TagBar extends Component {
 
   render() {
     const { noteTags, notebookTitle, title, toggleEditMode } = this.props;
+    const tags = noteTags.filter(tag => tag !== '');
     return (
       <div className="tag-bar">
 				<div className="notebook">
@@ -24,8 +25,8 @@ class TagBar extends Component {
 					<span className="title">{notebookTitle}</span>
 				</div>
 				<div className="tags">
-					<Icon iconName="tag" />
-					{noteTags.filter(tag => tag !== '').map(tag => this.renderTag(tag))}
+					{tags.length ? <Icon iconName="tag" /> : null}
+					{tags.map(tag => this.renderTag(tag))}
 				</div>
       </div>
     );
