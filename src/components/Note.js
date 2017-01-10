@@ -30,17 +30,9 @@ class Note extends Component {
     return (
       <div className='note'>
         <TagBar
-					addNoteTag={addNoteTag}
 					notebookTitle={notebook.title}
-					noteId={note.noteId}
 					noteTags={note.tags}
-					allTags={allTags}
-					removeNoteTag={removeNoteTag}
-        />
-        <NoteEditor
-          active={!note.isMarkdown}
-          note={note}
-          onContentChange={this.handleContentChange}
+          title={note.title}
           onTitleChange={this.handleTitleChange}
         />
         <SlateEditor

@@ -1,7 +1,7 @@
 import MarkupIt, { BLOCKS, INLINES, TABLE_ALIGN, MARKS, CONTAINERS, VOID } from 'markup-it';
 import markdown from 'markup-it/lib/markdown';
 import React from 'react';
-import Slate, { Editor, Plain, Html } from 'slate';
+import Slate, { Editor, Plain, Html, State } from 'slate';
 
 import schema from './SlateSchema';
 
@@ -52,6 +52,7 @@ class SlateEditor extends React.Component {
           state={this.state.state}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
+          placeholder="Enter text here..."
         />
       </div>
     )
@@ -84,14 +85,14 @@ class SlateEditor extends React.Component {
     const type = this.getType(chars)
 
     if (!type) return
-    if (type == 'list-item' && startBlock.type == 'list-item') return
+    if (type == BLOCKS.LIST_ITEM && startBlock.type == BLOCKS.LIST_ITEM) return
     e.preventDefault()
 
     let transform = state
       .transform()
       .setBlock(type)
 
-    if (type == 'list-item') transform.wrapBlock('bulleted-list')
+    if (type == BLOCKS.LIST_ITEM) transform.wrapBlock(BLOCKS.UL_LIST)
 
     state = transform
       .extendToStartOf(startBlock)
@@ -113,15 +114,19 @@ class SlateEditor extends React.Component {
     if (state.isExpanded) return
     if (state.startOffset != 0) return
     const { startBlock } = state
-
-    if (startBlock.type == 'paragraph') return
+    // debugger;
+    if (startBlock.type == BLOCKS.PARAGRAPH) return
+    // console.log(JSON.stringify(startBlock));
+    if (startBlock.length === 0 && startBlock.text === '') {
+      return
+    }
     e.preventDefault()
 
     let transform = state
       .transform()
-      .setBlock('paragraph')
+      .setBlock(BLOCKS.PARAGRAPH)
 
-    if (startBlock.type == 'list-item') transform.unwrapBlock('bulleted-list')
+    if (startBlock.type == BLOCKS.LIST_ITEM) transform.unwrapBlock(BLOCKS.UL_LIST)
 
     state = transform.apply()
     return state
@@ -142,13 +147,13 @@ class SlateEditor extends React.Component {
     if (endOffset != startBlock.length) return
 
     if (
-      startBlock.type != 'heading-one' &&
-      startBlock.type != 'heading-two' &&
-      startBlock.type != 'heading-three' &&
-      startBlock.type != 'heading-four' &&
-      startBlock.type != 'heading-five' &&
-      startBlock.type != 'heading-six' &&
-      startBlock.type != 'block-quote'
+      startBlock.type != BLOCKS.HEADING_1 &&
+      startBlock.type != BLOCKS.HEADING_2 &&
+      startBlock.type != BLOCKS.HEADING_3 &&
+      startBlock.type != BLOCKS.HEADING_4 &&
+      startBlock.type != BLOCKS.HEADING_5 &&
+      startBlock.type != BLOCKS.HEADING_6 &&
+      startBlock.type != BLOCKS.BLOCKQUOTE
     ) {
       return
     }
@@ -157,7 +162,7 @@ class SlateEditor extends React.Component {
     return state
       .transform()
       .splitBlock()
-      .setBlock('paragraph')
+      .setBlock(BLOCKS.PARAGRAPH)
       .apply()
   }
 }
@@ -174,8 +179,10 @@ function serializeState(state) {
  * Transform markdown to Slate.state
  */
 function deserializeToState(text) {
+  if (!text) {
+    return Plain.deserialize('');
+  }
   const document = MarkupIt.State.create(markdown).deserializeToDocument(text);
-  console.log(JSON.stringify(document));
   const state = Slate.State.create({ document });
   return state;
 }

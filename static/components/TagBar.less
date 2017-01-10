@@ -1,7 +1,7 @@
 .tag-bar
 {
-  @item-height: 32px;
-  @padding-left: 15px;
+  @item-height: 40px;
+  @padding-left: 20px;
 	@input-width: 160px;
 	@input-height: 15px;
 
@@ -12,7 +12,7 @@
   padding: 0 @padding-left 0 @padding-left;
 	align-items: center;
 	font-size: 12px;
-  border-bottom: 1px solid @border-color;
+  // border-bottom: 1px solid @border-color;
 
 	.notebook
 	{
@@ -32,6 +32,20 @@
 			margin-left: 0px;
 		}
 	}
+
+  input.note-title {
+    padding: 0 5px 0 5px;
+    border: none;
+    font-size: 18px;
+    font-weight: normal;
+    flex-shrink: 0;
+    outline: none;
+    background: inherit;
+
+    &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+      color: @icon-color;
+    }
+  }
 
 	.tags
 	{
