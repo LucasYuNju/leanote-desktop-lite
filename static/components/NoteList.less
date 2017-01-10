@@ -4,6 +4,7 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
+  background: @note-list-bg;
 
   * {
     -webkit-user-select: none;
@@ -20,7 +21,6 @@
 
     .note-list-item {
       cursor: default;
-      background: @note-list-bg;
       border-bottom: 1px solid @border-color;
       height: 94px;
       display: flex;
@@ -30,6 +30,7 @@
 
       &.selected {
         // background: @note-list-selecton-bg;
+        background: white;
         .wrapper {
           border: 2px solid @theme-color;
         }
