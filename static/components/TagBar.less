@@ -1,10 +1,11 @@
 .tag-bar
 {
-  @item-height: 40px;
+  @item-height: 30px;
   @padding-left: 20px;
 	@input-width: 160px;
 	@input-height: 15px;
 
+  margin-top: 8px;
   flex-shrink: 0;
   display: flex;
   align-self: stretch;
@@ -12,57 +13,85 @@
   padding: 0 @padding-left 0 @padding-left;
 	align-items: center;
 	font-size: 12px;
+  justify-content: flex-start;
   // border-bottom: 1px solid @border-color;
 
-	.notebook
-	{
-		color: @icon-color;
-		font-size: 12px;
-		cursor: pointer;
-		margin-right: 10px;
+  .note-title {
+    min-width: 80px;
+    display: inline-block;
+    margin-right: 10px;
 
-		.icon
-		{
-			font-size: 14px;
-			cursor: default;
-		}
+    input {
+      padding: 0 5px 0 5px;
+      border: none;
+      font-size: 16px;
+      font-weight: normal;
+      outline: none;
+      background: inherit;
 
-		.title
-		{
-			margin-left: 0px;
-		}
-	}
-
-  input.note-title {
-    padding: 0 5px 0 5px;
-    border: none;
-    font-size: 18px;
-    font-weight: normal;
-    flex-shrink: 0;
-    outline: none;
-    background: inherit;
-
-    &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-      color: @icon-color;
+      &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+        color: @icon-color;
+      }
     }
   }
 
-	.tags
-	{
-		flex: 0 0 auto;
-		display: flex;
-		align-items: center;
-		position: relative;
+  .btn {
+    position: relative;
+    // padding: 0 13px;
+    width: 64px;
 
-		.icon
-		{
-			font-size: 14px;
-		}
+    .text {
+      margin: 0;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, 0);
+      transition: left 0.15s ease-in;
+      max-width: 56px;
+      top: 0;
+      bottom: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
 
-		.tag
-		{
-			margin-left: 4px;
-      cursor: pointer;
-		}
-	}
+    .icon {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translate(0, -50%) rotate(45deg);
+      opacity: 0;
+      font-size: @font-size-smaller;
+      transition: opacity 0.15s ease-in;
+    }
+
+    &:hover {
+      .text {
+        left: 45%;
+      }
+
+      .icon {
+        opacity: 1;
+      }
+    }
+
+    &.notebook {
+      color: rgb(130, 95, 43);
+      background-color: rgb(243, 226, 202);
+      box-shadow: rgb(194, 135, 45) 0px 0px 1px inset, rgba(255, 255, 255, 0.498039) 0px 1px 1px inset, rgba(255, 255, 255, 0.498039) 0px 0.5px 0px;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
+    }
+
+    &.tag {
+
+    }
+  }
+}
+
+// invisible element to calculate width of input.
+.input-width-calculator {
+  visibility: hidden;
+  padding: 0 5px 0 5px;
+  border: none;
+  font-size: 16px;
+  font-weight: normal;
 }

@@ -4,8 +4,6 @@ import classNames from 'classnames';
 import Icon from '../components/Icon';
 import ToolBarContainer from '../containers/ToolBarContainer';
 
-const MAX_NUM_SUGGESTIONS = 8;
-
 class TagBar extends Component {
   static propTypes = {
 		notebookTitle: PropTypes.string,
@@ -16,7 +14,6 @@ class TagBar extends Component {
 
   constructor(props, context) {
     super(props);
-    console.log(context);
     this.state = {
       title: props.title,
     };
@@ -30,33 +27,36 @@ class TagBar extends Component {
 
   render() {
     const { noteTags, notebookTitle, toggleEditMode } = this.props;
+    const titleWidth = Math.max(80, this.calculateInputWidth(this.state.title));
+
     const tags = noteTags.filter(tag => tag !== '');
     return (
       <div className="tag-bar">
-				<div className="notebook">
-					<Icon iconName="repo" />
-					<span className="title">{notebookTitle}</span>
+        <div className="note-title">
+          <input
+            value={this.state.title}
+            placeholder="Untitled"
+            onChange={this.handleInputChange}
+            onBlur={this.handleInputBlur}
+            size={10}
+            style={{ width: titleWidth}}
+          />
+        </div>
+				<div className="btn notebook">
+					<span className="text">{notebookTitle}</span>
+          <Icon iconName="plus" className="delete" />
 				</div>
-				<div className="tags">
-					{tags.length ? <Icon iconName="tag" /> : null}
-					{tags.map(tag => this.renderTag(tag))}
-				</div>
-        <input
-          className="note-title"
-          value={this.state.title}
-          placeholder="Untitled"
-          onChange={this.handleInputChange}
-          onBlur={this.handleInputBlur}
-        />
+				{tags.map(tag => this.renderTag(tag))}
       </div>
     );
   }
 
 	renderTag = (tag) => {
 		return (
-			<span className="tag" key={tag}>
-				{tag}
-			</span>
+			<div className="btn tag" key={tag}>
+        <span className="text">{tag}</span>
+        <Icon iconName="plus" onClick={this.handleDeleteButtonClick}/>
+      </div>
 		);
 	}
 
@@ -68,6 +68,20 @@ class TagBar extends Component {
 
   handleInputBlur = (e) => {
     this.props.onTitleChange(this.state.title);
+  }
+
+  handleDeleteButtonClick = (e) => {
+
+  }
+
+  calculateInputWidth = (text) => {
+    const span = document.createElement('span');
+    span.innerText = text;
+    span.classList.add('input-width-calculator');
+    document.body.appendChild(span);
+    const width = span.getBoundingClientRect().width;
+    document.body.removeChild(span);
+    return width;
   }
 }
 

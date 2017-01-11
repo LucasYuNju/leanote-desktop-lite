@@ -1,8 +1,23 @@
-.note
-{
+.fade-wrapper {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  min-width: 0;
-  background: @nav-bg;
+
+  .fade-enter {
+    opacity: 0;
+  }
+
+  .fade-enter.fade-enter-active {
+    opacity: 1;
+    transition: opacity 100ms ease-in;
+  }
+
+  .note
+  {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: @nav-bg;
+  }
 }

@@ -6,6 +6,7 @@ import Icon from '../components/Icon';
 import SlateEditor from '../components/SlateEditor';
 import TagBar from '../components/TagBar';
 import NoteEditor from '../components/NoteEditor';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Note extends Component {
   static propTypes = {
@@ -18,7 +19,7 @@ class Note extends Component {
 		removeNoteTag: PropTypes.func.isRequired,
   };
 
-  render() {
+  render = () => {
     const {
 			editMode,
 			addNoteTag,
@@ -28,19 +29,29 @@ class Note extends Component {
 			removeNoteTag,
     } = this.props;
     return (
-      <div className='note'>
-        <TagBar
-					notebookTitle={notebook.title}
-					noteTags={note.tags}
-          title={note.title}
-          onTitleChange={this.handleTitleChange}
-        />
-        <SlateEditor
-          active={note.isMarkdown}
-          editMode={editMode}
-          note={note}
-        />
-      </div>
+      <CSSTransitionGroup
+        transitionName="fade"
+        transitionLeave={false}
+        transitionEnterTimeout={100}
+        className="fade-wrapper"
+      >
+        <div
+          className="note"
+          key={note.noteId}
+        >
+          <TagBar
+            notebookTitle={notebook.title}
+            noteTags={note.tags}
+            title={note.title}
+            onTitleChange={this.handleTitleChange}
+          />
+          <SlateEditor
+            active={note.isMarkdown}
+            editMode={editMode}
+            note={note}
+          />
+        </div>
+      </CSSTransitionGroup>
     );
   }
 
