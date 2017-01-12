@@ -1,23 +1,19 @@
-.fade-wrapper {
+.note {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  background: @nav-bg;
+  opacity: 1;
 
-  .fade-enter {
+  &.enter {
     opacity: 0;
   }
 
-  .fade-enter.fade-enter-active {
+  // 必须要两个class才能完成切换笔记时的渐变效果
+  // 避免出现透明度1 => 0的动画
+  &.enter.enter-active {
+    transition: opacity 150ms ease-in;
     opacity: 1;
-    transition: opacity 100ms ease-in;
-  }
-
-  .note
-  {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    background: @nav-bg;
   }
 }

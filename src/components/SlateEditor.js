@@ -1,14 +1,21 @@
 import MarkupIt, { BLOCKS, INLINES, TABLE_ALIGN, MARKS, CONTAINERS, VOID } from 'markup-it';
 import markdown from 'markup-it/lib/markdown';
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import Slate, { Editor, Plain, Html, State } from 'slate';
 
 import schema from './SlateSchema';
 
-class SlateEditor extends React.Component {
-  state = {
-    state: Plain.deserialize(''),
+class SlateEditor extends Component {
+  static propTypes = {
+    note: PropTypes.object
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      state: Plain.deserialize(''),
+    };
+  }
 
   /**
    * Get the block type for a series of auto-markdown shortcut `chars`.
@@ -43,7 +50,7 @@ class SlateEditor extends React.Component {
     });
   }
 
-  render = () => {
+  render() {
     return (
       <div className="editor-preview editor">
         <Editor
