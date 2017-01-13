@@ -61,17 +61,13 @@ class Note extends Component {
   }
 
   handleTitleChange = (title) => {
-    this.props.updateNote({
-      ...this.props.note,
-      title,
-    });
+    this.props.updateNote(this.props.note.noteId, { title });
   };
 
   handleContentChange = (content) => {
-    this.props.updateNote({
+    this.props.updateNote(this.props.note.noteId, {
       abstract: getAbstract(content),
       content,
-      noteId: this.props.note.noteId,
       thumbnail: getThumbnail(content),
       usn: this.props.note.usn,
     });
