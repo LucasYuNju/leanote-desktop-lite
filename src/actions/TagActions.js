@@ -4,6 +4,8 @@ import { updateNote } from '../actions/NoteActions';
 export function addNoteTag(noteId, tag) {
 	return (dispatch, getState) => {
 		dispatch({ type: types.LINK_TAG, noteId, tag });
+    console.log('####', tag);
+    console.log(getState().entities.notes[noteId]);
 		dispatch(updateNote(getState().entities.notes[noteId]));
 	}
 }

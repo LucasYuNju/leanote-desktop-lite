@@ -58,7 +58,20 @@ export default store => next => action => {
     payload: action,
 	});
   query.token = token;
-  return callApi(`${url}?${qs(query)}`, { method, body: formData(pascalizeKeys(body)) }, schema)
+
+  let res;
+  if (method === 'GET') {
+    res = callApi(`${url}?${qs(query)}`, { method }, schema);
+  } else {
+    res = callApi(`${url}?${qs(query)}`, {
+      method,
+      body: formData(pascalizeKeys(body)),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      },
+    }, schema);
+  }
+  return res
 		.then(
 			(response) => {
 				const finalAction = {

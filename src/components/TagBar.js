@@ -7,9 +7,11 @@ import ToolBarContainer from '../containers/ToolBarContainer';
 class TagBar extends Component {
   static propTypes = {
 		notebookTitle: PropTypes.string,
+    noteId: PropTypes.string.isRequired,
     noteTags: PropTypes.arrayOf(PropTypes.string).isRequired,
     title: PropTypes.string,
     onTitleChange: PropTypes.func.isRequired,
+    removeNoteTag: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
@@ -44,7 +46,6 @@ class TagBar extends Component {
         </div>
 				<div className="btn notebook">
 					<span className="text">{notebookTitle}</span>
-          <Icon iconName="plus" className="delete" />
 				</div>
 				{tags.map(tag => this.renderTag(tag))}
       </div>
@@ -55,7 +56,7 @@ class TagBar extends Component {
 		return (
 			<div className="btn tag" key={tag}>
         <span className="text">{tag}</span>
-        <Icon iconName="plus" onClick={this.handleDeleteButtonClick}/>
+        <Icon iconName="plus" onClick={this.handleDeleteButtonClick.bind(this, tag)} />
       </div>
 		);
 	}
@@ -70,8 +71,8 @@ class TagBar extends Component {
     this.props.onTitleChange(this.state.title);
   }
 
-  handleDeleteButtonClick = (e) => {
-
+  handleDeleteButtonClick = (tag) => {
+    this.props.removeNoteTag(this.props.noteId, tag);
   }
 
   calculateInputWidth = (text) => {

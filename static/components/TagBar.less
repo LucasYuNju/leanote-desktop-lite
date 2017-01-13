@@ -37,8 +37,8 @@
 
   .btn {
     position: relative;
-    // padding: 0 13px;
-    width: 64px;
+    width: 60px;
+    margin-right: 8px;
 
     .text {
       margin: 0;
@@ -46,7 +46,7 @@
       left: 50%;
       transform: translate(-50%, 0);
       transition: left 0.15s ease-in;
-      max-width: 56px;
+      max-width: 50px;
       top: 0;
       bottom: 0;
       overflow: hidden;
@@ -64,16 +64,6 @@
       transition: opacity 0.15s ease-in;
     }
 
-    &:hover {
-      .text {
-        left: 45%;
-      }
-
-      .icon {
-        opacity: 1;
-      }
-    }
-
     &.notebook {
       color: rgb(130, 95, 43);
       background-color: rgb(243, 226, 202);
@@ -82,7 +72,20 @@
     }
 
     &.tag {
+      color: rgb(86, 62, 125);
+      background-color: rgb(85, 172, 238);
+      box-shadow: #025aa5 0px 0px 1px inset, rgba(255, 255, 255, 0.498039) 0px 1px 1px inset, rgba(255, 255, 255, 0.498039) 0px 0.5px 0px;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
 
+      &:hover {
+        .text {
+          left: 45%;
+        }
+
+        .icon {
+          opacity: 1;
+        }
+      }
     }
   }
 }

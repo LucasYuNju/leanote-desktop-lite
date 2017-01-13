@@ -41,9 +41,11 @@ class Note extends Component {
       >
         <TagBar
           notebookTitle={notebook.title}
+          noteId={note.noteId}
           noteTags={note.tags}
           title={note.title}
           onTitleChange={this.handleTitleChange}
+          removeNoteTag={removeNoteTag}
         />
         <SlateEditor
           active={note.isMarkdown}

@@ -7,12 +7,7 @@ import ToolBar from '../components/ToolBar';
 
 class ToolBarContainer extends Component {
   render() {
-		if (this.props.note) {
-			return (
-				<ToolBar {...this.props} />
-	    );
-		}
-		return null;
+    return this.props.note ? <ToolBar {...this.props} /> : null;
   }
 }
 
