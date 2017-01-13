@@ -1,7 +1,7 @@
  /**
-  * 简化版querystring
+  * 乞丐版querystring
   */
-export function qs(obj = {}) {
+export function querystring(obj = {}) {
   const encode = encodeURIComponent;
   return Object.keys(obj)
     .map(k => encode(k) + '=' + encode(obj[k]))
@@ -9,9 +9,9 @@ export function qs(obj = {}) {
 }
 
 /**
- * 和qs类似，用于发送application/x-www-urlencoded表单
+ * 和querystring略有差别，用于将表单encode为application/x-www-urlencoded格式
  */
-export function urlencode(obj = {}) {
+export function encodeForm(obj = {}) {
   return stringify(obj);
 }
 

@@ -1,13 +1,11 @@
 const { protocol } = require('electron');
 
-const { qs } = require('./util');
-
 const defaultUrl = 'https://leanote.com';
 const leanoteUrl = defaultUrl;
 let token = null;
 
 function getImage(fileId) {
-  const query = qs({
+  const query = querystring({
     fileId,
     token,
   });
