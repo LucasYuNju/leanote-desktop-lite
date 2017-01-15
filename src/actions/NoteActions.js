@@ -79,7 +79,7 @@ export function updateNote(noteId, attributes) {
   return (dispatch, getState) => {
     const note = getState().entities.notes[noteId];
     // optimistic update
-    dispatch({ type: types.UPDATE_NOTE, payload: { note: attributes } });
+    dispatch({ type: types.UPDATE_NOTE, payload: { note: { ...note, ...attributes } } });
     dispatch({
       types: [types.UPDATE_NOTE_REQUEST, null, null],
       url: 'note/updateNote',

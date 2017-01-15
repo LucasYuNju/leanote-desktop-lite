@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import marked from 'marked';
 import React, {Component, PropTypes} from 'react';
 
 import { getThumbnail, getAbstract } from '../util/regex';
@@ -43,13 +44,14 @@ class Note extends Component {
           noteId={note.noteId}
           noteTags={note.tags}
           title={note.title}
-          onTitleChange={this.handleTitleChange}
+          onTitleChange={this.onTitleChange}
           removeNoteTag={removeNoteTag}
         />
         <SlateEditor
           active={note.isMarkdown}
           editMode={editMode}
           note={note}
+          onChange={this.onContentChange}
         />
       </div>
     );
@@ -59,16 +61,15 @@ class Note extends Component {
     this.refs.container.classList.add('enter-active');
   }
 
-  handleTitleChange = (title) => {
+  onTitleChange = (title) => {
     this.props.updateNote(this.props.note.noteId, { title });
   };
 
-  handleContentChange = (content) => {
+  onContentChange = (content) => {
     this.props.updateNote(this.props.note.noteId, {
-      abstract: getAbstract(content),
-      content,
+      abstract: getAbstract(marked(content)),
       thumbnail: getThumbnail(content),
-      usn: this.props.note.usn,
+      content,
     });
   };
 }

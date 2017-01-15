@@ -16,8 +16,10 @@
   },
   "keywords": [
     "electron",
+    "react",
     "leanote",
-    "react"
+    "markdown",
+    "note"
   ],
   "author": "yang",
   "license": "MIT",
@@ -32,6 +34,7 @@
     "humps": "^2.0.0",
     "localforage": "^1.4.3",
     "lodash": "^4.16.6",
+    "marked": "^0.3.6",
     "markup-it": "^3.3.0",
     "moment": "^2.15.1",
     "normalizr": "^2.2.1",

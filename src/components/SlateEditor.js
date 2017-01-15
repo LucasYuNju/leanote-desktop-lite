@@ -1,20 +1,68 @@
 import MarkupIt, { BLOCKS, INLINES, TABLE_ALIGN, MARKS, CONTAINERS, VOID } from 'markup-it';
 import markdown from 'markup-it/lib/markdown';
 import React, { Component, PropTypes } from 'react';
-import Slate, { Editor, Plain, Html, State } from 'slate';
+import Slate, { Editor, State } from 'slate';
 
 import schema from './SlateSchema';
 
 class SlateEditor extends Component {
   static propTypes = {
-    note: PropTypes.object
+    note: PropTypes.object,
+    onChange: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      state: Plain.deserialize(''),
-    };
+  state = {
+    state: deserializeToState(''),
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.note.isMarkdown) {
+      console.error('Only markdown note is supported');
+      return;
+    }
+
+    // console.log(nextProps.note.noteId, nextProps.note.content);
+
+    this.setState({
+      state: deserializeToState(nextProps.note.content),
+    });
+  }
+
+  render() {
+    return (
+      <div className="editor">
+        <Editor
+          className="slate-editor markdown-body"
+          onBlur={this.onBlur}
+          onChange={this.onChange}
+          onDocumentChange={this.onDocumentChange}
+          onKeyDown={this.onKeyDown}
+          placeholder="Enter text here..."
+          ref="slate"
+          schema={schema}
+          state={this.state.state}
+        />
+      </div>
+    )
+  }
+
+  onBlur = () => {
+    const text = serializeState(this.state.state);
+    if (text !== this.props.note.content) {
+      this.props.onChange(text);
+    }
+  }
+
+  onChange = (state) => {
+    this.setState({ state })
+  }
+
+  onKeyDown = (e, data, state) => {
+    switch (data.key) {
+      case 'space': return this.onSpace(e, state)
+      case 'backspace': return this.onBackspace(e, state)
+      case 'enter': return this.onEnter(e, state)
+    }
   }
 
   /**
@@ -36,44 +84,6 @@ class SlateEditor extends Component {
       case '#####': return BLOCKS.HEADING_5;
       case '######': return BLOCKS.HEADING_6;
       default: return null
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.note.isMarkdown) {
-      console.error('Only markdown is supported');
-      return;
-    }
-
-    this.setState({
-      state: deserializeToState(nextProps.note.content),
-    });
-  }
-
-  render() {
-    return (
-      <div className="editor">
-        <Editor
-          className="slate-editor markdown-body"
-          schema={schema}
-          state={this.state.state}
-          onChange={this.onChange}
-          onKeyDown={this.onKeyDown}
-          placeholder="Enter text here..."
-        />
-      </div>
-    )
-  }
-
-  onChange = (state) => {
-    this.setState({ state })
-  }
-
-  onKeyDown = (e, data, state) => {
-    switch (data.key) {
-      case 'space': return this.onSpace(e, state)
-      case 'backspace': return this.onBackspace(e, state)
-      case 'enter': return this.onEnter(e, state)
     }
   }
 
@@ -186,11 +196,9 @@ function serializeState(state) {
  * Transform markdown to Slate.state
  */
 function deserializeToState(text) {
-  if (!text) {
-    return Plain.deserialize('');
-  }
   const document = MarkupIt.State.create(markdown).deserializeToDocument(text);
   const state = Slate.State.create({ document });
+  // console.log(serializeState(state));
   return state;
 }
 

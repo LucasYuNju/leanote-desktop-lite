@@ -33,7 +33,7 @@ class Navigator extends Component {
 			<div className="search-bar-container">
 				<div
 					className={classNames('btn', { 'btn-disabled': this.state.current <= 1 })}
-					onClick={this.handleNavigateBack}
+					onClick={this.onNavigateBack}
 				>
 					<Icon
 						className="back-icon"
@@ -42,7 +42,7 @@ class Navigator extends Component {
 				</div>
 				<div
 					className={classNames('btn', { 'btn-disabled': this.state.current >= this.state.length })}
-					onClick={this.handleNavigateForward}
+					onClick={this.onNavigateForward}
 				>
 					<Icon
 						className="forward-icon"
@@ -66,8 +66,7 @@ class Navigator extends Component {
   }
 
   componentDidMount() {
-    // TODO 不能放在这，这个事件应该在main里面注册
-    window.addEventListener('hashchange', this.handleHashChange);
+    window.addEventListener('hashchange', this.onHashChange);
   }
 
   handleInputChange = (e) => {
@@ -76,7 +75,7 @@ class Navigator extends Component {
     });
   }
 
-  handleHashChange = (e) => {
+  onHashChange = (e) => {
     if (this.ignoreHashChangeOnce) {
       this.ignoreHashChangeOnce = false;
     }
@@ -88,7 +87,7 @@ class Navigator extends Component {
     }
   }
 
-	handleNavigateBack = () => {
+	onNavigateBack = () => {
     if (this.state.current > 1) {
       this.setState({
         current: this.state.current - 1,
@@ -98,7 +97,7 @@ class Navigator extends Component {
     }
 	};
 
-	handleNavigateForward = () => {
+	onNavigateForward = () => {
     if (this.state.current < this.state.length) {
       this.setState({
         current: this.state.current + 1,
