@@ -52,9 +52,9 @@ class SlateEditor extends Component {
 
   render() {
     return (
-      <div className="editor-preview editor">
+      <div className="editor">
         <Editor
-          className="slate-editor"
+          className="slate-editor markdown-body"
           schema={schema}
           state={this.state.state}
           onChange={this.onChange}
