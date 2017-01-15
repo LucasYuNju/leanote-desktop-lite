@@ -44,7 +44,7 @@ class NoteListItem extends Component {
       >
         <div className="wrapper">
           <div className="info">
-            <div className="title">{note.title}</div>
+            <div className="title">{note.title ? note.title : 'Untitled'}</div>
             <div className="detail">
               <span className="updated-time">{fromNow(note.updatedTime)}</span>
               <span className="snippet">{note.abstract}</span>
