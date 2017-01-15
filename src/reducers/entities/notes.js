@@ -58,11 +58,14 @@ function notes(state = {}, action) {
       }
     case types.ADD_NOTE_SUCCESS:
     case types.UPDATE_NOTE_SUCCESS:
+      // const note = { ...action.payload.entities.notes[action.payload.result] };
+      // delete note.abstrct;
+      // delete note.content;
       return {
         ...state,
 				[action.payload.result]: {
           ...state[action.payload.result],
-          ...action.payload.entities.notes[action.payload.result],
+          ...action.payload.entities.notes[action.payload.result]
         },
       };
     // case types.DELETE_NOTE:

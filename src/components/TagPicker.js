@@ -23,7 +23,9 @@ class TagPicker extends Component {
   }
 
 	togglePopover = (e) => {
-		e.preventDefault();
+		if (e) {
+      e.preventDefault();
+    }
 		this.setState({
 			open: !this.state.open,
 		});

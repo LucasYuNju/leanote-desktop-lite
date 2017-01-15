@@ -4,40 +4,86 @@ import classNames from 'classnames';
 import Icon from '../components/Icon';
 import ToolBarContainer from '../containers/ToolBarContainer';
 
-const MAX_NUM_SUGGESTIONS = 8;
-
 class TagBar extends Component {
   static propTypes = {
-		addNoteTag: PropTypes.func.isRequired,
 		notebookTitle: PropTypes.string,
+    noteId: PropTypes.string.isRequired,
     noteTags: PropTypes.arrayOf(PropTypes.string).isRequired,
-		allTags: PropTypes.arrayOf(PropTypes.string).isRequired,
-		removeNoteTag: PropTypes.func.isRequired,
+    title: PropTypes.string,
+    onTitleChange: PropTypes.func.isRequired,
+    removeNoteTag: PropTypes.func.isRequired,
   };
 
+  constructor(props, context) {
+    super(props);
+    this.state = {
+      title: props.title,
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      title: nextProps.title,
+    });
+  }
+
   render() {
-    const { noteTags, notebookTitle, title, toggleEditMode } = this.props;
+    const { noteTags, notebookTitle, toggleEditMode } = this.props;
+    const titleWidth = Math.max(80, this.calculateInputWidth(this.state.title));
+
+    const tags = noteTags.filter(tag => tag !== '');
     return (
       <div className="tag-bar">
-				<div className="notebook">
-					<Icon iconName="repo" />
-					<span className="title">{notebookTitle}</span>
+        <div className="note-title">
+          <input
+            value={this.state.title}
+            placeholder="Untitled"
+            onChange={this.handleInputChange}
+            onBlur={this.handleInputBlur}
+            size={10}
+            style={{ width: titleWidth}}
+          />
+        </div>
+				<div className="btn notebook">
+					<span className="text">{notebookTitle}</span>
 				</div>
-				<div className="tags">
-					<Icon iconName="tag" />
-					{noteTags.filter(tag => tag !== '').map(tag => this.renderTag(tag))}
-				</div>
+				{tags.map(tag => this.renderTag(tag))}
       </div>
     );
   }
 
-	renderTag(tag) {
+	renderTag = (tag) => {
 		return (
-			<span className="tag" key={tag}>
-				{tag}
-			</span>
+			<div className="btn tag" key={tag}>
+        <span className="text">{tag}</span>
+        <Icon iconName="plus" onClick={this.handleDeleteButtonClick.bind(this, tag)} />
+      </div>
 		);
 	}
+
+  handleInputChange = (e) => {
+    this.setState({
+      title: e.currentTarget.value,
+    });
+  }
+
+  handleInputBlur = (e) => {
+    this.props.onTitleChange(this.state.title);
+  }
+
+  handleDeleteButtonClick = (tag) => {
+    this.props.removeNoteTag(this.props.noteId, tag);
+  }
+
+  calculateInputWidth = (text) => {
+    const span = document.createElement('span');
+    span.innerText = text;
+    span.classList.add('input-width-calculator');
+    document.body.appendChild(span);
+    const width = span.getBoundingClientRect().width;
+    document.body.removeChild(span);
+    return width;
+  }
 }
 
 export default TagBar;

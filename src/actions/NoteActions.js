@@ -75,16 +75,23 @@ export function createNote(note, notebookId) {
 /**
  * param change: changed part of note object, only NoteId is required
  */
-export function updateNote(note) {
-  return (dispatch) => {
+export function updateNote(noteId, attributes) {
+  return (dispatch, getState) => {
+    const note = getState().entities.notes[noteId];
     // optimistic update
-    dispatch({ type: types.UPDATE_NOTE, payload: { note } });
+    dispatch({ type: types.UPDATE_NOTE, payload: { note: attributes } });
     dispatch({
-      types: [types.UPDATE_NOTE_REQUEST, types.UPDATE_NOTE_SUCCESS, null],
+      types: [types.UPDATE_NOTE_REQUEST, null, null],
       url: 'note/updateNote',
       method: 'POST',
-      body: note,
+      body: { ...note, ...attributes },
       schema: noteSchema,
+    }).then(action => {
+      // post的返回值中，content和abstract为空，需要手动删除
+      const note = action.payload.entities.notes[action.payload.result];
+      delete note.abstract;
+      delete note.content;
+      dispatch({ type: types.UPDATE_NOTE_SUCCESS, payload: action.payload });
     });
   }
 }
@@ -94,10 +101,7 @@ export function updateNote(note) {
 // 视图层必须先选中下一个笔记，才能删除目标笔记
 export function deleteNote(note) {
   return (dispatch) => {
-    dispatch(updateNote({
-      ...note,
-      isTrash: true,
-    }));
+    dispatch(updateNote(note.noteId, { isTrash: true }));
   }
 }
 

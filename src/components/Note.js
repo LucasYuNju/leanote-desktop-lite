@@ -3,9 +3,10 @@ import React, {Component, PropTypes} from 'react';
 
 import { getThumbnail, getAbstract } from '../util/regex';
 import Icon from '../components/Icon';
-import MarkdownEditor from '../components/MarkdownEditor';
+import SlateEditor from '../components/SlateEditor';
 import TagBar from '../components/TagBar';
 import NoteEditor from '../components/NoteEditor';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Note extends Component {
   static propTypes = {
@@ -18,7 +19,13 @@ class Note extends Component {
 		removeNoteTag: PropTypes.func.isRequired,
   };
 
-  render() {
+  /**
+   * 切换笔记时，利用CSS实现透明度从0到1的渐变动画
+   * react-addons-css-transition-group只能在mount和unmount时修改class，无法实现这样的效果
+   * 这里的实现是，在component重新render的时候，设置className为enter，然后立即添加新的className enter-active
+   * 由于是通过DOM操作的方式修改class，react做dom diff的时候，会认为节点不变，所以要在className中加入note.noteId，强制更新class
+   */
+  render = () => {
     const {
 			editMode,
 			addNoteTag,
@@ -28,22 +35,19 @@ class Note extends Component {
 			removeNoteTag,
     } = this.props;
     return (
-      <div className='note'>
+      <div
+        className={`note enter ${note.noteId}`}
+        ref="container"
+      >
         <TagBar
-					addNoteTag={addNoteTag}
-					notebookTitle={notebook.title}
-					noteId={note.noteId}
-					noteTags={note.tags}
-					allTags={allTags}
-					removeNoteTag={removeNoteTag}
-        />
-        <NoteEditor
-          active={!note.isMarkdown}
-          note={note}
-          onContentChange={this.handleContentChange}
+          notebookTitle={notebook.title}
+          noteId={note.noteId}
+          noteTags={note.tags}
+          title={note.title}
           onTitleChange={this.handleTitleChange}
+          removeNoteTag={removeNoteTag}
         />
-        <MarkdownEditor
+        <SlateEditor
           active={note.isMarkdown}
           editMode={editMode}
           note={note}
@@ -52,18 +56,18 @@ class Note extends Component {
     );
   }
 
+  componentDidUpdate() {
+    this.refs.container.classList.add('enter-active');
+  }
+
   handleTitleChange = (title) => {
-    this.props.updateNote({
-      ...this.props.note,
-      title,
-    });
+    this.props.updateNote(this.props.note.noteId, { title });
   };
 
   handleContentChange = (content) => {
-    this.props.updateNote({
+    this.props.updateNote(this.props.note.noteId, {
       abstract: getAbstract(content),
       content,
-      noteId: this.props.note.noteId,
       thumbnail: getThumbnail(content),
       usn: this.props.note.usn,
     });

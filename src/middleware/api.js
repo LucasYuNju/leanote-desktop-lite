@@ -3,7 +3,7 @@ import { camelizeKeys, pascalizeKeys } from 'humps';
 import { AUTH_REQUEST } from '../constants/ActionTypes';
 import { REHYDRATE } from 'redux-persist/constants';
 
-import { formData, qs } from '../util/request';
+import { encodeForm, querystring } from '../util/querystring';
 
 let token = '';
 const API_ROOT = 'https://leanote.com/api/';
@@ -58,7 +58,20 @@ export default store => next => action => {
     payload: action,
 	});
   query.token = token;
-  return callApi(`${url}?${qs(query)}`, { method, body: formData(pascalizeKeys(body)) }, schema)
+
+  let res;
+  if (method === 'GET') {
+    res = callApi(`${url}?${querystring(query)}`, { method }, schema);
+  } else {
+    res = callApi(`${url}?${querystring(query)}`, {
+      method,
+      body: encodeForm(pascalizeKeys(body)),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      },
+    }, schema);
+  }
+  return res
 		.then(
 			(response) => {
 				const finalAction = {

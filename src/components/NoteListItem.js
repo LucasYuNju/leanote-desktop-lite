@@ -70,6 +70,7 @@ class NoteListItem extends Component {
   }
 
   handleClick = (event) => {
+    // console.log(this.props.note);
     const nativeEvent = event.nativeEvent;
     if (this.props.onCtrlClick && nativeEvent.metaKey) {
       event.preventDefault();

@@ -37,10 +37,14 @@ module.exports = {
           'file?name=[name]-[sha1:hash:hex:10].[ext]',
         ]
       },
+      {
+        test: /\.json$/,
+        loader: 'json-loader',
+      },
 		]
 	},
   resolve: {
-    extensions: ['', '.js', '.jsx', '.css']
+    extensions: ['', '.js', '.jsx', '.json', '.css']
   },
   plugins: [
     new ExtractTextPlugin("[name]/bundle.css"),
