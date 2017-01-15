@@ -5,7 +5,6 @@ import { getThumbnail, getAbstract } from '../util/regex';
 import Icon from '../components/Icon';
 import SlateEditor from '../components/SlateEditor';
 import TagBar from '../components/TagBar';
-import NoteEditor from '../components/NoteEditor';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Note extends Component {

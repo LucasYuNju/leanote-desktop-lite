@@ -29,7 +29,6 @@
     "classnames": "^2.2.5",
     "electron": "^1.4.13",
     "event-emitter": "^0.3.4",
-    "gitbook-markdown": "^2.0.1",
     "humps": "^2.0.0",
     "localforage": "^1.4.3",
     "lodash": "^4.16.6",
@@ -40,7 +39,6 @@
     "octicons": "^3.1.0",
     "optimist": "^0.6.1",
     "path-to-regexp": "^1.7.0",
-    "quill": "^1.1.1",
     "react": "^15.4.2",
     "react-addons-css-transition-group": "^15.4.2",
     "react-dom": "^15.3.2",
@@ -48,7 +46,6 @@
     "redux": "^3.6.0",
     "redux-persist": "^4.0.0-beta1",
     "redux-thunk": "^2.1.0",
-    "simplemde": "^1.11.2",
     "slate": "^0.16.9"
   },
   "devDependencies": {
