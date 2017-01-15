@@ -1,5 +1,4 @@
-.list
-{
+.list {
   @item-height: 32px;
   @folder-border-color: transparent;
 
@@ -7,51 +6,40 @@
   width: 100%;
   flex-direction: column;
 
-  > .list-item
-  {
-    &.selected
-    {
-      .content
-      {
+  > .list-item {
+    &.selected {
+      .content {
         background: @nav-selection-bg;
         color: @nav-selection-color;
 
-				&::before
-				{
-					// opacity: 1;
+				&::before {
 				}
 
-        > .icon, > .expand-icon
-        {
+        > .icon, > .expand-icon {
           color: white;
         }
       }
     }
 
-    &.open
-    {
-      > .content > .expand-icon
-      {
+    &.open {
+      > .content > .expand-icon {
         transform: rotate(90deg);
       }
 
-      > .nested-list
-      {
+      > .nested-list {
         display: block;
         max-height: 700px;
         transition: max-height 0.25s ease-in;
       }
     }
 
-    > .nested-list
-    {
+    > .nested-list {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.2s ease-out;
     }
 
-    > .content
-    {
+    > .content {
       color: @nav-color;
       height: @item-height;
       line-height: @item-height;
@@ -59,8 +47,7 @@
       display: flex;
 			position: relative;
 
-			&::before
-      {
+			&::before {
         content: "";
         position: absolute;
         pointer-events: none;
@@ -74,13 +61,11 @@
 				background: @theme-color;
       }
 
-			> .icon
-			{
+			> .icon {
 				width: 16px;
 			}
 
-      > .expand-icon
-      {
+      > .expand-icon {
 				width: 12px;
 				height: 12px;
 				font-size: 12px;
@@ -88,8 +73,7 @@
         transition: transform 0.25s;
       }
 
-      > .icon, > .expand-icon
-      {
+      > .icon, > .expand-icon {
         color: @text-color;
         margin-right: 5px;
         flex-shrink: 0;
@@ -98,8 +82,7 @@
         line-height: @item-height;
       }
 
-      .text
-      {
+      .text {
         flex-grow: 1;
       }
     }

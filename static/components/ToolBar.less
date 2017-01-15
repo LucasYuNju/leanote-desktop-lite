@@ -1,22 +1,17 @@
-.toolbar-container
-{
-	.toolbar-items
-	{
+.toolbar-container {
+	.toolbar-items {
 		flex: 0 0 auto;
 		align-self: center;
 		display: flex;
 
-		.btn-tool-bar
-		{
+		.btn-tool-bar {
 			padding: 0 13px;
 		}
 
-		.tag-picker-container
-		{
+		.tag-picker-container {
 			position: relative;
 
-			.triangle
-			{
+			.triangle {
 				z-index: 100;
 				position: absolute;
 				top: 23px;
@@ -32,8 +27,7 @@
 				z-index: 101;
 			}
 
-			.triangle-inner
-			{
+			.triangle-inner {
 				z-index: 100;
 				position: absolute;
 				top: 24px;
@@ -49,8 +43,7 @@
 				z-index: 101;
 			}
 
-			.tag-picker-popover
-			{
+			.tag-picker-popover {
 				z-index: 100;
 				position: absolute;
 				top: 33px;
@@ -69,8 +62,7 @@
 				align-items: stretch;
 				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
-        .search-bar
-        {
+        .search-bar {
           flex: 0 0 auto;
           height: 1.75em;
           line-height: 1.75em;
@@ -83,8 +75,7 @@
           box-shadow: inset 0 1px 2px rgba(0,0,0,0.075);
 					overflow: hidden;
 
-          .icon
-          {
+          .icon {
             position: absolute;
 						left: 5px;
 						top: 4px;
@@ -94,8 +85,7 @@
 						margin-bottom: auto;
           }
 
-          input
-          {
+          input {
 						border: none;
             font-size: @font-size-base;
             position: absolute;
@@ -103,15 +93,13 @@
 						height: 100%;
 						padding-left: 26px;
 
-            &:focus
-            {
+            &:focus {
               outline: none;
             }
           }
         }
 
-				.tag-list
-				{
+				.tag-list {
 					flex: 0 1 auto;
 					padding-top: 6px;
 					list-style: none;
@@ -121,8 +109,7 @@
           overflow-y: scroll;
           min-height: 0;
 
-					.tag-list-item
-					{
+					.tag-list-item {
 						height: 2.2em;
 						line-height: 2.2em;
 						flex: 0 0 auto;
@@ -131,13 +118,11 @@
 						padding-left: 10px;
 						padding-right: 10px;
 
-            &:hover
-						{
+            &:hover {
 							background: #f0f0f0;
 						}
 
-						&.selected
-						{
+						&.selected {
 							background: @theme-color;
 							.text, .checkbox > .icon
 							{
@@ -145,29 +130,24 @@
 							}
 						}
 
-						.text
-						{
+						.text {
 						}
 
-						.checkbox
-						{
+						.checkbox {
 							position: relative;
 							width: 14px;
 							margin-left: 7px;
 							margin-right: 6px;
 
-							input[type=checkbox]
-							{
+							input[type=checkbox] {
 								visibility: hidden;
 
-								&:checked + label::after
-								{
+								&:checked + label::after {
 									opacity: 1;
 								}
 							}
 
-							label
-							{
+							label {
 								position: absolute;
 								top: 0;
 								bottom: 0;
@@ -179,8 +159,7 @@
 								background: #4e61d3;
 								border-radius: 2px;
 
-								&::after
-								{
+								&::after {
 									opacity: 0;
 									content: '';
 									position: absolute;
@@ -196,14 +175,12 @@
 								}
 							}
 						}
-
 					}
 				}
 			}
 		}
 
-		> *
-		{
+		> * {
 			margin-left: 10px;
 			margin-right: 0;
 			line-height: 1.75em;
