@@ -32,7 +32,7 @@ function mapStateToProps(state) {
     notes: [],
     checked: noteList.checked,
   };
-  if (noteStackId && (noteStackType === 'notebook' || noteStackType === 'tag')) {
+  if (noteStackId) {
     const notes = entities[noteStackType + 's'][noteStackId];
     const order = noteList.order;
 		props.notes = notes.noteIds
@@ -49,8 +49,9 @@ function mapStateToProps(state) {
 				const key2 = key(note2);
 				return order.ascending ? key1 > key2 : key1 < key2;
 			});
+    props.order = order;
     props.noteStackId = noteStackId;
-    props.noteStackTitle = noteStackType === 'notebook' ? notes.title : notes.tag;
+    props.noteStackType = noteStackType;
   }
   return props;
 }

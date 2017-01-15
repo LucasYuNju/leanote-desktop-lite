@@ -12,6 +12,7 @@ const SelectableList = makeSelectable(List);
 class NoteList extends Component {
   static propTypes = {
     checkNotes: PropTypes.func.isRequired,
+    createNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
     selectNote: PropTypes.func.isRequired,
     sortNoteList: PropTypes.func.isRequired,
@@ -19,7 +20,8 @@ class NoteList extends Component {
     notes: PropTypes.array,
     noteId: PropTypes.string,
     noteStackId: PropTypes.string,
-    noteStackTitle: PropTypes.string,
+    noteStackType: PropTypes.string,
+    order: PropTypes.object.isRequired,
     view: PropTypes.string,
   };
 
@@ -41,16 +43,22 @@ class NoteList extends Component {
 
   render() {
     const {
+      createNote,
       notes,
 			noteId,
+      noteStackId,
+      noteStackType,
+      order,
 			sortNoteList,
-			noteStackTitle
 		} = this.props;
+    const notebookId = noteStackType === 'notebook' ? noteStackId : null;
     return (
       <div className="note-list">
         <NoteListHeader
-          title={noteStackTitle}
+          createNote={createNote}
+          order={order}
           sortNoteList={sortNoteList}
+          notebookId={notebookId}
         />
         <div
           className="note-list-items"

@@ -29,8 +29,8 @@ class SystemMenu {
       this._menu.popup(remote.getCurrentWindow(), rect.left - 1, parseInt(rect.bottom) + 6);
     }
     else {
+      // 在鼠标点击的位置弹出
       this._menu.popup(remote.getCurrentWindow(), event.clientX, event.clientY);
-      // this._menu.popup(remote.getCurrentWindow(), event.clientX - 10, parseInt(rect.top - this._menuHeight));
     }
   }
 }

@@ -24,7 +24,6 @@ class Header extends Component {
     const { changePath } = this.props;
     return (
       <TitleBar className="header">
-        {this.renderCreateButton()}
 				<Navigator changePath={changePath} />
         <div className="placeholder" />
         <ToolBarContainer />
@@ -32,6 +31,7 @@ class Header extends Component {
     );
   }
 
+  // deprecated
 	renderCreateButton() {
 		return (
       <div className="create-note-buttons btns">
@@ -50,42 +50,6 @@ class Header extends Component {
       </div>
 		);
 	}
-
-  showMenu = (event) => {
-    if (!this.menu) {
-      const template = [
-        {
-          label: 'Create Note',
-          click: (event) => this.createNote.call(this, event, false),
-        },
-        {
-          label: 'Create Markdown Note',
-          click: (event) => this.createNote.call(this, event, true),
-        },
-      ];
-      this.menu = new Menu(template);
-    }
-    this.menu.popup(event);
-  };
-
-  createNote = (event, isMarkdown = false) => {
-    if (!this.props.notebookId) {
-      console.error('notebook not specified');
-      return;
-    }
-    const note = {
-      noteId: objectId(),
-      title: '',
-      tags:[],
-      desc: '',
-      content: '',
-      notebookId: this.props.notebookId,
-      isNew: true,
-      isMarkdown: isMarkdown,
-    };
-    this.props.createNote(note, this.props.notebookId);
-    // this.props.updateNote(note);
-  };
 }
 
 export default Header;

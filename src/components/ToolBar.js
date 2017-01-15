@@ -39,6 +39,7 @@ class ToolBar extends Component {
   }
 
 	renderEditModeButton = () => {
+    return null;
 		const {
 			editMode,
 			isMarkdown,
