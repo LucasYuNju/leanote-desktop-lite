@@ -81,11 +81,17 @@ export function updateNote(noteId, attributes) {
     // optimistic update
     dispatch({ type: types.UPDATE_NOTE, payload: { note: attributes } });
     dispatch({
-      types: [types.UPDATE_NOTE_REQUEST, types.UPDATE_NOTE_SUCCESS, null],
+      types: [types.UPDATE_NOTE_REQUEST, null, null],
       url: 'note/updateNote',
       method: 'POST',
       body: { ...note, ...attributes },
       schema: noteSchema,
+    }).then(action => {
+      // post的返回值中，content和abstract为空，需要手动删除
+      const note = action.payload.entities.notes[action.payload.result];
+      delete note.abstract;
+      delete note.content;
+      dispatch({ type: types.UPDATE_NOTE_SUCCESS, payload: action.payload });
     });
   }
 }
