@@ -59,8 +59,11 @@ export function createNote(note, notebookId) {
   const now = new Date().toString();
   note.createdTime = now;
   note.updatedTime = now;
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const usn = getState().user.localUsn;
+    note.usn = usn.note;
     dispatch({ type: types.ADD_NOTE, payload: { note, notebookId } });
+
     dispatch(selectNote(note.noteId));
     dispatch({
       types: [types.ADD_NOTE_REQUEST, types.ADD_NOTE_SUCCESS, null],

@@ -6,6 +6,7 @@ import List from '../components/List';
 import makeSelectable from '../components/makeSelectable';
 import NoteListHeader from '../components/NoteListHeader';
 import NoteListItem from '../components/NoteListItem';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 const SelectableList = makeSelectable(List);
 
@@ -51,6 +52,7 @@ class NoteList extends Component {
       order,
 			sortNoteList,
 		} = this.props;
+    console.log('selected', notes.find(note => note.noteId === noteId));
     const notebookId = noteStackType === 'notebook' ? noteStackId : null;
     return (
       <div className="note-list">
@@ -60,12 +62,15 @@ class NoteList extends Component {
           sortNoteList={sortNoteList}
           notebookId={notebookId}
         />
-        <div
-          className="note-list-items"
+        <ReactCSSTransitionGroup
+          className="note-list-items transition"
+          transitionName="fade"
+          transitionLeaveTimeout={300}
+          transitionEnterTimeout={5000}
           id={noteId}
         >
           {notes.map(this.renderNote)}
-        </div>
+        </ReactCSSTransitionGroup>
       </div>
     );
   }
