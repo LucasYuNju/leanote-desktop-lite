@@ -52,7 +52,7 @@ class NoteList extends Component {
       order,
 			sortNoteList,
 		} = this.props;
-    console.log('selected', notes.find(note => note.noteId === noteId));
+    console.log('notelist', notes, noteId, notes.find(note => note.noteId === noteId));
     const notebookId = noteStackType === 'notebook' ? noteStackId : null;
     return (
       <div className="note-list">

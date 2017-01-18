@@ -7,6 +7,7 @@ import * as types from '../../constants/ActionTypes';
 function notebooks(state = {}, action) {
   switch (action.type) {
     case types.ADD_NOTE:
+    case types.UPDATE_NOTE_SUCCESS:
       return {
         ...state,
 				[action.payload.notebookId]: {

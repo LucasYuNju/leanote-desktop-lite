@@ -27,6 +27,7 @@ function mapStateToProps(state) {
 		noteId,
 	} = router.params;
 
+  console.log('notelist container', noteId);
   const props = {
     ...router.params,
     notes: [],

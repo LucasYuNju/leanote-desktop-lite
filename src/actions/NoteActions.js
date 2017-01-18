@@ -55,6 +55,10 @@ export function fetchNoteAndContent(noteId) {
 	}
 }
 
+/**
+ * 服务器会为note指定一个新的noteId。这里根据返回结果，新创建一个note，选中新的note，将之前占位的note删除。
+ * 或许有更简单的写法
+ */
 export function createNote(note, notebookId) {
   const now = new Date().toString();
   note.createdTime = now;
@@ -62,15 +66,22 @@ export function createNote(note, notebookId) {
   return (dispatch, getState) => {
     const usn = getState().user.localUsn;
     note.usn = usn.note;
+    note.isNew = true;
     dispatch({ type: types.ADD_NOTE, payload: { note, notebookId } });
 
     dispatch(selectNote(note.noteId));
     dispatch({
-      types: [types.ADD_NOTE_REQUEST, types.ADD_NOTE_SUCCESS, null],
+      types: [types.ADD_NOTE_REQUEST, null, null],
       url: 'note/addNote',
       method: 'POST',
       body: note,
       schema: noteSchema,
+    }).then(action => {
+      const note = action.payload.entities.notes[action.payload.result];
+      dispatch({ type: types.ADD_NOTE, payload: { note, notebookId: note.notebookId } });
+      // dispatch({ type: types.ADD_NOTE_SUCCESS, payload: action.payload });
+      dispatch(selectNote(note.noteId, false));
+      // delete
     });
   }
 }
