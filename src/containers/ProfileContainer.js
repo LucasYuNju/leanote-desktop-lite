@@ -5,7 +5,7 @@ import React, { Component, PropTypes } from 'react';
 import Profile from '../components/Profile';
 import * as UserActions from '../actions/UserActions';
 
-class UserContainer extends Component {
+class ProfileContainer extends Component {
   render() {
     return (
       <Profile {...this.props} />
@@ -23,4 +23,4 @@ function mapDispatchToProps(dispatch) {
 	return bindActionCreators(UserActions, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);
