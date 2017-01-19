@@ -30,7 +30,7 @@ class NoteList extends Component {
     view: 'snippet',
   };
 
-  // TODO 初始化时，默认选中的逻辑
+  // TODO 如果上一个选中的note是新建的，noteId不一致，修改
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.checked.length === 0) {
       if (nextProps.notes.length > 0 && !nextProps.noteId) {
@@ -88,10 +88,11 @@ class NoteList extends Component {
     else {
       isSelected = this.props.noteId === note.noteId;
     }
+    const noteId = note.aliasId ? note.aliasId : note.noteId;
     return (
       <NoteListItem
         deleteNote={this.deleteNote}
-        key={note.noteId}
+        key={noteId}
         id={note.noteId}
         note={note}
         thumbnail={note.thumbnail}
