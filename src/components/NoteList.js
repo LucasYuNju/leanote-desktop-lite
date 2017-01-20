@@ -15,6 +15,7 @@ class NoteList extends Component {
     checkNotes: PropTypes.func.isRequired,
     createNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
+    postNoteIfNecessary: PropTypes.func.isRequired,
     selectNote: PropTypes.func.isRequired,
     sortNoteList: PropTypes.func.isRequired,
     checked: PropTypes.array.isRequired,
@@ -30,7 +31,15 @@ class NoteList extends Component {
     view: 'snippet',
   };
 
-  // TODO 如果上一个选中的note是新建的，noteId不一致，修改
+  componentWillReceiveProps(nextProps) {
+    if (this.props.noteId && this.props.noteId !== nextProps.noteId) {
+        console.log(this.props.noteId, nextProps.noteId);
+        const note = this.props.notes.find(n => n.noteId === this.props.noteId)
+        this.props.postNoteIfNecessary(note);
+    }
+  }
+
+  // TODO 如果上一个选中的note是新建的，创建
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.checked.length === 0) {
       if (nextProps.notes.length > 0 && !nextProps.noteId) {

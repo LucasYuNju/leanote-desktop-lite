@@ -7,7 +7,6 @@ import * as types from '../../constants/ActionTypes';
 function notebooks(state = {}, action) {
   switch (action.type) {
     case types.ADD_NOTE:
-    case types.UPDATE_NOTE_SUCCESS:
       return {
         ...state,
 				[action.payload.notebookId]: {
@@ -18,14 +17,6 @@ function notebooks(state = {}, action) {
 					],
 				}
       };
-    case types.DELETE_NOTE:
-      return {
-        ...state,
-        [action.payload.note.notebookId]: {
-          ...state[action.payload.note.notebookId],
-          noteIds: remove(state[action.payload.note.notebookId].noteIds, (noteId) => noteId === action.payload.note.noteId),
-        }
-      }
     case types.GET_NOTES_REQUEST:
       return {
         ...state,

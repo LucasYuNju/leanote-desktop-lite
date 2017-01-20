@@ -48,11 +48,10 @@ function notes(state = {}, action) {
 				...notes,
       };
     case types.UPDATE_NOTE:
-    case types.DELETE_NOTE:
       return {
         ...state,
-        [action.payload.note.noteId]: {
-          ...state[action.payload.note.noteId],
+        [action.payload.noteId]: {
+          ...state[action.payload.noteId],
           ...action.payload.note,
         },
       }

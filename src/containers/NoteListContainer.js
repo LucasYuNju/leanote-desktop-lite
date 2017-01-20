@@ -30,6 +30,11 @@ function mapStateToProps(state) {
   console.log('notelist container', noteId);
   const props = {
     ...router.params,
+    noteStackType,
+		noteStackId,
+    // noteId和entities.notes[noteId].noteId可能不相等，详见NoteActions.createNote
+		// noteId: entities.notes[noteId] ? entities.notes[noteId].noteId : noteId,
+    noteId,
     notes: [],
     checked: noteList.checked,
   };
