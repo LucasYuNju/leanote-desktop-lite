@@ -56,7 +56,7 @@ class NoteListHeader extends Component {
       isNew: true,
       isMarkdown: true,
     };
-    this.props.createNote(note, this.props.notebookId);
+    this.props.createNote(note);
   }
 
   onOrderButtonClick = (event) => {

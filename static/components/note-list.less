@@ -8,7 +8,7 @@
 
   .note-list-header {
     padding: 0 12px;
-    height: 32px;
+    height: 34px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -40,12 +40,6 @@
         zoom: 0.5;
       }
     }
-
-    // .icon {
-    //   position: absolute;
-    //   font-size: 18px;
-    //   right: 12px;
-    // }
   }
 
   .note-list-items {
@@ -57,11 +51,37 @@
     .note-list-item {
       cursor: default;
       border-bottom: 1px solid @border-color;
+      // height: 94px;
+      // max-height: 94px;
       height: 94px;
+      max-height: 94px;
       display: flex;
       flex-shrink: 0;
       flex-direction: column;
 			position: relative;
+      overflow-y: hidden;
+
+      &.fade-enter {
+        max-height: 0;
+      }
+
+      &.fade-enter.fade-enter-active {
+        color: yellow;
+        border: 5px solid black;
+        transition: max-height 1000ms ease-in;
+        max-height: 94px;
+      }
+
+      &.fade-leave {
+        max-height: 94px;
+      }
+
+      &.fade-leave.fade-leave-active {
+        transition: all 300ms ease;
+        transition-property: max-height;
+        // opacity: 0;
+        max-height: 0;
+      }
 
       &.selected {
         // background: @note-list-selecton-bg;
@@ -86,6 +106,11 @@
       }
 
       .wrapper {
+        position: absolute;
+        height: 93px;
+        bottom: 0;
+        left: 0;
+        right: 0;
         border: 2px solid transparent;
         border-radius: 2px;
         display: flex;

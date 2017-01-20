@@ -8,6 +8,7 @@ import Menu from '../util/SystemMenu';
 
 class NoteListItem extends Component {
   static propTypes = {
+    className: PropTypes.string,
     deleteNote: PropTypes.func.isRequired,
     note: PropTypes.shape({
       abstract: PropTypes.string,
@@ -38,6 +39,7 @@ class NoteListItem extends Component {
     return (
       <Link
         className={classNames('note-list-item', { selected: selected }, className)}
+        id={this.props.id}
 				to={note.noteId}
         onContextMenu={this.showMenu}
         onClick={this.handleClick}
@@ -56,7 +58,7 @@ class NoteListItem extends Component {
     );
   }
 
-  renderThumbnail(thumbnail) {
+  renderThumbnail = (thumbnail) => {
     if (thumbnail) {
       return (
         <div

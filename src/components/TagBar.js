@@ -8,11 +8,15 @@ class TagBar extends Component {
   static propTypes = {
 		notebookTitle: PropTypes.string,
     noteId: PropTypes.string.isRequired,
-    noteTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+    noteTags: PropTypes.arrayOf(PropTypes.string),
     title: PropTypes.string,
     onTitleChange: PropTypes.func.isRequired,
     removeNoteTag: PropTypes.func.isRequired,
   };
+
+  static defaultProps = {
+    noteTags: [],
+  }
 
   constructor(props, context) {
     super(props);
@@ -31,7 +35,7 @@ class TagBar extends Component {
     const { noteTags, notebookTitle, toggleEditMode } = this.props;
     const titleWidth = Math.max(80, this.calculateInputWidth(this.state.title));
 
-    const tags = noteTags.filter(tag => tag !== '');
+    const tags = noteTags ? noteTags.filter(tag => tag !== '') : [];
     return (
       <div className="tag-bar">
         <div className="note-title">

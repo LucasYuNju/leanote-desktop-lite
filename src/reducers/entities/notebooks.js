@@ -17,14 +17,6 @@ function notebooks(state = {}, action) {
 					],
 				}
       };
-    case types.DELETE_NOTE:
-      return {
-        ...state,
-        [action.payload.note.notebookId]: {
-          ...state[action.payload.note.notebookId],
-          noteIds: remove(state[action.payload.note.notebookId].noteIds, (noteId) => noteId === action.payload.note.noteId),
-        }
-      }
     case types.GET_NOTES_REQUEST:
       return {
         ...state,

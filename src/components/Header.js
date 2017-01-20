@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import objectId from 'objectid-browser';
 
 import Icon from '../components/Icon';
 import Menu from '../util/SystemMenu';

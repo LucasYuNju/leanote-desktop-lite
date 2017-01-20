@@ -55,20 +55,47 @@ export function fetchNoteAndContent(noteId) {
 	}
 }
 
-export function createNote(note, notebookId) {
+/**
+ * note创建时指定了noteId a，服务器会为note指定一个新的noteId b
+ * 这里令entities.notes[a].noteId = b。
+ * 在新建的note脱离选中状态时，令entities.notes[b] = entities.notes[a]; delete entities.notes[a]
+ */
+ // TODO 另一种写法，只有新笔记脱离焦点的时候才会创建和更新
+export function postNoteIfNecessary(note) {
+  return (dispatch, getState) => {
+    if (note.isNew) {
+      dispatch({
+        types: [types.ADD_NOTE_REQUEST, null, null],
+        url: 'note/addNote',
+        method: 'POST',
+        body: note,
+        schema: noteSchema,
+      }).then(action => {
+        const serverSideId = action.payload.result;
+        // TODO 应该从state中移除
+        dispatch({ type: types.UPDATE_NOTE, payload: { noteId: note.noteId, note: { isTrash: true, isNew: false } } });
+        dispatch({ type: types.ADD_NOTE, payload: { note: {
+          ...note,
+          noteId: serverSideId,
+          aliasId: note.noteId,
+          isNew: false,
+        }, notebookId: note.notebookId } });
+        // dispatch(selectNote(serverSideId));
+      });
+    }
+  }
+}
+
+export function createNote(note) {
   const now = new Date().toString();
   note.createdTime = now;
   note.updatedTime = now;
-  return (dispatch) => {
-    dispatch({ type: types.ADD_NOTE, payload: { note, notebookId } });
+  return (dispatch, getState) => {
+    // const usn = getState().user.localUsn;
+    // note.usn = usn.note;
+    note.isNew = true;
+    dispatch({ type: types.ADD_NOTE, payload: { note, notebookId: note.notebookId } });
     dispatch(selectNote(note.noteId));
-    dispatch({
-      types: [types.ADD_NOTE_REQUEST, types.ADD_NOTE_SUCCESS, null],
-      url: 'note/addNote',
-      method: 'POST',
-      body: note,
-      schema: noteSchema,
-    });
   }
 }
 
@@ -79,26 +106,29 @@ export function updateNote(noteId, attributes) {
   return (dispatch, getState) => {
     const note = getState().entities.notes[noteId];
     // optimistic update
-    dispatch({ type: types.UPDATE_NOTE, payload: { note: { ...note, ...attributes } } });
-    dispatch({
-      types: [types.UPDATE_NOTE_REQUEST, null, null],
-      url: 'note/updateNote',
-      method: 'POST',
-      body: { ...note, ...attributes },
-      schema: noteSchema,
-    }).then(action => {
-      // post的返回值中，content和abstract为空，需要手动删除
-      const note = action.payload.entities.notes[action.payload.result];
-      delete note.abstract;
-      delete note.content;
-      dispatch({ type: types.UPDATE_NOTE_SUCCESS, payload: action.payload });
-    });
+    dispatch({ type: types.UPDATE_NOTE, payload: { noteId, note: { ...attributes } } });
+    if (!note.isNew) {
+      dispatch({
+        types: [types.UPDATE_NOTE_REQUEST, null, null],
+        url: 'note/updateNote',
+        method: 'POST',
+        body: { ...note, ...attributes },
+        schema: noteSchema,
+      }).then(action => {
+        // post的返回值中，content和abstract为空，需要手动删除
+        const note = action.payload.entities.notes[action.payload.result];
+        delete note.abstract;
+        delete note.content;
+        dispatch({ type: types.UPDATE_NOTE_SUCCESS, payload: action.payload });
+      });
+    }
   }
 }
 
-// 并没有真的删除，只是在本地设置isTrash属性
-// TODO：usn需要更新
-// 视图层必须先选中下一个笔记，才能删除目标笔记
+/**
+ * 视图层必须先选中下一个笔记，才能删除笔记
+ * 并没有真的删除，只是在本地设置isTrash属性
+ */
 export function deleteNote(note) {
   return (dispatch) => {
     dispatch(updateNote(note.noteId, { isTrash: true }));

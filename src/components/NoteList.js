@@ -6,6 +6,7 @@ import List from '../components/List';
 import makeSelectable from '../components/makeSelectable';
 import NoteListHeader from '../components/NoteListHeader';
 import NoteListItem from '../components/NoteListItem';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 const SelectableList = makeSelectable(List);
 
@@ -14,6 +15,7 @@ class NoteList extends Component {
     checkNotes: PropTypes.func.isRequired,
     createNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
+    postNoteIfNecessary: PropTypes.func.isRequired,
     selectNote: PropTypes.func.isRequired,
     sortNoteList: PropTypes.func.isRequired,
     checked: PropTypes.array.isRequired,
@@ -29,7 +31,15 @@ class NoteList extends Component {
     view: 'snippet',
   };
 
-  // TODO 初始化时，默认选中的逻辑
+  componentWillReceiveProps(nextProps) {
+    if (this.props.noteId && this.props.noteId !== nextProps.noteId) {
+        console.log(this.props.noteId, nextProps.noteId);
+        const note = this.props.notes.find(n => n.noteId === this.props.noteId)
+        this.props.postNoteIfNecessary(note);
+    }
+  }
+
+  // TODO 如果上一个选中的note是新建的，创建
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.checked.length === 0) {
       if (nextProps.notes.length > 0 && !nextProps.noteId) {
@@ -51,6 +61,7 @@ class NoteList extends Component {
       order,
 			sortNoteList,
 		} = this.props;
+    console.log('notelist', notes, noteId, notes.find(note => note.noteId === noteId));
     const notebookId = noteStackType === 'notebook' ? noteStackId : null;
     return (
       <div className="note-list">
@@ -60,12 +71,15 @@ class NoteList extends Component {
           sortNoteList={sortNoteList}
           notebookId={notebookId}
         />
-        <div
-          className="note-list-items"
+        <ReactCSSTransitionGroup
+          className="note-list-items transition"
+          transitionName="fade"
+          transitionLeaveTimeout={300}
+          transitionEnterTimeout={5000}
           id={noteId}
         >
           {notes.map(this.renderNote)}
-        </div>
+        </ReactCSSTransitionGroup>
       </div>
     );
   }
@@ -83,10 +97,11 @@ class NoteList extends Component {
     else {
       isSelected = this.props.noteId === note.noteId;
     }
+    const noteId = note.aliasId ? note.aliasId : note.noteId;
     return (
       <NoteListItem
         deleteNote={this.deleteNote}
-        key={note.noteId}
+        key={noteId}
         id={note.noteId}
         note={note}
         thumbnail={note.thumbnail}
