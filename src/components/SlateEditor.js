@@ -3,7 +3,7 @@ import markdown from 'markup-it/lib/markdown';
 import React, { Component, PropTypes } from 'react';
 import Slate, { Editor, State } from 'slate';
 
-import schema from './SlateSchema';
+import schema from '../constants/SlateSchema';
 
 class SlateEditor extends Component {
   static propTypes = {
