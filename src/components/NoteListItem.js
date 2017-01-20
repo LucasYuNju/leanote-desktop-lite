@@ -13,7 +13,7 @@ class NoteListItem extends Component {
     note: PropTypes.shape({
       abstract: PropTypes.string,
       content: PropTypes.string,
-  		noteId: PropTypes.string.isRequired,
+      noteId: PropTypes.string.isRequired,
       title: PropTypes.string,
       updatedTime: PropTypes.string,
     }).isRequired,

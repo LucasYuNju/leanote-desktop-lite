@@ -9,13 +9,13 @@ const DEFAULT_LOGO = 'http://leanote.com/images/blog/default_avatar.png';
 
 class User extends Component {
   static propTypes = {
-		user: PropTypes.shape({
-			email: PropTypes.string,
-	    username: PropTypes.string.isRequired,
-			userId: PropTypes.string.isRequired,
-	    logo: PropTypes.string,
-		}),
-		fetchInfo: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+      email: PropTypes.string,
+      username: PropTypes.string.isRequired,
+      userId: PropTypes.string.isRequired,
+      logo: PropTypes.string,
+    }),
+    fetchInfo: PropTypes.func.isRequired,
   };
 
   handleClick = (event) => {

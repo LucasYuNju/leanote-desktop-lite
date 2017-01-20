@@ -21,8 +21,8 @@ function getStyles(props, state) {
 class NotebookListItem extends Component {
   static propTypes = {
     icon: PropTypes.string,
-		type: PropTypes.string,
-		id: PropTypes.string.isRequired,
+    type: PropTypes.string,
+    id: PropTypes.string.isRequired,
     nestedItems: PropTypes.arrayOf(PropTypes.element),
     nesetdLevel: PropTypes.number,
     onClick: PropTypes.func,

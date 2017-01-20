@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 export const makeSelectable = (MyComponent) => {
   return class extends Component {
-		// key property is not readable, use id instead.
+    // key property is not readable, use id instead.
     static propTypes = {
       children: PropTypes.node,
       onChange: PropTypes.func,

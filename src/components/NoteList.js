@@ -61,7 +61,7 @@ class NoteList extends Component {
       order,
 			sortNoteList,
 		} = this.props;
-    console.log('notelist', notes, noteId, notes.find(note => note.noteId === noteId));
+    // console.log('notelist', notes, noteId, notes.find(note => note.noteId === noteId));
     const notebookId = noteStackType === 'notebook' ? noteStackId : null;
     return (
       <div className="note-list">
@@ -127,7 +127,6 @@ class NoteList extends Component {
       this.props.deleteNote(note);
     }
     else if (this.props.checked.includes(note.noteId)) {
-      // debugger;
       // 如果note在checked数组中，计算minIndex，选中minIndex - 1
       let minIndex = Number.MAX_SAFE_INTEGER;
       this.props.checked.forEach(noteId => {
@@ -141,7 +140,6 @@ class NoteList extends Component {
       }
       this.props.checked.forEach(noteId => {
         const index = findIndex(this.props.notes, (o) => o.noteId === noteId);
-        console.log(noteId, this.props.notes[index]);
         this.props.deleteNote(this.props.notes[index]);
       });
       this.props.checkNotes([]);

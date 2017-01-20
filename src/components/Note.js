@@ -10,13 +10,13 @@ import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Note extends Component {
   static propTypes = {
-		editMode: PropTypes.bool,
+    editMode: PropTypes.bool,
     note: PropTypes.object.isRequired,
-		notebook: PropTypes.object.isRequired,
-		allTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+    notebook: PropTypes.object.isRequired,
+    allTags: PropTypes.arrayOf(PropTypes.string).isRequired,
     updateNote: PropTypes.func.isRequired,
-		addNoteTag: PropTypes.func.isRequired,
-		removeNoteTag: PropTypes.func.isRequired,
+    addNoteTag: PropTypes.func.isRequired,
+    removeNoteTag: PropTypes.func.isRequired,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
