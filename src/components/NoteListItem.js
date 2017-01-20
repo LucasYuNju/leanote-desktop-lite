@@ -38,13 +38,13 @@ class NoteListItem extends Component {
     } = this.props;
     return (
       <Link
-        className={classNames('note-list-item', { selected: selected }, className)}
+        className={classNames('note-list-item', className)}
         id={this.props.id}
 				to={note.noteId}
         onContextMenu={this.showMenu}
         onClick={this.handleClick}
       >
-        <div className="wrapper">
+        <div className={classNames("wrapper", { selected: selected })}>
           <div className="info">
             <div className="title">{note.title ? note.title : 'Untitled'}</div>
             <div className="detail">

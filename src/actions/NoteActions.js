@@ -73,6 +73,7 @@ export function postNoteIfNecessary(note) {
       }).then(action => {
         const serverSideId = action.payload.result;
         // TODO 应该从state中移除
+        // TODO batched action
         dispatch({ type: types.UPDATE_NOTE, payload: { noteId: note.noteId, note: { isTrash: true, isNew: false } } });
         dispatch({ type: types.ADD_NOTE, payload: { note: {
           ...note,
@@ -80,7 +81,6 @@ export function postNoteIfNecessary(note) {
           aliasId: note.noteId,
           isNew: false,
         }, notebookId: note.notebookId } });
-        // dispatch(selectNote(serverSideId));
       });
     }
   }
@@ -96,7 +96,7 @@ export function createNote(note) {
     // TODO FIXME related with react css transition group
     setTimeout(() => {
       dispatch(selectNote(note.noteId));
-    }, 300);
+    }, 250);
   }
 }
 

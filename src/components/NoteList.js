@@ -62,7 +62,6 @@ class NoteList extends Component {
       order,
 			sortNoteList,
 		} = this.props;
-    // console.log('notelist', notes, noteId, notes.find(note => note.noteId === noteId));
     const notebookId = noteStackType === 'notebook' ? noteStackId : null;
     return (
       <div className="note-list">
@@ -76,7 +75,7 @@ class NoteList extends Component {
           className="note-list-items transition"
           transitionName="fade"
           transitionLeaveTimeout={300}
-          transitionEnterTimeout={300}
+          transitionEnterTimeout={250}
           id={noteId}
         >
           {notes.map(this.renderNote)}

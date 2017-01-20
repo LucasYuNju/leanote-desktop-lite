@@ -66,7 +66,7 @@
       }
 
       &.fade-enter.fade-enter-active {
-        transition: max-height 300ms ease;
+        transition: max-height 250ms ease;
         max-height: 94px;
       }
 
@@ -77,12 +77,11 @@
       &.fade-leave.fade-leave-active {
         transition: all 300ms ease;
         transition-property: max-height;
-        // opacity: 0;
         max-height: 0;
       }
 
+      // deprecated
       &.selected {
-        // background: @note-list-selecton-bg;
         background: white;
         .wrapper {
           border: 2px solid @theme-color;
@@ -114,6 +113,10 @@
         display: flex;
         flex-grow: 1;
         align-self: stretch;
+
+        &.selected {
+          border: 2px solid @theme-color;
+        }
 
         .info {
           margin: 10px 10px 10px 10px;
