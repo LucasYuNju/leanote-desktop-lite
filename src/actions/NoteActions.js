@@ -91,11 +91,12 @@ export function createNote(note) {
   note.createdTime = now;
   note.updatedTime = now;
   return (dispatch, getState) => {
-    // const usn = getState().user.localUsn;
-    // note.usn = usn.note;
     note.isNew = true;
     dispatch({ type: types.ADD_NOTE, payload: { note, notebookId: note.notebookId } });
-    dispatch(selectNote(note.noteId));
+    // TODO FIXME related with react css transition group
+    setTimeout(() => {
+      dispatch(selectNote(note.noteId));
+    }, 300);
   }
 }
 

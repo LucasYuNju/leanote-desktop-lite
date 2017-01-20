@@ -52,6 +52,7 @@ class NoteList extends Component {
   }
 
   render() {
+    console.log('note list render');
     const {
       createNote,
       notes,
@@ -75,7 +76,7 @@ class NoteList extends Component {
           className="note-list-items transition"
           transitionName="fade"
           transitionLeaveTimeout={300}
-          transitionEnterTimeout={5000}
+          transitionEnterTimeout={300}
           id={noteId}
         >
           {notes.map(this.renderNote)}
@@ -98,6 +99,7 @@ class NoteList extends Component {
       isSelected = this.props.noteId === note.noteId;
     }
     const noteId = note.aliasId ? note.aliasId : note.noteId;
+    console.log('noteId', noteId);
     return (
       <NoteListItem
         deleteNote={this.deleteNote}
