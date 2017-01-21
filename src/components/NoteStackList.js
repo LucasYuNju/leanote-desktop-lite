@@ -63,7 +63,7 @@ class NoteStackList extends Component {
     const nodeLabel = (
       <Link
         to={`/edit/notebook-${notebook.notebookId}`}
-        onClick={this.handleNoteStackClick}
+        onClick={this.handleNoteStackClick.bind(this, notebook)}
         className={classNames({ 'selected' : selected })}
       >
         {
@@ -94,8 +94,10 @@ class NoteStackList extends Component {
     // />
   };
 
-  handleNoteStackClick = (event) => {
-
+  handleNoteStackClick = (notebook, event) => {
+    if (notebook.subs.length > 0) {
+      event.preventDefault();
+    }
   };
 
   prevRender = () => {
