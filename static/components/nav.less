@@ -1,25 +1,28 @@
-.content > .nav {
-  @header-height: 32px;
+.content {
+  .nav {
+    @header-height: 32px;
 
-  width: 155px;
-  flex-shrink: 0;
-  background-color: @nav-bg;
-  border-right: 1px solid @border-color;
-  display: flex;
-  flex-direction: column;
-  align-self: stretch;
-  cursor: default;
-
-  * {
-    -webkit-user-select: none;
-    user-select: none;
-  }
-
-  .notebooks {
-    flex-grow: 1;
-  }
-
-  .user-info {
+    width: 155px;
     flex-shrink: 0;
+    background-color: @nav-bg;
+    border-right: 1px solid @border-color;
+
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    cursor: default;
+
+    // * {
+    //   -webkit-user-select: none;
+    //   user-select: none;
+    // }
+
+    .note-stack-list {
+      flex-grow: 1;
+    }
+
+    .user-info {
+      flex-shrink: 0;
+    }
   }
 }

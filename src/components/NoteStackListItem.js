@@ -4,6 +4,7 @@ import NestedList from './NestedList';
 
 import Icon from '../components/Icon';
 import Link from '../components/Link';
+import Tree from '../components/Tree';
 
 function getStyles(props, state) {
   let paddingLeft = 5 + props.nestedLevel * 12;
@@ -79,7 +80,7 @@ class NotebookListItem extends Component {
         <NestedList
           open={this.state.open}
           nestedLevel={nestedLevel}
-          className="nested-list"
+          className="nested-list children"
         >
           {nestedItems}
         </NestedList>
@@ -116,7 +117,7 @@ class NotebookListItem extends Component {
       <div className={classNames('list-item', { folder: hasNestedListItems }, { open:this.state.open }, { selected: selected }, className)}>
         <Link
 					to={`/edit/${type}-${id}/`}
-          className="content"
+          className="row"
           onClick={this.handleClick}
           style={getStyles(this.props, this.state).innerDiv}
         >

@@ -3,12 +3,9 @@ import findIndex from 'lodash/findIndex';
 
 import emitter from '../util/emitter';
 import List from '../components/List';
-import makeSelectable from '../components/makeSelectable';
 import NoteListHeader from '../components/NoteListHeader';
 import NoteListItem from '../components/NoteListItem';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-
-const SelectableList = makeSelectable(List);
 
 class NoteList extends Component {
   static propTypes = {

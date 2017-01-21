@@ -1,0 +1,25 @@
+.tree {
+  .tree-item {
+    // TODO put it to note-stack-list
+    &:not(.collapsed) {
+      .tree-arrow {
+        transform: rotate(90deg);
+      }
+
+      .placeholder {
+        width: 16px;
+      }
+    }
+  }
+
+  .tree-children {
+    &.collapsed {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s ease-out;
+    }
+    display: block;
+    max-height: 800px;
+    transition: max-height 0.25s ease-in;
+  }
+}

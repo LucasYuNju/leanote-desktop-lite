@@ -1,5 +1,7 @@
 .note-list {
-  border-right: 0.5px solid @border-color;
+  border-right: 1px solid @border-color;
+  // z-index: 2;
+  // box-shadow: 0.5px 0 0 @border-color;
   width: 205px;
   flex-shrink: 0;
   display: flex;
@@ -8,7 +10,7 @@
 
   .note-list-header {
     padding: 0 12px;
-    height: 34px;
+    height: 30px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -44,7 +46,7 @@
   }
 
   .note-list-items {
-    padding-top: 2px;
+    // padding-top: 2px;
     overflow-y: scroll;
     flex-grow: 1;
     display: flex;
