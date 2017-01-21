@@ -74,7 +74,7 @@ class NoteList extends Component {
           transitionName="fade"
           transitionLeaveTimeout={300}
           transitionEnterTimeout={250}
-          id={noteId}
+          key={noteStackId}
         >
           {notes.map(this.renderNote)}
         </ReactCSSTransitionGroup>
