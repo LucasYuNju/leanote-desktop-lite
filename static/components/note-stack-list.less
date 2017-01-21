@@ -1,0 +1,97 @@
+.note-stack-list {
+  @item-height: 28px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .sub-header {
+    font-size: @font-size-smaller;
+    color: rgb(119, 119, 119);
+    font-weight: 600;
+    height: 24px;
+    line-height: 24px;
+    padding-left: 8px;
+    padding-right: 8px;
+
+    .toggle {
+      float: right;
+      display: none;
+    }
+
+    &:hover {
+      .toggle {
+        display: block;
+      }
+    }
+  }
+
+  > .children {
+    > .list-item {
+      &.selected {
+        > .content {
+          background: @nav-selection-bg;
+          color: @nav-selection-color;
+
+          .icon, .expand-icon {
+            color: @nav-selection-color;
+          }
+        }
+      }
+
+      &.open {
+        > .content {
+          .expand-icon {
+            transform: rotate(90deg);
+          }
+        }
+
+        > .nested-list {
+          display: block;
+          max-height: 700px;
+          transition: max-height 0.25s ease-in;
+        }
+      }
+
+      > .row {
+        color: @nav-color;
+        height: @item-height;
+        line-height: @item-height;
+        font-weight: normal;
+        display: flex;
+        position: relative;
+
+        .icon {
+          width: 16px;
+        }
+
+        .expand-icon {
+          width: 12px;
+          height: 12px;
+          font-size: 12px;
+          font-weight: 500;
+          transition: transform 0.25s;
+        }
+
+        .icon, .expand-icon {
+          color: @text-color;
+          margin-right: 5px;
+          flex-shrink: 0;
+          text-align: center;
+          height: @item-height;
+          line-height: @item-height;
+        }
+
+        .text {
+          flex-grow: 1;
+        }
+      }
+
+      > .children {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+      }
+    }
+
+  }
+}
