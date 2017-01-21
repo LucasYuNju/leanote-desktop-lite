@@ -62,3 +62,5 @@ export const GET_LAST_USN_SUCCESS = 'GET_LAST_USN_SUCCESS';
  * router
  */
 export const CHANGE_PATH = 'CHANGE_PATH';
+
+export const BATCH_ACTIONS = 'BATCH_ACTIONS';

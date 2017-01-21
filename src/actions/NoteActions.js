@@ -74,13 +74,16 @@ export function postNoteIfNecessary(note) {
         const serverSideId = action.payload.result;
         // TODO 应该从state中移除
         // TODO batched action
-        dispatch({ type: types.UPDATE_NOTE, payload: { noteId: note.noteId, note: { isTrash: true, isNew: false } } });
-        dispatch({ type: types.ADD_NOTE, payload: { note: {
-          ...note,
-          noteId: serverSideId,
-          aliasId: note.noteId,
-          isNew: false,
-        }, notebookId: note.notebookId } });
+        const actions = [
+          { type: types.UPDATE_NOTE, payload: { noteId: note.noteId, note: { isTrash: true, isNew: false } } },
+          { type: types.ADD_NOTE, payload: { note: {
+            ...note,
+            noteId: serverSideId,
+            aliasId: note.noteId,
+            isNew: false,
+          }, notebookId: note.notebookId } }
+        ];
+        dispatch({ type: types.BATCH_ACTIONS, actions });
       });
     }
   }

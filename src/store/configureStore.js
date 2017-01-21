@@ -4,6 +4,7 @@ import thunkMiddleware from 'redux-thunk';
 import localForage from 'localforage';
 
 import apiMiddleware from '../middleware/api';
+import batchedReducerEnhancer from './batchedReducerEnhander';
 import DevTools from '../containers/DevTools';
 import errorLoggerMiddleware from '../middleware/errorLogger';
 import rootReducer from '../reducers';
@@ -15,9 +16,8 @@ const enhancer = compose(
 );
 
 export default function configureStore() {
-  // Enhancer operates on createStore() rather than on store itself.
-  // Creating store in such way is more logical.
-	const store = enhancer(createStore)(rootReducer, {});
+  const reducer = batchedReducerEnhancer(rootReducer);
+	const store = enhancer(createStore)(reducer, {});
   persistStore(store, { storage: localForage });
   return store;
 }
