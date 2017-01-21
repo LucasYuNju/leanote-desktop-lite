@@ -33,9 +33,8 @@ class NoteList extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.noteId && this.props.noteId !== nextProps.noteId) {
-        console.log(this.props.noteId, nextProps.noteId);
-        const note = this.props.notes.find(n => n.noteId === this.props.noteId)
-        this.props.postNoteIfNecessary(note);
+      const note = this.props.notes.find(n => n.noteId === this.props.noteId)
+      this.props.postNoteIfNecessary(note);
     }
   }
 
@@ -52,7 +51,6 @@ class NoteList extends Component {
   }
 
   render() {
-    console.log('note list render');
     const {
       createNote,
       notes,
@@ -89,7 +87,6 @@ class NoteList extends Component {
   }
 
   renderNote = (note) => {
-    // TODO performance
     let isSelected;
     if (this.props.checked.length) {
       isSelected = this.props.checked.includes(note.noteId);
@@ -98,7 +95,6 @@ class NoteList extends Component {
       isSelected = this.props.noteId === note.noteId;
     }
     const noteId = note.aliasId ? note.aliasId : note.noteId;
-    console.log('noteId', noteId);
     return (
       <NoteListItem
         deleteNote={this.deleteNote}

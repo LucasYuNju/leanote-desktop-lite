@@ -73,7 +73,6 @@ export function postNoteIfNecessary(note) {
       }).then(action => {
         const serverSideId = action.payload.result;
         // TODO 应该从state中移除
-        // TODO batched action
         const actions = [
           { type: types.UPDATE_NOTE, payload: { noteId: note.noteId, note: { isTrash: true, isNew: false } } },
           { type: types.ADD_NOTE, payload: { note: {
@@ -81,6 +80,7 @@ export function postNoteIfNecessary(note) {
             noteId: serverSideId,
             aliasId: note.noteId,
             isNew: false,
+            usn: action.entities.notes[serverSideId].usn
           }, notebookId: note.notebookId } }
         ];
         dispatch({ type: types.BATCH_ACTIONS, actions });
