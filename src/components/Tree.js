@@ -20,7 +20,7 @@ class Tree extends Component {
 
   static defaultProps = {
     defaultCollapsed: true,
-    paddingPerLevel: 10,
+    paddingPerLevel: 16,
     nestedLevel: 0,
   };
 
@@ -48,17 +48,16 @@ class Tree extends Component {
 
   render() {
     const { children, itemClassName, nodeLabel, ...rest } = this.props;
-    if (!children || children.length === 0) {
-      return <div style={getStyles(this.props).item}>{nodeLabel}</div>;
-    }
+    // if (!children || children.length === 0) {
+    //   return <div style={getStyles(this.props).item}>{nodeLabel}</div>;
+    // }
     return (
       <div className="tree">
         <div
           className={classNames('tree-item', { 'collapsed': this.state.collapsed }, itemClassName)}
           onClick={this.handleClick}
-          style={getStyles(this.props).item}
         >
-          {nodeLabel}
+          {cloneElement(nodeLabel, { style: getStyles(this.props).item })}
         </div>
         <div className={classNames('tree-children', { 'collapsed': this.state.collapsed })}>
           {children.map(this.renderChild)}

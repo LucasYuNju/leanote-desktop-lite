@@ -1,13 +1,49 @@
 .tree {
+  @item-height: 28px;
   .tree-item {
+
     // TODO put it to note-stack-list
     &:not(.collapsed) {
-      .tree-arrow {
+      .collapse-icon {
         transform: rotate(90deg);
       }
+    }
 
-      .placeholder {
+    .link {
+      display: flex;
+      align-items: center;
+      height: @item-height;
+      line-height: @item-height;
+      font-size: @font-size-base;
+
+      &.selected {
+        background: @nav-selection-bg;
+      }
+
+      .collapse-icon-placeholder {
+        display: inline-block;
         width: 16px;
+      }
+
+      .collapse-icon {
+        width: 12px;
+        height: 12px;
+        font-size: 12px;
+        font-weight: 500;
+        transition: transform 0.25s;
+      }
+
+      .icon {
+        color: @text-color;
+        margin-right: 5px;
+        flex-shrink: 0;
+        text-align: center;
+        height: @item-height;
+        line-height: @item-height;
+      }
+
+      .text {
+        flex-grow: 1;
       }
     }
   }

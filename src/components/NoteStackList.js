@@ -58,7 +58,7 @@ class NoteStackList extends Component {
 	};
 
   renderNoteStack = (notebook) => {
-    // const hasSublist = notebook.subs.length > 0;
+    const hasSublist = notebook.subs.length > 0;
     const selected = this.props.noteStackId === notebook.notebookId && this.props.noteStackType === 'notebook';
     const nodeLabel = (
       <Link
@@ -67,10 +67,11 @@ class NoteStackList extends Component {
         className={classNames({ 'selected' : selected })}
       >
         {
-          notebook.subs.length > 0 ?
-          <Icon iconName="chevron-right" className='tree-arrow' /> :
-          <span className="placeholder" />
+          hasSublist > 0 ?
+          <Icon iconName="chevron-right" className='collapse-icon' /> :
+          <span className="collapse-icon-placeholder" />
         }
+        <Icon iconName={classNames({ 'file-directory': hasSublist }, { 'repo': !hasSublist })} className="node-type-icon" />
         <span className="text">{notebook.title}</span>
       </Link>
     )
