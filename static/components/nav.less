@@ -29,6 +29,7 @@
           height: @item-height;
           line-height: @item-height;
           font-size: @font-size-base;
+          color: @nav-color;
 
           &.selected {
             background: @nav-selection-bg;
@@ -49,11 +50,10 @@
 
           .node-type-icon {
             width: 16px;
-            color: rgb(100, 100, 100);
           }
 
           .icon {
-            color: @text-color;
+            color: @nav-color;
             margin-right: 4px;
             flex-shrink: 0;
             text-align: center;
@@ -70,6 +70,7 @@
 
     .tag-list {
       flex-grow: 1;
+      // margin-top: 5px;
 
       .link {
         display: block;
@@ -77,10 +78,12 @@
         line-height: @item-height;
         font-size: @font-size-base;
         padding-left: 24px;
+        color: @nav-color;
       }
 
       .tag-icon {
         margin-right: 4px;
+        color: @nav-color;
       }
     }
 

@@ -21,7 +21,7 @@ class Tree extends Component {
 
   static defaultProps = {
     defaultCollapsed: true,
-    initialPadding: 8,
+    initialPadding: 10,
     nestedLevel: 0,
     paddingPerLevel: 18,
   };

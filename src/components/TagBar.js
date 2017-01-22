@@ -35,9 +35,15 @@ class TagBar extends Component {
     const { noteTags, notebookTitle, toggleEditMode } = this.props;
     const titleWidth = Math.max(80, this.calculateInputWidth(this.state.title));
 
-    const tags = noteTags ? noteTags.filter(tag => tag !== '') : [];
     return (
       <div className="tag-bar">
+        <div className="note-info">
+          <div className="notebook">
+            <Icon iconName="repo" />
+            <span className="title">{notebookTitle}</span>
+          </div>
+          {this.renderTags()}
+        </div>
         <div className="note-title">
           <input
             value={this.state.title}
@@ -48,21 +54,26 @@ class TagBar extends Component {
             style={{ width: titleWidth}}
           />
         </div>
-				<div className="btn notebook">
-					<span className="text">{notebookTitle}</span>
-				</div>
-				{tags.map(tag => this.renderTag(tag))}
       </div>
     );
   }
 
-	renderTag = (tag) => {
-		return (
-			<div className="btn tag" key={tag}>
-        <span className="text">{tag}</span>
-        <Icon iconName="plus" onClick={this.handleDeleteButtonClick.bind(this, tag)} />
+	renderTags = (tag) => {
+    const tags = this.props.noteTags ? this.props.noteTags.filter(tag => tag !== '') : [];
+    if (tags.length === 0) {
+      return null;
+    }
+    return (
+      <div className="tags">
+        <Icon iconName="tag" />
+        {tags.map(tag => (
+            <div className="label tag" key={tag}>
+              <span className="text">{tag}</span>
+              <Icon iconName="plus" onClick={this.handleDeleteButtonClick.bind(this, tag)} />
+            </div>
+        ))}
       </div>
-		);
+    );
 	}
 
   handleInputChange = (e) => {
@@ -79,6 +90,7 @@ class TagBar extends Component {
     this.props.removeNoteTag(this.props.noteId, tag);
   }
 
+  // deprecated
   calculateInputWidth = (text) => {
     const span = document.createElement('span');
     span.innerText = text;
