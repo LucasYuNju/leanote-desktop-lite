@@ -19,10 +19,6 @@ class Note extends Component {
     removeNoteTag: PropTypes.func.isRequired,
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const nextNoteId = nextProps.note.aliasId ? nextProps.note.aliasId : nextProps.note.noteId;
-    return this.props.note.noteId !== nextNoteId;
-  }
   /**
    * 动画的实现：
    * 在component重新render的时候，设置className为enter，然后立即添加新的className enter-active，利用CSS实现透明度从0到1的渐变动画
@@ -40,7 +36,7 @@ class Note extends Component {
     } = this.props;
     return (
       <div
-        className={`note enter ${note.noteId}`}
+        className={`note ${note.noteId}`}
         ref="container"
       >
         <TagBar
@@ -61,8 +57,14 @@ class Note extends Component {
     );
   }
 
-  componentDidUpdate() {
-    this.refs.container.classList.add('enter-active');
+  componentDidUpdate(prevProps) {
+    const getNoteId = (props) => props.note.aliasId ? props.note.aliasId : props.note.noteId;
+    if (getNoteId(prevProps) !== getNoteId(this.props)) {
+      this.refs.container.classList.add('enter');
+      setTimeout(() => {
+        this.refs.container.classList.add('enter-active');
+      });
+    }
   }
 
   onTitleChange = (title) => {
@@ -77,5 +79,6 @@ class Note extends Component {
     });
   };
 }
+
 
 export default Note;
