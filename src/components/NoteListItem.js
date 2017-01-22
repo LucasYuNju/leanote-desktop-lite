@@ -1,10 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
+import emitter from '../util/emitter';
 import { fromNow } from '../util/timeFormat';
 import { httpsToLeanote } from '../util/regex';
 import Link from '../components/Link';
 import Menu from '../util/SystemMenu';
+import MoveNoteDialog from '../components/MoveNoteDialog';
 
 class NoteListItem extends Component {
   static propTypes = {
@@ -26,7 +28,7 @@ class NoteListItem extends Component {
   };
 
   static defaultProps = {
-		selected: false,
+    selected: false,
     view: 'snippet',
   };
 
@@ -74,7 +76,6 @@ class NoteListItem extends Component {
   }
 
   handleClick = (event) => {
-    // console.log(this.props.note);
     const nativeEvent = event.nativeEvent;
     if (this.props.onCtrlClick && nativeEvent.metaKey) {
       event.preventDefault();
@@ -92,10 +93,11 @@ class NoteListItem extends Component {
         {
           label: 'Move to notebook',
           click: (event) => {
-            const remote = require('electron').remote;
-            remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
-              properties: ['openFile', 'openDirectory', 'multiSelections']
-            });
+            // const remote = require('electron').remote;
+            // remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
+            //   properties: ['openFile', 'openDirectory', 'multiSelections']
+            // });
+            emitter.emit('show-dialog', <MoveNoteDialog />);
           },
         },
         {
