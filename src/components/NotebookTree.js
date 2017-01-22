@@ -1,24 +1,21 @@
 import classNames from 'classnames';
-import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
 import Icon from '../components/Icon';
 import Link from '../components/Link'
 import List from '../components/List';
-import NoteStackListItem from '../components/NoteStackListItem';
 import makeSelectable from '../components/makeSelectable';
 import Tree from '../components/Tree';
 
 const SelectableList = makeSelectable(List);
 
-class NoteStackList extends Component {
+class NotebookTree extends Component {
   static propTypes = {
     notebooks: PropTypes.object.isRequired,
     noteStackId: PropTypes.string,
     noteStackType: PropTypes.string,
     rootNotebookIds: PropTypes.array.isRequired,
     selectNoteStack: PropTypes.func.isRequired,
-    tagIds: PropTypes.array.isRequired,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -29,33 +26,6 @@ class NoteStackList extends Component {
     }
     return true;
   }
-
-  render() {
-    const {
-      notebooks,
-      rootNotebookIds,
-      noteStackId,
-			tagIds,
-    } = this.props;
-    return (
-      <List subHeader="Notebooks" className="note-stack-list">
-        <div className="children">
-          {rootNotebookIds.map(notebookId => this.renderNoteStack(notebooks[notebookId]))}
-        </div>
-      </List>
-    );
-  }
-
-	renderTag = (tagId) => {
-		return (
-      <NoteStackListItem
-				type="tag"
-        id={tagId}
-        icon="tag"
-        text={tagId}
-      />
-    );
-	};
 
   renderNoteStack = (notebook) => {
     const hasSublist = notebook.subs.length > 0;
@@ -85,13 +55,6 @@ class NoteStackList extends Component {
         {notebook.subs.map(notebookId => this.renderNoteStack(this.props.notebooks[notebookId]))}
       </Tree>
     );
-    // <NoteStackListItem
-    //   type="notebook"
-    //   id={notebook.notebookId}
-    //   icon={classNames({ 'file-directory': hasSublist }, { 'repo': !hasSublist })}
-    //   nestedItems={notebook.subs.map(notebookId => this.renderNoteStack(this.props.notebooks[notebookId]))}
-    //   text={notebook.title}
-    // />
   };
 
   handleNoteStackClick = (notebook, event) => {
@@ -100,31 +63,20 @@ class NoteStackList extends Component {
     }
   };
 
-  prevRender = () => {
-    // <SelectableList
-    //   className="notebooks"
-    //   id={noteStackId}
-    // >
-    // 	<NoteStackListItem
-    // 		type="latest"
-    // 		id="latest"
-    // 		text="Latest"
-    // 		icon="history"
-    // 	/>
-    // 	<NoteStackListItem
-    // 		id="notebook"
-    // 		text="Notebooks"
-    // 		icon="file-directory"
-    // 		nestedItems={rootNotebookIds.map(notebookId => this.renderNoteStack(notebooks[notebookId]))}
-    // 	/>
-    // 	<NoteStackListItem
-    // 		id="tags"
-    // 		text="Tags"
-    // 		icon="tag"
-    // 		nestedItems={tagIds.map(this.renderTag)}
-    // 	/>
-    // </SelectableList>
+  render() {
+    const {
+      notebooks,
+      rootNotebookIds,
+      noteStackId,
+    } = this.props;
+    return (
+      <List title="Notebooks" className="notebook-list">
+        <div className="children">
+          {rootNotebookIds.map(notebookId => this.renderNoteStack(notebooks[notebookId]))}
+        </div>
+      </List>
+    );
   }
 }
 
-export default NoteStackList;
+export default NotebookTree;

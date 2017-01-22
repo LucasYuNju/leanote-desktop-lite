@@ -5,7 +5,7 @@ class List extends Component {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
-    subHeader: PropTypes.string,
+    title: PropTypes.string,
   };
 
   static defaultProps = {
@@ -13,10 +13,10 @@ class List extends Component {
   }
 
   renderTitle = () => {
-    if (this.props.subHeader) {
+    if (this.props.title) {
       return (
-        <div className="sub-header">
-          <span className="title">Notebooks</span>
+        <div className="list-title">
+          <span className="title">{this.props.title}</span>
           <span className="toggle">Hide</span>
         </div>
       )
@@ -28,7 +28,7 @@ class List extends Component {
     const {
       children,
       className,
-      subHeader,
+      title,
       ...others
     } = this.props;
 

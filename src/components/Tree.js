@@ -15,13 +15,15 @@ class Tree extends Component {
     itemClassName: PropTypes.string,
     nodeLabel: PropTypes.element.isRequired,
     nestedLevel: PropTypes.number,
+    initialPadding: PropTypes.number,
     paddingPerLevel: PropTypes.number,
   };
 
   static defaultProps = {
     defaultCollapsed: true,
-    paddingPerLevel: 16,
+    initialPadding: 8,
     nestedLevel: 0,
+    paddingPerLevel: 18,
   };
 
   state = {
@@ -48,9 +50,6 @@ class Tree extends Component {
 
   render() {
     const { children, itemClassName, nodeLabel, ...rest } = this.props;
-    // if (!children || children.length === 0) {
-    //   return <div style={getStyles(this.props).item}>{nodeLabel}</div>;
-    // }
     return (
       <div className="tree">
         <div
@@ -68,13 +67,9 @@ class Tree extends Component {
 }
 
 function getStyles(props) {
-  let paddingLeft = 5 + props.nestedLevel * props.paddingPerLevel;
-  // if (props.children.length === 0) {
-  //   paddingLeft += 17;
-  // }
   return {
     item: {
-      paddingLeft,
+      paddingLeft: props.initialPadding + props.nestedLevel * props.paddingPerLevel
     }
   }
 }

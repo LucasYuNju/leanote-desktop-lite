@@ -40,9 +40,11 @@ function mapStateToProps(state) {
   if (noteStackId) {
     const notes = entities[noteStackType + 's'][noteStackId];
     const order = noteList.order;
+    // console.log(notes, entities.notes[notes.noteIds[0]]);
 		props.notes = notes.noteIds
 			.map(noteId => entities.notes[noteId])
-      .filter(note => !note.isDeleted && !note.isTrash)
+      // TODO 为什么note会是undefined
+      .filter(note => note && !note.isDeleted && !note.isTrash)
 			.sort((note1, note2) => {
 				let key = (note) => {
           if (order.key === 'updatedTime') {

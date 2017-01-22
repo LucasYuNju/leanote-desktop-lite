@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
 import HeaderContainer from '../containers/HeaderContainer';
-import Nav from '../components/Nav';
+import NavContainer from '../containers/NavContainer';
 import NoteContainer from '../containers/NoteContainer';
 import NoteListContainer from '../containers/NoteListContainer';
 import * as SyncActions from '../actions/SyncActions';
@@ -41,7 +41,7 @@ class Main extends Component {
 			<div className="main-page">
 				<HeaderContainer />
 				<div className="content">
-          <Nav />
+          <NavContainer />
 					<NoteListContainer />
 					<NoteContainer />
 				</div>
