@@ -23,7 +23,7 @@ class NoteListHeader extends Component {
       <div className="note-list-header">
         <div className="order-by" onClick={this.onOrderButtonClick}>
           By time
-          <Icon iconName="chevron-down" />
+          <Icon iconName="triangle-down" />
         </div>
         {this.renderCreateNoteButton()}
       </div>

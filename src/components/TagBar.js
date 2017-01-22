@@ -6,7 +6,7 @@ import ToolBarContainer from '../containers/ToolBarContainer';
 
 class TagBar extends Component {
   static propTypes = {
-		notebookTitle: PropTypes.string,
+    notebookTitle: PropTypes.string,
     noteId: PropTypes.string.isRequired,
     noteTags: PropTypes.arrayOf(PropTypes.string),
     title: PropTypes.string,

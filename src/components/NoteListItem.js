@@ -92,7 +92,10 @@ class NoteListItem extends Component {
         {
           label: 'Move to notebook',
           click: (event) => {
-            console.error('Operation not supported');
+            const remote = require('electron').remote;
+            remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
+              properties: ['openFile', 'openDirectory', 'multiSelections']
+            });
           },
         },
         {

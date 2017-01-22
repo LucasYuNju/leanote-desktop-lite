@@ -6,47 +6,47 @@ import Icon from '../components/Icon';
 
 class TagPickerPopover extends Component {
   static propTypes = {
-		hide: PropTypes.func.isRequired,
-		addNoteTag: PropTypes.func.isRequired,
-		noteId: PropTypes.string.isRequired,
-		tagged: PropTypes.object.isRequired,
+    hide: PropTypes.func.isRequired,
+    addNoteTag: PropTypes.func.isRequired,
+    noteId: PropTypes.string.isRequired,
+    tagged: PropTypes.object.isRequired,
     togglePopover: PropTypes.func,
-		removeNoteTag: PropTypes.func.isRequired,
+    removeNoteTag: PropTypes.func.isRequired,
   };
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			filteredTags: Object.keys(this.props.tagged).sort().filter(tag => tag !== ''),
-			input: '',
-			selected: -1,
-		};
-		this.filterTags = debounce(this.filterTags, 50);
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      filteredTags: Object.keys(this.props.tagged).sort().filter(tag => tag !== ''),
+      input: '',
+      selected: -1,
+    };
+    this.filterTags = debounce(this.filterTags, 50);
+  }
 
   render() {
-		const { tagged } = this.props;
-		const { filteredTags, input } = this.state;
-		return (
-			<div className="tag-picker-popover">
-				<div className="search-bar">
-					<input
-						ref={(input) => { this.input = input }}
-						onBlur={this.onInputBlur}
-						onInput={this.onInputChange}
-						onKeyDown={this.onInputKeydown}
-						placeholder="Click to add tag"
-						value={input}
-					/>
+    const { tagged } = this.props;
+    const { filteredTags, input } = this.state;
+    return (
+      <div className="tag-picker-popover">
+        <div className="search-bar">
+          <input
+            ref={(input) => { this.input = input }}
+            onBlur={this.onInputBlur}
+            onInput={this.onInputChange}
+            onKeyDown={this.onInputKeydown}
+            placeholder="Click to add tag"
+            value={input}
+          />
           <Icon iconName="search" />
-				</div>
-				<ul className={classNames('tag-list', 'dropdown')}>
-					{filteredTags.map((tag, i) => {
-						return tagged[tag] === undefined ? this.renderNewTag(tag, i) : this.renderExistingTag(tag, i);
-					})}
-				</ul>
+          </div>
+        <ul className={classNames('tag-list', 'dropdown')}>
+          {filteredTags.map((tag, i) => {
+            return tagged[tag] === undefined ? this.renderNewTag(tag, i) : this.renderExistingTag(tag, i);
+          })}
+          </ul>
 			</div>
-		)
+		);
   }
 
   componentDidMount() {
@@ -102,7 +102,6 @@ class TagPickerPopover extends Component {
 	}
 
 	onSuggestionMouseDown = (e) => {
-		// e.preventDefault();
 		this.toggleTag(e.currentTarget.getAttribute("data-tag"));
 	}
 

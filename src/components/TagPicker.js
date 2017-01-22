@@ -6,19 +6,19 @@ import TagPickerPopoverContainer from '../containers/TagPickerPopoverContainer';
 
 class TagPicker extends Component {
   state = {
-		open: false,
+    open: false,
   };
 
   render() {
     return (
-			<div className="tag-picker-container">
-				<div className="btn btn-tool-bar" onMouseDown={this.togglePopover}>
-					<Icon iconName="tag" />
-				</div>
-				{this.state.open ? <div className="triangle" /> : null}
-				{this.state.open ? <div className="triangle-inner" /> : null}
-				{this.state.open ? <TagPickerPopoverContainer hide={this.togglePopover}/> : null}
-			</div>
+      <div className="tag-picker-container">
+        <div className="btn btn-tool-bar" onMouseDown={this.togglePopover}>
+          <Icon iconName="tag" />
+        </div>
+        {this.state.open ? <div className="triangle" /> : null}
+        {this.state.open ? <div className="triangle-inner" /> : null}
+        {this.state.open ? <TagPickerPopoverContainer hide={this.togglePopover}/> : null}
+      </div>
     );
   }
 
