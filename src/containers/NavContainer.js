@@ -4,16 +4,13 @@ import React, { Component, PropTypes } from 'react';
 
 import * as RouterActions from '../actions/RouterActions';
 import * as NotebookActions from '../actions/NotebookActions';
-import NoteStackList from '../components/NoteStackList';
+import Nav from '../components/Nav';
+import NotebookTree from '../components/NotebookTree';
 
-/**
- * Note stack represents a bunch of notes,
- * like notes belong to the same notebook, or notes having the same tag.
- */
-class NoteStackListContainer extends Component {
+class NotebookTreeContainer extends Component {
   render() {
     return (
-			<NoteStackList {...this.props} />
+			<Nav {...this.props} />
     );
   }
 }
@@ -37,4 +34,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ ...NotebookActions, ...RouterActions}, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NoteStackListContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(NotebookTreeContainer);

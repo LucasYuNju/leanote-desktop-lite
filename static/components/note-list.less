@@ -1,5 +1,7 @@
 .note-list {
-  border-right: 0.5px solid @border-color;
+  border-right: 1px solid @border-color;
+  // z-index: 2;
+  // box-shadow: 0.5px 0 0 @border-color;
   width: 205px;
   flex-shrink: 0;
   display: flex;
@@ -8,13 +10,14 @@
 
   .note-list-header {
     padding: 0 12px;
-    height: 34px;
+    height: 30px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: relative;
     border-bottom: 1px solid @border-color-darker;
+    background: rgb(245, 246, 246);
 
     .order-by {
       color: @icon-color;
@@ -43,6 +46,7 @@
   }
 
   .note-list-items {
+    // padding-top: 2px;
     overflow-y: scroll;
     flex-grow: 1;
     display: flex;
@@ -50,9 +54,6 @@
 
     .note-list-item {
       cursor: default;
-      border-bottom: 1px solid @border-color;
-      // height: 94px;
-      // max-height: 94px;
       height: 94px;
       max-height: 94px;
       display: flex;
@@ -88,34 +89,35 @@
         }
       }
 
-      &::before {
-        content: "";
-        position: absolute;
-        pointer-events: none;
-        z-index: 2;
-        top: -1px;
-        left: 0;
-        bottom: -1px;
-        width: 2px;
-				opacity: 0;
-				transition: opacity .16s;
-				background: @theme-color;
-      }
-
       .wrapper {
         position: absolute;
-        height: 93px;
+        height: 94px;
         bottom: 0;
         left: 0;
         right: 0;
-        border: 2px solid transparent;
-        border-radius: 2px;
+        background: @note-list-bg;
         display: flex;
         flex-grow: 1;
         align-self: stretch;
+        border-bottom: 1px solid @border-color;
 
         &.selected {
-          border: 2px solid @theme-color;
+          background: @note-list-selected-bg;
+          border-bottom: 1px solid @note-list-selected-bg;
+
+          .info {
+            .title {
+              color: @note-list-selected-title-color;
+            }
+            .detail {
+              .updated-time {
+                color: @note-list-selected-snippet-color;
+              }
+              .snippet {
+                color: @note-list-selected-snippet-color;
+              }
+            }
+          }
         }
 
         .info {
@@ -128,7 +130,7 @@
 
           .title {
             font-size: @font-size-large;
-            color: @note-list-color-title;
+            color: @note-list-title-color;
 
             white-space: nowrap;
             text-overflow: ellipsis;
@@ -150,6 +152,7 @@
             }
 
             .snippet {
+              color: @note-list-snippet-color;
             }
           }
         }
