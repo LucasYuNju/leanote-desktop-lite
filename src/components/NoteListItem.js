@@ -8,6 +8,7 @@ import Menu from '../util/SystemMenu';
 
 class NoteListItem extends Component {
   static propTypes = {
+    checked: PropTypes.bool,
     className: PropTypes.string,
     deleteNote: PropTypes.func.isRequired,
     note: PropTypes.shape({
@@ -31,8 +32,9 @@ class NoteListItem extends Component {
 
   render() {
     const {
-      note,
+      checked,
       className,
+      note,
       thumbnail,
 			selected,
     } = this.props;
@@ -44,7 +46,7 @@ class NoteListItem extends Component {
         onContextMenu={this.showMenu}
         onClick={this.handleClick}
       >
-        <div className={classNames("wrapper", { selected: selected })}>
+        <div className={classNames("wrapper", { selected: selected }, { checked: checked })}>
           <div className="info">
             <div className="title">{note.title ? note.title : 'Untitled'}</div>
             <div className="detail">

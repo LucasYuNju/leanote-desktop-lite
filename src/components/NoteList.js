@@ -84,13 +84,6 @@ class NoteList extends Component {
   }
 
   renderNote = (note) => {
-    let isSelected;
-    if (this.props.checked.length) {
-      isSelected = this.props.checked.includes(note.noteId);
-    }
-    else {
-      isSelected = this.props.noteId === note.noteId;
-    }
     const noteId = note.aliasId ? note.aliasId : note.noteId;
     return (
       <NoteListItem
@@ -102,7 +95,8 @@ class NoteList extends Component {
         onShiftClick={this.handleNoteShiftClick}
         onCtrlClick={this.handleNoteMetaClick}
         onClick={this.handleNoteClick}
-        selected={isSelected}
+        selected={this.props.noteId === note.noteId}
+        checked={this.props.checked.includes(note.noteId)}
       />
     );
   };

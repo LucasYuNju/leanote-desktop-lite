@@ -131,9 +131,7 @@ class SlateEditor extends Component {
     if (state.isExpanded) return
     if (state.startOffset != 0) return
     const { startBlock } = state
-    // debugger;
     if (startBlock.type == BLOCKS.PARAGRAPH) return
-    // console.log(JSON.stringify(startBlock));
     if (startBlock.length === 0 && startBlock.text === '') {
       return
     }
