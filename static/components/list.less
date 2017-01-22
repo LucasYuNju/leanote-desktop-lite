@@ -8,16 +8,35 @@
     padding-top: 4px;
     padding-left: 8px;
     padding-right: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .title {
+      flex-shrink: 0;
+    }
 
     .toggle {
       float: right;
       display: none;
+      flex-shrink: 0;
     }
 
     &:hover {
       .toggle {
         display: block;
       }
+    }
+  }
+
+  .list-children {
+    max-height: 800px;
+    transition: max-height 0.25s ease-in;
+
+    &.collapsed {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s ease-out;
     }
   }
 }

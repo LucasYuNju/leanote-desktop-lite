@@ -5,11 +5,23 @@ class List extends Component {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
+    defaultCollapsed: PropTypes.bool,
     title: PropTypes.string,
   };
 
   static defaultProps = {
     className: '',
+    defaultCollapsed: false,
+  };
+
+  state = {
+    collapsed: this.props.defaultCollapsed,
+  };
+
+  handleToggleClick = (e) => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
   }
 
   renderTitle = () => {
@@ -17,9 +29,9 @@ class List extends Component {
       return (
         <div className="list-title">
           <span className="title">{this.props.title}</span>
-          <span className="toggle">Hide</span>
+          <span className="toggle" onClick={this.handleToggleClick}>{this.state.collapsed ? 'Show' : 'Hide'}</span>
         </div>
-      )
+      );
     }
     return null;
   }
@@ -28,14 +40,16 @@ class List extends Component {
     const {
       children,
       className,
+      defaultCollapsed,
       title,
-      ...others
+      ...rest
     } = this.props;
-
     return (
-      <div {...others} className={classNames('list', className)}>
+      <div className={classNames('list', className)} {...rest}>
         {this.renderTitle()}
-        {this.props.children}
+        <div className={classNames('list-children', { collapsed: this.state.collapsed })}>
+          {this.props.children}
+        </div>
       </div>
     );
   }

@@ -4,10 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import Icon from '../components/Icon';
 import Link from '../components/Link'
 import List from '../components/List';
-import makeSelectable from '../components/makeSelectable';
 import Tree from '../components/Tree';
-
-const SelectableList = makeSelectable(List);
 
 class NotebookTree extends Component {
   static propTypes = {
@@ -71,9 +68,7 @@ class NotebookTree extends Component {
     } = this.props;
     return (
       <List title="Notebooks" className="notebook-list">
-        <div className="children">
-          {rootNotebookIds.map(notebookId => this.renderNoteStack(notebooks[notebookId]))}
-        </div>
+        {rootNotebookIds.map(notebookId => this.renderNoteStack(notebooks[notebookId]))}
       </List>
     );
   }
