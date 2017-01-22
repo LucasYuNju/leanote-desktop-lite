@@ -19,6 +19,7 @@
         &:not(.collapsed) {
           .collapse-icon {
             transform: rotate(90deg);
+            transition: transform 0.25s ease-in;
           }
         }
 
@@ -43,7 +44,7 @@
             height: 12px;
             font-size: 12px;
             font-weight: 500;
-            transition: transform 0.25s;
+            transition: transform 0.15s ease-out;
           }
 
           .node-type-icon {

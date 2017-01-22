@@ -19,7 +19,7 @@ class TagList extends Component {
 			tagIds,
     } = this.props;
     return (
-      <List title="Tags" className="tag-list">
+      <List title="Tags" className="tag-list" defaultCollapsed={true}>
         <div className="children">
           {tagIds.map(this.renderTag)}
         </div>

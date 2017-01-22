@@ -3,8 +3,8 @@
     font-size: @font-size-smaller;
     color: rgb(119, 119, 119);
     font-weight: 600;
-    height: 22px;
-    line-height: 22px;
+    height: 26px;
+    line-height: 26px;
     padding-top: 4px;
     padding-left: 8px;
     padding-right: 8px;
@@ -30,13 +30,13 @@
   }
 
   .list-children {
-    max-height: 800px;
-    transition: max-height 0.25s ease-in;
+    max-height: 600px;
+    transition: max-height 0.35s ease;
+    overflow: hidden;
 
     &.collapsed {
       max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.2s ease-out;
+      transition: max-height 0.35s ease;
     }
   }
 }
