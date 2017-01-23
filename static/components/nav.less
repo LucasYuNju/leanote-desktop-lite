@@ -1,7 +1,6 @@
 .content {
   .nav {
     @header-height: 32px;
-    @item-height: 28px;
 
     width: 155px;
     flex-shrink: 0;
@@ -14,58 +13,7 @@
     cursor: default;
 
     .notebook-list {
-      // flex-grow: 1;
-      .tree-item {
-        &:not(.collapsed) {
-          .collapse-icon {
-            transform: rotate(90deg);
-            transition: transform 0.25s ease-in;
-          }
-        }
 
-        .link {
-          display: flex;
-          align-items: center;
-          height: @item-height;
-          line-height: @item-height;
-          font-size: @font-size-base;
-          color: @nav-color;
-
-          &.selected {
-            background: @nav-selection-bg;
-          }
-
-          .collapse-icon-placeholder {
-            display: inline-block;
-            width: 16px;
-          }
-
-          .collapse-icon {
-            width: 12px;
-            height: 12px;
-            font-size: 12px;
-            font-weight: 500;
-            transition: transform 0.15s ease-out;
-          }
-
-          .node-type-icon {
-            width: 16px;
-          }
-
-          .icon {
-            color: @nav-color;
-            margin-right: 4px;
-            flex-shrink: 0;
-            text-align: center;
-            height: @item-height;
-            line-height: @item-height;
-          }
-
-          .text {
-            flex-grow: 1;
-          }
-        }
-      }
     }
 
     .tag-list {
@@ -74,8 +22,8 @@
 
       .link {
         display: block;
-        height: @item-height;
-        line-height: @item-height;
+        height: @nav-item-height;
+        line-height: @nav-item-height;
         font-size: @font-size-base;
         padding-left: 24px;
         color: @nav-color;

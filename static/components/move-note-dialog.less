@@ -25,7 +25,7 @@
       box-shadow: 0 0 16px 0 rgba(0,0,0,0.3);
 
       width: 400px;
-      height: 280px;
+      height: 500px;
       position: absolute;
       overflow-y: hidden;
       left: 0;
@@ -34,28 +34,21 @@
       margin-right: auto;
       top: 0;
 
-      // &.fade-enter {
-      //   top: -280px;
-      // }
-      //
-      // &.fade-enter.fade-enter-active {
-      //   top: 0;
-      //   transition: top 0.2s ease;
-      // }
-
-      &.fade-leave {
-
+      h4 {
+        text-align: center;
+        padding-bottom: 10px;
       }
 
-      &.fade-leave.fade-leave-active {
-        transition: top 0.3s ease;
-        top: -280px;
+      hr {
+        border-color: @border-color-darker;
+        border-bottom: none;
       }
 
       .notebook-tree {
         display: block;
-        min-height: 230px;
+        height: 450px;
         padding: 16px;
+        overflow: scroll;
       }
 
       .buttons {
@@ -67,6 +60,7 @@
 
         .btn {
           margin-right: 16px;
+          color: @text-color;
         }
       }
     }
@@ -86,14 +80,6 @@
           }
         }
       }
-      // &.fade {
-      //   .move-note-dialog {
-      //     top: 0;
-      //   }
-      // }
-
-
     }
-
   }
 }

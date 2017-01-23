@@ -24,7 +24,7 @@ class NotebookTree extends Component {
     return true;
   }
 
-  renderNoteStack = (notebook) => {
+  renderNotebook = (notebook) => {
     const hasSublist = notebook.subs.length > 0;
     const selected = this.props.noteStackId === notebook.notebookId && this.props.noteStackType === 'notebook';
     const nodeLabel = (
@@ -48,8 +48,9 @@ class NotebookTree extends Component {
         nodeLabel={nodeLabel}
         key={notebook.notebookId}
         id={notebook.notebookId}
+        itemClassName="notebook-tree-item"
       >
-        {notebook.subs.map(notebookId => this.renderNoteStack(this.props.notebooks[notebookId]))}
+        {notebook.subs.map(notebookId => this.renderNotebook(this.props.notebooks[notebookId]))}
       </Tree>
     );
   };
@@ -68,7 +69,7 @@ class NotebookTree extends Component {
     } = this.props;
     return (
       <List title="Notebooks" className="notebook-list">
-        {rootNotebookIds.map(notebookId => this.renderNoteStack(notebooks[notebookId]))}
+        {rootNotebookIds.map(notebookId => this.renderNotebook(notebooks[notebookId]))}
       </List>
     );
   }

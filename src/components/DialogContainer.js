@@ -24,12 +24,6 @@ class DialogContainer extends Component {
         this.setState({
           active: true,
         });
-
-        setTimeout(() => {
-          this.setState({
-            active: false,
-          });
-        }, 5000);
       }
     });
   }

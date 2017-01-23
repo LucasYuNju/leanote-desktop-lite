@@ -6,7 +6,7 @@ import { fromNow } from '../util/timeFormat';
 import { httpsToLeanote } from '../util/regex';
 import Link from '../components/Link';
 import Menu from '../util/SystemMenu';
-import MoveNoteDialog from '../components/MoveNoteDialog';
+import MoveNoteDialogContainer from '../containers/MoveNoteDialogContainer';
 
 class NoteListItem extends Component {
   static propTypes = {
@@ -97,7 +97,7 @@ class NoteListItem extends Component {
             // remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
             //   properties: ['openFile', 'openDirectory', 'multiSelections']
             // });
-            emitter.emit('show-dialog', <MoveNoteDialog />);
+            emitter.emit('show-dialog', <MoveNoteDialogContainer />);
           },
         },
         {
