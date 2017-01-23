@@ -11,6 +11,7 @@ import MoveNoteDialogContainer from '../containers/MoveNoteDialogContainer';
 class NoteListItem extends Component {
   static propTypes = {
     checked: PropTypes.bool,
+    checkedNoteIds: PropTypes.arrayOf(PropTypes.string),
     className: PropTypes.string,
     deleteNote: PropTypes.func.isRequired,
     note: PropTypes.shape({
@@ -93,11 +94,16 @@ class NoteListItem extends Component {
         {
           label: 'Move to notebook',
           click: (event) => {
-            // const remote = require('electron').remote;
-            // remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
-            //   properties: ['openFile', 'openDirectory', 'multiSelections']
-            // });
-            emitter.emit('show-dialog', <MoveNoteDialogContainer />);
+            const noteIds = this.getTargetNoteIds();
+            let title = null;
+            if (noteIds.length === 1) {
+              const noteTitle = this.props.note.title ? this.props.note.title : 'Untitled';
+              title = `Move "${noteTitle}"`;
+            }
+            else {
+              title = `Move ${noteIds.length} notes`;
+            }
+            emitter.emit('show-dialog', <MoveNoteDialogContainer title={title} />);
           },
         },
         {
@@ -110,6 +116,13 @@ class NoteListItem extends Component {
       this.menu = new Menu(template);
     }
     this.menu.popup(event, false);
+  }
+
+  getTargetNoteIds = () => {
+    if (this.props.checkedNoteIds.includes(this.props.note.noteId)) {
+      return this.props.checkedNoteIds;
+    }
+    return [ this.props.note.noteId ];
   }
 }
 

@@ -28,20 +28,18 @@
       height: 500px;
       position: absolute;
       overflow-y: hidden;
+      top: 0;
       left: 0;
       right: 0;
       margin-left: auto;
       margin-right: auto;
-      top: 0;
+      cursor: default;
 
       h4 {
         text-align: center;
         padding-bottom: 10px;
-      }
-
-      hr {
-        border-color: @border-color-darker;
-        border-bottom: none;
+        margin-bottom: 10px;
+        border-bottom: 1px solid @border-color-darker;
       }
 
       .notebook-tree {
@@ -60,7 +58,14 @@
 
         .btn {
           margin-right: 16px;
-          color: @text-color;
+
+          .btn-disabled {
+
+          }
+
+          &:not(.btn-disabled) {
+            color: @text-color;
+          }
         }
       }
     }

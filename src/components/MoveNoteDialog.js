@@ -8,30 +8,45 @@ import Tree from '../components/Tree';
 
 class MoveNoteDialog extends Component {
   static propTypes = {
-    onClose: PropTypes.func.isRequired,
     notebooks: PropTypes.object.isRequired,
+    onClose: PropTypes.func.isRequired,
     rootNotebookIds: PropTypes.array.isRequired,
+    title: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
     onClose: () => {},
   };
 
+  state = {
+    notebookId: null,
+  }
+
   render() {
     const {
       notebooks,
       rootNotebookIds,
+      title,
     } = this.props;
     return (
       <div className="move-note-dialog">
         <div className="notebook-tree">
-          <h4>Move 1 note</h4>
-          <hr />
+          <h4>{title}</h4>
           {rootNotebookIds.map(notebookId => this.renderNotebook(notebooks[notebookId]))}
         </div>
         <div className="buttons">
-          <div className="btn dialog-btn" onClick={this.handleMoveButtonClick}>Move</div>
-          <div className="btn dialog-btn" onClick={this.handleCancelButtonClick}>Cancel</div>
+          <div
+            className={classNames('btn', 'dialog-btn', { 'btn-disabled': !this.state.notebookId })}
+            onClick={this.handleMoveButtonClick}
+          >
+            Move
+          </div>
+          <div
+            className="btn dialog-btn"
+            onClick={this.handleCancelButtonClick}
+          >
+            Cancel
+          </div>
         </div>
       </div>
     );
@@ -39,10 +54,9 @@ class MoveNoteDialog extends Component {
 
   renderNotebook = (notebook) => {
     const hasSublist = notebook.subs.length > 0;
-    const selected = this.props.noteStackId === notebook.notebookId && this.props.noteStackType === 'notebook';
+    const selected = this.state.notebookId === notebook.notebookId;
     const nodeLabel = (
       <div
-        to={`/edit/notebook-${notebook.notebookId}`}
         onClick={this.handleNotebookClick.bind(this, notebook)}
         className={classNames('link', { 'selected' : selected })}
       >
@@ -68,8 +82,12 @@ class MoveNoteDialog extends Component {
     );
   };
 
-  handleNotebookClick = () => {
-
+  handleNotebookClick = (notebook) => {
+    if (notebook.subs.length === 0) {
+      this.setState({
+        notebookId: notebook.notebookId,
+      });
+    }
   }
 
   handleCancelButtonClick = () => {
@@ -77,7 +95,11 @@ class MoveNoteDialog extends Component {
   };
 
   handleMoveButtonClick = () => {
-    this.props.onClose();
+    if (this.state.notebookId) {
+      this.props.onClose({
+        notebookId: this.state.notebookId,
+      });
+    }
   };
 }
 

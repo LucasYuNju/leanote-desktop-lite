@@ -97,6 +97,7 @@ class NoteList extends Component {
         onClick={this.handleNoteClick}
         selected={this.props.noteId === note.noteId}
         checked={this.props.checked.includes(note.noteId)}
+        checkedNoteIds={this.props.checked}
       />
     );
   };
