@@ -3,8 +3,9 @@
  */
 import emitter from '../util/emitter';
 
-import React, { cloneElement, Component, PropTypes } from 'react';
 import classNames from 'classnames';
+import React, { cloneElement, Component, PropTypes } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class DialogContainer extends Component {
   state = {
@@ -43,14 +44,20 @@ class DialogContainer extends Component {
   render() {
     if (this.state.active) {
       return (
-        <div className={classNames('dialog', { active: this.state.active })}>
-          <div className="container">
+        <div ref="container" className={classNames('dialog-container', { active: this.state.active })}>
+          <div className="content">
             {cloneElement(this.content, { onClose: this.handleDialogClose })}
           </div>
         </div>
       );
     }
     return null;
+  }
+
+  componentDidUpdate() {
+    setTimeout(() => {
+      this.refs.container.classList.add('fade');
+    });
   }
 }
 

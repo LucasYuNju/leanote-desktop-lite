@@ -1,22 +1,44 @@
-.move-note-dialog {
-  width: 400px;
-  height: 280px;
-
-  .notebook-tree {
-    display: block;
-    min-height: 230px;
-    padding: 16px;
+.dialog-container {
+  &.fade {
+    .move-note-dialog {
+      top: 0;
+    }
   }
 
-  .buttons {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    border-top: 1px solid @border-color-darker;
-    height: 50px;
+  .move-note-dialog {
+    // 样式对dialog通用
+    background: rgb(239, 239, 239);
+    border: 1px solid @border-color-darker;
+    box-shadow: 0 0 16px 0 rgba(0,0,0,0.3);
+    transition: top 0.25s ease;
 
-    .btn {
-      margin-right: 16px;
+    width: 400px;
+    height: 280px;
+    position: absolute;
+    overflow-y: hidden;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    top: -280px;
+
+
+    .notebook-tree {
+      display: block;
+      min-height: 230px;
+      padding: 16px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      border-top: 1px solid @border-color-darker;
+      height: 50px;
+
+      .btn {
+        margin-right: 16px;
+      }
     }
   }
 }

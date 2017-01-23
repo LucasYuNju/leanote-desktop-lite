@@ -14,7 +14,7 @@ class MoveNoteDialog extends Component {
           <h1>Move to notebook</h1>
         </div>
         <div className="buttons">
-          {['Cancel', 'Move'].map(this.renderButton)}
+          {['Move', 'Cancel'].map(this.renderButton)}
         </div>
       </div>
     );
