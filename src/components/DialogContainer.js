@@ -24,6 +24,12 @@ class DialogContainer extends Component {
         this.setState({
           active: true,
         });
+
+        setTimeout(() => {
+          this.setState({
+            active: false,
+          });
+        }, 5000);
       }
     });
   }
@@ -42,22 +48,23 @@ class DialogContainer extends Component {
   }
 
   render() {
-    if (this.state.active) {
-      return (
-        <div ref="container" className={classNames('dialog-container', { active: this.state.active })}>
-          <div className="content">
-            {cloneElement(this.content, { onClose: this.handleDialogClose })}
-          </div>
-        </div>
-      );
-    }
-    return null;
-  }
-
-  componentDidUpdate() {
-    setTimeout(() => {
-      this.refs.container.classList.add('fade');
-    });
+    const bg = this.state.active ? <div className="bg" /> : null;
+    const content = this.state.active ? (
+      <div className="content" key="contenet">
+        {cloneElement(this.content, { onClose: this.handleDialogClose })}
+      </div>
+    ) : null;
+    return (
+        <ReactCSSTransitionGroup
+          transitionName="fade"
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+          className={classNames('dialog-container', { active: this.state.active })}
+        >
+          {bg}
+          {content}
+        </ReactCSSTransitionGroup>
+    );
   }
 }
 
