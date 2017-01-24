@@ -33,8 +33,6 @@ class TagBar extends Component {
 
   render() {
     const { noteTags, notebookTitle, toggleEditMode } = this.props;
-    const titleWidth = Math.max(80, this.calculateInputWidth(this.state.title));
-
     return (
       <div className="tag-bar">
         <div className="note-info">
@@ -51,7 +49,6 @@ class TagBar extends Component {
             onChange={this.handleInputChange}
             onBlur={this.handleInputBlur}
             size={10}
-            style={{ width: titleWidth}}
           />
         </div>
       </div>
