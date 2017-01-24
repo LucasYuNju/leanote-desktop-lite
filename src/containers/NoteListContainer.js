@@ -50,11 +50,12 @@ function mapStateToProps(state) {
           if (order.key === 'updatedTime') {
             return new Date(note[order.key]);
           }
-          return note[order.key];
+          return note[order.key].toLowerCase();
         };
 				const key1 = key(note1);
 				const key2 = key(note2);
-				return order.ascending ? key1 > key2 : key1 < key2;
+        return order.key === 'updatedTime' ? key1 < key2 : key1 > key2;
+				// return order.ascending ? key1 > key2 : key1 < key2;
 			});
     props.order = order;
     props.noteStackId = noteStackId;

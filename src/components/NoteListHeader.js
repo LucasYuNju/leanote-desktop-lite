@@ -16,13 +16,14 @@ class NoteListHeader extends Component {
 
   render() {
     const {
+      order,
       showCreateButton,
       title,
     } = this.props;
     return (
       <div className="note-list-header">
         <div className="order-by" onClick={this.onOrderButtonClick}>
-          By time
+          {order.key === 'updatedTime' ? 'By time' : 'By title'}
           <Icon iconName="triangle-down" />
         </div>
         {this.renderCreateNoteButton()}

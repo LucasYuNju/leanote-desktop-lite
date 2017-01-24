@@ -37,6 +37,7 @@ class SlateEditor extends Component {
           onChange={this.onChange}
           onDocumentChange={this.onDocumentChange}
           onKeyDown={this.onKeyDown}
+          onPaste={this.onPaste}
           placeholder="Enter text here..."
           ref="slate"
           schema={schema}
@@ -48,6 +49,7 @@ class SlateEditor extends Component {
 
   onBlur = () => {
     const text = serializeState(this.state.state);
+    console.log('blur', text);
     if (text !== this.props.note.content) {
       this.props.onChange(text);
     }
