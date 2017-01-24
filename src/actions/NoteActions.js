@@ -139,6 +139,14 @@ export function deleteNote(note) {
   }
 }
 
+export function moveToNotebook(noteId, fromNotebookId, toNotebookId) {
+  return (dispatch, getState) => {
+    dispatch({ type: types.REMOVE_FROM_NOTEBOOK, payload: { notebookId: fromNotebookId, noteId } });
+    dispatch({ type: types.ADD_TO_NOTEBOOK, payload: { notebookId: toNotebookId, noteId } });
+    dispatch(updateNote(noteId, { notebookId: toNotebookId }));
+  }
+}
+
 export function checkNotes(checked) {
   return (dispatch, getState) => {
     dispatch({ type: types.CHECK_NOTES, payload: { checked } });

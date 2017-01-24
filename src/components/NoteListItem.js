@@ -14,6 +14,7 @@ class NoteListItem extends Component {
     checkedNoteIds: PropTypes.arrayOf(PropTypes.string),
     className: PropTypes.string,
     deleteNote: PropTypes.func.isRequired,
+    moveToNotebook: PropTypes.func.isRequired,
     note: PropTypes.shape({
       abstract: PropTypes.string,
       content: PropTypes.string,
@@ -103,7 +104,17 @@ class NoteListItem extends Component {
             else {
               title = `Move ${noteIds.length} notes`;
             }
-            emitter.emit('show-dialog', <MoveNoteDialogContainer title={title} />);
+            const callback = (msg) => {
+              console.log(msg.notebookId);
+              if (msg.notebookId && msg.notebookId !== this.props.note.notebookId) {
+                const from = this.props.note.notebookId, to = msg.notebookId;
+                noteIds.forEach((noteId) => {
+                  this.props.moveToNotebook(noteId, from, to);
+                });
+                // console.log('msg', msg);
+              }
+            }
+            emitter.emit('show-dialog', <MoveNoteDialogContainer callback={callback} title={title} />);
           },
         },
         {

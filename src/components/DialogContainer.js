@@ -45,7 +45,7 @@ class DialogContainer extends Component {
     const bg = this.state.active ? <div className="bg" /> : null;
     const content = this.state.active ? (
       <div className="content" key="contenet">
-        {cloneElement(this.content, { onClose: this.handleDialogClose })}
+        {cloneElement(this.content, { closeDialog: this.handleDialogClose })}
       </div>
     ) : null;
     return (

@@ -8,14 +8,15 @@ import Tree from '../components/Tree';
 
 class MoveNoteDialog extends Component {
   static propTypes = {
+    callback: PropTypes.func.isRequired,
     notebooks: PropTypes.object.isRequired,
-    onClose: PropTypes.func.isRequired,
+    closeDialog: PropTypes.func.isRequired,
     rootNotebookIds: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
-    onClose: () => {},
+    closeDialog: () => {},
   };
 
   state = {
@@ -91,14 +92,15 @@ class MoveNoteDialog extends Component {
   }
 
   handleCancelButtonClick = () => {
-    this.props.onClose();
+    this.props.closeDialog();
   };
 
   handleMoveButtonClick = () => {
     if (this.state.notebookId) {
-      this.props.onClose({
+      this.props.callback({
         notebookId: this.state.notebookId,
       });
+      this.props.closeDialog();
     }
   };
 }

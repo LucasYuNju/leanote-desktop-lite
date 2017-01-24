@@ -6,6 +6,7 @@ import * as types from '../../constants/ActionTypes';
 
 function notebooks(state = {}, action) {
   switch (action.type) {
+    // FIXME: duplicate action reducer
     case types.ADD_NOTE:
       return {
         ...state,
@@ -16,6 +17,29 @@ function notebooks(state = {}, action) {
 						action.payload.note.noteId,
 					],
 				}
+      };
+    case types.REMOVE_FROM_NOTEBOOK:
+      const index = state[action.payload.notebookId].noteIds.indexOf(action.payload.noteId);
+      return {
+        ...state,
+        [action.payload.notebookId]: {
+          ...state[action.payload.notebookId],
+          noteIds: [
+            ...state[action.payload.notebookId].noteIds.slice(0, index),
+            ...state[action.payload.notebookId].noteIds.slice(index + 1)
+          ],
+        }
+      };
+    case types.ADD_TO_NOTEBOOK:
+      return {
+        ...state,
+        [action.payload.notebookId]: {
+          ...state[action.payload.notebookId],
+          noteIds: [
+            ...state[action.payload.notebookId].noteIds,
+            action.payload.noteId,
+          ],
+        }
       };
     case types.GET_NOTES_REQUEST:
       return {

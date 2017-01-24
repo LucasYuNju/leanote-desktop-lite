@@ -15,6 +15,7 @@ class NoteList extends Component {
     postNoteIfNecessary: PropTypes.func.isRequired,
     selectNote: PropTypes.func.isRequired,
     sortNoteList: PropTypes.func.isRequired,
+    moveToNotebook: PropTypes.func.isRequired,
     checked: PropTypes.array.isRequired,
     notes: PropTypes.array,
     noteId: PropTypes.string,
@@ -98,6 +99,7 @@ class NoteList extends Component {
         selected={this.props.noteId === note.noteId}
         checked={this.props.checked.includes(note.noteId)}
         checkedNoteIds={this.props.checked}
+        moveToNotebook={this.props.moveToNotebook}
       />
     );
   };

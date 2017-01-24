@@ -3,8 +3,8 @@ import React, { Component, PropTypes } from 'react';
 
 import Icon from '../components/Icon';
 
-// 导航相关的逻辑最初写在了RouterActions里面。放在这里的主要有考虑到:
 // 其他组件只关心当前的url，而不关心用户的前进后退操作，history相关的状态不需要放在全局的state里
+// 回退的时候会出现之前的笔记不存在的情况，可能用h5的history无法实现，需要自己记录浏览历史
 class Navigator extends Component {
   static propTypes = {
     changePath: PropTypes.func.isRequired,
