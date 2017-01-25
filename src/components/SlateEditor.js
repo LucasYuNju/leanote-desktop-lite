@@ -54,8 +54,6 @@ class SlateEditor extends Component {
     const { startBlock, startOffset, startText } = state;
     if (this.prevStartText && this.prevStartText !== startText) {
       // 刚刚编辑完一个link，将markdown源码解析成link
-      console.log('block', prettify(this.prevStartBlock));
-      console.log('text', prettify(this.prevStartText));
       const text = this.prevStartText.text;
       const linkRegex = /\[([^\]]*)\]\(([^\)]*)\)/;
       const imageRegex = /!\[([^\]]*)\]\(([^\)]*)\)/;
@@ -79,6 +77,14 @@ class SlateEditor extends Component {
       }
     }
     // TODO 用户进入一个link，将link替换成markdown源码
+    const parent = state.document.getParent(startText.key);
+    console.log(prettify(startBlock));
+    // console.log('parent', startText.key, prettify(parent));
+    if (parent.type === INLINES.LINK) {
+      // console.log('link found, inline:', prettify(parent));
+
+    }
+    // console.log('text', prettify(this.prevStartText));
 
     this.prevStartText = startText;
     this.prevStartBlock = startBlock;
@@ -234,8 +240,17 @@ function serializeState(state) {
 function deserializeToState(text) {
   const document = MarkupIt.State.create(markdown).deserializeToDocument(text);
   const state = Slate.State.create({ document });
-  // console.log(serializeState(state));
-  return state;
+  // trim empty spans
+  const blocks = document.getBlocks();
+  const transform = state.transform();
+  blocks.forEach(block => {
+    block.nodes.forEach(node => {
+      if (node.text === '') {
+        transform.removeNodeByKey(node.key);
+      }
+    });
+  })
+  return transform.apply();
 }
 
 function prettify(obj) {
