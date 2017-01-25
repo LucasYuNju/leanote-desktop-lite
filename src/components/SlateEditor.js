@@ -5,6 +5,8 @@ import Slate, { Editor, State, Text, Inline, Block } from 'slate';
 
 import schema from '../constants/SlateSchema';
 
+const OPTIONS = { normalize: false };
+
 class SlateEditor extends Component {
   static propTypes = {
     note: PropTypes.object,
@@ -52,38 +54,37 @@ class SlateEditor extends Component {
 
   onSelectionChange = (selection, state) => {
     const { startBlock, startOffset, startText } = state;
-    if (this.prevStartText && this.prevStartText !== startText) {
+    if (startText) {
       // 刚刚编辑完一个link，将markdown源码解析成link
-      const text = this.prevStartText.text;
       const linkRegex = /\[([^\]]*)\]\(([^\)]*)\)/;
-      const imageRegex = /!\[([^\]]*)\]\(([^\)]*)\)/;
-      const result = linkRegex.exec(text);
-      if (result && result.length === 3) {
-        console.error('insert link', this.prevStartBlock.key);
-        const alias = result[1], href = result[2];
-        const $text = Text.createFromString(alias);
+      const match = linkRegex.exec(startText.text);
+      // console.log(startText.text, match);
+      if (match && match.length === 3) {
+        console.warn('insert link node', startBlock.key);
+        const from = match.index, to = match.index + match[0].length;
+        const $before = Text.createFromString(startText.text.substring(0, from));
         const $link = Inline.create({
           type: INLINES.LINK,
-          data: { href },
+          data: { href: match[2] },
           isVoid: false,
-          nodes: [$text],
+          nodes: [Text.createFromString(match[1])],
         });
+        const $after = Text.createFromString(startText.text.substring(to));
 
-        const nextState = state.transform()
-          .removeNodeByKey(this.prevStartText.key)
-          .insertNodeByKey(this.prevStartBlock.key, 0, $link)
-          .apply();
+        const nextState = replaceWith(state, startText, [$before, $link, $after]);
         this.setState({ state: nextState });
       }
     }
     // TODO 用户进入一个link，将link替换成markdown源码
     const parent = state.document.getParent(startText.key);
-    if (parent.type === INLINES.LINK) {
+    if (parent.type === INLINES.LINK && parent.nodes.length === 1) {
       console.log('link found, inline:', prettify(parent));
+      const nextState = state.transform()
+        // .removeNodeByKey(parent.key)
+        .insertNodeByKey(parent.key, 1, Text.createFromString('(www.baidu.com)'))
+        .apply(OPTIONS);
+      this.setState({ state: nextState });
     }
-
-    this.prevStartText = startText;
-    this.prevStartBlock = startBlock;
   }
 
   onBlur = () => {
@@ -242,15 +243,24 @@ function deserializeToState(text) {
   blocks.forEach(block => {
     block.nodes.forEach(node => {
       if (node.text === '' && node.key !== '0') {
-        transform.removeNodeByKey(node.key, { normalize: false });
+        transform.removeNodeByKey(node.key, OPTIONS);
       }
     });
   });
-  return transform.apply();
+  return transform.apply({ normalize: false });
 }
 
 function prettify(obj) {
   return JSON.parse(JSON.stringify(obj));
+}
+
+function replaceWith(state, prevNode, newNodes) {
+  const parent = state.document.getParent(prevNode);
+  const transform = state.transform();
+  const index = parent.nodes.find(node => node.key === prevNode.key);
+  transform.removeNodeByKey(prevNode.key);
+  newNodes.reverse().forEach(newNode => transform.insertNodeByKey(parent.key, index, newNode));
+  return transform.apply(OPTIONS);
 }
 
 export default SlateEditor

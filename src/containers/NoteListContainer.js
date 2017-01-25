@@ -35,9 +35,10 @@ function mapStateToProps(state) {
 		// noteId: entities.notes[noteId] ? entities.notes[noteId].noteId : noteId,
     noteId,
     notes: [],
+    order: noteList.order,
     checked: noteList.checked,
   };
-  if (noteStackId) {
+  if (noteStackId && noteStackType && entities[noteStackType + 's']) {
     const notes = entities[noteStackType + 's'][noteStackId];
     const order = noteList.order;
     // console.log(notes, entities.notes[notes.noteIds[0]]);
@@ -57,7 +58,6 @@ function mapStateToProps(state) {
         return order.key === 'updatedTime' ? key1 < key2 : key1 > key2;
 				// return order.ascending ? key1 > key2 : key1 < key2;
 			});
-    props.order = order;
     props.noteStackId = noteStackId;
     props.noteStackType = noteStackType;
   }
