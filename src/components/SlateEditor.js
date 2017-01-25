@@ -6,6 +6,7 @@ import Slate, { Editor, State, Text, Inline, Block } from 'slate';
 import schema from '../constants/SlateSchema';
 
 const OPTIONS = { normalize: false };
+const linkRegex = /\[([^\]]*)\]\(([^\)]*)\)/;
 
 class SlateEditor extends Component {
   static propTypes = {
@@ -54,37 +55,68 @@ class SlateEditor extends Component {
 
   onSelectionChange = (selection, state) => {
     const { startBlock, startOffset, startText } = state;
-    if (startText) {
+    const parent = state.document.getParent(startText.key);
+    if (parent.type !== INLINES.LINK) {
+      // 有没有编辑的事件，放在那更直观
       // 刚刚编辑完一个link，将markdown源码解析成link
-      const linkRegex = /\[([^\]]*)\]\(([^\)]*)\)/;
       const match = linkRegex.exec(startText.text);
-      // console.log(startText.text, match);
       if (match && match.length === 3) {
-        console.warn('insert link node', startBlock.key);
         const from = match.index, to = match.index + match[0].length;
-        const $before = Text.createFromString(startText.text.substring(0, from));
-        const $link = Inline.create({
+        const nodes = [];
+        if (startText.text.substring(0, from)) {
+          nodes.push(Text.createFromString(startText.text.substring(0, from)));
+        }
+        nodes.push(Inline.create({
           type: INLINES.LINK,
           data: { href: match[2] },
           isVoid: false,
-          nodes: [Text.createFromString(match[1])],
-        });
-        const $after = Text.createFromString(startText.text.substring(to));
+          nodes: [
+            // 直接放两个Text，会被合并
+            Text.createFromString(`[${match[1]}]`),
+            Text.createFromString(`(${match[2]})`),
+          ],
+        }));
+        if (startText.text.substring(to)) {
+          nodes.push(Text.createFromString(startText.text.substring(to)));
+        }
 
-        const nextState = replaceWith(state, startText, [$before, $link, $after]);
+        const nextState = insertBefore(state, startText, nodes);
+        this.setState({ state: nextState });
+      }
+    } else {
+      // 用户进入一个link，将link替换成markdown源码
+      if (!linkRegex.exec(parent.text)) {
+        console.log('enter link', parent.text, prettify(parent));
+        const nextState = state.transform()
+          .removeNodeByKey(startText.key)
+          .insertNodeByKey(parent.key, 0, Text.createFromString(`[${parent.text}](${parent.data.get('href')})`))
+          .apply(OPTIONS);
         this.setState({ state: nextState });
       }
     }
-    // TODO 用户进入一个link，将link替换成markdown源码
-    const parent = state.document.getParent(startText.key);
-    if (parent.type === INLINES.LINK && parent.nodes.length === 1) {
-      console.log('link found, inline:', prettify(parent));
-      const nextState = state.transform()
-        // .removeNodeByKey(parent.key)
-        .insertNodeByKey(parent.key, 1, Text.createFromString('(www.baidu.com)'))
-        .apply(OPTIONS);
-      this.setState({ state: nextState });
+    if (this.prevParent && this.prevParent!== parent && this.prevParent.type === INLINES.LINK) {
+      // 离开一个LINK，转成anchor
+      const match = linkRegex.exec(this.prevParent.text)
+      console.log('exit link', this.prevParent.text, prettify(this.prevParent));
+      if (!match) {
+        console.error('No alias and href found in link');
+        // return;
+      } else {
+        const alias = match[1] || 'alis';
+        const href = match[2] || 'href';
+
+        // 凎，就没有删除所有子元素的方法吗
+        const nextState = state.transform()
+          .setNodeByKey(this.prevParent.key, { data: { href } })
+          .removeNodeByKey(this.prevStartText.key)
+          .insertNodeByKey(this.prevParent.key, 0, Text.createFromString(alias))
+          .apply(OPTIONS);
+        this.setState({ state: nextState });
+      }
     }
+    console.log(parent.key, parent.type);
+    this.prevStartText = startText;
+    this.prevParent = parent;
   }
 
   onBlur = () => {
@@ -254,13 +286,16 @@ function prettify(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
-function replaceWith(state, prevNode, newNodes) {
-  const parent = state.document.getParent(prevNode);
+function insertBefore(state, after, nodes) {
+  const parent = state.document.getParent(after);
+  const index = parent.nodes.find(node => node.key === node.key);
+
   const transform = state.transform();
-  const index = parent.nodes.find(node => node.key === prevNode.key);
-  transform.removeNodeByKey(prevNode.key);
-  newNodes.reverse().forEach(newNode => transform.insertNodeByKey(parent.key, index, newNode));
-  return transform.apply(OPTIONS);
+  transform.removeNodeByKey(after.key);
+  nodes.reverse().forEach((newNode, i) => transform.insertNodeByKey(parent.key, index, newNode));
+  const nextState = transform.apply(OPTIONS);
+  console.log(prettify(nextState.document));
+  return nextState;
 }
 
 export default SlateEditor
