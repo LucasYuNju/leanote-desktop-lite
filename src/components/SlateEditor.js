@@ -1,7 +1,7 @@
 import MarkupIt, { BLOCKS, INLINES, TABLE_ALIGN, MARKS, CONTAINERS, VOID } from 'markup-it';
 import markdown from 'markup-it/lib/markdown';
 import React, { Component, PropTypes } from 'react';
-import Slate, { Editor, State } from 'slate';
+import Slate, { Editor, State, Text, Inline, Block } from 'slate';
 
 import schema from '../constants/SlateSchema';
 
@@ -21,8 +21,6 @@ class SlateEditor extends Component {
       return;
     }
 
-    // console.log(nextProps.note.noteId, nextProps.note.content);
-
     this.setState({
       state: deserializeToState(nextProps.note.content),
     });
@@ -38,6 +36,7 @@ class SlateEditor extends Component {
           onDocumentChange={this.onDocumentChange}
           onKeyDown={this.onKeyDown}
           onPaste={this.onPaste}
+          onSelectionChange={this.onSelectionChange}
           placeholder="Enter text here..."
           ref="slate"
           schema={schema}
@@ -47,9 +46,46 @@ class SlateEditor extends Component {
     )
   }
 
+  onPaste = () => {
+    // 粘贴的图片都上传
+  }
+
+  onSelectionChange = (selection, state) => {
+    const { startBlock, startOffset, startText } = state;
+    if (this.prevStartText && this.prevStartText !== startText) {
+      // 刚刚编辑完一个link，将markdown源码解析成link
+      console.log('block', prettify(this.prevStartBlock));
+      console.log('text', prettify(this.prevStartText));
+      const text = this.prevStartText.text;
+      const linkRegex = /\[([^\]]*)\]\(([^\)]*)\)/;
+      const imageRegex = /!\[([^\]]*)\]\(([^\)]*)\)/;
+      const result = linkRegex.exec(text);
+      if (result && result.length === 3) {
+        console.error('insert link', this.prevStartBlock.key);
+        const alias = result[1], href = result[2];
+        const $text = Text.createFromString(alias);
+        const $link = Inline.create({
+          type: INLINES.LINK,
+          data: { href },
+          isVoid: false,
+          nodes: [$text],
+        });
+
+        const nextState = state.transform()
+          .removeNodeByKey(this.prevStartText.key)
+          .insertNodeByKey(this.prevStartBlock.key, 0, $link)
+          .apply();
+        this.setState({ state: nextState });
+      }
+    }
+    // TODO 用户进入一个link，将link替换成markdown源码
+
+    this.prevStartText = startText;
+    this.prevStartBlock = startBlock;
+  }
+
   onBlur = () => {
     const text = serializeState(this.state.state);
-    console.log('blur', text);
     if (text !== this.props.note.content) {
       this.props.onChange(text);
     }
@@ -200,6 +236,10 @@ function deserializeToState(text) {
   const state = Slate.State.create({ document });
   // console.log(serializeState(state));
   return state;
+}
+
+function prettify(obj) {
+  return JSON.parse(JSON.stringify(obj));
 }
 
 export default SlateEditor
