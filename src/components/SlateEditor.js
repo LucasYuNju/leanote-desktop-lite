@@ -78,13 +78,9 @@ class SlateEditor extends Component {
     }
     // TODO 用户进入一个link，将link替换成markdown源码
     const parent = state.document.getParent(startText.key);
-    console.log(prettify(startBlock));
-    // console.log('parent', startText.key, prettify(parent));
     if (parent.type === INLINES.LINK) {
-      // console.log('link found, inline:', prettify(parent));
-
+      console.log('link found, inline:', prettify(parent));
     }
-    // console.log('text', prettify(this.prevStartText));
 
     this.prevStartText = startText;
     this.prevStartBlock = startBlock;
@@ -241,15 +237,15 @@ function deserializeToState(text) {
   const document = MarkupIt.State.create(markdown).deserializeToDocument(text);
   const state = Slate.State.create({ document });
   // trim empty spans
-  const blocks = document.getBlocks();
+  const blocks = state.document.getBlocks();
   const transform = state.transform();
   blocks.forEach(block => {
     block.nodes.forEach(node => {
-      if (node.text === '') {
-        transform.removeNodeByKey(node.key);
+      if (node.text === '' && node.key !== '0') {
+        transform.removeNodeByKey(node.key, { normalize: false });
       }
     });
-  })
+  });
   return transform.apply();
 }
 
