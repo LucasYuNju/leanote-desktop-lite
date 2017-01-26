@@ -54,6 +54,7 @@ class SlateEditor extends Component {
   }
 
   onSelectionChange = (selection, state) => {
+    console.log(prettify(state));
     const { startBlock, startOffset, startText } = state;
     const parent = state.document.getParent(startText.key);
     if (parent.type !== INLINES.LINK) {
@@ -63,9 +64,6 @@ class SlateEditor extends Component {
       if (match && match.length === 3) {
         const from = match.index, to = match.index + match[0].length;
         const nodes = [];
-        if (startText.text.substring(0, from)) {
-          nodes.push(Text.createFromString(startText.text.substring(0, from)));
-        }
         nodes.push(Inline.create({
           type: INLINES.LINK,
           data: { href: match[2] },
@@ -76,11 +74,25 @@ class SlateEditor extends Component {
             Text.createFromString(`(${match[2]})`),
           ],
         }));
-        if (startText.text.substring(to)) {
-          nodes.push(Text.createFromString(startText.text.substring(to)));
-        }
 
-        const nextState = insertBefore(state, startText, nodes);
+        console.log(parent.type, prettify(selection));
+        console.log(match[1].length + match[2].length + 4);
+        // 不能放在selection change里，selection change早于oninput
+        const nextState = state.transform()
+          // .deleteAtRange(selection)
+          // .insertInlineAtRange(selection, Inline.create({
+          //   data: { href: 'you' },
+          //   type: INLINES.LINK,
+          //   nodes: [ Text.createFromString('fuck') ]
+          // }))
+          // 这个版本更简单一些
+          .deleteBackward(match[1].length + match[2].length + 4)
+          // .insertInline(Inline.create({
+          //   data: { href: match[2] },
+          //   type: INLINES.LINK,
+          //   nodes: [ Text.createFromString(match[1]) ]
+          // }))
+          .apply(OPTIONS);
         this.setState({ state: nextState });
       }
     } else {

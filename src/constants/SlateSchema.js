@@ -27,6 +27,7 @@ const schema = {
     [BLOCKS.TABLE]: props => <table {...props.attributes}><tbody>{props.children}</tbody></table>,
     [BLOCKS.TABLE_ROW]: props => <tr {...props.attributes}>{props.children}</tr>,
     [BLOCKS.TABLE_CELL]: props => <td {...props.attributes}>{props.children}</td>,
+    [BLOCKS.TEXT]: props => <span {...props.attributes}>{props.children}</span>,
     [BLOCKS.DEFAULT]: props => <p {...props.attributes}>{props.children}</p>,
   },
   marks: {
