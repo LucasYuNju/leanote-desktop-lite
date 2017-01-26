@@ -68,6 +68,7 @@ class SlateEditor extends Component {
       // 用户进入一个link，将link替换成markdown源码
       if (parent.type === INLINES.LINK && !linkRegex.exec(parent.text)) { // 还没有被转成源码
         const nextState = state.transform()
+          .collapseToEndOf(state.startText)
           .extendToStartOf(state.startText)
           .delete()
           .insertInline(Inline.create({
@@ -101,22 +102,21 @@ class SlateEditor extends Component {
     }
     if (this.prevParent && this.prevParent !== parent && this.prevParent.type === INLINES.LINK) {
       // 离开一个LINK，转成anchor
-      // const match = linkRegex.exec(this.prevParent.text)
-      // console.log('exit link', this.prevParent.text, prettify(this.prevParent));
-      // if (!match) {
-      //   console.error('No alias and href found in link');
-      //   // return;
-      // } else {
-      //   const alias = match[1] || 'alis';
-      //   const href = match[2] || 'href';
-      //   // 没有删除所有子元素的方法?
-      //   const nextState = state.transform()
-      //     .setNodeByKey(this.prevParent.key, { data: { href } })
-      //     .removeNodeByKey(this.prevStartText.key)
-      //     .insertNodeByKey(this.prevParent.key, 0, Text.createFromString(alias))
-      //     .apply(OPTIONS);
-      //   this.setState({ state: nextState });
-      // }
+      const match = linkRegex.exec(this.prevParent.text)
+      console.log('exit link', this.prevParent.text, prettify(this.prevParent));
+      if (!match) {
+        console.error('No alias and href found in link');
+      } else {
+        const alias = match[1] || 'alis';
+        const href = match[2] || 'href';
+        // 没有删除所有子元素的方法?
+        const nextState = state.transform()
+          .setNodeByKey(this.prevParent.key, { data: { href } })
+          .removeNodeByKey(this.prevStartText.key)
+          .insertNodeByKey(this.prevParent.key, 0, Text.createFromString(alias))
+          .apply(OPTIONS);
+        this.setState({ state: nextState });
+      }
     }
     this.prevStartText = startText;
     this.prevParent = parent;
@@ -277,17 +277,14 @@ function deserializeToState(text) {
   const document = MarkupIt.State.create(markdown).deserializeToDocument(text);
   const state = Slate.State.create({ document });
   // trim empty spans
-  const blocks = state.document.getBlocks();
   const transform = state.transform();
-  blocks.forEach(block => {
+  state.document.getBlocks().forEach(block => {
     block.nodes.forEach(node => {
       if (node.text === '' && node.key !== '0') {
-        transform.removeNodeByKey(node.key);
+        console.log('trim node');
+        transform.removeNodeByKey(node.key, OPTIONS);
       }
     });
-    // if (block.text === '') {
-    //   transform.removeNodeByKey(block.key);
-    // }
   });
   return transform.apply(OPTIONS);
 }
