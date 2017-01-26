@@ -54,79 +54,71 @@ class SlateEditor extends Component {
   }
 
   onSelectionChange = (selection, state) => {
-    console.log(prettify(state));
     const { startBlock, startOffset, startText } = state;
-    const parent = state.document.getParent(startText.key);
-    if (parent.type !== INLINES.LINK) {
-      // 有没有编辑的事件，放在那更直观
+    let parent = state.document.getParent(startText.key);
+    // console.log('1', startBlock.type, parent.type);
+    console.log(prettify(selection), prettify(state.document));
+    if (parent.type !== INLINES.LINK && startText.text !== '\n') {
       // 刚刚编辑完一个link，将markdown源码解析成link
       const match = linkRegex.exec(startText.text);
-      if (match && match.length === 3) {
-        const from = match.index, to = match.index + match[0].length;
-        const nodes = [];
-        nodes.push(Inline.create({
-          type: INLINES.LINK,
-          data: { href: match[2] },
-          isVoid: false,
-          nodes: [
-            // 直接放两个Text，会被合并
-            Text.createFromString(`[${match[1]}]`),
-            Text.createFromString(`(${match[2]})`),
-          ],
-        }));
-
-        console.log(parent.type, prettify(selection));
-        console.log(match[1].length + match[2].length + 4);
-        // 不能放在selection change里，selection change早于oninput
+      if (match) {
         const nextState = state.transform()
-          // .deleteAtRange(selection)
-          // .insertInlineAtRange(selection, Inline.create({
-          //   data: { href: 'you' },
-          //   type: INLINES.LINK,
-          //   nodes: [ Text.createFromString('fuck') ]
-          // }))
-          // 这个版本更简单一些
-          .deleteBackward(match[1].length + match[2].length + 4)
-          // .insertInline(Inline.create({
-          //   data: { href: match[2] },
-          //   type: INLINES.LINK,
-          //   nodes: [ Text.createFromString(match[1]) ]
-          // }))
+          .extendToStartOf(startText)
+          .delete()
+          .insertInline(Inline.create({
+            data: { href: match[2] },
+            type: INLINES.LINK,
+            nodes: [ Text.createFromString(`[${match[1]}](${match[2]})`) ]
+          }))
           .apply(OPTIONS);
-        this.setState({ state: nextState });
+        setTimeout(() => { // 谜之setTimeout
+          this.setState({ state: nextState });
+        });
+        return;
       }
     } else {
+      if (state.startText.text === '\n') {
+        // 遇到换行，将selection移动到换行之前的node
+        state = state.transform()
+          .collapseToStartOfPreviousText()
+          .apply(OPTIONS);
+      }
+      parent = state.document.getParent(state.startText.key);
       // 用户进入一个link，将link替换成markdown源码
-      if (!linkRegex.exec(parent.text)) {
-        console.log('enter link', parent.text, prettify(parent));
+      if (!linkRegex.exec(parent.text)) { // 还没有被转成源码
         const nextState = state.transform()
-          .removeNodeByKey(startText.key)
-          .insertNodeByKey(parent.key, 0, Text.createFromString(`[${parent.text}](${parent.data.get('href')})`))
+          .extendToStartOf(state.startText)
+          .delete()
+          .insertInline(Inline.create({
+            data: { href: parent.data.get('href') },
+            type: INLINES.LINK,
+            nodes: [ Text.createFromString(`[${parent.text}](${parent.data.get('href')})`) ]
+          }))
           .apply(OPTIONS);
-        this.setState({ state: nextState });
+        setTimeout(() => {
+          this.setState({ state: nextState });
+        });
       }
     }
-    if (this.prevParent && this.prevParent!== parent && this.prevParent.type === INLINES.LINK) {
+    if (this.prevParent && this.prevParent !== parent && this.prevParent.type === INLINES.LINK) {
       // 离开一个LINK，转成anchor
-      const match = linkRegex.exec(this.prevParent.text)
-      console.log('exit link', this.prevParent.text, prettify(this.prevParent));
-      if (!match) {
-        console.error('No alias and href found in link');
-        // return;
-      } else {
-        const alias = match[1] || 'alis';
-        const href = match[2] || 'href';
-
-        // 凎，就没有删除所有子元素的方法吗
-        const nextState = state.transform()
-          .setNodeByKey(this.prevParent.key, { data: { href } })
-          .removeNodeByKey(this.prevStartText.key)
-          .insertNodeByKey(this.prevParent.key, 0, Text.createFromString(alias))
-          .apply(OPTIONS);
-        this.setState({ state: nextState });
-      }
+      // const match = linkRegex.exec(this.prevParent.text)
+      // console.log('exit link', this.prevParent.text, prettify(this.prevParent));
+      // if (!match) {
+      //   console.error('No alias and href found in link');
+      //   // return;
+      // } else {
+      //   const alias = match[1] || 'alis';
+      //   const href = match[2] || 'href';
+      //   // 没有删除所有子元素的方法?
+      //   const nextState = state.transform()
+      //     .setNodeByKey(this.prevParent.key, { data: { href } })
+      //     .removeNodeByKey(this.prevStartText.key)
+      //     .insertNodeByKey(this.prevParent.key, 0, Text.createFromString(alias))
+      //     .apply(OPTIONS);
+      //   this.setState({ state: nextState });
+      // }
     }
-    console.log(parent.key, parent.type);
     this.prevStartText = startText;
     this.prevParent = parent;
   }
@@ -139,7 +131,11 @@ class SlateEditor extends Component {
   }
 
   onChange = (state) => {
-    this.setState({ state })
+    const { startBlock, startOffset, startText, selection } = state;
+    const parent = state.document.getParent(startText.key);
+    if (parent.type !== INLINES.LINK) {
+    }
+    this.setState({ state });
   }
 
   onKeyDown = (e, data, state) => {
@@ -287,27 +283,18 @@ function deserializeToState(text) {
   blocks.forEach(block => {
     block.nodes.forEach(node => {
       if (node.text === '' && node.key !== '0') {
-        transform.removeNodeByKey(node.key, OPTIONS);
+        transform.removeNodeByKey(node.key);
       }
     });
+    // if (block.text === '') {
+    //   transform.removeNodeByKey(block.key);
+    // }
   });
-  return transform.apply({ normalize: false });
+  return transform.apply(OPTIONS);
 }
 
 function prettify(obj) {
   return JSON.parse(JSON.stringify(obj));
-}
-
-function insertBefore(state, after, nodes) {
-  const parent = state.document.getParent(after);
-  const index = parent.nodes.find(node => node.key === node.key);
-
-  const transform = state.transform();
-  transform.removeNodeByKey(after.key);
-  nodes.reverse().forEach((newNode, i) => transform.insertNodeByKey(parent.key, index, newNode));
-  const nextState = transform.apply(OPTIONS);
-  console.log(prettify(nextState.document));
-  return nextState;
 }
 
 export default SlateEditor
