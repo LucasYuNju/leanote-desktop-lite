@@ -56,9 +56,31 @@ class SlateEditor extends Component {
   onSelectionChange = (selection, state) => {
     const { startBlock, startOffset, startText } = state;
     let parent = state.document.getParent(startText.key);
-    // console.log('1', startBlock.type, parent.type);
-    console.log(prettify(selection), prettify(state.document));
-    if (parent.type !== INLINES.LINK && startText.text !== '\n') {
+    // console.log('1', startBlock.type, parent.type, prettify(selection), prettify(state.document));
+    if (parent.type === INLINES.LINK || state.startText.text === '\n' || state.startText.text === '') {
+      if (parent.type !== INLINES.LINK) {
+        // 遇到换行，将selection移动到换行之前的text
+        state = state.transform()
+          .collapseToEndOfPreviousText()
+          .apply(OPTIONS);
+      }
+      parent = state.document.getParent(state.startText.key);
+      // 用户进入一个link，将link替换成markdown源码
+      if (parent.type === INLINES.LINK && !linkRegex.exec(parent.text)) { // 还没有被转成源码
+        const nextState = state.transform()
+          .extendToStartOf(state.startText)
+          .delete()
+          .insertInline(Inline.create({
+            data: { href: parent.data.get('href') },
+            type: INLINES.LINK,
+            nodes: [ Text.createFromString(`[${parent.text}](${parent.data.get('href')})`) ]
+          }))
+          .apply(OPTIONS);
+        setTimeout(() => {
+          this.setState({ state: nextState });
+        });
+      }
+    } else {
       // 刚刚编辑完一个link，将markdown源码解析成link
       const match = linkRegex.exec(startText.text);
       if (match) {
@@ -75,29 +97,6 @@ class SlateEditor extends Component {
           this.setState({ state: nextState });
         });
         return;
-      }
-    } else {
-      if (state.startText.text === '\n') {
-        // 遇到换行，将selection移动到换行之前的node
-        state = state.transform()
-          .collapseToStartOfPreviousText()
-          .apply(OPTIONS);
-      }
-      parent = state.document.getParent(state.startText.key);
-      // 用户进入一个link，将link替换成markdown源码
-      if (!linkRegex.exec(parent.text)) { // 还没有被转成源码
-        const nextState = state.transform()
-          .extendToStartOf(state.startText)
-          .delete()
-          .insertInline(Inline.create({
-            data: { href: parent.data.get('href') },
-            type: INLINES.LINK,
-            nodes: [ Text.createFromString(`[${parent.text}](${parent.data.get('href')})`) ]
-          }))
-          .apply(OPTIONS);
-        setTimeout(() => {
-          this.setState({ state: nextState });
-        });
       }
     }
     if (this.prevParent && this.prevParent !== parent && this.prevParent.type === INLINES.LINK) {
