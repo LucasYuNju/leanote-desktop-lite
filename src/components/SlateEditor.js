@@ -298,17 +298,6 @@ function serializeState(state) {
 function deserializeToState(text) {
   const document = MarkupIt.State.create(markdown).deserializeToDocument(text);
   const state = Slate.State.create({ document });
-  // trim empty spans
-  // const transform = state.transform();
-  // state.document.getBlocks().forEach(block => {
-  //   block.nodes.forEach(node => {
-  //     if (node.text === '' && node.key !== '0') {
-  //       console.log('trim node');
-  //       transform.removeNodeByKey(node.key, OPTIONS);
-  //     }
-  //   });
-  // });
-  // return transform.apply(OPTIONS);
   return state;
 }
 
