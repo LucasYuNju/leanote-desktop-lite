@@ -90,8 +90,16 @@ class SlateEditor extends Component {
             this.setState({ state: state });
           });
         }
-        this.prevStartText = state.startText;
-        this.prevParent = state.document.getParent(state.startText.key);
+
+        setTimeout(() => {
+          const nextState = this.convertSrcToLink(state);
+          if (nextState !== state) {
+            this.setState({ state: nextState });
+          }
+
+          this.prevStartText = state.startText;
+          this.prevParent = state.document.getParent(state.startText.key);
+        });
       }
     } else {
       // 刚刚编辑完一个link，将markdown源码解析成link，目前只允许按顺序写link
@@ -114,7 +122,7 @@ class SlateEditor extends Component {
         this.prevParent = state.document.getParent(this.prevStartText.key);
       }
     }
-
+    // TODO duplicate code
     setTimeout(() => {
       const nextState = this.convertSrcToLink(state);
       if (nextState !== state) {
@@ -128,7 +136,7 @@ class SlateEditor extends Component {
     parent = state.document.getParent(state.startText.key);
     const previous = state.document.getPreviousText(state.startText.key);
     if (previous && this.prevStartText && previous.key === this.prevStartText.key && state.startText.text.length === 0) return state;
-    if (this.prevParent && this.prevParent.type === INLINES.LINK && parent.type !== INLINES.LINK) {
+    if (this.prevParent && this.prevParent.type === INLINES.LINK && parent.key !== this.prevParent.key) {
       const match = linkRegex.exec(this.prevParent.text)
       const nextState = state.transform()
         .setNodeByKey(this.prevParent.key, { data: { href: match[2] } })
