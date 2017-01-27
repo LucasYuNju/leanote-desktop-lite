@@ -122,7 +122,7 @@ class SlateEditor extends Component {
         this.prevParent = state.document.getParent(this.prevStartText.key);
       }
     }
-    // TODO duplicate code
+    // TODO 重复代码
     setTimeout(() => {
       const nextState = this.convertSrcToLink(state);
       if (nextState !== state) {
@@ -136,7 +136,7 @@ class SlateEditor extends Component {
     parent = state.document.getParent(state.startText.key);
     const previous = state.document.getPreviousText(state.startText.key);
     if (previous && this.prevStartText && previous.key === this.prevStartText.key && state.startText.text.length === 0) return state;
-    if (this.prevParent && this.prevParent.type === INLINES.LINK && parent.key !== this.prevParent.key) {
+    if (this.prevParent && this.prevParent.type === INLINES.LINK && (this.prevParent.key !== parent.key || !state.selection.isFocused)) {
       const match = linkRegex.exec(this.prevParent.text)
       const nextState = state.transform()
         .setNodeByKey(this.prevParent.key, { data: { href: match[2] } })
@@ -151,17 +151,17 @@ class SlateEditor extends Component {
   }
 
   onBlur = () => {
-    const text = serializeState(this.state.state);
-    if (text !== this.props.note.content) {
-      this.props.onChange(text);
-    }
+    // onBlur在onSelectionChange之前
+    setTimeout(() => {
+      const text = serializeState(this.state.state);
+      if (text !== this.props.note.content) {
+        this.props.onChange(text);
+      }
+    }, 100);
   }
 
   onChange = (state) => {
     const { startBlock, startOffset, startText, selection } = state;
-    const parent = state.document.getParent(startText.key);
-    if (parent.type !== INLINES.LINK) {
-    }
     this.setState({ state });
   }
 
