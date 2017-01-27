@@ -97,30 +97,38 @@ class SlateEditor extends Component {
             type: INLINES.LINK,
             nodes: [ Text.createFromString(`[${match[1]}](${match[2]})`) ]
           }))
+          .collapseToEndOfNextText()
           .apply(OPTIONS);
         setTimeout(() => { // 谜之setTimeout
           this.setState({ state: state });
         });
-        this.prevStartText = state.startText;
-        this.prevParent = state.document.getParent(state.startText.key);
+        // TODO getPrevious将prevParent设置成link
+        // console.log('previous', state.document.getPreviousText(state.startText).text);
+        this.prevStartText = state.document.getPreviousText(state.startText);
+        this.prevParent = state.document.getParent(this.prevStartText);
       }
     }
 
-    const nextState = this.convertSrcToLink(state);
-    if (nextState !== state) {
-      this.setState({ state: nextState });
-    }
+    setTimeout(() => {
+      const nextState = this.convertSrcToLink(state);
+      if (nextState !== state) {
+        this.setState({ state: nextState });
+      }
+    });
   }
 
   convertSrcToLink = (state) => {
     parent = state.document.getParent(state.startText.key);
-    if (this.prevParent && this.prevParent !== parent && this.prevParent.type === INLINES.LINK) {
+    console.log(this.prevParent.type, this.prevParent.text);
+    console.log(parent.type, parent.text);
+    if (state.document.getPreviousText(state.startText).key === this.prevStartText.key && state.startText.text.length === 0) return state;
+    if (this.prevParent && this.prevParent.type === INLINES.LINK && parent.type !== INLINES.LINK) {
       // 离开一个LINK，转成anchor
       const match = linkRegex.exec(this.prevParent.text)
       if (!match) {
         console.error('No alias and href found in link');
       } else {
-        console.log('delete it');
+        // console.log('delete it');
         const alias = match[1] || 'alis';
         const href = match[2] || 'href';
         const nextState = state.transform()
