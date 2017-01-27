@@ -224,10 +224,8 @@ class SlateEditor extends Component {
     if (state.isExpanded) return
     if (state.startOffset != 0) return
     const { startBlock } = state
+
     if (startBlock.type == BLOCKS.PARAGRAPH) return
-    if (startBlock.length === 0 && startBlock.text === '') {
-      return
-    }
     e.preventDefault()
 
     let transform = state
