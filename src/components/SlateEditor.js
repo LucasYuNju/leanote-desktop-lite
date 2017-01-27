@@ -56,7 +56,6 @@ class SlateEditor extends Component {
   onSelectionChange = (selection, state) => {
     const { startBlock, startOffset, startText } = state;
     let parent = state.document.getParent(startText.key);
-    // console.log('1', startBlock.type, parent.type, prettify(selection), prettify(state.document));
     if (parent.type === INLINES.LINK || state.startText.text === '\n' || state.startText.text === '') {
       if (parent.type !== INLINES.LINK) {
         // 遇到换行，将selection移动到换行之前的text
@@ -67,26 +66,27 @@ class SlateEditor extends Component {
       parent = state.document.getParent(state.startText.key);
       // 用户进入一个link，将link替换成markdown源码
       if (parent.type === INLINES.LINK && !linkRegex.exec(parent.text)) { // 还没有被转成源码
-        const nextState = state.transform()
+        state = state.transform()
           .collapseToEndOf(state.startText)
           .extendToStartOf(state.startText)
           .delete()
+          // .insertText(`[${parent.text}](${parent.data.get('href')})`)
           .insertInline(Inline.create({
             data: { href: parent.data.get('href') },
             type: INLINES.LINK,
             nodes: [ Text.createFromString(`[${parent.text}](${parent.data.get('href')})`) ]
-          }))
+          }), OPTIONS)
           .apply(OPTIONS);
         setTimeout(() => {
-          this.setState({ state: nextState });
+          this.setState({ state: state });
         });
       }
     } else {
-      // 刚刚编辑完一个link，将markdown源码解析成link
+      // 刚刚编辑完一个link，将markdown源码解析成link，目前只允许按顺序写link
       const match = linkRegex.exec(startText.text);
       if (match) {
         const nextState = state.transform()
-          .extendToStartOf(startText)
+          .extendBackward(match[1].length + match[2].length + 4)
           .delete()
           .insertInline(Inline.create({
             data: { href: match[2] },
@@ -103,7 +103,6 @@ class SlateEditor extends Component {
     if (this.prevParent && this.prevParent !== parent && this.prevParent.type === INLINES.LINK) {
       // 离开一个LINK，转成anchor
       const match = linkRegex.exec(this.prevParent.text)
-      console.log('exit link', this.prevParent.text, prettify(this.prevParent));
       if (!match) {
         console.error('No alias and href found in link');
       } else {
@@ -118,8 +117,8 @@ class SlateEditor extends Component {
         this.setState({ state: nextState });
       }
     }
-    this.prevStartText = startText;
-    this.prevParent = parent;
+    this.prevStartText = state.startText;
+    this.prevParent = state.document.getParent(state.startText.key);
   }
 
   onBlur = () => {
