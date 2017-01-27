@@ -57,11 +57,19 @@ class SlateEditor extends Component {
     const initialState = state;
     const { startBlock, startOffset, startText } = state;
     let parent = state.document.getParent(startText.key);
-    if (parent.type === INLINES.LINK || state.startText.text === '\n' || state.startText.text === '') {
-      if (parent.type !== INLINES.LINK) {
+    const prev = state.document.getPreviousSibling(startText.key);
+    const expandPrevLink = prev && prev.type === INLINES.LINK && selection.startOffset === 0;
+    const next = state.document.getNextSibling(startText.key);
+    const expandNextLink = next && next.type === INLINES.LINK && selection.startOffset === state.startText.length;
+    if (parent.type === INLINES.LINK || expandPrevLink || expandNextLink) {
+      if (expandPrevLink) {
         // 遇到换行，将selection移动到换行之前的text
         state = state.transform()
           .collapseToEndOfPreviousText()
+          .apply(OPTIONS);
+      } else if (expandNextLink) {
+        state = state.transform()
+          .collapseToStartOfNextText()
           .apply(OPTIONS);
       }
       parent = state.document.getParent(state.startText.key);
@@ -102,8 +110,6 @@ class SlateEditor extends Component {
         setTimeout(() => { // 谜之setTimeout
           this.setState({ state: state });
         });
-        // TODO getPrevious将prevParent设置成link
-        // console.log('previous', state.document.getPreviousText(state.startText).text);
         this.prevStartText = state.document.getPreviousText(state.startText);
         this.prevParent = state.document.getParent(this.prevStartText);
       }
@@ -119,10 +125,8 @@ class SlateEditor extends Component {
 
   convertSrcToLink = (state) => {
     parent = state.document.getParent(state.startText.key);
-    // console.log(this.prevParent.type, this.prevParent.text);
-    // console.log(parent.type, parent.text);
     const previous = state.document.getPreviousText(state.startText);
-    if (previous && previous.key === this.prevStartText.key && state.startText.text.length === 0) return state;
+    if (previous && this.prevStartText && previous.key === this.prevStartText.key && state.startText.text.length === 0) return state;
     if (this.prevParent && this.prevParent.type === INLINES.LINK && parent.type !== INLINES.LINK) {
       // 离开一个LINK，转成anchor
       const match = linkRegex.exec(this.prevParent.text)
@@ -308,6 +312,10 @@ function deserializeToState(text) {
   // });
   // return transform.apply(OPTIONS);
   return state;
+}
+
+function getPreviousInline(node, state) {
+  // const text =
 }
 
 function prettify(obj) {
