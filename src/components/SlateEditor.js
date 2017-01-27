@@ -119,16 +119,16 @@ class SlateEditor extends Component {
 
   convertSrcToLink = (state) => {
     parent = state.document.getParent(state.startText.key);
-    console.log(this.prevParent.type, this.prevParent.text);
-    console.log(parent.type, parent.text);
-    if (state.document.getPreviousText(state.startText).key === this.prevStartText.key && state.startText.text.length === 0) return state;
+    // console.log(this.prevParent.type, this.prevParent.text);
+    // console.log(parent.type, parent.text);
+    const previous = state.document.getPreviousText(state.startText);
+    if (previous && previous.key === this.prevStartText.key && state.startText.text.length === 0) return state;
     if (this.prevParent && this.prevParent.type === INLINES.LINK && parent.type !== INLINES.LINK) {
       // 离开一个LINK，转成anchor
       const match = linkRegex.exec(this.prevParent.text)
       if (!match) {
         console.error('No alias and href found in link');
       } else {
-        // console.log('delete it');
         const alias = match[1] || 'alis';
         const href = match[2] || 'href';
         const nextState = state.transform()
@@ -136,6 +136,8 @@ class SlateEditor extends Component {
           .removeNodeByKey(this.prevStartText.key)
           .insertNodeByKey(this.prevParent.key, 0, Text.createFromString(alias))
           .apply(OPTIONS);
+        this.prevStartText = state.startText;
+        this.prevParent = state.document.getParent(this.prevStartText);
         return nextState;
       }
     }
