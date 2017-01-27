@@ -58,16 +58,16 @@ class SlateEditor extends Component {
     const { startBlock, startOffset, startText } = state;
     let parent = state.document.getParent(startText.key);
     const prev = state.document.getPreviousSibling(startText.key);
-    const expandPrevLink = prev && prev.type === INLINES.LINK && selection.startOffset === 0;
+    const isPrevLink = prev && prev.type === INLINES.LINK && selection.startOffset === 0;
     const next = state.document.getNextSibling(startText.key);
-    const expandNextLink = next && next.type === INLINES.LINK && selection.startOffset === state.startText.length;
-    if (parent.type === INLINES.LINK || expandPrevLink || expandNextLink) {
-      if (expandPrevLink) {
+    const isNextLink = next && next.type === INLINES.LINK && selection.startOffset === state.startText.length;
+    if (parent.type === INLINES.LINK || isPrevLink || isNextLink) {
+      if (isPrevLink) {
         // 遇到换行，将selection移动到换行之前的text
         state = state.transform()
           .collapseToEndOfPreviousText()
           .apply(OPTIONS);
-      } else if (expandNextLink) {
+      } else if (isNextLink) {
         state = state.transform()
           .collapseToStartOfNextText()
           .apply(OPTIONS);
@@ -110,8 +110,8 @@ class SlateEditor extends Component {
         setTimeout(() => { // 谜之setTimeout
           this.setState({ state: state });
         });
-        this.prevStartText = state.document.getPreviousText(state.startText);
-        this.prevParent = state.document.getParent(this.prevStartText);
+        this.prevStartText = state.document.getPreviousText(state.startText.key);
+        this.prevParent = state.document.getParent(this.prevStartText.key);
       }
     }
 
@@ -123,25 +123,21 @@ class SlateEditor extends Component {
     });
   }
 
+  // 离开src格式的link，转成anchor
   convertSrcToLink = (state) => {
     parent = state.document.getParent(state.startText.key);
-    const previous = state.document.getPreviousText(state.startText);
+    const previous = state.document.getPreviousText(state.startText.key);
     if (previous && this.prevStartText && previous.key === this.prevStartText.key && state.startText.text.length === 0) return state;
     if (this.prevParent && this.prevParent.type === INLINES.LINK && parent.type !== INLINES.LINK) {
-      // 离开一个LINK，转成anchor
       const match = linkRegex.exec(this.prevParent.text)
-      if (!match) {
-        console.error('No alias and href found in link');
-      } else {
-        const nextState = state.transform()
-          .setNodeByKey(this.prevParent.key, { data: { href: match[2] } })
-          .removeNodeByKey(this.prevStartText.key)
-          .insertNodeByKey(this.prevParent.key, 0, Text.createFromString(match[1]))
-          .apply(OPTIONS);
-        this.prevStartText = state.startText;
-        this.prevParent = state.document.getParent(this.prevStartText);
-        return nextState;
-      }
+      const nextState = state.transform()
+        .setNodeByKey(this.prevParent.key, { data: { href: match[2] } })
+        .removeNodeByKey(this.prevStartText.key)
+        .insertNodeByKey(this.prevParent.key, 0, Text.createFromString(match[1]))
+        .apply(OPTIONS);
+      this.prevStartText = state.startText;
+      this.prevParent = state.document.getParent(this.prevStartText.key);
+      return nextState;
     }
     return state;
   }
