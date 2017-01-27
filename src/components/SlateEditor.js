@@ -69,8 +69,8 @@ class SlateEditor extends Component {
       if (parent.type === INLINES.LINK) { // 还没有被转成源码
         if (!linkRegex.exec(parent.text)) {
           state = state.transform()
-            .collapseToEndOf(state.startText)
-            .extendToStartOf(state.startText)
+            .collapseToStartOf(state.startText)
+            .extendToEndOf(state.startText)
             .delete()
             .insertInline(Inline.create({
               data: { href: parent.data.get('href') },
@@ -106,15 +106,14 @@ class SlateEditor extends Component {
       }
     }
 
-    const nextState = this.convertLinkToSrc(state);
+    const nextState = this.convertSrcToLink(state);
     if (nextState !== state) {
       this.setState({ state: nextState });
     }
   }
 
-  convertLinkToSrc = (state) => {
+  convertSrcToLink = (state) => {
     parent = state.document.getParent(state.startText.key);
-    console.log(this.prevStartText.text, state.startText.text);
     if (this.prevParent && this.prevParent !== parent && this.prevParent.type === INLINES.LINK) {
       // 离开一个LINK，转成anchor
       const match = linkRegex.exec(this.prevParent.text)
@@ -288,16 +287,17 @@ function deserializeToState(text) {
   const document = MarkupIt.State.create(markdown).deserializeToDocument(text);
   const state = Slate.State.create({ document });
   // trim empty spans
-  const transform = state.transform();
-  state.document.getBlocks().forEach(block => {
-    block.nodes.forEach(node => {
-      if (node.text === '' && node.key !== '0') {
-        console.log('trim node');
-        transform.removeNodeByKey(node.key, OPTIONS);
-      }
-    });
-  });
-  return transform.apply(OPTIONS);
+  // const transform = state.transform();
+  // state.document.getBlocks().forEach(block => {
+  //   block.nodes.forEach(node => {
+  //     if (node.text === '' && node.key !== '0') {
+  //       console.log('trim node');
+  //       transform.removeNodeByKey(node.key, OPTIONS);
+  //     }
+  //   });
+  // });
+  // return transform.apply(OPTIONS);
+  return state;
 }
 
 function prettify(obj) {
