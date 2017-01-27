@@ -90,16 +90,7 @@ class LoginForm extends React.Component {
     this.setState({
       submitted: true,
     });
-    this.props
-      .login(account, password, host)
-      .then((res) => {
-        // setTimeout(() => {
-        //   // ipcRenderer.send('register-protocol');
-        //   ipcRenderer.send('auth-success');
-        // }, 200);
-      }, () => {
-        // set error msg
-      });
+    this.props.login(account, password, host);
   };
 }
 

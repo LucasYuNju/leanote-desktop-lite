@@ -54,6 +54,7 @@ class SlateEditor extends Component {
   }
 
   onSelectionChange = (selection, state) => {
+    const initialState = state;
     const { startBlock, startOffset, startText } = state;
     let parent = state.document.getParent(startText.key);
     if (parent.type === INLINES.LINK || state.startText.text === '\n' || state.startText.text === '') {
@@ -65,27 +66,30 @@ class SlateEditor extends Component {
       }
       parent = state.document.getParent(state.startText.key);
       // 用户进入一个link，将link替换成markdown源码
-      if (parent.type === INLINES.LINK && !linkRegex.exec(parent.text)) { // 还没有被转成源码
-        state = state.transform()
-          .collapseToEndOf(state.startText)
-          .extendToStartOf(state.startText)
-          .delete()
-          // .insertText(`[${parent.text}](${parent.data.get('href')})`)
-          .insertInline(Inline.create({
-            data: { href: parent.data.get('href') },
-            type: INLINES.LINK,
-            nodes: [ Text.createFromString(`[${parent.text}](${parent.data.get('href')})`) ]
-          }), OPTIONS)
-          .apply(OPTIONS);
-        setTimeout(() => {
-          this.setState({ state: state });
-        });
+      if (parent.type === INLINES.LINK) { // 还没有被转成源码
+        if (!linkRegex.exec(parent.text)) {
+          state = state.transform()
+            .collapseToEndOf(state.startText)
+            .extendToStartOf(state.startText)
+            .delete()
+            .insertInline(Inline.create({
+              data: { href: parent.data.get('href') },
+              type: INLINES.LINK,
+              nodes: [ Text.createFromString(`[${parent.text}](${parent.data.get('href')})`) ]
+            }), OPTIONS)
+            .apply(OPTIONS);
+          setTimeout(() => {
+            this.setState({ state: state });
+          });
+        }
+        this.prevStartText = state.startText;
+        this.prevParent = state.document.getParent(state.startText.key);
       }
     } else {
       // 刚刚编辑完一个link，将markdown源码解析成link，目前只允许按顺序写link
       const match = linkRegex.exec(startText.text);
       if (match) {
-        const nextState = state.transform()
+        state = state.transform()
           .extendBackward(match[1].length + match[2].length + 4)
           .delete()
           .insertInline(Inline.create({
@@ -95,30 +99,40 @@ class SlateEditor extends Component {
           }))
           .apply(OPTIONS);
         setTimeout(() => { // 谜之setTimeout
-          this.setState({ state: nextState });
+          this.setState({ state: state });
         });
-        return;
+        this.prevStartText = state.startText;
+        this.prevParent = state.document.getParent(state.startText.key);
       }
     }
+
+    const nextState = this.convertLinkToSrc(state);
+    if (nextState !== state) {
+      this.setState({ state: nextState });
+    }
+  }
+
+  convertLinkToSrc = (state) => {
+    parent = state.document.getParent(state.startText.key);
+    console.log(this.prevStartText.text, state.startText.text);
     if (this.prevParent && this.prevParent !== parent && this.prevParent.type === INLINES.LINK) {
       // 离开一个LINK，转成anchor
       const match = linkRegex.exec(this.prevParent.text)
       if (!match) {
         console.error('No alias and href found in link');
       } else {
+        console.log('delete it');
         const alias = match[1] || 'alis';
         const href = match[2] || 'href';
-        // 没有删除所有子元素的方法?
         const nextState = state.transform()
           .setNodeByKey(this.prevParent.key, { data: { href } })
           .removeNodeByKey(this.prevStartText.key)
           .insertNodeByKey(this.prevParent.key, 0, Text.createFromString(alias))
           .apply(OPTIONS);
-        this.setState({ state: nextState });
+        return nextState;
       }
     }
-    this.prevStartText = state.startText;
-    this.prevParent = state.document.getParent(state.startText.key);
+    return state;
   }
 
   onBlur = () => {
