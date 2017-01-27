@@ -133,12 +133,10 @@ class SlateEditor extends Component {
       if (!match) {
         console.error('No alias and href found in link');
       } else {
-        const alias = match[1] || 'alis';
-        const href = match[2] || 'href';
         const nextState = state.transform()
-          .setNodeByKey(this.prevParent.key, { data: { href } })
+          .setNodeByKey(this.prevParent.key, { data: { href: match[2] } })
           .removeNodeByKey(this.prevStartText.key)
-          .insertNodeByKey(this.prevParent.key, 0, Text.createFromString(alias))
+          .insertNodeByKey(this.prevParent.key, 0, Text.createFromString(match[1]))
           .apply(OPTIONS);
         this.prevStartText = state.startText;
         this.prevParent = state.document.getParent(this.prevStartText);
@@ -312,10 +310,6 @@ function deserializeToState(text) {
   // });
   // return transform.apply(OPTIONS);
   return state;
-}
-
-function getPreviousInline(node, state) {
-  // const text =
 }
 
 function prettify(obj) {
