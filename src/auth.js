@@ -9,7 +9,7 @@ const { store, persistor } = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <Login />
+    <Login persistor={persistor} />
   </Provider>,
   document.getElementById('root')
 );

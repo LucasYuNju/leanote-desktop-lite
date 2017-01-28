@@ -14,14 +14,9 @@ const { ipcRenderer } = require('electron');
 
 class Main extends Component {
   static propTypes = {
-    persistor: PropTypes.object.isRequired,
     syncIfNeeded: PropTypes.func.isRequired,
     token: PropTypes.string,
     userId: PropTypes.string,
-  };
-
-  static childContextTypes = {
-    persistor: PropTypes.object,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -53,12 +48,6 @@ class Main extends Component {
         <DialogContainer />
 			</div>
 		);
-  }
-
-  getChildContext() {
-    return {
-      persistor: this.props.persistor,
-    };
   }
 }
 

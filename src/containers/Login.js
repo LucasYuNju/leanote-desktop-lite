@@ -4,6 +4,10 @@ import LoginFormContainer from '../containers/LoginFormContainer';
 import TitleBar from '../components/TitleBar';
 
 class Login extends Component {
+  static PropTypes = {
+    persistor: PropTypes.object,
+  };
+
   render() {
     return (
       <TitleBar className="login-page">
@@ -13,6 +17,10 @@ class Login extends Component {
         <LoginFormContainer />
       </TitleBar>
     );
+  }
+
+  componentDidMount() {
+    this.props.persistor.purge();
   }
 }
 

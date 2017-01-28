@@ -9,8 +9,8 @@ class LoginForm extends React.Component {
   };
 
   state = {
-    account: 'LucasYuNju@gmail.com',
-    password: '123456',
+    account: '',
+    password: '',
     submitted: false,
   };
 
