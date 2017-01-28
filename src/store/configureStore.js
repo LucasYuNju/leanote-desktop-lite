@@ -18,6 +18,6 @@ const enhancer = compose(
 export default function configureStore() {
   const reducer = batchedReducerEnhancer(rootReducer);
 	const store = enhancer(createStore)(reducer, {});
-  persistStore(store, { storage: localForage });
-  return store;
+  const persistor = persistStore(store, { storage: localForage });
+  return { store, persistor };
 }

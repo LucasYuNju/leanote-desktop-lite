@@ -9,9 +9,7 @@ import NotebookTree from '../components/NotebookTree';
 
 class MoveNoteDialogContainer extends Component {
   render() {
-    return (
-			<MoveNoteDialog {...this.props} />
-    );
+    return <MoveNoteDialog {...this.props} />;
   }
 }
 

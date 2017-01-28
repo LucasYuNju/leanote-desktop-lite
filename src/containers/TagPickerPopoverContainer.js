@@ -7,9 +7,7 @@ import * as TagActions from '../actions/TagActions';
 
 class TagPickerPopoverContainer extends Component {
   render() {
-    return (
-      <TagPickerPopover {...this.props} />
-    );
+    return <TagPickerPopover {...this.props} />;
   }
 }
 

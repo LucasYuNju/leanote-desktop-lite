@@ -8,9 +8,7 @@ import * as RouterActions from '../actions/RouterActions';
 
 class HeaderContainer extends Component {
   render() {
-    return (
-      <Header {...this.props} />
-    );
+    return <Header {...this.props} />;
   }
 }
 

@@ -4,7 +4,6 @@ import NotebookTree from '../components/NotebookTree';
 import TagList from '../components/TagList';
 import ProfileContainer from '../containers/ProfileContainer';
 
-
 class Nav extends Component {
   static propTypes = {
     notebooks: PropTypes.object.isRequired,

@@ -7,9 +7,7 @@ import LoginForm from '../components/LoginForm';
 
 class LoginFormContainer extends Component {
   render() {
-    return (
-      <LoginForm {...this.props} />
-    );
+    return <LoginForm {...this.props} />;
   }
 }
 

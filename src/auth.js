@@ -5,8 +5,10 @@ import { Provider } from 'react-redux';
 import Login from './containers/Login';
 import configureStore from './store/configureStore';
 
+const { store, persistor } = configureStore();
+
 ReactDOM.render(
-  <Provider store={configureStore()}>
+  <Provider store={store}>
     <Login />
   </Provider>,
   document.getElementById('root')

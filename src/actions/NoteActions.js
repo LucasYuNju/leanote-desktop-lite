@@ -6,7 +6,7 @@ import * as types from '../constants/ActionTypes';
 import { selectNote } from './RouterActions';
 
 export function toggleEditMode(noteId) {
-	return { type: types.TOGGLE_EDIT_MODE, noteId };
+  return { type: types.TOGGLE_EDIT_MODE, noteId };
 }
 
 export function fetchOutdatedNotes() {
@@ -38,6 +38,7 @@ export function fetchOutdatedNotes() {
 }
 
 export function fetchNoteAndContent(noteId) {
+  console.log('fetch note content');
   return (dispatch, getState) => {
 		return dispatch({
 			types: [ null, null, types.GET_NOTE_CONTENT_FAILURE ],

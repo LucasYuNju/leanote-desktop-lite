@@ -8,9 +8,7 @@ import * as NoteActions from '../actions/NoteActions';
 
 class NoteListContainer extends Component {
   render() {
-    return (
-      <NoteList {...this.props} />
-    );
+    return <NoteList {...this.props} />;
   }
 }
 

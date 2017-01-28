@@ -1,21 +1,21 @@
 import React, { Component, PropTypes } from 'react';
-import Menu from '../util/SystemMenu';
+import { persistor } from 'redux-persist';
 
 import Icon from '../components/Icon';
+import Menu from '../util/SystemMenu';
 
-const { ipcRenderer } = require('electron');
-
-const DEFAULT_LOGO = 'http://leanote.com/images/blog/default_avatar.png';
+const DEFAULT_AVATAR = 'http://leanote.com/images/blog/default_avatar.png';
 
 class User extends Component {
   static propTypes = {
+    fetchInfo: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
     user: PropTypes.shape({
       email: PropTypes.string,
       username: PropTypes.string.isRequired,
       userId: PropTypes.string.isRequired,
       logo: PropTypes.string,
     }),
-    fetchInfo: PropTypes.func.isRequired,
   };
 
   handleClick = (event) => {
@@ -23,9 +23,7 @@ class User extends Component {
       const template = [
         {
           label: 'Sign out',
-          click: () => {
-            ipcRenderer.send('auth-request');
-          },
+          click: () => this.props.logout(),
         },
       ];
       this.menu = new Menu(template);
@@ -40,7 +38,7 @@ class User extends Component {
         className="user-info"
         onClick={this.handleClick}
       >
-        <img src={user.logo ? user.logo : DEFAULT_LOGO} />
+        <img src={user.logo ? user.logo : DEFAULT_AVATAR} />
         <div className="info">
           <p className="name">{user.username}</p>
           <p className="email">{user.email}</p>

@@ -7,12 +7,6 @@ export function updateUser(user) {
   return { type: types.UPDATE_USER, user };
 }
 
-export function autologin() {
-  return (dispatch) => {
-		return Promise.reject('auto login deprecated');
-  }
-}
-
 // Get avatar
 export function fetchInfo(userId) {
 	return {

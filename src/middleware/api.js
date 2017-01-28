@@ -1,8 +1,8 @@
 import { Schema, arrayOf, normalize } from 'normalizr';
 import { camelizeKeys, pascalizeKeys } from 'humps';
-import { AUTH_REQUEST } from '../constants/ActionTypes';
 import { REHYDRATE } from 'redux-persist/constants';
 
+import { AUTH_REQUEST } from '../constants/ActionTypes';
 import { encodeForm, querystring } from '../util/querystring';
 
 let token = '';
@@ -17,10 +17,10 @@ function callApi(url, options, schema) {
           return Promise.reject(json)
         }
         const camelizedJson = camelizeKeys(json)
-				if (schema) {
-					return normalize(camelizedJson, schema);
-				}
-				return camelizedJson;
+        if (schema) {
+          return normalize(camelizedJson, schema);
+        }
+        return camelizedJson;
       })
     );
 }

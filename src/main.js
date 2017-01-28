@@ -6,10 +6,12 @@ import DevTools from './containers/DevTools';
 import Main from './containers/Main';
 import configureStore from './store/configureStore';
 
+const { store, persistor } = configureStore();
+
 ReactDOM.render(
-  <Provider store={configureStore()}>
+  <Provider store={store}>
     <div>
-      <Main />
+      <Main persistor={persistor} />
       <DevTools />
     </div>
   </Provider>,

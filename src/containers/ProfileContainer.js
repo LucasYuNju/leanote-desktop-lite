@@ -2,14 +2,23 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
+const { ipcRenderer } = require('electron');
+
 import Profile from '../components/Profile';
 import * as UserActions from '../actions/UserActions';
 
 class ProfileContainer extends Component {
+  static contextTypes = {
+    persistor: PropTypes.object,
+  };
+
   render() {
-    return (
-      <Profile {...this.props} />
-    );
+    return <Profile {...this.props} logout={this.logout} />;
+  }
+
+  logout = () => {
+    this.context.persistor.purge();
+    ipcRenderer.send('auth-request');
   }
 }
 

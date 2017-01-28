@@ -9,9 +9,7 @@ import NotebookTree from '../components/NotebookTree';
 
 class NavContainer extends Component {
   render() {
-    return (
-			<Nav {...this.props} />
-    );
+    return <Nav {...this.props} />;
   }
 }
 
