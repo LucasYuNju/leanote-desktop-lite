@@ -46,7 +46,6 @@
   }
 
   .note-list-items {
-    // padding-top: 2px;
     overflow-y: scroll;
     flex-grow: 1;
     display: flex;
@@ -113,10 +112,8 @@
               color: @note-list-selected-title-color;
             }
             .detail {
+              color: @note-list-selected-snippet-color;
               .updated-time {
-                color: @note-list-selected-snippet-color;
-              }
-              .snippet {
                 color: @note-list-selected-snippet-color;
               }
             }
@@ -148,6 +145,7 @@
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
+            color: @note-list-snippet-color;
 
             .updated-time {
               padding-right: 1em;
@@ -155,7 +153,6 @@
             }
 
             .snippet {
-              color: @note-list-snippet-color;
             }
           }
         }
