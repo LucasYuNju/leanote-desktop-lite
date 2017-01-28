@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, remote } = require('electron');
 
 class LoginForm extends React.Component {
   static propTypes = {
@@ -53,9 +53,9 @@ class LoginForm extends React.Component {
             <input type="submit" className="button" value="Login" />
           }
         </div>
-        <span className="link switch-host">
-          Self-hosted service
-        </span>
+        <a className="link register" href="https://leanote.com/register" onClick={this.handleRegisterLinkClick}>
+          Sign up Leanote
+        </a>
       </form>
     );
   }
@@ -63,9 +63,7 @@ class LoginForm extends React.Component {
   renderSpinner() {
     return (
       <div className="sk-fading-circle">
-      {
-        [...Array(12).keys()].map(i => (<div  key={i} className={`sk-circle${i+1} sk-circle`}></div>))
-      }
+      {[...Array(12).keys()].map(i => (<div  key={i} className={`sk-circle${i+1} sk-circle`}></div>))}
       </div>
     );
   }
@@ -92,6 +90,11 @@ class LoginForm extends React.Component {
     });
     this.props.login(account, password, host);
   };
+
+  handleRegisterLinkClick = (e) => {
+    e.preventDefault();
+    remote.shell.openExternal(e.currentTarget.href);
+  }
 }
 
 export default LoginForm;
