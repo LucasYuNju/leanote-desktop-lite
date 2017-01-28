@@ -33,13 +33,10 @@ class NotebookTree extends Component {
         onClick={this.handleNoteStackClick.bind(this, notebook)}
         className={classNames({ 'selected' : selected })}
       >
-        {
-          hasSublist > 0 ?
-          <Icon iconName="chevron-right" className='collapse-icon' /> :
-          <span className="collapse-icon-placeholder" />
-        }
+        <Icon iconName="chevron-right" className={classNames('collapse-icon', { 'disabled': !hasSublist } )} />
         <Icon iconName={classNames({ 'file-directory': hasSublist }, { 'repo': !hasSublist })} className="node-type-icon" />
         <span className="text">{notebook.title}</span>
+        <span className="badge">{notebook.noteIds.length ? notebook.noteIds.length : ''}</span>
       </Link>
     )
     return (

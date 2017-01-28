@@ -19,9 +19,11 @@
         background: @nav-selection-bg;
       }
 
-      .collapse-icon-placeholder {
-        display: inline-block;
-        width: 16px;
+      .badge {
+        color: rgb(119, 119, 119);
+        font-size: @font-size-smaller;
+        padding-left: 12px;
+        padding-right: 12px;
       }
 
       .collapse-icon {
@@ -30,6 +32,10 @@
         font-size: 12px;
         font-weight: 500;
         transition: transform 0.15s ease-out;
+
+        &.disabled {
+          visibility: hidden;
+        }
       }
 
       .node-type-icon {
@@ -47,6 +53,9 @@
 
       .text {
         flex-grow: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
   }

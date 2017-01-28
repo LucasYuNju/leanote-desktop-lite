@@ -167,9 +167,9 @@ class SlateEditor extends Component {
 
   onKeyDown = (e, data, state) => {
     switch (data.key) {
-      case 'space': return this.onSpace(e, state)
-      case 'backspace': return this.onBackspace(e, state)
-      case 'enter': return this.onEnter(e, state)
+      case 'space': return this.onSpace(e, state);
+      case 'backspace': return this.onBackspace(e, state);
+      case 'enter': return this.onEnter(e, state);
     }
   }
 
@@ -191,7 +191,7 @@ class SlateEditor extends Component {
       case '####': return BLOCKS.HEADING_4;
       case '#####': return BLOCKS.HEADING_5;
       case '######': return BLOCKS.HEADING_6;
-      default: return null
+      default: return null;
     }
   }
 
@@ -204,27 +204,27 @@ class SlateEditor extends Component {
    * @return {State or Null} state
    */
   onSpace = (e, state) => {
-    if (state.isExpanded) return
-    const { startBlock, startOffset } = state
-    const chars = startBlock.text.slice(0, startOffset).replace(/\s*/g, '')
-    const type = this.getType(chars)
+    if (state.isExpanded) return;
+    const { startBlock, startOffset } = state;
+    const chars = startBlock.text.slice(0, startOffset).replace(/\s*/g, '');
+    const type = this.getType(chars);
 
-    if (!type) return
-    if (type == BLOCKS.LIST_ITEM && startBlock.type == BLOCKS.LIST_ITEM) return
-    e.preventDefault()
+    if (!type) return;
+    if (type == BLOCKS.LIST_ITEM && startBlock.type == BLOCKS.LIST_ITEM) return;
+    e.preventDefault();
 
     let transform = state
       .transform()
-      .setBlock(type)
+      .setBlock(type);
 
-    if (type == BLOCKS.LIST_ITEM) transform.wrapBlock(BLOCKS.UL_LIST)
+    if (type == BLOCKS.LIST_ITEM) transform.wrapBlock(BLOCKS.UL_LIST);
 
     state = transform
       .extendToStartOf(startBlock)
       .delete()
-      .apply()
+      .apply();
 
-    return state
+    return state;
   }
 
   /**
@@ -236,21 +236,21 @@ class SlateEditor extends Component {
    * @return {State or Null} state
    */
   onBackspace = (e, state) => {
-    if (state.isExpanded) return
-    if (state.startOffset != 0) return
-    const { startBlock } = state
+    if (state.isExpanded) return;
+    if (state.startOffset != 0) return;
+    const { startBlock } = state;
 
-    if (startBlock.type == BLOCKS.PARAGRAPH) return
-    e.preventDefault()
+    if (startBlock.type == BLOCKS.PARAGRAPH) return;
+    e.preventDefault();
 
     let transform = state
       .transform()
-      .setBlock(BLOCKS.PARAGRAPH)
+      .setBlock(BLOCKS.PARAGRAPH);
 
-    if (startBlock.type == BLOCKS.LIST_ITEM) transform.unwrapBlock(BLOCKS.UL_LIST)
+    if (startBlock.type == BLOCKS.LIST_ITEM) transform.unwrapBlock(BLOCKS.UL_LIST);
 
-    state = transform.apply()
-    return state
+    state = transform.apply();
+    return state;
   }
 
   /**
@@ -262,10 +262,10 @@ class SlateEditor extends Component {
    * @return {State or Null} state
    */
   onEnter = (e, state) => {
-    if (state.isExpanded) return
-    const { startBlock, startOffset, endOffset } = state
-    if (startOffset == 0 && startBlock.length == 0) return this.onBackspace(e, state)
-    if (endOffset != startBlock.length) return
+    if (state.isExpanded) return;
+    const { startBlock, startOffset, endOffset } = state;
+    if (startOffset == 0 && startBlock.length == 0) return this.onBackspace(e, state);
+    if (endOffset != startBlock.length) return;
 
     if (
       startBlock.type != BLOCKS.HEADING_1 &&
@@ -276,15 +276,15 @@ class SlateEditor extends Component {
       startBlock.type != BLOCKS.HEADING_6 &&
       startBlock.type != BLOCKS.BLOCKQUOTE
     ) {
-      return
+      return;
     }
 
-    e.preventDefault()
+    e.preventDefault();
     return state
       .transform()
       .splitBlock()
       .setBlock(BLOCKS.PARAGRAPH)
-      .apply()
+      .apply();
   }
 }
 
@@ -309,4 +309,4 @@ function prettify(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
-export default SlateEditor
+export default SlateEditor;
