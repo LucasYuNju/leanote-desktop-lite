@@ -10,14 +10,18 @@ import errorLoggerMiddleware from '../middleware/errorLogger';
 import rootReducer from '../reducers';
 
 const enhancer = compose(
-	applyMiddleware(thunkMiddleware, apiMiddleware, errorLoggerMiddleware),
+  applyMiddleware(thunkMiddleware, apiMiddleware, errorLoggerMiddleware),
   autoRehydrate(),
 	DevTools.instrument(),
 );
 
 export default function configureStore() {
   const reducer = batchedReducerEnhancer(rootReducer);
-	const store = enhancer(createStore)(reducer, {});
-  const persistor = persistStore(store, { storage: localForage });
+  const store = enhancer(createStore)(reducer, {});
+  const persistor = persistStore(store, { storage: localForage }, (sth, state) => {
+    if (window.location.hash !== state.router.path) {
+      window.location.hash = state.router.path;
+    }
+  });
   return { store, persistor };
 }

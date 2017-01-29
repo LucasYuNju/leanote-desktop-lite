@@ -2,9 +2,10 @@ import * as types from '../constants/ActionTypes';
 import { checkNotes } from './NoteActions';
 import { parseUrl } from '../util/router';
 
-// Leanote暂时只有一个URL pattern：'/:subject/:noteStackType?-:noteStackId?/:noteId?'
-// 所有的路由变化的来源，包括超链接、selectNote()和selectNoteStack()，都是基于state.navigator.path的，和当前真实的window.location.hash无关。
-// 以确保在state.navigator反序列化之后（此时window.location.hash !== state.navigator.path），页面路由仍然能够正常工作。
+/**
+ * 只有一种URL格式：'/:subject/:noteStackType?-:noteStackId?/:noteId?'
+ * redux-persist反序列化时，会保持router.path和window.location.hash一致
+ */
 
 function parseHash(hash) {
   const params = parseUrl('#/:subject/:noteStackType?-:noteStackId?/:noteId?', hash);
@@ -28,7 +29,7 @@ function updateHashIfNecessary(dispatch, hash, newHistory) {
 }
 
 // 用于选择默认笔记，也就是当前排序的第一条笔记。
-// newHistory：hash的变化是否生成新的历史记录，如果是true的话，异步触发CHANGE_PATH action
+// newHistory：hash的变化是否生成新的历史记录，如果是true的话，触发hashchange事件
 export function selectNote(noteId, newHistory = true) {
   return (dispatch, getState) => {
     const params = getState().router.params;
@@ -69,12 +70,14 @@ export function changePath(path) {
   }
 }
 
-// 为了得到dispatch函数的引用，必须由Main调用
+// 为了得到dispatch函数的引用，需要由Main调用
 export function initRouter() {
   return (dispatch) => {
+    if (!window.location.hash) {
+      window.location.hash = '/edit/';
+    }
     window.addEventListener('hashchange', () => {
       dispatch(changePath(window.location.hash));
     });
-    window.location.hash = '/edit';
   }
 }

@@ -17,10 +17,10 @@ class NotebookTree extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     // select first notebook by default
-    if (!nextProps.noteStackId && nextProps.rootNotebookIds.length) {
-      nextProps.selectNoteStack(nextProps.rootNotebookIds[0], false);
-      return true;
-    }
+    // if (!nextProps.noteStackId && nextProps.rootNotebookIds.length) {
+    //   nextProps.selectNoteStack(nextProps.rootNotebookIds[0], 'notebook', false);
+    //   return false;
+    // }
     return true;
   }
 

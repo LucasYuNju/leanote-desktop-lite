@@ -29,19 +29,19 @@ class Navigator extends Component {
 
   render() {
     return (
-			<div className="search-bar-container">
-				<div
-					className={classNames('btn', { 'btn-disabled': this.state.current <= 1 })}
-					onClick={this.onNavigateBack}
-				>
-					<Icon
-						className="back-icon"
-						iconName="chevron-left"
-					/>
-				</div>
+      <div className="search-bar-container">
+        <div
+          className={classNames('btn', { 'btn-disabled': this.state.current <= 1 })}
+          onClick={this.handleNavigateBack}
+        >
+          <Icon
+            className="back-icon"
+            iconName="chevron-left"
+          />
+        </div>
 				<div
 					className={classNames('btn', { 'btn-disabled': this.state.current >= this.state.length })}
-					onClick={this.onNavigateForward}
+					onClick={this.handleNavigateForward}
 				>
 					<Icon
 						className="forward-icon"
@@ -65,7 +65,7 @@ class Navigator extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('hashchange', this.onHashChange);
+    window.addEventListener('hashchange', this.handleHashChange);
   }
 
   handleInputChange = (e) => {
@@ -74,7 +74,7 @@ class Navigator extends Component {
     });
   }
 
-  onHashChange = (e) => {
+  handleHashChange = (e) => {
     if (this.ignoreHashChangeOnce) {
       this.ignoreHashChangeOnce = false;
     }
@@ -86,7 +86,7 @@ class Navigator extends Component {
     }
   }
 
-	onNavigateBack = () => {
+	handleNavigateBack = () => {
     if (this.state.current > 1) {
       this.setState({
         current: this.state.current - 1,
@@ -96,7 +96,7 @@ class Navigator extends Component {
     }
 	};
 
-	onNavigateForward = () => {
+	handleNavigateForward = () => {
     if (this.state.current < this.state.length) {
       this.setState({
         current: this.state.current + 1,
