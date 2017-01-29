@@ -13,20 +13,20 @@ function notes(state = {}, action) {
 		case types.LINK_TAG:
 			return {
 				...state,
-				[action.noteId]: {
-					...state[action.noteId],
-					tags: [...state[action.noteId].tags, action.tag],
+				[action.payload.noteId]: {
+					...state[action.payload.noteId],
+					tags: [...state[action.payload.noteId].tags, action.payload.tag],
 				}
 			};
 		case types.UNLINK_TAG:
-			const deleted = state[action.noteId].tags.indexOf(action.tag);
+			const deleted = state[action.payload.noteId].tags.indexOf(action.payload.tag);
 			return {
 				...state,
-				[action.noteId]: {
-					...state[action.noteId],
+				[action.payload.noteId]: {
+					...state[action.payload.noteId],
 					tags: [
-						...state[action.noteId].tags.slice(0, deleted),
-						...state[action.noteId].tags.slice(deleted + 1),
+						...state[action.payload.noteId].tags.slice(0, deleted),
+						...state[action.payload.noteId].tags.slice(deleted + 1),
 					],
 				}
 			};

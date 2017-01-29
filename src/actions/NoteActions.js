@@ -17,7 +17,7 @@ export function fetchOutdatedNotes() {
         url: 'note/getSyncNotes',
         query: {
           afterUsn: getState().user.localUsn.note,
-          maxEntry: 50,
+          maxEntry: 100,
         },
         schema: arrayOf(noteSchema),
       });
