@@ -3,8 +3,10 @@ import React, { Component, PropTypes } from 'react';
 
 import Icon from '../components/Icon';
 
-// 其他组件只关心当前的url，而不关心用户的前进后退操作，history相关的状态不需要放在全局的state里
-// 回退的时候会出现之前的笔记不存在的情况，可能用h5的history无法实现，需要自己记录浏览历史
+/**
+ * 回退的时候会出现之前的url失效的情况，浏览器的history接口无法访问到history.previsous，不能在回退之前对url进行验证，所以需要手动记录浏览历史
+ */
+
 class Navigator extends Component {
   static propTypes = {
     changePath: PropTypes.func.isRequired,
@@ -19,11 +21,10 @@ class Navigator extends Component {
   constructor(props) {
     super(props);
     this.ignoreHashChangeOnce = false;
-    // State records current page's position in h5 history stack.
     this.state = {
+      current: 0,
       input: '',
-      current: 1,
-      length: 1,
+      stack: [ window.location.hash ],
     };
   }
 
@@ -31,7 +32,7 @@ class Navigator extends Component {
     return (
       <div className="search-bar-container">
         <div
-          className={classNames('btn', { 'btn-disabled': this.state.current <= 1 })}
+          className={classNames('btn', { 'btn-disabled': this.state.current <= 0 })}
           onClick={this.handleNavigateBack}
         >
           <Icon
@@ -40,7 +41,7 @@ class Navigator extends Component {
           />
         </div>
 				<div
-					className={classNames('btn', { 'btn-disabled': this.state.current >= this.state.length })}
+					className={classNames('btn', { 'btn-disabled': this.state.current >= this.state.stack.length - 1 })}
 					onClick={this.handleNavigateForward}
 				>
 					<Icon
@@ -68,12 +69,6 @@ class Navigator extends Component {
     window.addEventListener('hashchange', this.handleHashChange);
   }
 
-  handleInputChange = (e) => {
-    this.setState({
-      input: e.target.value,
-    });
-  }
-
   handleHashChange = (e) => {
     if (this.ignoreHashChangeOnce) {
       this.ignoreHashChangeOnce = false;
@@ -81,30 +76,36 @@ class Navigator extends Component {
     else {
       this.setState({
         current: this.state.current + 1,
-        length: this.state.current + 1,
+        stack: [...this.state.stack.slice(0, this.state.current + 1), window.location.hash],
       });
     }
   }
 
 	handleNavigateBack = () => {
-    if (this.state.current > 1) {
+    if (this.state.current > 0) {
+      this.ignoreHashChangeOnce = true;
+      window.location.hash = this.state.stack[this.state.current - 1];
       this.setState({
         current: this.state.current - 1,
       });
-      this.ignoreHashChangeOnce = true;
-      window.history.back();
     }
 	};
 
 	handleNavigateForward = () => {
-    if (this.state.current < this.state.length) {
+    if (this.state.current < this.state.stack.length - 1) {
+      this.ignoreHashChangeOnce = true;
+      window.location.hash = this.state.stack[this.state.current + 1];
       this.setState({
         current: this.state.current + 1,
       });
-      this.ignoreHashChangeOnce = true;
-      window.history.forward();
     }
 	};
+
+  handleInputChange = (e) => {
+    this.setState({
+      input: e.target.value,
+    });
+  }
 }
 
 export default Navigator;
