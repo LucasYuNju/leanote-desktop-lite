@@ -10,13 +10,13 @@ function notebooks(state = {}, action) {
     case types.ADD_NOTE:
       return {
         ...state,
-				[action.payload.notebookId]: {
-					...state[action.payload.notebookId],
-					noteIds: [
-						...state[action.payload.notebookId].noteIds,
-						action.payload.note.noteId,
-					],
-				}
+        [action.payload.notebookId]: {
+          ...state[action.payload.notebookId],
+          noteIds: [
+            ...state[action.payload.notebookId].noteIds,
+            action.payload.note.noteId,
+          ],
+        }
       };
     case types.REMOVE_FROM_NOTEBOOK:
       const index = state[action.payload.notebookId].noteIds.indexOf(action.payload.noteId);

@@ -20,6 +20,7 @@ function mapStateToProps(state) {
   } = state;
 
   return {
+    entities,
     userId: user.userId,
     notebookId: router.params.noteStackType === 'notebook' ? router.params.noteStackId : null,
   }

@@ -13,6 +13,7 @@ class Header extends Component {
   static propTypes = {
     changePath: PropTypes.func.isRequired,
     createNote: PropTypes.func.isRequired,
+    entities: PropTypes.object.isRequired,
     notebookId: PropTypes.string,
     sendNotes: PropTypes.func,
     updateNote: PropTypes.func.isRequired,
@@ -20,10 +21,10 @@ class Header extends Component {
   };
 
   render() {
-    const { changePath } = this.props;
+    const { changePath, entities } = this.props;
     return (
       <TitleBar className="header">
-				<Navigator changePath={changePath} />
+				<Navigator changePath={changePath} entities={entities} />
         <div className="placeholder" />
         <ToolBarContainer />
       </TitleBar>

@@ -136,7 +136,8 @@ export function updateNote(noteId, attributes) {
  */
 export function deleteNote(note) {
   return (dispatch) => {
-    dispatch(updateNote(note.noteId, { isTrash: true }));
+    dispatch({ type: types.REMOVE_FROM_NOTEBOOK, payload: { notebookId: note.notebookId, noteId: note.noteId } });
+    dispatch(updateNote(note.noteId, { isTrash: true, isDeleted: true }));
   }
 }
 

@@ -1,20 +1,11 @@
 import * as types from '../constants/ActionTypes';
 import { checkNotes } from './NoteActions';
-import { parseUrl } from '../util/router';
+import { parseHash } from '../util/router';
 
 /**
  * 只有一种URL格式：'/:subject/:noteStackType?-:noteStackId?/:noteId?'
  * redux-persist反序列化时，会保持router.path和window.location.hash一致
  */
-
-function parseHash(hash) {
-  const params = parseUrl('#/:subject/:noteStackType?-:noteStackId?/:noteId?', hash);
-  if (Object.keys(params).length) {
-    return params;
-  }
-  // path-to-regex的问题，处理不了带连字符的情况，只能分两种情况分别parse
-  return parseUrl('#/:subject/*', hash);
-}
 
 function updateHashIfNecessary(dispatch, hash, newHistory) {
   if (window.location.hash === hash) {
