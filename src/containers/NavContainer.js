@@ -18,13 +18,14 @@ function mapStateToProps(state) {
     entities,
 		router,
   } = state;
+  // FIXME performance
 	const rootNotebookIds = Object.keys(entities.notebooks)
-		.filter(id => !entities.notebooks[id].parentNotebookId);
+    .filter(id => !entities.notebooks[id].parentNotebookId);
   return {
     rootNotebookIds,
     notebooks: entities.notebooks,
-		tagIds: Object.keys(entities.tags),
-		...router.params,
+    tags: entities.tags,
+    ...router.params,
   }
 }
 

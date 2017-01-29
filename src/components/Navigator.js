@@ -78,9 +78,8 @@ class Navigator extends Component {
       return this.props.entities[noteStackType + 's'][noteStackId]
         && this.props.entities[noteStackType + 's'][noteStackId].noteIds.includes(noteId)
         && this.props.entities.notes[noteId]
-    } else {
-      return true;
     }
+    return true;
   }
 
   handleHashChange = (e) => {
@@ -101,8 +100,7 @@ class Navigator extends Component {
       const nextHash = this.state.stack[this.state.current - 1];
       if (this.validateHash(nextHash)) {
         window.location.hash = nextHash;
-      } else {
-        // 删除上一条url
+      } else { // 删除上一条url
         const nextStack = this.state.stack.slice();
         nextStack.splice(this.state.current - 1, 1);
         this.setState({
@@ -124,8 +122,7 @@ class Navigator extends Component {
         this.setState({
           current: this.state.current + 1,
         });
-      } else {
-        // 删除下一条url
+      } else { // 删除下一条url
         const nextStack = this.state.stack.slice();
         nextStack.splice(this.state.current + 1, 1);
         this.setState({

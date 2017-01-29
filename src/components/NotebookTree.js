@@ -31,7 +31,7 @@ class NotebookTree extends Component {
       <Link
         to={`/edit/notebook-${notebook.notebookId}`}
         onClick={this.handleNoteStackClick.bind(this, notebook)}
-        className={classNames({ 'selected' : selected })}
+        className={classNames('nav-item', { 'selected' : selected })}
       >
         <Icon iconName="chevron-right" className={classNames('collapse-icon', { 'disabled': !hasSublist } )} />
         <Icon iconName={classNames({ 'file-directory': hasSublist }, { 'repo': !hasSublist })} className="node-type-icon" />

@@ -11,13 +11,13 @@ class Nav extends Component {
     noteStackType: PropTypes.string,
     rootNotebookIds: PropTypes.array.isRequired,
     selectNoteStack: PropTypes.func.isRequired,
-    tagIds: PropTypes.array,
+    tags: PropTypes.object.isRequired,
   };
 
   render() {
     const {
       notebooks,
-      tagIds,
+      tags,
       noteStackId,
       noteStackType,
       rootNotebookIds,
@@ -35,7 +35,7 @@ class Nav extends Component {
         <TagList
           noteStackId={noteStackId}
           noteStackType={noteStackType}
-          tagIds={tagIds}
+          tags={tags}
         />
 				<ProfileContainer />
       </div>

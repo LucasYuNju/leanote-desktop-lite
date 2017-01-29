@@ -9,34 +9,36 @@ class TagList extends Component {
   static propTypes = {
     noteStackId: PropTypes.string,
     noteStackType: PropTypes.string,
-    tagIds: PropTypes.array.isRequired,
+    tags: PropTypes.object.isRequired,
   };
 
   render() {
     const {
       rootNotebookIds,
       noteStackId,
-			tagIds,
+      tags,
     } = this.props;
     return (
       <List title="Tags" className="tag-list" defaultCollapsed={true}>
         <div className="children">
-          {tagIds.map(this.renderTag)}
+          {Object.keys(tags).map(this.renderTag)}
         </div>
       </List>
     );
   }
 
-	renderTag = (tagId) => {
+  renderTag = (tagId) => {
     const selected = this.props.noteStackType === 'tag' && this.props.noteStackId === tagId;
+    const tag = this.props.tags[tagId];
     return (
       <Link
         to={`/edit/tag-${tagId}`}
-        className={classNames({ 'selected' : selected })}
+        className={classNames('nav-item', { 'selected' : selected })}
         key={tagId}
       >
         <Icon iconName='tag' className="tag-icon" />
         <span className="text">{tagId}</span>
+        <span className="badge">{tag.noteIds.length ? tag.noteIds.length : ''}</span>
       </Link>
     );
 	};

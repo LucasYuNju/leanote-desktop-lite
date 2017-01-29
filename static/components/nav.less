@@ -18,20 +18,38 @@
 
     .tag-list {
       flex-grow: 1;
-      // margin-top: 5px;
 
       .link {
-        display: block;
+        display: flex;
         height: @nav-item-height;
         line-height: @nav-item-height;
         font-size: @font-size-base;
         padding-left: 24px;
         color: @nav-color;
-      }
 
-      .tag-icon {
-        margin-right: 4px;
-        color: @nav-color;
+        &.selected {
+          background: @nav-selection-bg;
+        }
+
+        .text {
+          flex-grow: 1;
+        }
+
+        .tag-icon {
+          margin-right: 4px;
+          color: @nav-color;
+          flex-shrink: 0;
+          text-align: center;
+          height: @nav-item-height;
+          line-height: @nav-item-height;
+        }
+
+        .badge {
+          color: rgb(119, 119, 119);
+          font-size: @font-size-smaller;
+          padding-left: 12px;
+          padding-right: 12px;
+        }
       }
     }
 

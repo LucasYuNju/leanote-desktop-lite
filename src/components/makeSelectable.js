@@ -2,7 +2,8 @@ import React, {Component, Children, PropTypes} from 'react';
 import classNames from 'classnames';
 
 /**
- * 响应点击事件，为listItem添加selected类。目前的选中都是通过Link做的，暂时用不到
+ * 响应点击事件，为listItem添加selected类。目前的选中都是通过Link做的
+ * Deprecated
  */
 export const makeSelectable = (MyComponent) => {
   return class extends Component {

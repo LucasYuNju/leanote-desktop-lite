@@ -30,6 +30,7 @@ class NoteList extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
+    // 如果上一个选中的笔记还没有上传，上传笔记
     if (this.props.noteId && this.props.noteId !== nextProps.noteId) {
       const note = this.props.notes.find(n => n.noteId === this.props.noteId)
       if (note) {
@@ -38,7 +39,6 @@ class NoteList extends Component {
     }
   }
 
-  // TODO 如果上一个选中的note是新建的，创建
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.checked.length === 0) {
       if (nextProps.notes.length > 0 && !nextProps.noteId) {
