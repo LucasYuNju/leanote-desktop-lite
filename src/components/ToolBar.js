@@ -8,55 +8,34 @@ import TagPicker from '../components/TagPicker.js';
 class ToolBar extends Component {
   static propTypes = {
     deleteNote: PropTypes.func.isRequired,
-		editMode: PropTypes.bool,
-		isMarkdown: PropTypes.bool,
-		note: PropTypes.object.isRequired,
-		toggleEditMode: PropTypes.func,
+    editMode: PropTypes.bool,
+    isMarkdown: PropTypes.bool,
+    note: PropTypes.object.isRequired,
+    toggleEditMode: PropTypes.func
   };
 
   static defaultProps = {
-		editMode: 'preview',
+    editMode: 'preview'
   };
 
   render() {
     return (
-			<div className="toolbar-container">
-				<div className="toolbar-items">
-					{this.renderEditModeButton()}
-					<TagPicker />
-					<div className="btn btn-tool-bar">
-						<Icon iconName="history" />
-					</div>
-					<div
-            className="btn btn-tool-bar"
-            onClick={this.deleteNote}
-          >
-						<Icon iconName="trashcan" />
-					</div>
-				</div>
-			</div>
+      <div className="toolbar-container">
+        <div className="toolbar-items">
+          <TagPicker/>
+          <div className="btn btn-tool-bar" onClick={this.deleteNote}>
+            <Icon iconName="trashcan"/>
+          </div>
+          <div className="btn btn-tool-bar btn-disabled">
+            <Icon iconName="info"/>
+          </div>
+          <div className="btn btn-tool-bar btn-disabled">
+            <Icon iconName="history"/>
+          </div>
+        </div>
+      </div>
     );
   }
-
-	renderEditModeButton = () => {
-    return null;
-		const {
-			editMode,
-			isMarkdown,
-			toggleEditMode,
-		} = this.props;
-		if (isMarkdown) {
-			return (
-				<div
-					onClick={this.toggleEditMode}
-					className={classNames('btn', 'btn-tool-bar', {active: editMode})}
-				>
-					<Icon iconName="pencil" />
-				</div>
-			);
-		}
-		return null;
-	}
 
   deleteNote = () => {
     emitter.emit('delete-note', this.props.note);
