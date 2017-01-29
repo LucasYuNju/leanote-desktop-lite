@@ -2,14 +2,17 @@ import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 
 import Icon from '../components/Icon';
+import { parseHash } from '../util/router';
 
 /**
- * 回退的时候会出现之前的url失效的情况，浏览器的history接口无法访问到history.previsous，不能在回退之前对url进行验证，所以需要手动记录浏览历史
+ * 回退的时候会出现之前的url失效的情况，浏览器的history接口无法访问到history.previsous，
+ * 因此不能在回退之前对url进行验证，需要手动记录浏览历史
  */
 
 class Navigator extends Component {
   static propTypes = {
     changePath: PropTypes.func.isRequired,
+    entities: PropTypes.object.isRequired,
     placeholder: PropTypes.string,
     search: PropTypes.func,
   };
@@ -69,6 +72,17 @@ class Navigator extends Component {
     window.addEventListener('hashchange', this.handleHashChange);
   }
 
+  validateHash = (hash) => {
+    const { noteStackType, noteStackId, noteId } = parseHash(hash);
+    if (noteStackType && noteStackId && noteId) {
+      return this.props.entities[noteStackType + 's'][noteStackId]
+        && this.props.entities[noteStackType + 's'][noteStackId].noteIds.includes(noteId)
+        && this.props.entities.notes[noteId]
+    } else {
+      return true;
+    }
+  }
+
   handleHashChange = (e) => {
     if (this.ignoreHashChangeOnce) {
       this.ignoreHashChangeOnce = false;
@@ -84,7 +98,17 @@ class Navigator extends Component {
 	handleNavigateBack = () => {
     if (this.state.current > 0) {
       this.ignoreHashChangeOnce = true;
-      window.location.hash = this.state.stack[this.state.current - 1];
+      const nextHash = this.state.stack[this.state.current - 1];
+      if (this.validateHash(nextHash)) {
+        window.location.hash = nextHash;
+      } else {
+        // 删除上一条url
+        const nextStack = this.state.stack.slice();
+        nextStack.splice(this.state.current - 1, 1);
+        this.setState({
+          stack: nextStack,
+        });
+      }
       this.setState({
         current: this.state.current - 1,
       });
@@ -94,10 +118,20 @@ class Navigator extends Component {
 	handleNavigateForward = () => {
     if (this.state.current < this.state.stack.length - 1) {
       this.ignoreHashChangeOnce = true;
-      window.location.hash = this.state.stack[this.state.current + 1];
-      this.setState({
-        current: this.state.current + 1,
-      });
+      const nextHash = this.state.stack[this.state.current + 1];
+      if (this.validateHash(nextHash)) {
+        window.location.hash = nextHash;
+        this.setState({
+          current: this.state.current + 1,
+        });
+      } else {
+        // 删除下一条url
+        const nextStack = this.state.stack.slice();
+        nextStack.splice(this.state.current + 1, 1);
+        this.setState({
+          stack: nextStack,
+        });
+      }
     }
 	};
 

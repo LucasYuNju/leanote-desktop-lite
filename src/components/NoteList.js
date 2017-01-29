@@ -32,7 +32,9 @@ class NoteList extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.noteId && this.props.noteId !== nextProps.noteId) {
       const note = this.props.notes.find(n => n.noteId === this.props.noteId)
-      this.props.postNoteIfNecessary(note);
+      if (note) {
+        this.props.postNoteIfNecessary(note);
+      }
     }
   }
 

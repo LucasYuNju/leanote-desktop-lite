@@ -2,7 +2,7 @@ import * as types from '../constants/ActionTypes';
 
 const initialState = {
   order: {
-    key: 'updatedTime',
+    key: 'title',
     ascending: false,
   },
   checked: [],
