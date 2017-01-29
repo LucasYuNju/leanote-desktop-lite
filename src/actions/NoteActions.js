@@ -58,10 +58,11 @@ export function fetchNoteAndContent(noteId) {
 
 /**
  * note创建时指定了noteId a，服务器会为note指定一个新的noteId b
- * 这里令entities.notes[a].noteId = b。
- * 在新建的note脱离选中状态时，令entities.notes[b] = entities.notes[a]; delete entities.notes[a]
+ * 在新建的note脱离选中状态时，令
+ * entities.notes[a].noteId = b;
+ * entities.notes[b] = entities.notes[a];
+ * delete entities.notes[a];
  */
- // TODO 另一种写法，只有新笔记脱离焦点的时候才会创建和更新
 export function postNoteIfNecessary(note) {
   return (dispatch, getState) => {
     if (note.isNew) {
@@ -81,7 +82,7 @@ export function postNoteIfNecessary(note) {
             noteId: serverSideId,
             aliasId: note.noteId,
             isNew: false,
-            usn: action.entities.notes[serverSideId].usn
+            usn: action.payload.entities.notes[serverSideId].usn
           }, notebookId: note.notebookId } }
         ];
         dispatch({ type: types.BATCH_ACTIONS, actions });
