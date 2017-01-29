@@ -59,24 +59,23 @@ export function fetchNoteAndContent(noteId) {
 /**
  * note创建时指定了noteId a，服务器会为note指定一个新的noteId b
  * 在新建的note脱离选中状态时，令
- * entities.notes[a].noteId = b;
- * entities.notes[b] = entities.notes[a];
- * delete entities.notes[a];
+ *  entities.notes[a].noteId = b;
+ *  entities.notes[b] = entities.notes[a];
+ *  delete entities.notes[a];
  */
 export function postNoteIfNecessary(note) {
   return (dispatch, getState) => {
     if (note.isNew) {
       dispatch({
-        types: [types.ADD_NOTE_REQUEST, null, null],
+        types: [types.ADD_NOTE_REQUEST, types.ADD_NOTE_SUCCESS, null],
         url: 'note/addNote',
         method: 'POST',
         body: note,
         schema: noteSchema,
       }).then(action => {
         const serverSideId = action.payload.result;
-        // TODO 应该从state中移除
         const actions = [
-          { type: types.UPDATE_NOTE, payload: { noteId: note.noteId, note: { isTrash: true, isNew: false } } },
+          { type: types.REMOVE_FROM_NOTEBOOK, payload: { notebookId: note.notebookId, noteId: note.noteId } },
           { type: types.ADD_NOTE, payload: { note: {
             ...note,
             noteId: serverSideId,

@@ -13,6 +13,7 @@ export default function user(state = initialState, action) {
   switch (action.type) {
     case types.GET_NOTES_SUCCESS:
     case types.POST_NOTE_SUCCESS:
+    case types.ADD_NOTE_SUCCESS:
       return {
         ...state,
         localUsn: {
