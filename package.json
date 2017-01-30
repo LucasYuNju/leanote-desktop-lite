@@ -4,10 +4,9 @@
   "description": "Leanote Desktop App, based on Electron",
   "main": "./src/browser/main.js",
   "scripts": {
-    "dev": "npm start & npm run server",
+    "start": "electron . --dev & node ./build/server.js",
     "build": "webpack",
-    "server": "node ./build/server.js",
-    "start": "electron . --dev",
+    "release": "electron-packager . 'Leanote Lite' --icon=static/images/leanote",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -39,7 +38,7 @@
     "moment": "^2.15.1",
     "normalizr": "^2.2.1",
     "objectid-browser": "0.0.1",
-    "octicons": "^3.1.0",
+    "octicons": "^3.5.0",
     "optimist": "^0.6.1",
     "path-to-regexp": "^1.7.0",
     "react": "^15.4.2",
@@ -61,6 +60,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "concurrently": "^2.2.0",
     "css-loader": "^0.25.0",
+    "electron-packager": "^8.5.1",
     "eslint": "^3.4.0",
     "eslint-config-airbnb": "^10.0.1",
     "eslint-loader": "^1.5.0",
