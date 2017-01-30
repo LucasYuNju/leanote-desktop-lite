@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron . --dev & node ./build/server.js",
     "build": "webpack",
-    "release": "electron-packager . 'Leanote Lite' --icon=static/images/leanote",
+    "release": "electron-packager . 'Leanote Lite' --icon=static/images/leanote --out=release --all",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
