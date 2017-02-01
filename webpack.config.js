@@ -4,7 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   devtool: 'source-map',
-	context: path.resolve("./src"),
+  context: path.resolve("./src"),
   entry: {
     vendor: ['babel-polyfill'],
     main: ['./main.js', '../static/index.less'],
@@ -15,10 +15,10 @@ module.exports = {
       publicPath: "/assets/",
       filename: "[name]/bundle.js"
   },
-	module: {
-		preLoaders: [
-		],
-		loaders: [
+  module: {
+    preLoaders: [
+    ],
+    loaders: [
 			{
         test: /\.jsx?$/,
         exclude: /node_modules/,

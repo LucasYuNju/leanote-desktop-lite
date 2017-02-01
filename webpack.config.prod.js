@@ -60,8 +60,6 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin("[name]/bundle.css"),
     new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|ko|ja|zh-cn)$/),
-    new webpack.optimize.UglifyJsPlugin(),
-    new webpack.optimize.DedupePlugin(),
   ],
   target: "electron-renderer"
 };
