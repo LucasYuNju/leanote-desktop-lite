@@ -47,5 +47,6 @@ docs/design
 
 # crawled data
 /src/browser/recommend/data
+/lib/recommend/data
 
 /release

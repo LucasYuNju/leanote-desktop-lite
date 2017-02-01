@@ -3,20 +3,18 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-	context: path.resolve("./src"),
+  context: path.resolve("./src"),
   entry: {
-    vendor: [],
-    main: ['./main.js', '../styles/index.less'],
-    auth: ['./auth.js', '../styles/index.less']
+    vendor: ['babel-polyfill'],
+    main: ['./main.js', '../static/index.less'],
+    auth: ['./auth.js', '../static/index.less']
   },
   output: {
-      path: path.resolve("./dist/assets"),
+      path: path.resolve("./static/assets"),
       publicPath: "/assets/",
       filename: "[name]/bundle.js"
   },
-	module: {
-		preLoaders: [
-		],
+  module: {
 		loaders: [
 			{
         test: /\.jsx?$/,
@@ -31,20 +29,39 @@ module.exports = {
         loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader"),
       },
       {
-        test: /\.(eot|svg|ttf|otf|woff2?)(\?\w+)?$/i,
-        loaders: [
-          'file?name=[name]-[sha1:hash:hex:10].[ext]',
-        ]
+        test: /\.json$/,
+        loader: 'json-loader',
+      },
+      {
+        test: /\.svg$/,
+        loader: 'url?limit=65000&mimetype=image/svg+xml&name=public/fonts/[name].[ext]'
+      },
+      {
+        test: /\.woff$/,
+        loader: 'url?limit=65000&mimetype=application/font-woff&name=public/fonts/[name].[ext]'
+      },
+      {
+        test: /\.woff2$/,
+        loader: 'url?limit=65000&mimetype=application/font-woff2&name=public/fonts/[name].[ext]'
+      },
+      {
+        test: /\.[ot]tf$/,
+        loader: 'url?limit=65000&mimetype=application/octet-stream&name=public/fonts/[name].[ext]'
+      },
+      {
+        test: /\.eot$/,
+        loader: 'url?limit=65000&mimetype=application/vnd.ms-fontobject&name=public/fonts/[name].[ext]'
       },
 		]
 	},
   resolve: {
-    extensions: ['', '.js', '.jsx', '.css'] 
+    extensions: ['', '.js', '.jsx', '.json', '.css']
   },
   plugins: [
     new ExtractTextPlugin("[name]/bundle.css"),
+    new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|ko|ja|zh-cn)$/),
     new webpack.optimize.UglifyJsPlugin(),
     new webpack.optimize.DedupePlugin(),
   ],
-  target: "electron"
+  target: "electron-renderer"
 };
