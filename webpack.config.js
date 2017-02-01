@@ -7,8 +7,8 @@ module.exports = {
   context: path.resolve("./src"),
   entry: {
     vendor: ['babel-polyfill'],
-    main: ['./main.js', '../static/index.less'],
-    auth: ['./auth.js', '../static/index.less']
+    main: ['./main.js', '../styles/index.less'],
+    auth: ['./auth.js', '../styles/index.less']
   },
   output: {
       path: path.resolve("./static/assets"),
