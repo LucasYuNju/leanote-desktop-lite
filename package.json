@@ -6,6 +6,7 @@
   "scripts": {
     "build": "webpack -p --config ./webpack.config.prod.js",
     "release": "electron-packager . 'Leanote Lite' --icon=static/images/leanote --out=release --ignore=src --ignore=docs --overwrite=true",
+    "patch": "tar -zcf release/Patch.tar.gz lib static package.json",
     "client": "electron . --dev",
     "start": "electron . --dev & node ./devServer.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -49,6 +50,7 @@
     "redux": "^3.6.0",
     "redux-persist": "^4.0.0-beta1",
     "redux-thunk": "^2.1.0",
+    "request": "^2.79.0",
     "semver": "^5.3.0",
     "slate": "^0.16.9"
   },
@@ -81,6 +83,7 @@
     "redux-devtools-dock-monitor": "^1.1.1",
     "redux-devtools-log-monitor": "^1.1.1",
     "style-loader": "^0.13.1",
+    "unzip": "^0.1.11",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.3",
     "webpack-dev-middleware": "^1.8.1",
