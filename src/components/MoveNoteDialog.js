@@ -15,10 +15,6 @@ class MoveNoteDialog extends Component {
     title: PropTypes.string.isRequired,
   };
 
-  static defaultProps = {
-    closeDialog: () => {},
-  };
-
   state = {
     notebookId: null,
   }

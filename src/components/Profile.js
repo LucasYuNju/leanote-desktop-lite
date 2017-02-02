@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { persistor } from 'redux-persist';
 
 import Icon from '../components/Icon';
+import UpdateDialog from '../components/UpdateDialog';
+import emitter from '../util/emitter';
 import Menu from '../util/SystemMenu';
 
 const DEFAULT_AVATAR = 'http://leanote.com/images/blog/default_avatar.png';
@@ -52,6 +54,17 @@ class User extends Component {
 		if (!this.props.user.logo) {
 			this.props.fetchInfo(this.props.user.userId);
 		}
+    setTimeout(() => {
+      const ipcRenderer = require('electron').ipcRenderer;
+      ipcRenderer.on('update-found', (info) => {
+        console.log('update found', info);
+        // const callback = () => {
+        //   console.log('patch update');
+        // }
+        // emitter.emit('show-dialog', <UpdateDialog callback={callback} title="Update Found" />);
+      });
+      ipcRenderer.send('check-update');
+    }, 2000);
 	}
 }
 
