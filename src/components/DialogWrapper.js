@@ -53,7 +53,7 @@ class DialogWrapper extends Component {
           transitionName="fade"
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
-          className={classNames('dialog-container', { active: this.state.active })}
+          className={classNames('dialog-wrapper', { active: this.state.active })}
         >
           {bg}
           {content}

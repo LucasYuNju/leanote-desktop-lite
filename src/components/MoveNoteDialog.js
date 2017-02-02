@@ -10,7 +10,7 @@ class MoveNoteDialog extends Component {
   static propTypes = {
     callback: PropTypes.func.isRequired,
     notebooks: PropTypes.object.isRequired,
-    closeDialog: PropTypes.func.isRequired,
+    closeDialog: PropTypes.func,
     rootNotebookIds: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
   };

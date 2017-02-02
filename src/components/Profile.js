@@ -56,15 +56,18 @@ class User extends Component {
 		}
     setTimeout(() => {
       const ipcRenderer = require('electron').ipcRenderer;
-      ipcRenderer.on('update-found', (info) => {
-        console.log('update found', info);
-        // const callback = () => {
-        //   console.log('patch update');
-        // }
-        // emitter.emit('show-dialog', <UpdateDialog callback={callback} title="Update Found" />);
-      });
+      ipcRenderer.on('fuck', () => {
+        console.log('fuck');
+      })
       ipcRenderer.send('check-update');
-    }, 2000);
+      ipcRenderer.on('update-found', (event, msg) => {
+        console.log('update found', msg);
+        const callback = () => {
+          console.log('patch update');
+        }
+        emitter.emit('show-dialog', <UpdateDialog callback={callback} title="Update Found" message={msg} />);
+      });
+    }, 1000);
 	}
 }
 
