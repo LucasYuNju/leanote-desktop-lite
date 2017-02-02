@@ -17,5 +17,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
-
-require('electron').webFrame.setZoomLevelLimits(1, 1);
