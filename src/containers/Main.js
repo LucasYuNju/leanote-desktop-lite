@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
 import HeaderContainer from '../containers/HeaderContainer';
-import DialogContainer from '../components/DialogContainer';
+import DialogWrapper from '../components/DialogWrapper';
 import NavContainer from '../containers/NavContainer';
 import NoteContainer from '../containers/NoteContainer';
 import NoteListContainer from '../containers/NoteListContainer';
@@ -45,7 +45,7 @@ class Main extends Component {
 					<NoteListContainer />
 					<NoteContainer />
 				</div>
-        <DialogContainer />
+        <DialogWrapper />
 			</div>
 		);
   }

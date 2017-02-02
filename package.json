@@ -6,6 +6,7 @@
   "scripts": {
     "build": "webpack -p --config ./webpack.config.prod.js",
     "release": "electron-packager . 'Leanote Lite' --icon=static/images/leanote --out=release --ignore=src --ignore=docs --overwrite=true",
+    "client": "electron . --dev",
     "start": "electron . --dev & node ./devServer.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

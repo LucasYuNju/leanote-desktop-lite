@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import React, { cloneElement, Component, PropTypes } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-class DialogContainer extends Component {
+class DialogWrapper extends Component {
   state = {
     active: false,
   };
@@ -62,4 +62,4 @@ class DialogContainer extends Component {
   }
 }
 
-export default DialogContainer;
+export default DialogWrapper;

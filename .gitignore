@@ -46,7 +46,7 @@ static/assets
 docs/design
 
 # crawled data
-/src/browser/recommend/data
 /lib/recommend/data
+/data
 
 /release
