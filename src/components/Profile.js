@@ -56,16 +56,19 @@ class User extends Component {
 		}
     setTimeout(() => {
       const ipcRenderer = require('electron').ipcRenderer;
-      ipcRenderer.on('fuck', () => {
-        console.log('fuck');
-      })
       ipcRenderer.send('check-update');
       ipcRenderer.on('update-found', (event, msg) => {
         console.log('update found', msg);
         const callback = () => {
-          console.log('patch update');
+          if (msg.isPatch) {
+            console.log('patch update');
+            ipcRenderer.send('patch-update');
+          } else {
+            const RELEASES_URL = 'https://github.com/LucasYuNju/leanote-desktop-lite/releases';
+            require('electron').remote.shell.openExternal(RELEASES_URL);
+          }
         }
-        emitter.emit('show-dialog', <UpdateDialog callback={callback} title="Update Found" message={msg} />);
+        emitter.emit('show-dialog', <UpdateDialog callback={callback} title="Update Available" message={msg} />);
       });
     }, 1000);
 	}

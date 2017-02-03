@@ -25,7 +25,7 @@
       box-shadow: 0 0 16px 0 rgba(0,0,0,0.3);
 
       width: 450px;
-      height: 300px;
+      height: 200px;
       position: absolute;
       overflow-y: hidden;
       top: 0;
@@ -37,7 +37,7 @@
 
       .msg {
         display: block;
-        height: 250px;
+        height: 150px;
         padding: 16px;
         overflow: scroll;
 
@@ -46,13 +46,17 @@
           padding-bottom: 10px;
           margin-bottom: 10px;
         }
+
+        .desc {
+          text-align: center;
+        }
       }
 
       .buttons {
         display: flex;
         flex-direction: row-reverse;
         align-items: center;
-        border-top: 1px solid @border-color-darker;
+        // border-top: 1px solid @border-color-darker;
         height: 50px;
 
         .btn {

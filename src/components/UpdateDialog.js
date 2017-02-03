@@ -1,14 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
-
-const RELEASES_URL = 'https://github.com/LucasYuNju/leanote-desktop-lite/releases';
+import marked from 'marked';
 
 class UpdateDialog extends Component {
   static propTypes = {
     callback: PropTypes.func.isRequired,
     closeDialog: PropTypes.func,
     title: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
+    message: PropTypes.object.isRequired,
   };
 
   render() {
@@ -20,14 +19,16 @@ class UpdateDialog extends Component {
       <div className="update-dialog">
         <div className="msg">
           <h4>{title}</h4>
-          <div>{message}</div>
+          <div className="desc">
+            {`There is a newer version(${message.nextVersion}) of Leanote Lite available. Update now?`}
+          </div>
         </div>
         <div className="buttons">
           <div
             className={classNames('btn', 'dialog-btn')}
             onClick={this.handleDownloadButtonClick}
           >
-            Download
+            {message.isPatch ? 'Install' : 'Download'}
           </div>
           <div
             className="btn dialog-btn"
@@ -46,7 +47,7 @@ class UpdateDialog extends Component {
 
   handleDownloadButtonClick = () => {
     this.props.closeDialog();
-    require('electron').remote.shell.openExternal(RELEASES_URL);
+    this.props.callback();
   }
 }
 
