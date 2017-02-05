@@ -64,6 +64,7 @@ class SlateEditor extends Component {
     console.log('#', startText.text, isPrevLink, isNextLink);
     if (state.document.getParent(startText.key).type === INLINES.LINK || isPrevLink || isNextLink) {
       if (isPrevLink) { // 遇到换行，将selection移动到前一个text，这次移动不会触发selectionChange事件
+        console.log('1');
         state = state.transform()
           .collapseToEndOfPreviousText()
           .apply(OPTIONS);
@@ -85,8 +86,17 @@ class SlateEditor extends Component {
               nodes: [ Text.createFromString(`[${parent.text}](${parent.data.get('href')})`) ]
             }), OPTIONS)
             .apply(OPTIONS);
+          // FIXME，isPrevLink没有效果
           setTimeout(() => {
+            // setState必须异步调用，否则会出现先修改state，然后用户输入生效的情况
             this.setState({ state });
+          });
+          // 为了处理从一个lik跳到另一个link的情况，必须在修改this.lastStartText之前convertSrcToLink
+          setTimeout(() => {
+            const nextState = this.convertSrcToLink(state);
+            if (nextState !== state) {
+              this.setState({ state: nextState });
+            }
             this.lastStartText = state.startText;
           });
         }
@@ -111,8 +121,6 @@ class SlateEditor extends Component {
       }
     }
     setTimeout(() => {
-      // setState必须异步调用，否则会出现先修改state，然后用户输入生效的情况
-      // TODO 能否将setState合并
       const nextState = this.convertSrcToLink(state);
       if (nextState !== state) {
         this.setState({ state: nextState });
