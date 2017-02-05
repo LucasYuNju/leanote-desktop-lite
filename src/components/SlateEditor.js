@@ -56,13 +56,12 @@ class SlateEditor extends Component {
   onSelectionChange = (selection, state) => {
     const initialState = state;
     const { startBlock, startOffset, startText } = state;
-    let parent = state.document.getParent(startText.key);
     const prev = state.document.getPreviousSibling(startText.key);
     const isPrevLink = prev && prev.type === INLINES.LINK && selection.startOffset === 0;
     const next = state.document.getNextSibling(startText.key);
     const isNextLink = next && next.type === INLINES.LINK && selection.startOffset === state.startText.length;
-    if (parent.type === INLINES.LINK || isPrevLink || isNextLink) {
-      if (isPrevLink) { // 遇到换行，将selection移动到前一个的text
+    if (state.document.getParent(startText.key).type === INLINES.LINK || isPrevLink || isNextLink) {
+      if (isPrevLink) { // 遇到换行，将selection移动到前一个text，这次移动不会触发selectionChange事件
         state = state.transform()
           .collapseToEndOfPreviousText()
           .apply(OPTIONS);
@@ -71,7 +70,7 @@ class SlateEditor extends Component {
           .collapseToStartOfNextText()
           .apply(OPTIONS);
       }
-      parent = state.document.getParent(state.startText.key);
+      const parent = state.document.getParent(state.startText.key);
       if (parent.type === INLINES.LINK) { // Selection进入一个link元素，将link元素替换成link源码
         if (!linkRegex.exec(parent.text)) {
           state = state.transform()
@@ -84,18 +83,10 @@ class SlateEditor extends Component {
               nodes: [ Text.createFromString(`[${parent.text}](${parent.data.get('href')})`) ]
             }), OPTIONS)
             .apply(OPTIONS);
-          setTimeout(() => {
+          setTimeout(() => { // 谜之setTimeout
             this.setState({ state: state });
           });
         }
-
-        setTimeout(() => {
-          const nextState = this.convertSrcToLink(state);
-          if (nextState !== state) {
-            this.setState({ state: nextState });
-          }
-          this.lastStartText = state.startText;
-        });
       }
     } else {
       const match = linkRegex.exec(startText.text);
@@ -110,10 +101,9 @@ class SlateEditor extends Component {
           }))
           .collapseToEndOfNextText()
           .apply(OPTIONS);
-        setTimeout(() => { // 谜之setTimeout
+        setTimeout(() => {
           this.setState({ state: state });
         });
-        this.lastStartText = state.startText;
       }
     }
     setTimeout(() => { // TODO 重复代码
@@ -121,6 +111,7 @@ class SlateEditor extends Component {
       if (nextState !== state) {
         this.setState({ state: nextState });
       }
+      this.lastStartText = state.startText;
     });
   }
 
@@ -128,7 +119,7 @@ class SlateEditor extends Component {
    * 将link源码转成link元素
    */
   convertSrcToLink = (state) => {
-    parent = state.document.getParent(state.startText.key);
+    const parent = state.document.getParent(state.startText.key);
     const previous = state.document.getPreviousText(state.startText.key);
     const lastParent = this.lastStartText ? state.document.getParent(this.lastStartText.key) : null;
     if (previous && this.lastStartText && previous.key === this.lastStartText.key && state.startText.text.length === 0) return state;
