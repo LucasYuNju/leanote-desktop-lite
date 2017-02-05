@@ -4,9 +4,11 @@ import React, { Component, PropTypes } from 'react';
 import Slate, { Editor, State, Text, Inline, Block } from 'slate';
 
 import schema from '../constants/SlateSchema';
+import { prettify, getMarkAt } from '../util/slate';
 
 const OPTIONS = { normalize: false };
-const linkRegex = /\[([^\]]*)\]\(([^\)]*)\)/;
+const linkRegex = /\[([^\]]+)\]\(([^\)]*)\)/;
+const boldRegex = /\*\*(.+)\*\*/;
 
 class SlateEditor extends Component {
   static propTypes = {
@@ -62,7 +64,6 @@ class SlateEditor extends Component {
     const isNextLink = next && next.type === INLINES.LINK && selection.startOffset === state.startText.length;
     if (state.document.getParent(startText.key).type === INLINES.LINK || isPrevLink || isNextLink) {
       if (isPrevLink) { // 遇到换行，将selection移动到前一个text，这次移动不会触发selectionChange事件
-        console.log('1');
         state = state.transform()
           .collapseToEndOfPreviousText()
           .apply(OPTIONS);
@@ -99,7 +100,7 @@ class SlateEditor extends Component {
         }
       }
     } else {
-      const match = linkRegex.exec(startText.text);
+      let match = linkRegex.exec(startText.text);
       if (match) { // 将link源码解析成link元素，目前只允许按顺序写link
         state = state.transform()
           .extendBackward(match[1].length + match[2].length + 4)
@@ -111,18 +112,65 @@ class SlateEditor extends Component {
           }))
           .collapseToEndOfNextText()
           .apply(OPTIONS);
-        setTimeout(() => {
-          this.setState({ state });
-          this.lastStartText = state.document.getPreviousText(state.startText.key);
-        });
+        this.lastStartText = state.document.getPreviousText(state.startText.key);
       }
+      setTimeout(() => {
+        this.setState({ state });
+      });
     }
     setTimeout(() => {
-      const nextState = this.convertSrcToLink(state);
-      if (nextState !== state) {
-        this.setState({ state: nextState });
+      const prevState = state;
+      state = this.convertSrcToLink(state);
+      if (state !== prevState) {
+        this.setState({ state });
       }
     });
+
+    this.autoMarkdownMarks(selection, state);
+  }
+
+  autoMarkdownMarks = (selection, state) => {
+    const mark = getMarkAt(state.startText, selection.anchorOffset);
+    if (mark.type === MARKS.BOLD) { //如果不是源码，转成源码
+      const textOfMark = state.startText.text.substring(mark.from, mark.to + 1);
+      console.log('text', textOfMark, mark);
+      if (!boldRegex.exec(textOfMark)) {
+        state = state.transform()
+          .moveToOffsets(mark.from, mark.to + 1)
+          .delete()
+          .addMark(MARKS.BOLD)
+          .insertText(`**${textOfMark}**`)
+          .apply(OPTIONS);
+        this.lastMarkText = state.startText;
+      }
+    } else { //匹配text中的代码，添加Mark
+      let match = boldRegex.exec(state.startText.text);
+      if (match) {
+        state = state.transform()
+          .moveToOffsets(match.index, match.index + match[1].length + 4)
+          .delete()
+          .addMark(MARKS.BOLD)
+          .insertText(match[1])
+          .apply(OPTIONS);
+      }
+    }
+    if (this.state.state !== state) {
+      setTimeout(() => {
+        this.setState({ state });
+      });
+    }
+    // 离开某一Mark的时候，将Mark节点的源码替换成实际内容
+    // setTimeout(() => {
+    //   const prevState = state;
+    //   state = this.convertSrcToMark(state);
+    //   if (state !== prevState) {
+    //     this.setState({ state });
+    //   }
+    // });
+  }
+
+  convertSrcToMark = (state) => {
+
   }
 
   /**
@@ -299,10 +347,6 @@ function deserializeToState(text) {
   const document = MarkupIt.State.create(markdown).deserializeToDocument(text);
   const state = Slate.State.create({ document });
   return state;
-}
-
-function prettify(obj) {
-  return JSON.parse(JSON.stringify(obj));
 }
 
 export default SlateEditor;
