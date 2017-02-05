@@ -62,7 +62,7 @@ class SlateEditor extends Component {
     const next = state.document.getNextSibling(startText.key);
     const isNextLink = next && next.type === INLINES.LINK && selection.startOffset === state.startText.length;
     if (parent.type === INLINES.LINK || isPrevLink || isNextLink) {
-      if (isPrevLink) { // 遇到换行，将selection移动前一个的text
+      if (isPrevLink) { // 遇到换行，将selection移动到前一个的text
         state = state.transform()
           .collapseToEndOfPreviousText()
           .apply(OPTIONS);
@@ -72,7 +72,7 @@ class SlateEditor extends Component {
           .apply(OPTIONS);
       }
       parent = state.document.getParent(state.startText.key);
-      if (parent.type === INLINES.LINK) { // 用户进入一个link，将link替换成markdown源码
+      if (parent.type === INLINES.LINK) { // Selection进入一个link元素，将link元素替换成link源码
         if (!linkRegex.exec(parent.text)) {
           state = state.transform()
             .collapseToStartOf(state.startText)
@@ -94,14 +94,12 @@ class SlateEditor extends Component {
           if (nextState !== state) {
             this.setState({ state: nextState });
           }
-
           this.lastStartText = state.startText;
         });
       }
     } else {
-      // 刚刚编辑完一个link，将markdown源码解析成link，目前只允许按顺序写link
       const match = linkRegex.exec(startText.text);
-      if (match) {
+      if (match) { // 将link源码解析成link元素，目前只允许按顺序写link
         state = state.transform()
           .extendBackward(match[1].length + match[2].length + 4)
           .delete()
@@ -126,18 +124,20 @@ class SlateEditor extends Component {
     });
   }
 
-  // 离开src格式的link，转成anchor
+  /**
+   * 将link源码转成link元素
+   */
   convertSrcToLink = (state) => {
     parent = state.document.getParent(state.startText.key);
     const previous = state.document.getPreviousText(state.startText.key);
-    const prevParent = this.lastStartText ? state.document.getParent(this.lastStartText.key) : null;
+    const lastParent = this.lastStartText ? state.document.getParent(this.lastStartText.key) : null;
     if (previous && this.lastStartText && previous.key === this.lastStartText.key && state.startText.text.length === 0) return state;
-    if (prevParent && prevParent.type === INLINES.LINK && (prevParent.key !== parent.key || !state.selection.isFocused)) {
-      const match = linkRegex.exec(prevParent.text)
+    if (lastParent && lastParent.type === INLINES.LINK && (lastParent.key !== parent.key || !state.selection.isFocused)) {
+      const match = linkRegex.exec(lastParent.text)
       const nextState = state.transform()
-        .setNodeByKey(prevParent.key, { data: { href: match[2] } })
+        .setNodeByKey(lastParent.key, { data: { href: match[2] } })
         .removeNodeByKey(this.lastStartText.key)
-        .insertNodeByKey(prevParent.key, 0, Text.createFromString(match[1]))
+        .insertNodeByKey(lastParent.key, 0, Text.createFromString(match[1]))
         .apply(OPTIONS);
       this.lastStartText = state.startText;
       return nextState;
