@@ -111,6 +111,7 @@ class SlateEditor extends Component {
       }
     }
     setTimeout(() => {
+      // setState必须异步调用，否则会出现先修改state，然后用户输入生效的情况
       // TODO 能否将setState合并
       const nextState = this.convertSrcToLink(state);
       if (nextState !== state) {
