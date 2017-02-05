@@ -62,8 +62,7 @@ class SlateEditor extends Component {
     const next = state.document.getNextSibling(startText.key);
     const isNextLink = next && next.type === INLINES.LINK && selection.startOffset === state.startText.length;
     if (parent.type === INLINES.LINK || isPrevLink || isNextLink) {
-      if (isPrevLink) {
-        // 遇到换行，将selection移动到换行之前的text
+      if (isPrevLink) { // 遇到换行，将selection移动前一个的text
         state = state.transform()
           .collapseToEndOfPreviousText()
           .apply(OPTIONS);
@@ -73,8 +72,7 @@ class SlateEditor extends Component {
           .apply(OPTIONS);
       }
       parent = state.document.getParent(state.startText.key);
-      // 用户进入一个link，将link替换成markdown源码
-      if (parent.type === INLINES.LINK) { // 还没有被转成源码
+      if (parent.type === INLINES.LINK) { // 用户进入一个link，将link替换成markdown源码
         if (!linkRegex.exec(parent.text)) {
           state = state.transform()
             .collapseToStartOf(state.startText)
@@ -97,8 +95,7 @@ class SlateEditor extends Component {
             this.setState({ state: nextState });
           }
 
-          this.prevStartText = state.startText;
-          this.prevParent = state.document.getParent(state.startText.key);
+          this.lastStartText = state.startText;
         });
       }
     } else {
@@ -118,12 +115,10 @@ class SlateEditor extends Component {
         setTimeout(() => { // 谜之setTimeout
           this.setState({ state: state });
         });
-        this.prevStartText = state.document.getPreviousText(state.startText.key);
-        this.prevParent = state.document.getParent(this.prevStartText.key);
+        this.lastStartText = state.startText;
       }
     }
-    // TODO 重复代码
-    setTimeout(() => {
+    setTimeout(() => { // TODO 重复代码
       const nextState = this.convertSrcToLink(state);
       if (nextState !== state) {
         this.setState({ state: nextState });
@@ -135,16 +130,16 @@ class SlateEditor extends Component {
   convertSrcToLink = (state) => {
     parent = state.document.getParent(state.startText.key);
     const previous = state.document.getPreviousText(state.startText.key);
-    if (previous && this.prevStartText && previous.key === this.prevStartText.key && state.startText.text.length === 0) return state;
-    if (this.prevParent && this.prevParent.type === INLINES.LINK && (this.prevParent.key !== parent.key || !state.selection.isFocused)) {
-      const match = linkRegex.exec(this.prevParent.text)
+    const prevParent = this.lastStartText ? state.document.getParent(this.lastStartText.key) : null;
+    if (previous && this.lastStartText && previous.key === this.lastStartText.key && state.startText.text.length === 0) return state;
+    if (prevParent && prevParent.type === INLINES.LINK && (prevParent.key !== parent.key || !state.selection.isFocused)) {
+      const match = linkRegex.exec(prevParent.text)
       const nextState = state.transform()
-        .setNodeByKey(this.prevParent.key, { data: { href: match[2] } })
-        .removeNodeByKey(this.prevStartText.key)
-        .insertNodeByKey(this.prevParent.key, 0, Text.createFromString(match[1]))
+        .setNodeByKey(prevParent.key, { data: { href: match[2] } })
+        .removeNodeByKey(this.lastStartText.key)
+        .insertNodeByKey(prevParent.key, 0, Text.createFromString(match[1]))
         .apply(OPTIONS);
-      this.prevStartText = state.startText;
-      this.prevParent = state.document.getParent(this.prevStartText.key);
+      this.lastStartText = state.startText;
       return nextState;
     }
     return state;
