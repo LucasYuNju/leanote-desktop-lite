@@ -54,12 +54,14 @@ class SlateEditor extends Component {
   }
 
   onSelectionChange = (selection, state) => {
+    console.log('selection change');
     const initialState = state;
     const { startBlock, startOffset, startText } = state;
     const prev = state.document.getPreviousSibling(startText.key);
     const isPrevLink = prev && prev.type === INLINES.LINK && selection.startOffset === 0;
     const next = state.document.getNextSibling(startText.key);
     const isNextLink = next && next.type === INLINES.LINK && selection.startOffset === state.startText.length;
+    console.log('#', startText.text, isPrevLink, isNextLink);
     if (state.document.getParent(startText.key).type === INLINES.LINK || isPrevLink || isNextLink) {
       if (isPrevLink) { // 遇到换行，将selection移动到前一个text，这次移动不会触发selectionChange事件
         state = state.transform()
@@ -83,8 +85,9 @@ class SlateEditor extends Component {
               nodes: [ Text.createFromString(`[${parent.text}](${parent.data.get('href')})`) ]
             }), OPTIONS)
             .apply(OPTIONS);
-          setTimeout(() => { // 谜之setTimeout
-            this.setState({ state: state });
+          setTimeout(() => {
+            this.setState({ state });
+            this.lastStartText = state.startText;
           });
         }
       }
@@ -102,16 +105,17 @@ class SlateEditor extends Component {
           .collapseToEndOfNextText()
           .apply(OPTIONS);
         setTimeout(() => {
-          this.setState({ state: state });
+          this.setState({ state });
+          this.lastStartText = state.document.getPreviousText(state.startText.key);
         });
       }
     }
-    setTimeout(() => { // TODO 重复代码
+    setTimeout(() => {
+      // TODO 能否将setState合并
       const nextState = this.convertSrcToLink(state);
       if (nextState !== state) {
         this.setState({ state: nextState });
       }
-      this.lastStartText = state.startText;
     });
   }
 
