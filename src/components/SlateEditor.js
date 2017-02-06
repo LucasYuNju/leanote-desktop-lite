@@ -137,12 +137,17 @@ class SlateEditor extends Component {
       if(!state.selection.isFocused || this.lastMark.startText.key !== state.startText.key ||
         (this.lastMark.from > state.selection.anchorOffset || this.lastMark.to + 1 < state.selection.anchorOffset)
       ) {
+        // TODO 移动到末尾的时候，不应该调用convertSrcToMark
         console.log(1);
         state = this.convertSrcToMark(state);
       }
     }
 
     mark = getMarkAt(state.startText, selection.anchorOffset);
+    if (!mark.type) {
+      // 当前selection在mark的末尾，需要往前一个字符才能找到mark类型
+      mark = getMarkAt(state.startText, selection.anchorOffset - 1);
+    }
     if (mark.type === MARKS.BOLD) { //如果Mark的内容不是源码，转成源码
       const textOfMark = state.startText.text.substring(mark.from, mark.to + 1);
       let nextAnchorOffset = state.selection.anchorOffset < mark.to ? state.selection.anchorOffset : mark.to + 4;
@@ -165,13 +170,6 @@ class SlateEditor extends Component {
           .addMark(MARKS.BOLD)
           .moveTo(state.selection)
           .apply(OPTIONS);
-        mark = getMarkAt(state.startText, state.selection.anchorOffset);
-        if (mark.type) {
-          this.lastMark = mark;
-        } else {
-          // 当前selection在mark的末尾，需要往前一个字符
-          this.lastMark = getMarkAt(state.startText, state.selection.anchorOffset - 1);
-        }
       }
     }
     if (state !== initialState) {
@@ -180,7 +178,7 @@ class SlateEditor extends Component {
         this.setState({ state });
       });
     }
-    mark = getMarkAt(state.startText, state.selection.anchorOffset);
+    // mark = getMarkAt(state.startText, state.selection.anchorOffset);
     if (mark.type) {
       this.lastMark = mark;
     }
