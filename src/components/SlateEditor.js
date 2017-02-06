@@ -134,7 +134,7 @@ class SlateEditor extends Component {
     const initialState = state;
     let mark = getMarkAt(state.startText, selection.anchorOffset);
     if (this.lastMark && this.lastMark.type) { // 将上一个mark的源码替换成实际内容
-      if(this.lastMark.startText.key !== state.startText.key ||
+      if(!state.selection.isFocused || this.lastMark.startText.key !== state.startText.key ||
         (this.lastMark.from > state.selection.anchorOffset || this.lastMark.to + 1 < state.selection.anchorOffset)
       ) {
         console.log(1);
