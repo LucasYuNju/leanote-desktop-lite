@@ -150,9 +150,9 @@ class SlateEditor extends Component {
     }
     if (mark.type === MARKS.BOLD) { //如果Mark的内容不是源码，转成源码
       const textOfMark = state.startText.text.substring(mark.from, mark.to + 1);
-      let nextAnchorOffset = state.selection.anchorOffset < mark.to ? state.selection.anchorOffset : mark.to + 4;
+      let nextAnchorOffset = state.selection.anchorOffset === mark.to + 1 ? mark.to + 1 + 4 : state.selection.anchorOffset;
       if (!boldRegex.exec(textOfMark)) {
-        console.log(2);
+        console.log(2, state.selection.anchorOffset, mark);
         state = state.transform()
           .moveToOffsets(mark.from, mark.to + 1)
           .delete()
@@ -174,11 +174,13 @@ class SlateEditor extends Component {
     }
     if (state !== initialState) {
       setTimeout(() => {
-        console.log(4);
         this.setState({ state });
       });
     }
-    // mark = getMarkAt(state.startText, state.selection.anchorOffset);
+    mark = getMarkAt(state.startText, selection.anchorOffset);
+    if (!mark.type) {
+      mark = getMarkAt(state.startText, selection.anchorOffset - 1);
+    }
     if (mark.type) {
       this.lastMark = mark;
     }
