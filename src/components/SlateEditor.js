@@ -130,23 +130,28 @@ class SlateEditor extends Component {
   }
 
   autoMarkdownMarks = (selection, state) => {
-    const mark = getMarkAt(state.startText, selection.anchorOffset);
-    if(this.lastMark && this.lastMark.type && (this.lastMark.startText.key !== state.startText.key)) { //用户输入时，匹配text中的代码，添加Mark
-      console.log('find last mark');
-      state = state.transform()
-        .moveTo({
-          anchorKey: this.lastMark.startText.key,
-          focusKey: this.lastMark.startText.key,
-          anchorOffset: this.lastMark.from,
-          focusOffset: this.lastMark.to + 1,
-        })
-        .delete()
-        .addMark(MARKS.BOLD)
-        .insertText(`fuck`)
-        .moveTo(state.selection)
-        .apply(OPTIONS);
+    let mark = getMarkAt(state.startText, selection.anchorOffset);
+    if (this.lastMark && this.lastMark.type) { // 将上一个mark的源码替换成实际内容
+      if(this.lastMark.startText.key !== state.startText.key ||
+        (this.lastMark.from > state.selection.anchorOffset || this.lastMark.to + 1 < state.selection.anchorOffset)
+      ) {
+        console.log('find last mark', this.lastMark, mark);
+        state = state.transform()
+          .moveTo({
+            anchorKey: this.lastMark.startText.key,
+            focusKey: this.lastMark.startText.key,
+            anchorOffset: this.lastMark.from,
+            focusOffset: this.lastMark.to + 1,
+          })
+          .delete()
+          .addMark(MARKS.BOLD)
+          .insertText(`fuck`)
+          .moveTo(state.selection)
+          .apply(OPTIONS);
+      }
     }
 
+    mark = getMarkAt(state.startText, selection.anchorOffset);
     if (mark.type === MARKS.BOLD) { //如果Mark的内容不是源码，转成源码
       const textOfMark = state.startText.text.substring(mark.from, mark.to + 1);
       console.log('text', textOfMark, mark);
@@ -176,7 +181,10 @@ class SlateEditor extends Component {
         this.setState({ state });
       });
     }
-    this.lastMark = getMarkAt(state.startText, state.selection.anchorOffset);
+    const nextMark = getMarkAt(state.startText, state.selection.anchorOffset);
+    if (nextMark.type) {
+      this.lastMark = nextMark;
+    }
   }
 
   /**
