@@ -131,40 +131,43 @@ class SlateEditor extends Component {
 
   autoMarkdownMarks = (selection, state) => {
     const mark = getMarkAt(state.startText, selection.anchorOffset);
-    if(this.lastMark && this.lastMark.type && (this.lastMark.startText.key !== state.startText.key || this.lastMark.from !== mark.from)) { //用户输入时，匹配text中的代码，添加Mark
+    if(this.lastMark && this.lastMark.type && (this.lastMark.startText.key !== state.startText.key)) { //用户输入时，匹配text中的代码，添加Mark
       console.log('find last mark');
-      // state = state.transform()
-      //   .deleteAtRange(Selection.create({
-      //     anchorKey: this.lastMark.startText.key,
-      //
-      //   }))
+      state = state.transform()
+        .moveTo({
+          anchorKey: this.lastMark.startText.key,
+          focusKey: this.lastMark.startText.key,
+          anchorOffset: this.lastMark.from,
+          focusOffset: this.lastMark.to + 1,
+        })
+        .delete()
+        .addMark(MARKS.BOLD)
+        .insertText(`fuck`)
+        .moveTo(state.selection)
+        .apply(OPTIONS);
     }
 
     if (mark.type === MARKS.BOLD) { //如果Mark的内容不是源码，转成源码
       const textOfMark = state.startText.text.substring(mark.from, mark.to + 1);
       console.log('text', textOfMark, mark);
+      let nextAnchorOffset = state.selection.anchorOffset < mark.to ? state.selection.anchorOffset : mark.to + 4;
       if (!boldRegex.exec(textOfMark)) {
         state = state.transform()
           .moveToOffsets(mark.from, mark.to + 1)
           .delete()
           .addMark(MARKS.BOLD)
           .insertText(`**${textOfMark}**`)
+          .moveToOffsets(nextAnchorOffset, nextAnchorOffset)
           .apply(OPTIONS);
       }
     } else { //利用regex，从text中找到符合的代码，添加Mark标记
-        // console.log('##', prettify(this.lastMarkText), prettify(state.startText));
-        // 当前的selection必须在match的范围内
         let match = boldRegex.exec(state.startText.text);
         if (match) {
-          console.log('just leave source code', match.index <= state.selection.anchorOffset && state.selection.anchorOffset <= match.index + match[1].length + 4);
-          console.log('pattern match', state.selection.anchorOffset);
-          let nextAnchorOffset = state.selection.anchorOffset < match.index ? state.selection.anchorOffset : match.index + match[1].length + 1;
+          console.log('bold found', state.selection.anchorOffset);
           state = state.transform()
             .moveToOffsets(match.index, match.index + match[1].length + 4)
-            .delete()
             .addMark(MARKS.BOLD)
-            .insertText(match[1])
-            .moveToOffsets(nextAnchorOffset, nextAnchorOffset)
+            .moveTo(state.selection)
             .apply(OPTIONS);
         }
     }
