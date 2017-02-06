@@ -131,7 +131,16 @@ class SlateEditor extends Component {
 
   autoMarkdownMarks = (selection, state) => {
     const mark = getMarkAt(state.startText, selection.anchorOffset);
-    if (mark.type === MARKS.BOLD) { //如果不是源码，转成源码
+    if(this.lastMark && this.lastMark.type && (this.lastMark.startText.key !== state.startText.key || this.lastMark.from !== mark.from)) { //用户输入时，匹配text中的代码，添加Mark
+      console.log('find last mark');
+      // state = state.transform()
+      //   .deleteAtRange(Selection.create({
+      //     anchorKey: this.lastMark.startText.key,
+      //
+      //   }))
+    }
+
+    if (mark.type === MARKS.BOLD) { //如果Mark的内容不是源码，转成源码
       const textOfMark = state.startText.text.substring(mark.from, mark.to + 1);
       console.log('text', textOfMark, mark);
       if (!boldRegex.exec(textOfMark)) {
@@ -141,36 +150,30 @@ class SlateEditor extends Component {
           .addMark(MARKS.BOLD)
           .insertText(`**${textOfMark}**`)
           .apply(OPTIONS);
-        this.lastMarkText = state.startText;
       }
-    } else { //匹配text中的代码，添加Mark
-      let match = boldRegex.exec(state.startText.text);
-      if (match) {
-        state = state.transform()
-          .moveToOffsets(match.index, match.index + match[1].length + 4)
-          .delete()
-          .addMark(MARKS.BOLD)
-          .insertText(match[1])
-          .apply(OPTIONS);
-      }
+    } else { //利用regex，从text中找到符合的代码，添加Mark标记
+        // console.log('##', prettify(this.lastMarkText), prettify(state.startText));
+        // 当前的selection必须在match的范围内
+        let match = boldRegex.exec(state.startText.text);
+        if (match) {
+          console.log('just leave source code', match.index <= state.selection.anchorOffset && state.selection.anchorOffset <= match.index + match[1].length + 4);
+          console.log('pattern match', state.selection.anchorOffset);
+          let nextAnchorOffset = state.selection.anchorOffset < match.index ? state.selection.anchorOffset : match.index + match[1].length + 1;
+          state = state.transform()
+            .moveToOffsets(match.index, match.index + match[1].length + 4)
+            .delete()
+            .addMark(MARKS.BOLD)
+            .insertText(match[1])
+            .moveToOffsets(nextAnchorOffset, nextAnchorOffset)
+            .apply(OPTIONS);
+        }
     }
     if (this.state.state !== state) {
       setTimeout(() => {
         this.setState({ state });
       });
     }
-    // 离开某一Mark的时候，将Mark节点的源码替换成实际内容
-    // setTimeout(() => {
-    //   const prevState = state;
-    //   state = this.convertSrcToMark(state);
-    //   if (state !== prevState) {
-    //     this.setState({ state });
-    //   }
-    // });
-  }
-
-  convertSrcToMark = (state) => {
-
+    this.lastMark = getMarkAt(state.startText, state.selection.anchorOffset);
   }
 
   /**
