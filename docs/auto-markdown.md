@@ -15,4 +15,5 @@ slate的元素分为三大类
 2. selection进入某一Mark的范围的时候，如果Mark的内容不是源码，替换成源码
 3. selection离开某一Mark的时候，或者保存的时候，将Mark节点的源码替换成实际内容
 
+Mark实现起来更加简单，只涉及text节点
 当然，这些只是思路，实现时会遇到各种tricky的问题。

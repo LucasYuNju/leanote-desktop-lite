@@ -8,7 +8,7 @@ export function prettify(obj) {
  */
 export function getMarkAt(text, anchorOffset) {
   const characters = text.characters.toJS();
-  if (characters.length > anchorOffset && characters[anchorOffset].marks.length) {
+  if (anchorOffset >= 0 && characters.length > anchorOffset && characters[anchorOffset].marks.length) {
     const type = characters[anchorOffset].marks[0].type;
     let from = anchorOffset, to = anchorOffset;
     for(; from > 0 && characters[from - 1].marks.length && characters[from - 1].marks[0].type === type; from--);

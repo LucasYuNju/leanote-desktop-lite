@@ -131,25 +131,14 @@ class SlateEditor extends Component {
   }
 
   autoMarkdownMarks = (selection, state) => {
+    const initialState = state;
     let mark = getMarkAt(state.startText, selection.anchorOffset);
     if (this.lastMark && this.lastMark.type) { // 将上一个mark的源码替换成实际内容
       if(this.lastMark.startText.key !== state.startText.key ||
         (this.lastMark.from > state.selection.anchorOffset || this.lastMark.to + 1 < state.selection.anchorOffset)
       ) {
-        const textOfMark = this.lastMark.startText.text.substring(this.lastMark.from, this.lastMark.to + 1);
-        const match = boldRegex.exec(textOfMark);
-        state = state.transform()
-          .moveTo({
-            anchorKey: this.lastMark.startText.key,
-            focusKey: this.lastMark.startText.key,
-            anchorOffset: this.lastMark.from,
-            focusOffset: this.lastMark.to + 1,
-          })
-          .delete()
-          .addMark(MARKS.BOLD)
-          .insertText(`${match[1]}`)
-          .moveTo(state.selection)
-          .apply(OPTIONS);
+        console.log(1);
+        state = this.convertSrcToMark(state);
       }
     }
 
@@ -158,6 +147,7 @@ class SlateEditor extends Component {
       const textOfMark = state.startText.text.substring(mark.from, mark.to + 1);
       let nextAnchorOffset = state.selection.anchorOffset < mark.to ? state.selection.anchorOffset : mark.to + 4;
       if (!boldRegex.exec(textOfMark)) {
+        console.log(2);
         state = state.transform()
           .moveToOffsets(mark.from, mark.to + 1)
           .delete()
@@ -167,18 +157,19 @@ class SlateEditor extends Component {
           .apply(OPTIONS);
       }
     } else { //利用regex，从text中找到符合的代码，添加Mark标记
-        let match = boldRegex.exec(state.startText.text);
-        if (match) {
-          console.log('bold found', state.selection.anchorOffset);
-          state = state.transform()
-            .moveToOffsets(match.index, match.index + match[1].length + 4)
-            .addMark(MARKS.BOLD)
-            .moveTo(state.selection)
-            .apply(OPTIONS);
-        }
+      let match = boldRegex.exec(state.startText.text);
+      if (match) {
+        console.log(3);
+        state = state.transform()
+          .moveToOffsets(match.index, match.index + match[1].length + 4)
+          .addMark(MARKS.BOLD)
+          .moveTo(state.selection)
+          .apply(OPTIONS);
+      }
     }
-    if (this.state.state !== state) {
+    if (state !== initialState) {
       setTimeout(() => {
+        console.log(4);
         this.setState({ state });
       });
     }
@@ -189,7 +180,31 @@ class SlateEditor extends Component {
   }
 
   /**
-   * 将link源码转成link元素
+   * 将Mark源码转成Mark节点
+   */
+  convertSrcToMark = (state) => {
+    if (this.lastMark && this.lastMark.type) {
+      const textOfMark = this.lastMark.startText.text.substring(this.lastMark.from, this.lastMark.to + 1);
+      const match = boldRegex.exec(textOfMark);
+      state = state.transform()
+        .moveTo({
+          anchorKey: this.lastMark.startText.key,
+          focusKey: this.lastMark.startText.key,
+          anchorOffset: this.lastMark.from,
+          focusOffset: this.lastMark.to + 1,
+        })
+        .delete()
+        .addMark(MARKS.BOLD)
+        .insertText(`${match[1]}`)
+        .moveTo(state.selection)
+        .apply(OPTIONS);
+      this.lastMark = {};
+    }
+    return state;
+  }
+
+  /**
+   * 将link源码转成link节点
    */
   convertSrcToLink = (state) => {
     const parent = state.document.getParent(state.startText.key);
