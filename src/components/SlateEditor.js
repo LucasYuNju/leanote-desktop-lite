@@ -36,6 +36,7 @@ class SlateEditor extends Component {
       <div className="editor">
         <Editor
           className="slate-editor markdown-body"
+          onBeforeInput={this.onBeforeInput}
           onBlur={this.onBlur}
           onChange={this.onChange}
           onDocumentChange={this.onDocumentChange}
@@ -135,7 +136,8 @@ class SlateEditor extends Component {
       if(this.lastMark.startText.key !== state.startText.key ||
         (this.lastMark.from > state.selection.anchorOffset || this.lastMark.to + 1 < state.selection.anchorOffset)
       ) {
-        console.log('find last mark', this.lastMark, mark);
+        const textOfMark = this.lastMark.startText.text.substring(this.lastMark.from, this.lastMark.to + 1);
+        const match = boldRegex.exec(textOfMark);
         state = state.transform()
           .moveTo({
             anchorKey: this.lastMark.startText.key,
@@ -145,7 +147,7 @@ class SlateEditor extends Component {
           })
           .delete()
           .addMark(MARKS.BOLD)
-          .insertText(`fuck`)
+          .insertText(`${match[1]}`)
           .moveTo(state.selection)
           .apply(OPTIONS);
       }
@@ -154,7 +156,6 @@ class SlateEditor extends Component {
     mark = getMarkAt(state.startText, selection.anchorOffset);
     if (mark.type === MARKS.BOLD) { //如果Mark的内容不是源码，转成源码
       const textOfMark = state.startText.text.substring(mark.from, mark.to + 1);
-      console.log('text', textOfMark, mark);
       let nextAnchorOffset = state.selection.anchorOffset < mark.to ? state.selection.anchorOffset : mark.to + 4;
       if (!boldRegex.exec(textOfMark)) {
         state = state.transform()
@@ -221,6 +222,20 @@ class SlateEditor extends Component {
   onChange = (state) => {
     const { startBlock, startOffset, startText, selection } = state;
     this.setState({ state });
+  }
+
+  /**
+   * bold元素之后的输入不应该是bold，需要在输入时做修改
+   */
+  onBeforeInput = (event, data, state) => {
+    const mark = getMarkAt(state.startText, state.selection.anchorOffset - 1);
+    if (mark && mark.to + 1 === state.selection.anchorOffset) {
+      event.preventDefault();
+      return state.transform()
+        .removeMark(MARKS.BOLD)
+        .insertText(event.data)
+        .apply();
+    }
   }
 
   onKeyDown = (e, data, state) => {
