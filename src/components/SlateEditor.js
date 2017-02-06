@@ -165,6 +165,13 @@ class SlateEditor extends Component {
           .addMark(MARKS.BOLD)
           .moveTo(state.selection)
           .apply(OPTIONS);
+        mark = getMarkAt(state.startText, state.selection.anchorOffset);
+        if (mark.type) {
+          this.lastMark = mark;
+        } else {
+          // 当前selection在mark的末尾，需要往前一个字符
+          this.lastMark = getMarkAt(state.startText, state.selection.anchorOffset - 1);
+        }
       }
     }
     if (state !== initialState) {
@@ -173,9 +180,9 @@ class SlateEditor extends Component {
         this.setState({ state });
       });
     }
-    const nextMark = getMarkAt(state.startText, state.selection.anchorOffset);
-    if (nextMark.type) {
-      this.lastMark = nextMark;
+    mark = getMarkAt(state.startText, state.selection.anchorOffset);
+    if (mark.type) {
+      this.lastMark = mark;
     }
   }
 
