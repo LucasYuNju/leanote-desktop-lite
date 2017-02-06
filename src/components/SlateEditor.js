@@ -4,9 +4,11 @@ import React, { Component, PropTypes } from 'react';
 import Slate, { Editor, State, Text, Inline, Block } from 'slate';
 
 import schema from '../constants/SlateSchema';
+import { prettify, getMarkAt } from '../util/slate';
 
 const OPTIONS = { normalize: false };
-const linkRegex = /\[([^\]]*)\]\(([^\)]*)\)/;
+const linkRegex = /\[([^\]]+)\]\(([^\)]*)\)/;
+const boldRegex = /\*\*(.+)\*\*/;
 
 class SlateEditor extends Component {
   static propTypes = {
@@ -34,6 +36,7 @@ class SlateEditor extends Component {
       <div className="editor">
         <Editor
           className="slate-editor markdown-body"
+          onBeforeInput={this.onBeforeInput}
           onBlur={this.onBlur}
           onChange={this.onChange}
           onDocumentChange={this.onDocumentChange}
@@ -54,17 +57,14 @@ class SlateEditor extends Component {
   }
 
   onSelectionChange = (selection, state) => {
-    console.log('selection change');
     const initialState = state;
     const { startBlock, startOffset, startText } = state;
     const prev = state.document.getPreviousSibling(startText.key);
     const isPrevLink = prev && prev.type === INLINES.LINK && selection.startOffset === 0;
     const next = state.document.getNextSibling(startText.key);
     const isNextLink = next && next.type === INLINES.LINK && selection.startOffset === state.startText.length;
-    console.log('#', startText.text, isPrevLink, isNextLink);
     if (state.document.getParent(startText.key).type === INLINES.LINK || isPrevLink || isNextLink) {
       if (isPrevLink) { // 遇到换行，将selection移动到前一个text，这次移动不会触发selectionChange事件
-        console.log('1');
         state = state.transform()
           .collapseToEndOfPreviousText()
           .apply(OPTIONS);
@@ -86,7 +86,6 @@ class SlateEditor extends Component {
               nodes: [ Text.createFromString(`[${parent.text}](${parent.data.get('href')})`) ]
             }), OPTIONS)
             .apply(OPTIONS);
-          // FIXME，isPrevLink没有效果
           setTimeout(() => {
             // setState必须异步调用，否则会出现先修改state，然后用户输入生效的情况
             this.setState({ state });
@@ -102,7 +101,7 @@ class SlateEditor extends Component {
         }
       }
     } else {
-      const match = linkRegex.exec(startText.text);
+      let match = linkRegex.exec(startText.text);
       if (match) { // 将link源码解析成link元素，目前只允许按顺序写link
         state = state.transform()
           .extendBackward(match[1].length + match[2].length + 4)
@@ -114,22 +113,105 @@ class SlateEditor extends Component {
           }))
           .collapseToEndOfNextText()
           .apply(OPTIONS);
-        setTimeout(() => {
-          this.setState({ state });
-          this.lastStartText = state.document.getPreviousText(state.startText.key);
-        });
+        this.lastStartText = state.document.getPreviousText(state.startText.key);
       }
+      setTimeout(() => {
+        this.setState({ state });
+      });
     }
     setTimeout(() => {
-      const nextState = this.convertSrcToLink(state);
-      if (nextState !== state) {
-        this.setState({ state: nextState });
+      const prevState = state;
+      state = this.convertSrcToLink(state);
+      if (state !== prevState) {
+        this.setState({ state });
       }
     });
+
+    this.autoMarkdownMarks(selection, state);
+  }
+
+  autoMarkdownMarks = (selection, state) => {
+    const initialState = state;
+    let mark = getMarkAt(state.startText, selection.anchorOffset);
+    if (this.lastMark && this.lastMark.type) { // 将上一个mark的源码替换成实际内容
+      if(!state.selection.isFocused || this.lastMark.startText.key !== state.startText.key ||
+        (this.lastMark.from > state.selection.anchorOffset || this.lastMark.to + 1 < state.selection.anchorOffset)
+      ) {
+        // TODO 移动到末尾的时候，不应该调用convertSrcToMark
+        console.log(1);
+        state = this.convertSrcToMark(state);
+      }
+    }
+
+    mark = getMarkAt(state.startText, selection.anchorOffset);
+    if (!mark.type) {
+      // 当前selection在mark的末尾，需要往前一个字符才能找到mark类型
+      mark = getMarkAt(state.startText, selection.anchorOffset - 1);
+    }
+    if (mark.type === MARKS.BOLD) { //如果Mark的内容不是源码，转成源码
+      const textOfMark = state.startText.text.substring(mark.from, mark.to + 1);
+      let nextAnchorOffset = state.selection.anchorOffset === mark.to + 1 ? mark.to + 1 + 4 : state.selection.anchorOffset;
+      if (!boldRegex.exec(textOfMark)) {
+        console.log(2, state.selection.anchorOffset, mark);
+        state = state.transform()
+          .moveToOffsets(mark.from, mark.to + 1)
+          .delete()
+          .addMark(MARKS.BOLD)
+          .insertText(`**${textOfMark}**`)
+          .moveToOffsets(nextAnchorOffset, nextAnchorOffset)
+          .apply(OPTIONS);
+      }
+    } else { //利用regex，从text中找到符合的代码，添加Mark标记
+      let match = boldRegex.exec(state.startText.text);
+      if (match) {
+        console.log(3);
+        state = state.transform()
+          .moveToOffsets(match.index, match.index + match[1].length + 4)
+          .addMark(MARKS.BOLD)
+          .moveTo(state.selection)
+          .apply(OPTIONS);
+      }
+    }
+    if (state !== initialState) {
+      setTimeout(() => {
+        this.setState({ state });
+      });
+    }
+    mark = getMarkAt(state.startText, selection.anchorOffset);
+    if (!mark.type) {
+      mark = getMarkAt(state.startText, selection.anchorOffset - 1);
+    }
+    if (mark.type) {
+      this.lastMark = mark;
+    }
   }
 
   /**
-   * 将link源码转成link元素
+   * 将Mark源码转成Mark节点
+   */
+  convertSrcToMark = (state) => {
+    if (this.lastMark && this.lastMark.type) {
+      const textOfMark = this.lastMark.startText.text.substring(this.lastMark.from, this.lastMark.to + 1);
+      const match = boldRegex.exec(textOfMark);
+      state = state.transform()
+        .moveTo({
+          anchorKey: this.lastMark.startText.key,
+          focusKey: this.lastMark.startText.key,
+          anchorOffset: this.lastMark.from,
+          focusOffset: this.lastMark.to + 1,
+        })
+        .delete()
+        .addMark(MARKS.BOLD)
+        .insertText(`${match[1]}`)
+        .moveTo(state.selection)
+        .apply(OPTIONS);
+      this.lastMark = {};
+    }
+    return state;
+  }
+
+  /**
+   * 将link源码转成link节点
    */
   convertSrcToLink = (state) => {
     const parent = state.document.getParent(state.startText.key);
@@ -162,6 +244,20 @@ class SlateEditor extends Component {
   onChange = (state) => {
     const { startBlock, startOffset, startText, selection } = state;
     this.setState({ state });
+  }
+
+  /**
+   * bold元素之后的输入不应该是bold，需要在输入时做修改
+   */
+  onBeforeInput = (event, data, state) => {
+    const mark = getMarkAt(state.startText, state.selection.anchorOffset - 1);
+    if (mark && mark.to + 1 === state.selection.anchorOffset) {
+      event.preventDefault();
+      return state.transform()
+        .removeMark(MARKS.BOLD)
+        .insertText(event.data)
+        .apply();
+    }
   }
 
   onKeyDown = (e, data, state) => {
@@ -302,10 +398,6 @@ function deserializeToState(text) {
   const document = MarkupIt.State.create(markdown).deserializeToDocument(text);
   const state = Slate.State.create({ document });
   return state;
-}
-
-function prettify(obj) {
-  return JSON.parse(JSON.stringify(obj));
 }
 
 export default SlateEditor;
