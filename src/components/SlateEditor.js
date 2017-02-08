@@ -4,11 +4,11 @@ import React, { Component, PropTypes } from 'react';
 import Slate, { Editor, State, Text, Inline, Block } from 'slate';
 
 import schema from '../constants/SlateSchema';
-import { prettify, getMarkAt } from '../util/slate';
+import { prettify, getMarkAt, wrapMark, unwrapMark } from '../util/slate';
 
 const OPTIONS = { normalize: false };
 const linkRegex = /\[([^\]]+)\]\(([^\)]*)\)/;
-const boldRegex = /\*\*(.+)\*\*/;
+const boldRegex = /\*\*([^\*]+)\*\*/;
 
 class SlateEditor extends Component {
   static propTypes = {
@@ -132,7 +132,6 @@ class SlateEditor extends Component {
 
   autoMarkdownMarks = (selection, state) => {
     const initialState = state;
-    let mark = getMarkAt(state.startText, selection.anchorOffset);
     if (this.lastMark && this.lastMark.type) { // 将上一个mark的源码替换成实际内容
       if(!state.selection.isFocused || this.lastMark.startText.key !== state.startText.key ||
         (this.lastMark.from > state.selection.anchorOffset || this.lastMark.to + 1 < state.selection.anchorOffset)
@@ -143,15 +142,15 @@ class SlateEditor extends Component {
       }
     }
 
-    mark = getMarkAt(state.startText, selection.anchorOffset);
+    let mark = getMarkAt(state.startText, selection.anchorOffset);
     if (!mark.type) {
       // 当前selection在mark的末尾，需要往前一个字符才能找到mark类型
       mark = getMarkAt(state.startText, selection.anchorOffset - 1);
     }
     if (mark.type === MARKS.BOLD) { //如果Mark的内容不是源码，转成源码
       const textOfMark = state.startText.text.substring(mark.from, mark.to + 1);
-      let nextAnchorOffset = state.selection.anchorOffset === mark.to + 1 ? mark.to + 1 + 4 : state.selection.anchorOffset;
       if (!boldRegex.exec(textOfMark)) {
+        const nextAnchorOffset = state.selection.anchorOffset === mark.to + 1 ? mark.to + 1 + 4 : state.selection.anchorOffset;
         console.log(2, state.selection.anchorOffset, mark);
         state = state.transform()
           .moveToOffsets(mark.from, mark.to + 1)

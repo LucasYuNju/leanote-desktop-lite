@@ -1,3 +1,8 @@
+import { BLOCKS, INLINES, MARKS } from 'markup-it';
+
+const boldRegex = /\*\*([^\*]+)\*\*/;
+const italicRegex = /\*([^\*]+)\*/;
+
 export function prettify(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
@@ -14,6 +19,41 @@ export function getMarkAt(text, anchorOffset) {
     for(; from > 0 && characters[from - 1].marks.length && characters[from - 1].marks[0].type === type; from--);
     for(; to < characters.length - 1 && characters[to + 1].marks.length && characters[to + 1].marks[0].type === type; to++);
     return { type, from, to, startText: text };
+  }
+  return {};
+}
+
+/**
+ * text => `**${text}**`
+ */
+export function wrapMark(text, type) {
+  switch (type) {
+    case MARKS.BOLD:
+      return `**${text}**`;
+    case MARKS.ITALIC:
+      return `*${text}*`;
+    default:
+      return text;
+  }
+}
+
+export function unwrapMark(text) {
+  let match;
+  if (match = boldRegex.exec(text)) {
+    return {
+      index: match.index,
+      text: match[1],
+      type: MARKS.BOLD,
+      stripped: 4,
+    };
+  }
+  if (match = italicRegex.exec(text)) {
+    return {
+      index: match.index,
+      text: match[1],
+      type: MARKS.ITALIC,
+      stripped: 2,
+    };
   }
   return {};
 }
