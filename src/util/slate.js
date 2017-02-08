@@ -1,8 +1,5 @@
 import { BLOCKS, INLINES, MARKS } from 'markup-it';
 
-const boldRegex = /\*\*([^\*]+)\*\*/;
-const italicRegex = /[^\*]?\*([^\*]+)\*/;     // **bold* 不应该match
-
 export function prettify(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
@@ -32,10 +29,20 @@ export function wrapMark(text, type) {
       return `**${text}**`;
     case MARKS.ITALIC:
       return `*${text}*`;
+    case MARKS.CODE:
+      return "`" + text + "`";
+    case MARKS.STRIKETHROUGH:
+      return `~~${text}~~`;
     default:
       return text;
   }
 }
+
+const boldRegex = /\*\*([^\*]+)\*\*/;
+const italicRegex = /(?:^|[^\*]+)\*([^\*]+)\*/;     // '**bold*'不应该识别为italic
+const codeRegex = /`([^`]+)`/;
+const strikeThroughRegex = /~~([^~]+)~~/;
+
 
 export function unwrapMark(text) {
   let match;
@@ -53,6 +60,22 @@ export function unwrapMark(text) {
       text: match[1],
       type: MARKS.ITALIC,
       numRemovedChars: 2,
+    };
+  }
+  if (match = codeRegex.exec(text)) {
+    return {
+      index: match.index,
+      text: match[1],
+      type: MARKS.CODE,
+      numRemovedChars: 2,
+    };
+  }
+  if (match = strikeThroughRegex.exec(text)) {
+    return {
+      index: match.index,
+      text: match[1],
+      type: MARKS.STRIKETHROUGH,
+      numRemovedChars: 4,
     };
   }
   return {

@@ -164,7 +164,7 @@ class SlateEditor extends Component {
     } else { //利用regex，从text中找到符合的代码，添加Mark标记
       const unwrapped = unwrapMark(state.startText.text);
       if (unwrapped.type) {
-        console.log(3);
+        console.log(3, unwrapped);
         state = state.transform()
           .moveToOffsets(unwrapped.index, unwrapped.index + unwrapped.text.length + unwrapped.numRemovedChars)
           .addMark(unwrapped.type)
