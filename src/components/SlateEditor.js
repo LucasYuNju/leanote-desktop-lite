@@ -8,7 +8,6 @@ import { prettify, getMarkAt, wrapMark, unwrapMark } from '../util/slate';
 
 const OPTIONS = { normalize: false };
 const linkRegex = /\[([^\]]+)\]\(([^\)]*)\)/;
-const boldRegex = /\*\*([^\*]+)\*\*/;
 
 class SlateEditor extends Component {
   static propTypes = {
@@ -131,12 +130,12 @@ class SlateEditor extends Component {
   }
 
   autoMarkdownMarks = (selection, state) => {
+    console.log('selection change');
     const initialState = state;
     if (this.lastMark && this.lastMark.type) { // 将上一个mark的源码替换成实际内容
       if(!state.selection.isFocused || this.lastMark.startText.key !== state.startText.key ||
         (this.lastMark.from > state.selection.anchorOffset || this.lastMark.to + 1 < state.selection.anchorOffset)
       ) {
-        // TODO 移动到末尾的时候，不应该调用convertSrcToMark
         console.log(1);
         state = this.convertSrcToMark(state);
       }
@@ -147,26 +146,28 @@ class SlateEditor extends Component {
       // 当前selection在mark的末尾，需要往前一个字符才能找到mark类型
       mark = getMarkAt(state.startText, selection.anchorOffset - 1);
     }
-    if (mark.type === MARKS.BOLD) { //如果Mark的内容不是源码，转成源码
-      const textOfMark = state.startText.text.substring(mark.from, mark.to + 1);
-      if (!boldRegex.exec(textOfMark)) {
-        const nextAnchorOffset = state.selection.anchorOffset === mark.to + 1 ? mark.to + 1 + 4 : state.selection.anchorOffset;
-        console.log(2, state.selection.anchorOffset, mark);
+    if ([MARKS.BOLD, MARKS.ITALIC, MARKS.CODE].includes(mark.type) && state.selection.isFocused) { //如果Mark的内容不是源码，转成源码
+      const text = state.startText.text.substring(mark.from, mark.to + 1);
+      if (unwrapMark(text).text === text) {
+        const wrapped = wrapMark(text, mark.type);
+        const numAddedChars = wrapped.length - text.length;
+        const nextAnchorOffset = state.selection.anchorOffset === mark.to + 1 ? mark.to + 1 + numAddedChars : state.selection.anchorOffset;
+        console.log(2);
         state = state.transform()
           .moveToOffsets(mark.from, mark.to + 1)
           .delete()
-          .addMark(MARKS.BOLD)
-          .insertText(`**${textOfMark}**`)
+          .addMark(mark.type)
+          .insertText(wrapped)
           .moveToOffsets(nextAnchorOffset, nextAnchorOffset)
           .apply(OPTIONS);
       }
     } else { //利用regex，从text中找到符合的代码，添加Mark标记
-      let match = boldRegex.exec(state.startText.text);
-      if (match) {
+      const unwrapped = unwrapMark(state.startText.text);
+      if (unwrapped.type) {
         console.log(3);
         state = state.transform()
-          .moveToOffsets(match.index, match.index + match[1].length + 4)
-          .addMark(MARKS.BOLD)
+          .moveToOffsets(unwrapped.index, unwrapped.index + unwrapped.text.length + unwrapped.numRemovedChars)
+          .addMark(unwrapped.type)
           .moveTo(state.selection)
           .apply(OPTIONS);
       }
@@ -190,8 +191,8 @@ class SlateEditor extends Component {
    */
   convertSrcToMark = (state) => {
     if (this.lastMark && this.lastMark.type) {
-      const textOfMark = this.lastMark.startText.text.substring(this.lastMark.from, this.lastMark.to + 1);
-      const match = boldRegex.exec(textOfMark);
+      const text = this.lastMark.startText.text.substring(this.lastMark.from, this.lastMark.to + 1);
+      const unwrapped = unwrapMark(text);
       state = state.transform()
         .moveTo({
           anchorKey: this.lastMark.startText.key,
@@ -200,8 +201,8 @@ class SlateEditor extends Component {
           focusOffset: this.lastMark.to + 1,
         })
         .delete()
-        .addMark(MARKS.BOLD)
-        .insertText(`${match[1]}`)
+        .addMark(unwrapped.type)
+        .insertText(unwrapped.text)
         .moveTo(state.selection)
         .apply(OPTIONS);
       this.lastMark = {};
@@ -246,14 +247,14 @@ class SlateEditor extends Component {
   }
 
   /**
-   * bold元素之后的输入不应该是bold，需要在输入时做修改
+   * Mark元素之后的输入不应该是Mark，需要在输入时做修改
    */
   onBeforeInput = (event, data, state) => {
     const mark = getMarkAt(state.startText, state.selection.anchorOffset - 1);
     if (mark && mark.to + 1 === state.selection.anchorOffset) {
       event.preventDefault();
       return state.transform()
-        .removeMark(MARKS.BOLD)
+        .removeMark(mark.type)
         .insertText(event.data)
         .apply();
     }

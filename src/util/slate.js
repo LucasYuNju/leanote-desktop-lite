@@ -1,7 +1,7 @@
 import { BLOCKS, INLINES, MARKS } from 'markup-it';
 
 const boldRegex = /\*\*([^\*]+)\*\*/;
-const italicRegex = /\*([^\*]+)\*/;
+const italicRegex = /[^\*]?\*([^\*]+)\*/;     // **bold* 不应该match
 
 export function prettify(obj) {
   return JSON.parse(JSON.stringify(obj));
@@ -44,7 +44,7 @@ export function unwrapMark(text) {
       index: match.index,
       text: match[1],
       type: MARKS.BOLD,
-      stripped: 4,
+      numRemovedChars: 4,
     };
   }
   if (match = italicRegex.exec(text)) {
@@ -52,8 +52,11 @@ export function unwrapMark(text) {
       index: match.index,
       text: match[1],
       type: MARKS.ITALIC,
-      stripped: 2,
+      numRemovedChars: 2,
     };
   }
-  return {};
+  return {
+    text,
+    removed: 0,
+  };
 }
