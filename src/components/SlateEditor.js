@@ -134,13 +134,13 @@ class SlateEditor extends Component {
   }
 
   autoMarkdownMarks = (selection, state) => {
-    console.log('selection change');
+    console.log('selection change', 'last', prettify(this.lastMark));
     const initialState = state;
     if (this.lastMark.type) { // 将上一个mark的源码替换成实际内容
       if(!state.selection.isFocused || this.lastMark.startText.key !== state.startText.key ||
         (this.lastMark.from > state.selection.anchorOffset || this.lastMark.to + 1 < state.selection.anchorOffset)
       ) {
-        console.log(1, this.lastMark.startText.key, state.startText.key);
+        console.log(1);
         state = this.convertSrcToMark(state);
       }
     }
@@ -156,7 +156,7 @@ class SlateEditor extends Component {
         const wrapped = wrapMark(text, mark.type);
         const numAddedChars = wrapped.length - text.length;
         const nextAnchorOffset = state.selection.anchorOffset === mark.to + 1 ? mark.to + 1 + numAddedChars : state.selection.anchorOffset;
-        console.log(2);
+        console.log(2, text, mark);
         if (this.lastMark.startText && this.lastMark.startText.key === state.startText.key) {
           // 正在删除
           state = state.transform()
@@ -170,6 +170,10 @@ class SlateEditor extends Component {
           state = state.transform()
             .moveToOffsets(mark.from, mark.to + 1)
             .delete()
+            .removeMark(MARKS.BOLD)
+            .removeMark(MARKS.ITALIC)
+            .removeMark(MARKS.CODE)
+            .removeMark(MARKS.STRIKETHROUGH)
             .addMark(mark.type)
             .insertText(wrapped)
             .moveToOffsets(nextAnchorOffset, nextAnchorOffset)
@@ -196,10 +200,10 @@ class SlateEditor extends Component {
     if (!mark.type) {
       mark = getMarkAt(state.startText, selection.anchorOffset - 1);
     }
-    console.log('#', mark);
     if (mark.type) {
       this.lastMark = mark;
     }
+    console.log('last mark', this.lastMark, mark);
   }
 
   /**
@@ -220,6 +224,10 @@ class SlateEditor extends Component {
             focusOffset: this.lastMark.to + 1,
           })
           .delete()
+          .removeMark(MARKS.BOLD)
+          .removeMark(MARKS.ITALIC)
+          .removeMark(MARKS.CODE)
+          .removeMark(MARKS.STRIKETHROUGH)
           .addMark(unwrapped.type)
           .insertText(unwrapped.text)
           .moveTo(state.selection)

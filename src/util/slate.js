@@ -12,6 +12,7 @@ export function getMarkAt(text, anchorOffset) {
   const characters = text.characters.toJS();
   if (anchorOffset >= 0 && characters.length > anchorOffset && characters[anchorOffset].marks.length) {
     const type = characters[anchorOffset].marks[0].type;
+    console.log(characters[anchorOffset].marks);
     let from = anchorOffset, to = anchorOffset;
     for(; from > 0 && characters[from - 1].marks.length && characters[from - 1].marks[0].type === type; from--);
     for(; to < characters.length - 1 && characters[to + 1].marks.length && characters[to + 1].marks[0].type === type; to++);
