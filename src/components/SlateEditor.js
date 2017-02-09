@@ -134,7 +134,7 @@ class SlateEditor extends Component {
   }
 
   autoMarkdownMarks = (selection, state) => {
-    console.log('selection change', 'last', prettify(this.lastMark));
+    console.log('selection change');
     const initialState = state;
     if (this.lastMark.type) { // 将上一个mark的源码替换成实际内容
       if(!state.selection.isFocused || this.lastMark.startText.key !== state.startText.key ||
@@ -156,7 +156,7 @@ class SlateEditor extends Component {
         const wrapped = wrapMark(text, mark.type);
         const numAddedChars = wrapped.length - text.length;
         const nextAnchorOffset = state.selection.anchorOffset === mark.to + 1 ? mark.to + 1 + numAddedChars : state.selection.anchorOffset;
-        console.log(2, text, mark);
+        console.log(2);
         if (this.lastMark.startText && this.lastMark.startText.key === state.startText.key) {
           // 正在删除
           state = state.transform()
@@ -203,7 +203,6 @@ class SlateEditor extends Component {
     if (mark.type) {
       this.lastMark = mark;
     }
-    console.log('last mark', this.lastMark, mark);
   }
 
   /**
