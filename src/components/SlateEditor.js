@@ -15,9 +15,13 @@ class SlateEditor extends Component {
     onChange: PropTypes.func.isRequired,
   };
 
-  state = {
-    state: deserializeToState(''),
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      state: deserializeToState(''),
+    };
+    this.lastMark = {};
+  }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.note.isMarkdown) {
@@ -132,11 +136,11 @@ class SlateEditor extends Component {
   autoMarkdownMarks = (selection, state) => {
     console.log('selection change');
     const initialState = state;
-    if (this.lastMark && this.lastMark.type) { // 将上一个mark的源码替换成实际内容
+    if (this.lastMark.type) { // 将上一个mark的源码替换成实际内容
       if(!state.selection.isFocused || this.lastMark.startText.key !== state.startText.key ||
         (this.lastMark.from > state.selection.anchorOffset || this.lastMark.to + 1 < state.selection.anchorOffset)
       ) {
-        console.log(1);
+        console.log(1, this.lastMark.startText.key, state.startText.key);
         state = this.convertSrcToMark(state);
       }
     }
@@ -153,13 +157,24 @@ class SlateEditor extends Component {
         const numAddedChars = wrapped.length - text.length;
         const nextAnchorOffset = state.selection.anchorOffset === mark.to + 1 ? mark.to + 1 + numAddedChars : state.selection.anchorOffset;
         console.log(2);
-        state = state.transform()
-          .moveToOffsets(mark.from, mark.to + 1)
-          .delete()
-          .addMark(mark.type)
-          .insertText(wrapped)
-          .moveToOffsets(nextAnchorOffset, nextAnchorOffset)
-          .apply(OPTIONS);
+        if (this.lastMark.startText && this.lastMark.startText.key === state.startText.key) {
+          // 正在删除
+          state = state.transform()
+            .moveToOffsets(mark.from, mark.to + 1)
+            .removeMark(mark.type)
+            .moveTo(state.selection)
+            .apply();
+          this.lastMark = {};
+        } else {
+          // 第一次进入
+          state = state.transform()
+            .moveToOffsets(mark.from, mark.to + 1)
+            .delete()
+            .addMark(mark.type)
+            .insertText(wrapped)
+            .moveToOffsets(nextAnchorOffset, nextAnchorOffset)
+            .apply();
+        }
       }
     } else { //利用regex，从text中找到符合的代码，添加Mark标记
       const unwrapped = unwrapMark(state.startText.text);
@@ -169,7 +184,7 @@ class SlateEditor extends Component {
           .moveToOffsets(unwrapped.index, unwrapped.index + unwrapped.text.length + unwrapped.numRemovedChars)
           .addMark(unwrapped.type)
           .moveTo(state.selection)
-          .apply(OPTIONS);
+          .apply();
       }
     }
     if (state !== initialState) {
@@ -181,6 +196,7 @@ class SlateEditor extends Component {
     if (!mark.type) {
       mark = getMarkAt(state.startText, selection.anchorOffset - 1);
     }
+    console.log('#', mark);
     if (mark.type) {
       this.lastMark = mark;
     }
@@ -190,22 +206,26 @@ class SlateEditor extends Component {
    * 将Mark源码转成Mark节点
    */
   convertSrcToMark = (state) => {
-    if (this.lastMark && this.lastMark.type) {
+    if (this.lastMark.type) {
       const text = this.lastMark.startText.text.substring(this.lastMark.from, this.lastMark.to + 1);
       const unwrapped = unwrapMark(text);
-      state = state.transform()
-        .moveTo({
-          anchorKey: this.lastMark.startText.key,
-          focusKey: this.lastMark.startText.key,
-          anchorOffset: this.lastMark.from,
-          focusOffset: this.lastMark.to + 1,
-        })
-        .delete()
-        .addMark(unwrapped.type)
-        .insertText(unwrapped.text)
-        .moveTo(state.selection)
-        .apply(OPTIONS);
-      this.lastMark = {};
+      const placeholder = state.document.getDescendant(this.lastMark.startText.key);
+      // 有可能被回车换到了下一行，或者cmd+Del被清空了，这时候就不需要unwrapMark了
+      if (placeholder.text.length !== 0) {
+        state = state.transform()
+          .moveTo({
+            anchorKey: this.lastMark.startText.key,
+            focusKey: this.lastMark.startText.key,
+            anchorOffset: this.lastMark.from,
+            focusOffset: this.lastMark.to + 1,
+          })
+          .delete()
+          .addMark(unwrapped.type)
+          .insertText(unwrapped.text)
+          .moveTo(state.selection)
+          .apply(OPTIONS);
+        this.lastMark = {};
+      }
     }
     return state;
   }
