@@ -5,6 +5,8 @@ In an effort to learn react, this is leanote-desktop-react, a simple Leanote des
 
 ![screenshot](./docs/screenshot.png)
 
+![screenshot](./docs/screenshot.gif)
+
 # How to develop
 
 1. `npm install`
