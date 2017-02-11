@@ -105,7 +105,7 @@ export function createNote(note) {
 }
 
 /**
- * param change: changed part of note object, only NoteId is required
+ * attributes: changed part of note
  */
 export function updateNote(noteId, attributes) {
   return (dispatch, getState) => {
