@@ -9,6 +9,7 @@ import { parseHash } from '../util/router';
  * 因此不能在回退之前对url进行验证，需要手动记录浏览历史
  */
 
+// TODO 新建的笔记，上传之后，id会发生变化，需要特殊处理
 class Navigator extends Component {
   static propTypes = {
     changePath: PropTypes.func.isRequired,

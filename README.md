@@ -1,12 +1,13 @@
 现在的笔记应用很多，但是都做不到类似Typora的markdown写作体验。
-leanote-desktop-lite，是[Leanote](https://github.com/leanote/leanote)的第三方客户端，主要特点
+leanote-desktop-lite是[Leanote](https://github.com/leanote/leanote)的第三方客户端，主要特点
 
-- Markdown实时预览，不再需要Markdown预览窗口，基于Slate编辑器框架
+- Markdown实时预览，不再需要Markdown预览窗口
 - 全新的UI，模仿原生应用的界面和交互
-- 基于React + Redux，React比较适合这样的单页面应用，降低了开发和维护成本
+- 基于React + Redux，降低了开发和维护成本
 
-由于精力有限，本应用**只支持markdown笔记**，只做核心的功能。目前的应用版本还没到1.0.0，欢迎下载尝试，但目前不推荐使用。
-如果对本应用感兴趣的话，欢迎fork和pull request。
+本应用是简化版的客户端，**只支持markdown笔记**，只支持Leanote核心的功能。
+
+应用版本还不到1.0.0，欢迎下载尝试，但目前不推荐使用。如果对本应用感兴趣的话，欢迎fork和pull request。
 
 ## How it looks
 
@@ -29,9 +30,7 @@ Screenshot
 > To bypass GFW, please change npm registry first：<br>
 > `npm config set registry 'https://registry.npm.taobao.org'`
 
-2. `npm run dev`
-
->  preoblem with 由于Atom的terminal plus插件的问题，Mac用户目前只能在系统terminal上运行这条命令
+2. `npm start`
 
 ## Docs
 
@@ -39,10 +38,13 @@ Screenshot
 [redux-state](docs/redux-store.md)
 
 ## TODOS
-
-- [ ] Paste Image
-- [ ] Keyboard actions
-- [ ] Leanote Tag api
+- [x] User login, logout
+- [x] Note CRUD, move
+- [x] Data sync
+- [x] Editor: header, list, bold, italic, code, link
+- [x] Incremental update
+- [ ] Editor: Image, paste Image
+- [ ] Upload tag with Leanote api
 
 ## License
 
