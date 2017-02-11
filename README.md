@@ -11,9 +11,11 @@ leanote-desktop-lite，是[Leanote](https://github.com/leanote/leanote)的第三
 ## How it looks
 
 GIF
+
 ![screenshot](./docs/screenshot.gif)
 
-Screentshot
+Screenshot
+
 ![screenshot](./docs/screenshot.png)
 
 ## Installation
