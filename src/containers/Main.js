@@ -14,6 +14,7 @@ const { ipcRenderer } = require('electron');
 
 class Main extends Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
     syncIfNeeded: PropTypes.func.isRequired,
     token: PropTypes.string,
     userId: PropTypes.string,
@@ -49,6 +50,13 @@ class Main extends Component {
 			</div>
 		);
   }
+
+  componentDidMount() {
+    // 周期性地push
+    setInterval(() => {
+      this.props.dispatch(SyncActions.push());
+    }, 5000);
+  }
 }
 
 function mapStateToProps(state) {
@@ -62,7 +70,10 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...SyncActions, ...RouterActions }, dispatch);
+  return {
+    ...bindActionCreators({ ...SyncActions, ...RouterActions }, dispatch),
+    dispatch,
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -21,7 +21,7 @@ export function fetchOutdatedNotes() {
         },
         schema: arrayOf(noteSchema),
       });
-      // Dispatch all networks at the same time will cause 404 error.
+      // TODO Dispatch all request at the same time will cause 404 error.
       action.payload.result
         .map(noteId => action.payload.entities.notes[noteId])
         .filter(note => !note.isDeleted && !note.isTrash)
@@ -34,6 +34,90 @@ export function fetchOutdatedNotes() {
         break;
       }
     }
+  }
+}
+
+/*
+ * 也可以不为新笔记分配usn，在push的时候检查，满足 isNew & 未被选中，才会push
+ *
+ * note创建时指定了noteId a，服务器会为note指定一个新的noteId b
+ * 在新建的note脱离选中状态时，令
+ *  entities.notes[a].noteId = b;
+ *  entities.notes[b] = entities.notes[a];
+ *  delete entities.notes[a];
+ */
+export function postNoteIfNecessary(note) {
+  return (dispatch, getState) => {
+  }
+}
+
+export function pushDirtyNotes() {
+  return (dispatch, getState) => {
+    const { entities } = getState();
+    const notes = [];
+    for (let noteId in entities.notes) {
+      notes.push(entities.notes[noteId]);
+    }
+    return notes
+      .filter(note => !note.isNew && note.isDirty)
+      .map(note => {
+        console.log('post dirty note', note.usn, note);
+        return dispatch({
+          types: [types.UPDATE_NOTE_REQUEST, null, null],
+          url: 'note/updateNote',
+          method: 'POST',
+          body: { ...note },
+          schema: noteSchema,
+        })
+        // 如果push失败，笔记仍是dirty，可以下次同步
+        .then(action => {
+          // post返回的note中，content和abstract为空，需要手动删除,
+          const note = action.payload.entities.notes[action.payload.result];
+          delete note.abstract;
+          delete note.content;
+          note.isDirty = false;
+          dispatch({ type: types.UPDATE_NOTE_SUCCESS, payload: action.payload });
+        });
+      })
+      .reduce((prev, cur) => prev.then(cur), Promise.resolve());
+  }
+}
+
+export function pushNewNotes() {
+  return (dispatch, getState) => {
+    const { entities, router } = getState();
+    const notes = [];
+    for (let noteId in entities.notes) {
+      notes.push(entities.notes[noteId]);
+    }
+    return notes
+      .filter(note => note.isNew && note.isDirty && !note.isDeleted && router.params.noteId !== note.noteId)
+      .map(note => {
+        return dispatch({
+          types: [types.ADD_NOTE_REQUEST, types.ADD_NOTE_SUCCESS, null],
+          url: 'note/addNote',
+          method: 'POST',
+          body: note,
+          schema: noteSchema,
+        })
+        .then(action => {
+          const serverSideId = action.payload.result;
+          const actions = [
+            { type: types.REMOVE_FROM_NOTEBOOK, payload: { notebookId: note.notebookId, noteId: note.noteId } },
+            { type: types.UPDATE_NOTE, payload: { noteId: note.noteId, note: { isTrash: true, isDeleted: true } } },
+            { type: types.ADD_NOTE, payload: { note: {
+              ...note,
+              noteId: serverSideId,
+              aliasId: note.noteId,
+              isNew: false,
+              isDirty: false,
+              usn: action.payload.entities.notes[serverSideId].usn
+            }, notebookId: note.notebookId } }
+          ];
+          dispatch({ type: types.BATCH_ACTIONS, actions });
+        });
+      })
+      .reduce((prev, cur) => prev.then(cur), Promise.resolve());
   }
 }
 
@@ -56,40 +140,6 @@ export function fetchNoteAndContent(noteId) {
 	}
 }
 
-/**
- * note创建时指定了noteId a，服务器会为note指定一个新的noteId b
- * 在新建的note脱离选中状态时，令
- *  entities.notes[a].noteId = b;
- *  entities.notes[b] = entities.notes[a];
- *  delete entities.notes[a];
- */
-export function postNoteIfNecessary(note) {
-  return (dispatch, getState) => {
-    if (note.isNew) {
-      dispatch({
-        types: [types.ADD_NOTE_REQUEST, types.ADD_NOTE_SUCCESS, null],
-        url: 'note/addNote',
-        method: 'POST',
-        body: note,
-        schema: noteSchema,
-      }).then(action => {
-        const serverSideId = action.payload.result;
-        const actions = [
-          { type: types.REMOVE_FROM_NOTEBOOK, payload: { notebookId: note.notebookId, noteId: note.noteId } },
-          { type: types.ADD_NOTE, payload: { note: {
-            ...note,
-            noteId: serverSideId,
-            aliasId: note.noteId,
-            isNew: false,
-            usn: action.payload.entities.notes[serverSideId].usn
-          }, notebookId: note.notebookId } }
-        ];
-        dispatch({ type: types.BATCH_ACTIONS, actions });
-      });
-    }
-  }
-}
-
 export function createNote(note) {
   const now = new Date().toString();
   note.createdTime = now;
@@ -106,27 +156,12 @@ export function createNote(note) {
 
 /**
  * attributes: changed part of note
+ * optimistic update
  */
 export function updateNote(noteId, attributes) {
   return (dispatch, getState) => {
     const note = getState().entities.notes[noteId];
-    // optimistic update
-    dispatch({ type: types.UPDATE_NOTE, payload: { noteId, note: { ...attributes } } });
-    if (!note.isNew) {
-      dispatch({
-        types: [types.UPDATE_NOTE_REQUEST, null, null],
-        url: 'note/updateNote',
-        method: 'POST',
-        body: { ...note, ...attributes },
-        schema: noteSchema,
-      }).then(action => {
-        // post的返回值中，content和abstract为空，需要手动删除
-        const note = action.payload.entities.notes[action.payload.result];
-        delete note.abstract;
-        delete note.content;
-        dispatch({ type: types.UPDATE_NOTE_SUCCESS, payload: action.payload });
-      });
-    }
+    dispatch({ type: types.UPDATE_NOTE, payload: { noteId, note: { ...attributes, isDirty: true } } });
   }
 }
 

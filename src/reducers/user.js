@@ -2,25 +2,29 @@ import { REHYDRATE } from 'redux-persist/constants';
 
 import * as types from '../constants/ActionTypes';
 
+/*
+ * localUsn分为note, notebook, tag三个，同步的时候分别获取过期的notebook, note, tag, 互相不会干扰
+ */
 const initialState = {
   localUsn: {
     note: 0,
     notebook: 0,
+    tag: 0,
   }
 }
 
 export default function user(state = initialState, action) {
   switch (action.type) {
     case types.GET_NOTES_SUCCESS:
-    case types.POST_NOTE_SUCCESS:
+    case types.UPDATE_NOTE_SUCCESS:
     case types.ADD_NOTE_SUCCESS:
       return {
         ...state,
         localUsn: {
           ...state.localUsn,
           note: Math.max(getMaxUsn(action.payload.entities), state.localUsn.note),
-        }
-      }
+        },
+      };
     case types.GET_NOTEBOOKS_SUCCESS:
       if (action.payload.result.length) {
         return {
@@ -43,11 +47,6 @@ export default function user(state = initialState, action) {
         ...state,
         ...action.user,
       };
-    case types.GET_LAST_USN_SUCCESS:
-      return {
-        ...state,
-        remoteUsn: action.payload.lastSyncUsn,
-      }
     default:
       return state;
   }
