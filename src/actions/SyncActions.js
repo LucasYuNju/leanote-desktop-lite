@@ -7,13 +7,16 @@ import { noteSchema } from '../constants/Schemas';
 export function syncIfNeeded() {
   return (dispatch, getState) => {
     return dispatch(getLastUsn())
-      .then(() => {
-        const { user } = getState();
-        const localUsn = Math.max(user.localUsn.note, user.localUsn.notebook);
-        if (localUsn < user.remoteUsn) {
+      .then((action) => {
+        const remoteUsn = action.payload.lastSyncUsn;
+        const localUsn = getState().user.localUsn;
+        console.log('last sync usn', remoteUsn);
+
+        const maxLocalUsn = Math.max(localUsn.note, localUsn.notebook, localUsn.tag);
+        if (maxLocalUsn < remoteUsn) {
           return dispatch(pull());
         }
-        if (localUsn > user.remoteUsn) {
+        if (maxLocalUsn > remoteUsn) {
           return dispatch(push());
         }
       });
@@ -39,7 +42,7 @@ export function push() {
     for (let noteId in entities.notes) {
       notes.push(entities.notes[noteId]);
     }
-    return notes
+    const pushDirty = notes
       .filter(note => !note.isNew && note.isDirty)
       .map(note => {
         console.log('post dirty note', note.noteId, note.usn);
@@ -50,6 +53,7 @@ export function push() {
           body: { ...note },
           schema: noteSchema,
         })
+        // 如果push失败，笔记仍是dirty，可以下次同步
         .then(action => {
           // post返回的note中，content和abstract为空，需要手动删除,
           const note = action.payload.entities.notes[action.payload.result];
@@ -59,6 +63,12 @@ export function push() {
           dispatch({ type: types.UPDATE_NOTE_SUCCESS, payload: action.payload });
         });
       })
-      // reduce()
+      .reduce((prev, cur) => prev.then(cur), Promise.resolve());
+    // const pushNew = notes
+    //   .filter(note => note.isNew)
+    //   .map(note => {
+    //     console.log('post new note', note.noteId);
+    //   });
+    return pushDirty;
   }
 }
