@@ -56,7 +56,7 @@ function notes(state = {}, action) {
         },
       }
     case types.ADD_NOTE_SUCCESS:
-    case types.UPDATE_NOTE_SUCCESS:
+    // case types.UPDATE_NOTE_SUCCESS:
       return {
         ...state,
 				[action.payload.result]: {

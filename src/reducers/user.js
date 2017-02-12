@@ -12,13 +12,22 @@ const initialState = {
 export default function user(state = initialState, action) {
   switch (action.type) {
     case types.GET_NOTES_SUCCESS:
-    case types.POST_NOTE_SUCCESS:
+    // case types.POST_NOTE_SUCCESS:
     case types.ADD_NOTE_SUCCESS:
       return {
         ...state,
         localUsn: {
           ...state.localUsn,
           note: Math.max(getMaxUsn(action.payload.entities), state.localUsn.note),
+        }
+      }
+    // TODO 只需要一个localUsn
+    case types.UPDATE_NOTE:
+      return {
+        ...state,
+        localUsn: {
+          ...state.localUsn,
+          note: action.payload.note.usn,
         }
       }
     case types.GET_NOTEBOOKS_SUCCESS:

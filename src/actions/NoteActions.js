@@ -21,7 +21,8 @@ export function fetchOutdatedNotes() {
         },
         schema: arrayOf(noteSchema),
       });
-      // Dispatch all networks at the same time will cause 404 error.
+      // TODO
+      // Dispatch all request at the same time will cause 404 error.
       action.payload.result
         .map(noteId => action.payload.entities.notes[noteId])
         .filter(note => !note.isDeleted && !note.isTrash)
@@ -56,7 +57,9 @@ export function fetchNoteAndContent(noteId) {
 	}
 }
 
-/**
+/*
+ * 也可以不为新笔记分配usn，在push的时候检查，满足 isNew & 未被选中，才会push
+ *
  * note创建时指定了noteId a，服务器会为note指定一个新的noteId b
  * 在新建的note脱离选中状态时，令
  *  entities.notes[a].noteId = b;
@@ -106,26 +109,28 @@ export function createNote(note) {
 
 /**
  * attributes: changed part of note
+ * optimistic update
  */
 export function updateNote(noteId, attributes) {
   return (dispatch, getState) => {
     const note = getState().entities.notes[noteId];
-    // optimistic update
-    dispatch({ type: types.UPDATE_NOTE, payload: { noteId, note: { ...attributes } } });
+    const { user } = getState();
+    const nextUsn = Math.max(user.localUsn.note, user.localUsn.notebook) + 1;
+    dispatch({ type: types.UPDATE_NOTE, payload: { noteId, note: { ...attributes, usn: nextUsn } } });
     if (!note.isNew) {
-      dispatch({
-        types: [types.UPDATE_NOTE_REQUEST, null, null],
-        url: 'note/updateNote',
-        method: 'POST',
-        body: { ...note, ...attributes },
-        schema: noteSchema,
-      }).then(action => {
-        // post的返回值中，content和abstract为空，需要手动删除
-        const note = action.payload.entities.notes[action.payload.result];
-        delete note.abstract;
-        delete note.content;
-        dispatch({ type: types.UPDATE_NOTE_SUCCESS, payload: action.payload });
-      });
+      // dispatch({
+      //   types: [types.UPDATE_NOTE_REQUEST, null, null],
+      //   url: 'note/updateNote',
+      //   method: 'POST',
+      //   body: { ...note, ...attributes },
+      //   schema: noteSchema,
+      // }).then(action => {
+      //   // post的返回值中，content和abstract为空，需要手动删除
+      //   const note = action.payload.entities.notes[action.payload.result];
+      //   delete note.abstract;
+      //   delete note.content;
+      //   dispatch({ type: types.UPDATE_NOTE_SUCCESS, payload: action.payload });
+      // });
     }
   }
 }
