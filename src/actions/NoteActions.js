@@ -114,24 +114,7 @@ export function createNote(note) {
 export function updateNote(noteId, attributes) {
   return (dispatch, getState) => {
     const note = getState().entities.notes[noteId];
-    const { user } = getState();
-    const nextUsn = Math.max(user.localUsn.note, user.localUsn.notebook) + 1;
-    dispatch({ type: types.UPDATE_NOTE, payload: { noteId, note: { ...attributes, usn: nextUsn } } });
-    if (!note.isNew) {
-      // dispatch({
-      //   types: [types.UPDATE_NOTE_REQUEST, null, null],
-      //   url: 'note/updateNote',
-      //   method: 'POST',
-      //   body: { ...note, ...attributes },
-      //   schema: noteSchema,
-      // }).then(action => {
-      //   // post的返回值中，content和abstract为空，需要手动删除
-      //   const note = action.payload.entities.notes[action.payload.result];
-      //   delete note.abstract;
-      //   delete note.content;
-      //   dispatch({ type: types.UPDATE_NOTE_SUCCESS, payload: action.payload });
-      // });
-    }
+    dispatch({ type: types.UPDATE_NOTE, payload: { noteId, note: { ...attributes, isDirty: true } } });
   }
 }
 

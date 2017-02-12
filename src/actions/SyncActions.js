@@ -35,34 +35,28 @@ export function pull(localUsn) {
 export function push() {
   return (dispatch, getState) => {
     const { entities, user } = getState();
-    const updated = [];
-
+    const notes = [];
     for (let noteId in entities.notes) {
-      const note = entities.notes[noteId];
-      if (!note.isNew && note.usn > user.remoteUsn) {
-        updated.push(note);
-      }
+      notes.push(entities.notes[noteId]);
     }
-    return updated
-      .sort((a, b) => a.usn - b.usn)
+    return notes
+      .filter(note => !note.isNew && note.isDirty)
       .map(note => {
-        console.log('post note', note.usn);
-        return new Promise((resolve, reject) => {
-          dispatch({
-            types: [types.UPDATE_NOTE_REQUEST, types.UPDATE_NOTE_SUCCESS, null],
-            url: 'note/updateNote',
-            method: 'POST',
-            body: { ...note },
-            schema: noteSchema,
-          })
-          // .then(action => {
-          //   // post的返回值中，content和abstract为空，需要手动删除
-          //   const note = action.payload.entities.notes[action.payload.result];
-          //   delete note.abstract;
-          //   delete note.content;
-          //   dispatch({ type: types.UPDATE_NOTE_SUCCESS, payload: action.payload });
-          // });
-
+        console.log('post dirty note', note.noteId, note.usn);
+        return dispatch({
+          types: [types.UPDATE_NOTE_REQUEST, null, null],
+          url: 'note/updateNote',
+          method: 'POST',
+          body: { ...note },
+          schema: noteSchema,
+        })
+        .then(action => {
+          // post返回的note中，content和abstract为空，需要手动删除,
+          const note = action.payload.entities.notes[action.payload.result];
+          delete note.abstract;
+          delete note.content;
+          note.isDirty = false;
+          dispatch({ type: types.UPDATE_NOTE_SUCCESS, payload: action.payload });
         });
       })
       // reduce()
