@@ -147,10 +147,7 @@ export function createNote(note) {
   return (dispatch, getState) => {
     note.isNew = true;
     dispatch({ type: types.ADD_NOTE, payload: { note, notebookId: note.notebookId } });
-    // TODO FIXME related with react css transition group
-    setTimeout(() => {
-      dispatch(selectNote(note.noteId));
-    }, 250);
+    dispatch(selectNote(note.noteId));
   }
 }
 
