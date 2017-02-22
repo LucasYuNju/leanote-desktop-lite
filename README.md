@@ -1,7 +1,6 @@
-现在的笔记应用很多，但是都做不到类似Typora的markdown写作体验。
 leanote-desktop-lite是[Leanote](https://github.com/leanote/leanote)的第三方客户端，主要特点
 
-- Markdown实时预览，不再需要Markdown预览窗口
+- Markdown实时预览，类似Typora的markdown写作体验
 - 全新的UI，模仿原生应用的界面和交互
 - 基于React + Redux，降低了开发和维护成本
 
@@ -27,7 +26,7 @@ Screenshot
 
 1. `npm install`
 
-> To bypass GFW, please change npm registry first：<br>
+> To bypass GFW, please change npm registry before install：<br>
 > `npm config set registry 'https://registry.npm.taobao.org'`
 
 2. `npm start`
@@ -38,11 +37,12 @@ Screenshot
 [redux-state](docs/redux-store.md)
 
 ## TODOS
-- [x] User login, logout
 - [x] Note CRUD, move
 - [x] Data sync
 - [x] Editor: header, list, bold, italic, code, link
-- [x] Incremental update
+- [x] App incremental update
+- [x] Tag recommendation
+- [x] Route and navigation
 - [ ] Editor: Image, paste Image
 - [ ] Upload tag with Leanote api
 
