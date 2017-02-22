@@ -52,7 +52,7 @@ function notebooks(state = {}, action) {
     case types.GET_NOTES_SUCCESS:
       for (let noteId in action.payload.entities.notes) {
         const note = action.payload.entities.notes[noteId];
-        if (note.isTrash || note.isDeleted) continue;
+        if (note.isTrash || note.isDeleted || !state[note.notebookId]) continue;
         state = {
           ...state,
           [note.notebookId]: {
