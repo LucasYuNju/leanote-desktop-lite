@@ -30,9 +30,6 @@ build/Release
 node_modules/*
 jspm_packages
 
-# temporarily track leanote-service
-# !node_modules/a-service
-
 # Optional npm cache directory
 .npm
 
@@ -51,3 +48,9 @@ docs/design
 
 /release
 /patch
+
+# dict
+*.utf8
+
+# crawled data
+/lib/recommand/data
