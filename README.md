@@ -6,7 +6,7 @@ leanote-desktop-lite是[Leanote](https://github.com/leanote/leanote)的第三方
 
 本应用是简化版的客户端，**只支持markdown笔记**，只支持Leanote核心的功能。
 
-应用版本还不到1.0.0，欢迎下载尝试，但目前不推荐使用。如果对本应用感兴趣的话，欢迎fork和pull request。
+应用版本还不到1.0.0，欢迎下载尝试，欢迎fork和pull request。
 
 ## How it looks
 
@@ -26,17 +26,16 @@ Screenshot
 
 1. `npm install`
 
-> To bypass GFW, please change npm registry before install：<br>
+> To bypass GFW, please change npm registry before installation：<br>
 > `npm config set registry 'https://registry.npm.taobao.org'`
 
 2. `npm start`
 
 ## Docs
 
-[auto-markdown](docs/auto-markdown.md)
-[redux-state](docs/redux-store.md)
+[auto-markdown implementation](docs/auto-markdown.md)
 
-## TODOS
+## Features
 - [x] Note CRUD, move
 - [x] Data sync
 - [x] Editor: header, list, bold, italic, code, link
