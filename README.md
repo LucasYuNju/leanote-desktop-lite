@@ -1,3 +1,5 @@
+# leanote-desktop-lite
+
 leanote-desktop-lite是[Leanote](https://github.com/leanote/leanote)的第三方客户端，主要特点
 
 - Markdown实时预览，类似Typora的markdown写作体验
