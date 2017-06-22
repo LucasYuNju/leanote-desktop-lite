@@ -6,9 +6,7 @@ leanote-desktop-lite是[Leanote](https://github.com/leanote/leanote)的第三方
 - 全新的UI，模仿原生应用的界面和交互
 - 基于React + Redux，降低了开发和维护成本
 
-本应用是简化版的客户端，**只支持markdown笔记**，只支持Leanote核心的功能。
-
-应用版本还不到1.0.0，欢迎下载尝试，欢迎fork和pull request。
+本应用是简化版的客户端，**只支持markdown笔记**，只支持Leanote核心的功能。最近试用了一个企业内部的基于CodeMirror的编辑器，编辑体验意外的好，优于gitbook，后续可能会尝试一下这套方案，因为开发起来会比目前的交互方案简单一些。
 
 ## How it looks
 
