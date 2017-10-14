@@ -4,7 +4,7 @@ import remove from 'lodash/remove';
 
 import * as types from '../../constants/ActionTypes';
 
-function notebooks(state = {}, action) {
+function notebooks (state = {}, action) {
   switch (action.type) {
     // FIXME: duplicate action reducer
     case types.ADD_NOTE:
@@ -13,8 +13,8 @@ function notebooks(state = {}, action) {
         [action.payload.notebookId]: {
           ...state[action.payload.notebookId],
           noteIds: [
-            ...state[action.payload.notebookId].noteIds,
             action.payload.note.noteId,
+            ...state[action.payload.notebookId].noteIds,
           ],
         }
       };
@@ -64,7 +64,7 @@ function notebooks(state = {}, action) {
       return state;
     case types.BATCH_SET_NOTEBOOKS:
       return {
-				...action.payload.entities.notebooks,
+        ...action.payload.entities.notebooks,
       };
     default:
       return state;
