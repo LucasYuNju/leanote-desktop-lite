@@ -6,31 +6,31 @@ import TagPickerPopover from '../components/TagPickerPopover';
 import * as TagActions from '../actions/TagActions';
 
 class TagPickerPopoverContainer extends Component {
-  render() {
-    return <TagPickerPopover {...this.props} />;
-  }
+	render () {
+		return <TagPickerPopover {...this.props} />;
+	}
 }
 
-function mapStateToProps(state) {
-  const {
+function mapStateToProps (state) {
+	const {
     entities,
 		router,
   } = state;
 	const tagged = {};
-	Object.keys(entities.tags).forEach(tag => {
-		tagged[tag] = false;
-	});
-	entities.notes[router.params.noteId].tags.forEach(tag => {
-		tagged[tag] = true;
-	});
+	const noteId = router.params.noteId;
+	const TAGKEYS = entities.tags && Object.keys(entities.tags);
+	const TAGS = entities.notes[noteId] && entities.notes[noteId].tags;
+	const TAGKEYSSET = (TAGKEYS, bool) => TAGKEYS.forEach(tag => tagged[tag] = bool);
+	TAGS && TAGKEYSSET(TAGS, true);
+	TAGKEYS && TAGKEYSSET(TAGKEYS, false);
 	return {
 		tagged,
-		noteId: router.params.noteId,
+		noteId,
 	};
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(TagActions, dispatch);
+function mapDispatchToProps (dispatch) {
+	return bindActionCreators(TagActions, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TagPickerPopoverContainer);
