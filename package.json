@@ -30,7 +30,7 @@
   "homepage": "https://github.com/LucasYuNju/leanote-desktop-react#readme",
   "dependencies": {
     "classnames": "^2.2.5",
-    "electron": "^1.4.13",
+    "electron": "^9.1.0",
     "event-emitter": "^0.3.4",
     "fs-extra": "^2.0.0",
     "humps": "^2.0.0",
